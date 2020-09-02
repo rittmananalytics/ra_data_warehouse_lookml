@@ -285,7 +285,6 @@ view: web_events_fact {
     description: "The total number of unique people viewing the site."
     type: count_distinct
     sql: ${TABLE}.blended_user_id ;;
-    filters: [site: "www.switcherstudio.com"]
     drill_fields: [device, blended_user_id, device_category, subscription_fact.channel]
   }
 
