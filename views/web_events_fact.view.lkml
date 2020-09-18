@@ -134,6 +134,15 @@ view: web_events_fact {
     sql: ${TABLE}.page_url_path ;;
   }
 
+  dimension: page_category {
+    group_label: "Behavior"
+    type: string
+    sql: case when ${TABLE}.page_url_path like '%blog%' then 'Blog'
+              when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then 'Podcast'
+              when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then 'Home Page'
+              else 'Marketing' end;;
+  }
+
   dimension: postal_code {
     group_label: "  Audience"
     map_layer_name: us_zipcode_tabulation_areas
