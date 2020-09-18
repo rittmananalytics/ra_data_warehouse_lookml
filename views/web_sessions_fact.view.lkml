@@ -3,19 +3,23 @@ view: web_sessions_fact {
     ;;
 
   dimension: blended_user_id {
-    hidden: yes
+    group_label: "  Audience"
+
+    hidden: no
     type: string
     sql: ${TABLE}.blended_user_id ;;
   }
 
   dimension: channel {
-    group_label: "Conversions"
+    group_label: " Acquisition"
     type: string
     sql: ${TABLE}.channel ;;
   }
 
   dimension: customer_pk {
-    hidden: yes
+    group_label: "  Audience"
+
+    hidden: no
     type: string
     sql: ${TABLE}.customer_pk ;;
   }
@@ -90,43 +94,44 @@ view: web_sessions_fact {
   }
 
   dimension: last_page_url {
-    hidden: yes
+    group_label: "Behavior"
+
     type: string
     sql: ${TABLE}.last_page_url ;;
   }
 
   dimension: last_page_url_host {
-    hidden: yes
+    group_label: "Behavior"
     type: string
     sql: ${TABLE}.last_page_url_host ;;
   }
 
   dimension: last_page_url_path {
-    hidden: yes
+    group_label: "Behavior"
     type: string
     sql: ${TABLE}.last_page_url_path ;;
   }
 
   dimension: mins_between_sessions {
-    hidden: yes
+    group_label: "Behavior"
     type: number
     sql: ${TABLE}.mins_between_sessions ;;
   }
 
   dimension: prev_session_channel {
-    hidden: yes
+    group_label: "Behavior"
     type: string
     sql: ${TABLE}.prev_session_channel ;;
   }
 
   dimension: prev_utm_medium {
-    hidden: yes
+    group_label: "Behavior"
     type: string
     sql: ${TABLE}.prev_utm_medium ;;
   }
 
   dimension: prev_utm_source {
-    hidden: yes
+    group_label: "Behavior"
     type: string
     sql: ${TABLE}.prev_utm_source ;;
   }
@@ -172,7 +177,7 @@ view: web_sessions_fact {
   }
 
   dimension: session_id {
-    hidden: yes
+    group_label: "Behavior"
     type: string
     sql: ${TABLE}.session_id ;;
   }
@@ -187,14 +192,15 @@ view: web_sessions_fact {
       date,
       week,
       month,
-      quarter,
+      month_num,
+      week_of_year,
       year
     ]
     sql: ${TABLE}.session_start_ts ;;
   }
 
   dimension: session_site {
-    hidden: yes
+    group_label: "Behavior"
     type: string
     sql: ${TABLE}.site ;;
   }
@@ -223,7 +229,9 @@ view: web_sessions_fact {
   }
 
   dimension: user_id {
-    hidden: yes
+    group_label: "  Audience"
+
+    hidden: no
     type: string
     sql: ${TABLE}.user_id ;;
   }
@@ -234,43 +242,20 @@ view: web_sessions_fact {
     sql: ${TABLE}.user_session_number ;;
   }
 
-  #dimension: utm_campaign {
-  #  label: "Ad Campaign"
-  #  group_label: "    Acquisition"
-  #  type: string
-  #  sql: ${TABLE}.utm_campaign ;;
-  #}
-#
-  #dimension: utm_content {
-  #  label: "Ad Content"
-  #  group_label: "    Acquisition"
-  #  type: string
-  #  sql: ${TABLE}.utm_content ;;
-  #}
-#
-  #dimension: utm_medium {
-  #  label: "Ad Medium"
-  #  group_label: "    Acquisition"
-  #  type: string
-  #  sql: ${TABLE}.utm_medium ;;
-  #}
-#
-  #dimension: utm_source {
-  #  label: "Ad Source"
-  #  group_label: "    Acquisition"
-  #  type: string
-  #  sql: ${TABLE}.utm_source ;;
-  #}
-#
-  #dimension: utm_term {
-  #  label: "Ad Keyword"
-  #  group_label: "    Acquisition"
-  #  type: string
-  #  sql: ${TABLE}.utm_term ;;
-  #}
+  dimension: new_or_returning_user {
+    group_label: "  Audience"
+    type: string
+    sql: case when ${TABLE}.user_session_number = 1 then 'New' else 'Returning' end ;;
 
-  dimension: visitor_id {
-    hidden: yes
+
+  }
+
+
+
+  dimension: anonymous_id {
+    group_label: "  Audience"
+
+    hidden: no
     type: string
     sql: ${TABLE}.visitor_id ;;
   }
@@ -284,66 +269,6 @@ view: web_sessions_fact {
 
 
 
-####DYNAMIC TIMEFRAME ON TIMEFRAME ANALYSIS
-
-## filter determining time range for all "A" measures
-
-  filter: timeframe_a {
-    hidden: no
-    type: date_time
-    label: "Session Start Date"
-    description: "Use this filter on Session Start Date to configure timeframe-on-timeframe analysis in conjunction with a ${group_a_yesno} filter. Using this filter creates two timeframe windows, 'current & prior', the latter being of the same duration as the filter but it is the period ending immediately before the filter starts."
-    default_value: "7 days"
-  }
-
-  ## flag for "A" measures to only include appropriate time range
-
-  dimension: group_a_yesno {
-    hidden: no
-    label: "Timeframe Selected (Current)"
-    type: yesno
-    sql: {% condition timeframe_a %} ${session_start_ts_raw} {% endcondition %} ;;
-  }
-
-  ## filter determining time range for all "B" measures
-
-  #filter: timeframe_b {
-  #  type: date_time
-  #}
-
-  ## flag for "B" measures to only include appropriate time range
-
-  dimension: timeframe_duration {
-    hidden: yes
-    type: number
-    sql:
-      CASE WHEN {% date_start timeframe_a %} is null then 7
-      ELSE TIMESTAMP_DIFF({% date_end timeframe_a %},{% date_start timeframe_a %}, DAY)
-      END;;
-  }
-
-## flags whether the event is in timeframe B (the timeframe immediately prior to timeframe A of equal length to A.)
-## e.g if timeframe A is 8th-10th, then timeframe B would be 6th-8th of the month.
-  dimension: group_b_yesno {
-    hidden: no
-    label: "Timeframe Selected (Prior)"
-    type: yesno
-    sql:
-    CASE WHEN  TIMESTAMP_SUB(IFNULL({% date_start timeframe_a %},CURRENT_TIMESTAMP()),INTERVAL ${timeframe_duration} DAY ) < ${session_start_ts_raw}
-    AND
-    IFNULL({% date_start timeframe_a %},CURRENT_TIMESTAMP()) > ${session_start_ts_raw}
-    THEN TRUE ELSE FALSE END ;;
-  }
-
-  # Dimensions to filter whole query for just records within the two periods
-  dimension: is_in_time_a_or_b {
-    hidden: yes
-    label: "Is in any selected timeframe (Current & Prior)"
-    group_label: "Time Comparison Filters"
-    type: yesno
-    sql:
-      CASE WHEN ${group_a_yesno} IS TRUE OR ${group_b_yesno} IS TRUE THEN TRUE ELSE FALSE END ;;
-  }
 
 
 
@@ -357,27 +282,44 @@ view: web_sessions_fact {
 
 
 
-  dimension: utm_campaign {
+  dimension: session_utm_campaign {
+    group_label: " Acquisition"
+
     type: string
+    label: "Session UTM Campaign"
     sql: ${TABLE}.utm_campaign ;;
   }
 
-  dimension: utm_content {
+  dimension: session_utm_content {
+    group_label: " Acquisition"
+
+    label: "Session UTM Content"
+
     type: string
     sql: ${TABLE}.utm_content ;;
   }
 
-  dimension: utm_medium {
+  dimension: session_utm_medium {
+    group_label: " Acquisition"
+
+    label: "Session UTM Medium"
+
     type: string
     sql: ${TABLE}.utm_medium ;;
   }
 
-  dimension: utm_source {
+  dimension: session_utm_source {
+    group_label: " Acquisition"
+
+    label: "Session UTM Source"
+
     type: string
     sql: ${TABLE}.utm_source ;;
   }
 
-  dimension: utm_term {
+  dimension: session_utm_term {
+    group_label: " Acquisition"
+
     type: string
     sql: ${TABLE}.utm_term ;;
   }

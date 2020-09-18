@@ -2,71 +2,14 @@ view: web_events_fact {
   sql_table_name: `analytics.web_events_fact`
     ;;
 
-  dimension: accuracy_radius {
-    hidden: yes
 
-    type: number
-    sql: ${TABLE}.accuracy_radius ;;
-  }
 
-  dimension: blended_user_id {
-    hidden: no
-    type: string
-    sql: ${TABLE}.blended_user_id ;;
-  }
 
-  dimension: category {
-    #won't work until looker_migration DBT branch is merged
-    label: "Page Category"
-    group_label: "Behavior"
-    description: "Temporarily not working until pull request is merged"
-    type: string
-    sql: ${TABLE}.category ;;
-  }
 
-  dimension: city_name {
-    group_label: "  Audience"
-    type: string
-    sql: ${TABLE}.city_name ;;
-  }
 
-  dimension: continent_code {
-    group_label: "  Audience"
-    hidden: yes
-    type: string
-    sql: ${TABLE}.continent_code ;;
-  }
 
-  dimension: continent_name {
-    group_label: "  Audience"
-    type: string
-    sql: ${TABLE}.continent_name ;;
-  }
 
-  dimension: converting_page_title {
-    group_label: "Conversions"
-    type: string
-    sql: ${TABLE}.converting_page_title ;;
-  }
 
-  dimension: converting_page_url {
-    group_label: "Conversions"
-    type: string
-    sql: ${TABLE}.converting_page_url ;;
-  }
-
-  dimension: country_iso_code {
-    group_label: "  Audience"
-    type: string
-    sql: ${TABLE}.country_iso_code ;;
-  }
-
-  dimension: country_name {
-    group_label: "  Audience"
-    map_layer_name: countries
-    type: string
-    sql: ${TABLE}.country_name ;;
-  }
 
   dimension: customer_pk {
     hidden: yes
@@ -132,11 +75,7 @@ view: web_events_fact {
     sql: ${TABLE}.event_type ;;
   }
 
-  dimension: is_social_search_pageview {
-    group_label: "Behavior"
-    type: yesno
-    sql: case when ${search}  like  '%?https%3A%2F%2Fwww.switcherstudio.com%'  then true else false end ;;
-  }
+
 
   dimension: map_location {
     group_label: "  Audience"
@@ -169,30 +108,7 @@ view: web_events_fact {
     sql: ${TABLE}.network ;;
   }
 
-  dimension: new_converting_session_pk {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.new_converting_session_pk
-      case when ${TABLE}.event_type = 'subscribed' then ${web_sessions_fact.customer_pk} end;;
-  }
 
-  dimension: new_trialling_session_pk {
-    hidden: yes
-    type: string
-    sql: case when ${TABLE}.event_type = 'account_created' then ${web_sessions_fact.web_sessions_pk} end ;;
-  }
-
-  dimension: new_trialist_blended_user_id {
-    hidden: yes
-    type: string
-    sql: case when ${event_type} = 'account_created' and timestamp_diff(${event_ts_time},${prev_event_ts_time},MINUTE) < 30 and ${prev_event_type} = 'Page View' then ${blended_user_id} end ;;
-  }
-
-  dimension: new_subscriber_blended_user_id {
-    hidden: yes
-    type: string
-    sql: case when ${event_type} = 'subscribed' and timestamp_diff(${event_ts_time},${prev_event_ts_time},MINUTE) < 30 and ${prev_event_type} = 'Page View' then ${blended_user_id} end ;;
-  }
 
   dimension: page_title {
     group_label: "Behavior"
@@ -225,17 +141,7 @@ view: web_events_fact {
     sql: ${TABLE}.postal_code ;;
   }
 
-  dimension: pre_converting_page_title {
-    group_label: "Conversions"
-    type: string
-    sql: ${TABLE}.pre_converting_page_title ;;
-  }
 
-  dimension: pre_converting_page_url {
-    group_label: "Conversions"
-    type: string
-    sql: ${TABLE}.pre_converting_page_url ;;
-  }
 
   dimension_group: prev_event_ts {
     group_label: "Dates"
@@ -288,19 +194,13 @@ view: web_events_fact {
     drill_fields: [device, blended_user_id, device_category, subscription_fact.channel]
   }
 
-  measure: total_new_converting_session_pk {
-    label: "Total New Subscription Sessions"
-    description: ""
-    #relies on new_converting_session_pk which is only valid when the web_sessions_fact table is joined in the exlore
-    type: count_distinct
-    sql: ${new_converting_session_pk} ;;
+  dimension: blended_user_id {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.blended_user_id ;;
   }
 
-  measure: total_new_trialling_session_pk {
-    label: "Total New Trial Sessions"
-    type: count_distinct
-    sql: ${new_trialling_session_pk} ;;
-  }
+
 
   measure: total_page_views {
     hidden: no
@@ -328,35 +228,35 @@ view: web_events_fact {
 
   dimension: utm_campaign {
     group_label: "    Acquisition"
-    label: "Ad Campaign"
+    label: "Event UTM Campaign"
     type: string
     sql: ${TABLE}.utm_campaign ;;
   }
 
   dimension: utm_content {
     group_label: "    Acquisition"
-    label: "Ad Content"
+    label: "Event UTM Content"
     type: string
     sql: ${TABLE}.utm_content ;;
   }
 
   dimension: utm_medium {
     group_label: "    Acquisition"
-    label: "Ad Medium"
+    label: "Event UTM Medium"
     type: string
     sql: ${TABLE}.utm_medium ;;
   }
 
   dimension: utm_source {
     group_label: "    Acquisition"
-    label: "Ad Source"
+    label: "Event UTM Source"
     type: string
     sql: ${TABLE}.utm_source ;;
   }
 
   dimension: utm_term {
     group_label: "    Acquisition"
-    label: "Ad Keyword"
+    label: "Event UTM Keyword"
     type: string
     sql: ${TABLE}.utm_term ;;
   }
@@ -368,6 +268,8 @@ view: web_events_fact {
   }
 
   dimension: web_event_pk {
+    group_label: "Behavior"
+
     hidden: no
     primary_key:  yes
     type: string
@@ -383,6 +285,8 @@ view: web_events_fact {
 
 
   dimension: event_seq {
+    group_label: "Behavior"
+
     type: number
     sql: ${TABLE}.event_seq ;;
   }
@@ -392,11 +296,15 @@ view: web_events_fact {
 
 
   dimension: gclid {
+    group_label: "  Audience"
+
     type: string
     sql: ${TABLE}.gclid ;;
   }
 
   dimension: ip {
+    group_label: "  Audience"
+
     type: string
     sql: ${TABLE}.ip ;;
   }
@@ -406,6 +314,8 @@ view: web_events_fact {
 
 
   dimension: referrer_host {
+    group_label: "    Acquisition"
+
     type: string
     sql: ${TABLE}.referrer_host ;;
   }
