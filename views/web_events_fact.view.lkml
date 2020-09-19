@@ -217,6 +217,8 @@ view: web_events_fact {
     sql: ${TABLE}.web_event_pk ;;
   }
 
+
+
   dimension: time_on_page_secs {
     hidden: yes
     type: number
