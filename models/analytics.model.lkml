@@ -10,7 +10,7 @@ datagroup: analytics_default_datagroup {
 
 persist_with: analytics_default_datagroup
 
-
+explore: campaign_explorer {}
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
