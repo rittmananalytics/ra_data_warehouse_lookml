@@ -24,4 +24,17 @@ explore: web_sessions_fact {
     relationship: one_to_many
   }
 
+  }
+
+explore: companies_dim {
+  join: timesheets_fact {
+    sql_on: ${companies_dim.company_pk} = ${timesheets_fact.company_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_projects_dim {
+    sql_on: ${timesheets_fact.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
 }
