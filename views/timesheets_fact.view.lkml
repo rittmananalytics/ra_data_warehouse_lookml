@@ -3,6 +3,8 @@ view: timesheets_fact {
     ;;
 
   dimension: company_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.company_pk ;;
   }
@@ -42,11 +44,19 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_hours_billed {
+    hidden: yes
     type: number
     sql: ${TABLE}.timesheet_hours_billed ;;
   }
 
+  measure: total_timesheet_hours_billed {
+    type: sum
+    sql: ${TABLE}.timesheet_hours_billed ;;
+  }
+
   dimension: timesheet_invoice_id {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.timesheet_invoice_id ;;
   }
@@ -57,27 +67,41 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_notes {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.timesheet_notes ;;
   }
 
   dimension: timesheet_pk {
+    hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.timesheet_pk ;;
   }
 
   dimension: timesheet_project_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.timesheet_project_pk ;;
   }
 
   dimension: timesheet_task_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.timesheet_task_pk ;;
   }
 
   dimension: timesheet_total_amount_billed {
     type: number
+    hidden: yes
+    sql: ${TABLE}.timesheet_total_amount_billed ;;
+  }
+
+  measure: total_timesheet_amount_billed {
+    type: sum
     sql: ${TABLE}.timesheet_total_amount_billed ;;
   }
 

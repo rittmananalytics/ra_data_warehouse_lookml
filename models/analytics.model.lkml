@@ -12,6 +12,8 @@ persist_with: analytics_default_datagroup
 
 explore: campaign_explorer {}
 
+explore: fy2019_accounts {}
+
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
   label: "Web Analytics"
@@ -34,6 +36,11 @@ explore: companies_dim {
   }
   join: timesheet_projects_dim {
     sql_on: ${timesheets_fact.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: invoices_fact {
+    sql_on: ${companies_dim.company_pk} = ${invoices_fact.company_pk};;
     type: left_outer
     relationship: one_to_many
   }
