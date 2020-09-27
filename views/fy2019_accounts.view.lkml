@@ -9,7 +9,7 @@ view: fy2019_accounts {
 
   dimension: amount_gbp {
     type: number
-    sql: ${TABLE}.amount_gbp*2.31 ;;
+    sql: ${TABLE}.amount_gbp ;;
   }
 
   dimension: category {
