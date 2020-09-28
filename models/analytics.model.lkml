@@ -29,19 +29,47 @@ explore: web_sessions_fact {
   }
 
 explore: companies_dim {
-  join: timesheets_fact {
-    sql_on: ${companies_dim.company_pk} = ${timesheets_fact.company_pk} ;;
+
+  join: projects_delivered {
+    from: timesheet_projects_dim
+    sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
-  join: timesheet_projects_dim {
-    sql_on: ${timesheets_fact.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
+  join: projects_invoiced {
+    from: invoices_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
     type: left_outer
     relationship: one_to_many
   }
-  join: invoices_fact {
-    sql_on: ${companies_dim.company_pk} = ${invoices_fact.company_pk};;
+  join: project_invoice_timesheets {
+    from: timesheets_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_invoice_timesheets.timesheet_project_pk} ;;
     type: left_outer
+    relationship: one_to_many
+  }
+  join: project_invoice_timesheet_users {
+    from: users_dim
+    sql_on: ${project_invoice_timesheets.user_pk} = ${project_invoice_timesheet_users.user_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: project_timesheets {
+    from: timesheets_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: project_timesheet_projects {
+    from: timesheet_projects_dim
+    sql_on: ${project_timesheets.timesheet_project_pk} = ${project_timesheet_projects.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: project_timesheet_users {
+    from: users_dim
+    sql_on: ${project_timesheets.user_pk}  = ${project_timesheet_users.user_pk} ;;
+    type: inner
     relationship: one_to_many
   }
 }

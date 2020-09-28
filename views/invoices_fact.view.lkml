@@ -199,7 +199,7 @@ view: invoices_fact {
 
   dimension: invoice_pk {
     hidden: yes
-
+    primary_key: yes
     type: string
     sql: ${TABLE}.invoice_pk ;;
   }

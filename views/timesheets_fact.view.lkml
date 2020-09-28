@@ -101,6 +101,7 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_amount_billed {
+    hidden: yes
     type: sum
     sql: ${TABLE}.timesheet_total_amount_billed ;;
   }

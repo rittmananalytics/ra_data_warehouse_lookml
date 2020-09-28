@@ -531,7 +531,7 @@ view: companies_dim {
 
   dimension: company_pk {
     hidden: yes
-
+    primary_key: yes
     type: string
     sql: ${TABLE}.company_pk ;;
   }
@@ -599,5 +599,8 @@ view: companies_dim__all_company_addresses {
   dimension: company_zip {
     type: string
     sql: ${TABLE}.company_zip ;;
+  }
+  measure: count {
+    type: count
   }
 }

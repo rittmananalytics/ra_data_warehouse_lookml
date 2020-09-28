@@ -76,6 +76,7 @@ view: users_dim {
   }
 
   dimension: user_pk {
+    primary_key: yes
     type: string
     sql: ${TABLE}.user_pk ;;
   }
