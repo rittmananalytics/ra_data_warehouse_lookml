@@ -8,11 +8,21 @@ view: deals_fact {
   }
 
   dimension: deal_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.deal_amount ;;
   }
 
+  measure: total_deal_amount {
+    value_format_name: gbp
+
+    type: sum
+    sql: ${TABLE}.deal_amount ;;
+  }
+
   dimension: deal_amount_local_currency {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.deal_amount_local_currency ;;
   }
@@ -20,8 +30,6 @@ view: deals_fact {
   dimension_group: deal_closed {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
@@ -39,8 +47,6 @@ view: deals_fact {
   dimension_group: deal_created {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
       week,
       month,
@@ -56,6 +62,8 @@ view: deals_fact {
   }
 
   dimension: deal_id {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.deal_id ;;
   }
@@ -68,13 +76,7 @@ view: deals_fact {
   dimension_group: deal_last_modified {
     type: time
     timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      time
     ]
     sql: ${TABLE}.deal_last_modified_date ;;
   }
@@ -85,16 +87,22 @@ view: deals_fact {
   }
 
   dimension: deal_owner_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.deal_owner_id ;;
   }
 
   dimension: deal_pipeline_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.deal_pipeline_id ;;
   }
 
   dimension: deal_pipeline_stage_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.deal_pipeline_stage_id ;;
   }
@@ -114,13 +122,15 @@ view: deals_fact {
   }
 
   dimension: deal_pk {
+    hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.deal_pk ;;
   }
 
   dimension: deal_type {
     type: string
-    sql: ${TABLE}.deal_type ;;
+    sql: case when ${TABLE}.deal_type is null then 'existingbusiness' else ${TABLE}.deal_type end ;;
   }
 
   dimension: owner_email {
@@ -144,8 +154,23 @@ view: deals_fact {
   }
 
   dimension: pipeline_stage_close_probability_pct {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.pipeline_stage_close_probability_pct ;;
+  }
+
+  dimension: weighted_deal_amount {
+    type: number
+    hidden: yes
+
+    sql: ${TABLE}.deal_amount * ${TABLE}.pipeline_stage_close_probability_pct ;;
+  }
+
+  measure: total_weighted_deal_amount {
+    type: sum
+    value_format_name: gbp
+    sql: ${weighted_deal_amount} ;;
   }
 
   dimension: pipeline_stage_closed_won {

@@ -72,4 +72,9 @@ explore: companies_dim {
     type: inner
     relationship: one_to_many
   }
+  join: deals_fact {
+    sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
+    type: full_outer
+    relationship: one_to_many
+  }
 }

@@ -519,7 +519,7 @@ view: companies_dim {
 
   dimension: company_name {
     type: string
-    sql: ${TABLE}.company_name ;;
+    sql: case when ${TABLE}.company_name = 'indexlabs.co.uk' then 'Football Index' else ${TABLE}.company_name end;;
   }
 
   dimension: company_phone {
