@@ -36,6 +36,11 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: company_hubspot_id {
+    sql_on: ${companies_dim.company_pk} = ${company_hubspot_id.company_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
   join: projects_invoiced {
     from: invoices_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
