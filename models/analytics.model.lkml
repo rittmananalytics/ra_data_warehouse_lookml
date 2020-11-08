@@ -28,6 +28,8 @@ explore: web_sessions_fact {
 
   }
 
+explore: looker_usage {}
+
 explore: companies_dim {
 
   join: projects_delivered {
@@ -80,6 +82,12 @@ explore: companies_dim {
   join: deals_fact {
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
     type: full_outer
+    relationship: one_to_many
+  }
+  join: projects_managed {
+    from: delivery_projects_dim
+    sql_on: ${companies_dim.company_pk} = ${projects_managed.company_pk} ;;
+    type: left_outer
     relationship: one_to_many
   }
 }

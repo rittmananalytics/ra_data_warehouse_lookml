@@ -36,7 +36,7 @@ view: deals_fact {
       quarter,
       year
     ]
-    sql: ${TABLE}.deal_closed_date ;;
+    sql: ${TABLE}.deal_closed_ts ;;
   }
 
   dimension: deal_closed_lost_reason {
@@ -53,7 +53,7 @@ view: deals_fact {
       quarter,
       year
     ]
-    sql: ${TABLE}.deal_created_date ;;
+    sql: ${TABLE}.deal_created_ts ;;
   }
 
   dimension: deal_description {
@@ -78,7 +78,7 @@ view: deals_fact {
     timeframes: [
       time
     ]
-    sql: ${TABLE}.deal_last_modified_date ;;
+    sql: ${TABLE}.deal_last_modified_ts ;;
   }
 
   dimension: deal_name {
