@@ -36,13 +36,13 @@ view: looker_usage {
 
   dimension_group: created_time {
     type: time
-    datatype: datetime
+    datatype: date
     sql: timestamp(${TABLE}.created_time) ;;
   }
 
   dimension_group: client_first_created_time {
     type: time
-    datatype: datetime
+    datatype: date
     sql: timestamp(${TABLE}.first_history_time) ;;
   }
 
@@ -125,7 +125,7 @@ view: looker_usage {
 
   dimension_group: history_created_time {
     type: time
-    datatype: datetime
+    datatype: date
     sql: timestamp(${TABLE}.history_created_time) ;;
   }
 
