@@ -3,11 +3,14 @@ view: delivery_projects_dim {
     ;;
 
   dimension: company_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: delivery_project_pk {
+    hidden: yes
     type: string
     sql: ${TABLE}.delivery_project_pk ;;
   }
@@ -22,18 +25,10 @@ view: delivery_projects_dim {
     sql: ${TABLE}.project_category_name ;;
   }
 
-  dimension_group: project_created_at_ts {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.project_created_at_ts ;;
+  dimension: project_created {
+    type: date
+
+    sql: date(${TABLE}.project_created_at_ts) ;;
   }
 
   dimension: project_id {
@@ -42,6 +37,7 @@ view: delivery_projects_dim {
   }
 
   dimension_group: project_modified_at_ts {
+    hidden: yes
     type: time
     timeframes: [
       raw,

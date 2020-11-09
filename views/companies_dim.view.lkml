@@ -8,22 +8,15 @@ view: companies_dim {
   }
 
   dimension: all_company_ids {
+    hidden: yes
     type: string
     sql: ${TABLE}.all_company_ids ;;
   }
 
-  dimension_group: company_created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.company_created_date ;;
+  dimension: company_created {
+    type: date
+
+    sql: date(${TABLE}.company_created_date) ;;
   }
 
   dimension: company_currency_code {
@@ -481,7 +474,7 @@ view: companies_dim {
   }
 
   dimension: company_industry {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.company_industry ;;
@@ -504,14 +497,14 @@ view: companies_dim {
   }
 
   dimension: company_linkedin_bio {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.company_linkedin_bio ;;
   }
 
   dimension: company_linkedin_company_page {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.company_linkedin_company_page ;;
@@ -537,14 +530,14 @@ view: companies_dim {
   }
 
   dimension: company_twitterhandle {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.company_twitterhandle ;;
   }
 
   dimension: company_website {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.company_website ;;
