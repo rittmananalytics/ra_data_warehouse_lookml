@@ -28,6 +28,8 @@ explore: web_sessions_fact {
 
   }
 
+explore: looker_usage {}
+
 explore: companies_dim {
   label: "Business Operations"
   view_label: "      Companies"
@@ -36,6 +38,11 @@ explore: companies_dim {
     view_label: "  Projects"
     from: timesheet_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: company_hubspot_id {
+    sql_on: ${companies_dim.company_pk} = ${company_hubspot_id.company_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -90,6 +97,12 @@ explore: companies_dim {
     view_label: "   Sales"
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
     type: full_outer
+    relationship: one_to_many
+  }
+  join: projects_managed {
+    from: delivery_projects_dim
+    sql_on: ${companies_dim.company_pk} = ${projects_managed.company_pk} ;;
+    type: left_outer
     relationship: one_to_many
   }
 }

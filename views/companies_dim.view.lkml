@@ -511,10 +511,36 @@ view: companies_dim {
   }
 
   dimension: company_name {
+    label: "Company"
     type: string
     sql: case when ${TABLE}.company_name = 'indexlabs.co.uk' then 'Football Index' else ${TABLE}.company_name end;;
-  }
+    action: { label: "Change Account Status"
+              url: "https://hooks.zapier.com/hooks/catch/3347385/ogimok6/"
+              param: {name: "company_pk"
+                      value: "{{ companies_dim.company_pk._value }}"
+                      }
+      form_param: { name: "new_status"
+        type: select
+        label: "Key Account Status"
+        required: yes
+        option: { name: "key" label: "Key Account" }
+        option: {name: "standard" label: "Standard"}
+        option: {name: "prospect" label: "Prospect"}
+        option: {name: "none" label: "Not Tracked"}
+      }
+              form_param: { name: "reason_for_change"
+                          type: string
+                          label: "Optional Reason for status change"
+                          required: no
 
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "user_submitting"
+      }
+
+}
+}
   dimension: company_phone {
     hidden: yes
 

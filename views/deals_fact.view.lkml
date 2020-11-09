@@ -30,9 +30,12 @@ view: deals_fact {
     sql: ${TABLE}.deal_amount_local_currency ;;
   }
 
+
   dimension: deal_closed {
     type: date_time
     group_label: " Deal Sales Activity"
+
+
 
     sql: ${TABLE}.deal_closed_ts ;;
   }
@@ -82,7 +85,7 @@ view: deals_fact {
     timeframes: [
       time
     ]
-    sql: ${TABLE}.deal_last_modified_date ;;
+    sql: ${TABLE}.deal_last_modified_ts ;;
   }
 
   dimension: deal_name {
