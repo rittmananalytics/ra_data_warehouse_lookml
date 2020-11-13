@@ -99,9 +99,13 @@ explore: companies_dim {
     type: full_outer
     relationship: one_to_many
   }
-  join: projects_managed {
-    from: delivery_projects_dim
-    sql_on: ${companies_dim.company_pk} = ${projects_managed.company_pk} ;;
+  join: delivery_projects_dim {
+    sql_on: ${companies_dim.company_pk} = ${delivery_projects_dim.company_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: delivery_tasks_fact {
+    sql_on: ${delivery_projects_dim.delivery_project_pk} = ${delivery_tasks_fact.delivery_project_pk};;
     type: left_outer
     relationship: one_to_many
   }
