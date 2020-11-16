@@ -10,14 +10,15 @@ view: company_hubspot_id {
 
 
   dimension: company_pk {
-    type: string
     hidden: yes
+    type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: hubspot_company_id {
-    type: string
     hidden: yes
+
+    type: string
 
     tags: ["hubspot_company_id"]
     sql: ${TABLE}.hubspot_company_id ;;
