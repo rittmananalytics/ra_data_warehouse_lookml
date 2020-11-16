@@ -3,21 +3,27 @@ view: users_dim {
     ;;
 
   dimension: all_user_emails {
+    hidden: yes
     type: string
     sql: ${TABLE}.all_user_emails ;;
   }
 
   dimension: all_user_ids {
+    hidden: yes
     type: string
     sql: ${TABLE}.all_user_ids ;;
   }
 
   dimension: user_cost_rate {
+    group_label: "Consultant Details"
+
     type: number
     sql: ${TABLE}.user_cost_rate ;;
   }
 
   dimension_group: user_created_ts {
+    group_label: "Consultant Details"
+
     type: time
     timeframes: [
       raw,
@@ -32,21 +38,29 @@ view: users_dim {
   }
 
   dimension: user_default_hourly_rate {
+    group_label: "Consultant Details"
+
     type: number
     sql: ${TABLE}.user_default_hourly_rate ;;
   }
 
   dimension: user_is_active {
+    group_label: "Consultant Details"
+
     type: yesno
     sql: ${TABLE}.user_is_active ;;
   }
 
   dimension: user_is_contractor {
+    group_label: "Consultant Details"
+
     type: yesno
     sql: ${TABLE}.user_is_contractor ;;
   }
 
   dimension: user_is_staff {
+    group_label: "Consultant Details"
+
     type: yesno
     sql: ${TABLE}.user_is_staff ;;
   }
@@ -66,28 +80,32 @@ view: users_dim {
   }
 
   dimension: user_name {
+    group_label: "Consultant Details"
+
     type: string
     sql: ${TABLE}.user_name ;;
   }
 
   dimension: user_phone {
+    group_label: "Consultant Details"
+
     type: string
     sql: ${TABLE}.user_phone ;;
   }
 
   dimension: user_pk {
+    hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.user_pk ;;
   }
 
   dimension: user_weekly_capacity {
+    group_label: "Consultant Details"
+
     type: number
     sql: ${TABLE}.user_weekly_capacity ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [user_name]
-  }
+
 }

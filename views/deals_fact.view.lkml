@@ -117,6 +117,8 @@ view: deals_fact {
   }
 
   dimension: deal_pipeline_stage {
+    group_label: "Deal Sales Activity"
+
     type: date_time
 
     sql: ${TABLE}.deal_pipeline_stage_ts ;;
@@ -184,7 +186,7 @@ view: deals_fact {
   }
 
   dimension: pipeline_stage_closed_won {
-    group_label: "    Deal Commercials"
+    group_label: "     Deal Details"
 
     type: yesno
     sql: ${TABLE}.pipeline_stage_closed_won ;;
@@ -211,14 +213,14 @@ view: deals_fact {
   }
 
   dimension: number_of_sprints {
-    group_label: " Deal Project Details"
+    group_label: "   Deal Project Details"
 
     type: number
     sql: ${TABLE}.deal_number_of_sprints ;;
   }
 
   dimension: deal_components {
-    group_label: "    Deal Commercials"
+    group_label: "     Deal Details"
 
     type: string
     sql: ${TABLE}.deal_components ;;
@@ -383,7 +385,7 @@ view: deals_fact {
   }
 
   dimension: pricing_model {
-    group_label: "    Deal Commercials"
+    group_label: "     Deal Details"
     type: string
     sql: ${TABLE}.deal_pricing_model ;;
   }
@@ -403,7 +405,7 @@ view: deals_fact {
   }
 
   dimension: license_referral_harvest_project_code {
-    group_label: "    Deal Commercials"
+    group_label: "     Deal Details"
 
     type: string
     sql: ${TABLE}.deal_license_referral_harvest_project_code ;;
@@ -424,7 +426,7 @@ view: deals_fact {
   }
 
   dimension: products_in_solution {
-    group_label: "   Deal Project Details"
+    group_label: "     Deal Details"
 
     type: string
     sql: ${TABLE}.deal_products_in_solution ;;
@@ -479,7 +481,7 @@ view: deals_fact {
   }
 
   dimension: deal_currency_code {
-    group_label: "    Deal Commercials"
+    group_label: "     Deal Details"
 
     type: string
     sql: ${TABLE}.deal_currency_code ;;

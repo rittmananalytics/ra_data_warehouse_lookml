@@ -10,16 +10,22 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_billable_hourly_cost_amount {
+    group_label: "Timesheet Details"
+
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_cost_amount ;;
   }
 
   dimension: timesheet_billable_hourly_rate_amount {
+    group_label: "Timesheet Details"
+
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_rate_amount ;;
   }
 
   dimension_group: timesheet_billing {
+    group_label: "Timesheet Details"
+
     type: time
     timeframes: [
       raw,
@@ -34,11 +40,15 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_has_been_billed {
+    group_label: "Timesheet Details"
+
     type: yesno
     sql: ${TABLE}.timesheet_has_been_billed ;;
   }
 
   dimension: timesheet_has_been_locked {
+    group_label: "Timesheet Details"
+
     type: yesno
     sql: ${TABLE}.timesheet_has_been_locked ;;
   }
@@ -50,6 +60,8 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_hours_billed {
+    group_label: "Timesheet Details"
+
     type: sum
     sql: ${TABLE}.timesheet_hours_billed ;;
   }
@@ -62,6 +74,8 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_is_billable {
+    group_label: "Timesheet Details"
+
     type: yesno
     sql: ${TABLE}.timesheet_is_billable ;;
   }
@@ -107,12 +121,10 @@ view: timesheets_fact {
   }
 
   dimension: user_pk {
+    hidden: yes
     type: string
     sql: ${TABLE}.user_pk ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
+
 }

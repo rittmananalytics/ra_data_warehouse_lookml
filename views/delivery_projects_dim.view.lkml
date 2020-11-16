@@ -16,22 +16,30 @@ view: delivery_projects_dim {
   }
 
   dimension: project_category_description {
+  group_label: "Delivery Projects"
+
     type: string
     sql: ${TABLE}.project_category_description ;;
   }
 
   dimension: project_category_name {
+    group_label: "Delivery Projects"
+
     type: string
     sql: ${TABLE}.project_category_name ;;
   }
 
   dimension: project_created {
+    group_label: "Delivery Projects"
+
     type: date
 
     sql: date(${TABLE}.project_created_at_ts) ;;
   }
 
   dimension: project_id {
+    group_label: "Delivery Projects"
+
     type: string
     sql: ${TABLE}.project_id ;;
   }
@@ -52,27 +60,32 @@ view: delivery_projects_dim {
   }
 
   dimension: project_name {
+    group_label: "Delivery Projects"
+
     type: string
     sql: ${TABLE}.project_name ;;
   }
 
   dimension: project_notes {
+    group_label: "Delivery Projects"
+
     type: string
     sql: ${TABLE}.project_notes ;;
   }
 
   dimension: project_status {
+    group_label: "Delivery Projects"
+
     type: string
     sql: ${TABLE}.project_status ;;
   }
 
   dimension: project_type {
+    group_label: "Delivery Projects"
+
     type: string
     sql: ${TABLE}.project_type ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [project_category_name, project_name]
-  }
+
 }

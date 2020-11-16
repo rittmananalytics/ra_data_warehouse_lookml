@@ -61,6 +61,8 @@ view: delivery_tasks_fact {
   }
 
   dimension: task_description {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_description ;;
   }
@@ -73,6 +75,8 @@ view: delivery_tasks_fact {
   }
 
   dimension: task_is_completed {
+    group_label: "Project Tasks"
+
     type: yesno
     sql: ${TABLE}.task_is_completed ;;
   }
@@ -94,27 +98,35 @@ view: delivery_tasks_fact {
   }
 
   dimension: task_name {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_name ;;
   }
 
   dimension: task_priority {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_priority ;;
   }
 
   dimension: task_status {
+    group_label: "Project Tasks"
     type: string
     sql: ${TABLE}.task_status ;;
   }
 
   dimension: task_type {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_type ;;
   }
 
   dimension: total_delivery_priority_low {
     hidden: yes
+    group_label: "Project Tasks"
 
     type: number
     sql: ${TABLE}.total_delivery_priority_low ;;
@@ -122,6 +134,7 @@ view: delivery_tasks_fact {
 
   dimension: total_delivery_priority_medium {
     hidden: yes
+    group_label: "Project Tasks"
 
     type: number
     sql: ${TABLE}.total_delivery_priority_medium ;;
@@ -129,6 +142,7 @@ view: delivery_tasks_fact {
 
   dimension: total_delivery_subtasks {
     hidden: yes
+    group_label: "Project Tasks"
 
     type: number
     sql: ${TABLE}.total_delivery_subtasks ;;
@@ -136,12 +150,14 @@ view: delivery_tasks_fact {
 
   measure: total_delivery_tasks {
     hidden: no
+    group_label: "Project Tasks"
 
     type: sum
     sql: ${TABLE}.total_delivery_tasks ;;
   }
 
   measure: total_delivery_tasks_completed {
+    group_label: "Project Tasks"
 
     type: sum
     sql: ${TABLE}.total_delivery_tasks_completed ;;
@@ -149,18 +165,21 @@ view: delivery_tasks_fact {
 
   dimension: total_delivery_tasks_high {
     hidden: yes
+    group_label: "Project Tasks"
 
     type: number
     sql: ${TABLE}.total_delivery_tasks_high ;;
   }
 
   measure: total_delivery_tasks_in_progress {
+    group_label: "Project Tasks"
 
     type: sum
     sql: ${TABLE}.total_delivery_tasks_in_progress ;;
   }
 
   measure: total_delivery_tasks_to_do {
+    group_label: "Project Tasks"
 
     type: sum
     sql: ${TABLE}.total_delivery_tasks_to_do ;;
@@ -168,6 +187,7 @@ view: delivery_tasks_fact {
 
   measure: total_issues {
     hidden: no
+    group_label: "Project Tasks"
 
     type: sum
     sql: ${TABLE}.total_issues ;;
