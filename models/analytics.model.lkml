@@ -35,7 +35,7 @@ explore: companies_dim {
   view_label: "      Companies"
 
   join: projects_delivered {
-    view_label: "  Projects"
+    view_label: "  Project Timesheets"
     from: timesheet_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
     type: left_outer
@@ -47,7 +47,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: projects_invoiced {
-    view_label: "Invoicing"
+    view_label: "Project Invoicing"
 
     from: invoices_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
@@ -55,7 +55,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: project_invoice_timesheets {
-    view_label: "Invoicing"
+    view_label: "Project Invoicing"
 
     from: timesheets_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${project_invoice_timesheets.timesheet_project_pk} ;;
@@ -63,7 +63,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: project_invoice_timesheet_users {
-    view_label: "Invoicing"
+    view_label: "Project Invoicing"
 
     from: users_dim
     sql_on: ${project_invoice_timesheets.user_pk} = ${project_invoice_timesheet_users.user_pk} ;;
@@ -71,14 +71,14 @@ explore: companies_dim {
     relationship: many_to_one
   }
   join: project_timesheets {
-    view_label: " Timesheets"
+    view_label: "  Project Timesheets"
     from: timesheets_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
     type: left_outer
     relationship: one_to_many
   }
   join: project_timesheet_projects {
-    view_label: " Timesheets"
+    view_label: "  Project Timesheets"
 
     from: timesheet_projects_dim
     sql_on: ${project_timesheets.timesheet_project_pk} = ${project_timesheet_projects.timesheet_project_pk} ;;
@@ -86,7 +86,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: project_timesheet_users {
-    view_label: " Timesheets"
+    view_label: "  Project Timesheets"
 
     from: users_dim
     sql_on: ${project_timesheets.user_pk}  = ${project_timesheet_users.user_pk} ;;
@@ -100,6 +100,8 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: projects_managed {
+    view_label: " Project Management"
+
     from: delivery_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_managed.company_pk} ;;
     type: left_outer

@@ -1,7 +1,7 @@
 view: timesheet_projects_dim {
   sql_table_name: `analytics.timesheet_projects_dim`
     ;;
-
+  view_label: "  Timesheets"
   dimension: company_pk {
     hidden: yes
     type: string
