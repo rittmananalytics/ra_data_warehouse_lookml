@@ -108,6 +108,8 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: delivery_tasks_fact {
+    view_label: " Project Management"
+
     sql_on: ${projects_managed.delivery_project_pk} = ${delivery_tasks_fact.delivery_project_pk};;
     type: left_outer
     relationship: one_to_many
