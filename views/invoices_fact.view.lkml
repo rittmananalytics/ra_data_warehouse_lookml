@@ -3,68 +3,53 @@ view: invoices_fact {
     ;;
 
   dimension: all_invoice_ids {
+    hidden: yes
     type: string
     sql: ${TABLE}.all_invoice_ids ;;
   }
 
   dimension: company_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.company_id ;;
   }
 
   dimension: company_pk {
+    hidden: yes
     type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: creator_users_pk {
+    hidden: yes
     type: string
     sql: ${TABLE}.creator_users_pk ;;
   }
 
-  dimension_group: first_invoice_month {
+  dimension_group: first_invoice {
     type: time
     timeframes: [
       raw,
-      time,
-      date,
-      week,
       month,
-      quarter,
-      year
+      quarter
     ]
     sql: ${TABLE}.first_invoice_month ;;
   }
 
-  dimension_group: first_invoice_quarter {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.first_invoice_quarter ;;
-  }
 
-  dimension_group: invoice_created_at_ts {
+
+  dimension_group: invoice {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      quarter
     ]
     sql: ${TABLE}.invoice_created_at_ts ;;
   }
 
   dimension: invoice_creator_users_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.invoice_creator_users_id ;;
   }
@@ -74,70 +59,90 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_currency ;;
   }
 
-  dimension_group: invoice_due_at_ts {
+  dimension_group: invoice_due {
     type: time
     timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}.invoice_due_at_ts ;;
   }
 
-  dimension_group: invoice_issue_at_ts {
+  dimension_group: invoice_issued {
     type: time
     timeframes: [
-      raw,
-      time,
       date,
-      week,
       month,
-      quarter,
-      year
+      quarter
     ]
     sql: ${TABLE}.invoice_issue_at_ts ;;
   }
 
   dimension: invoice_local_total_billed_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_billed_amount ;;
   }
 
   dimension: invoice_local_total_due_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_due_amount ;;
   }
 
   dimension: invoice_local_total_expenses_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_expenses_amount ;;
   }
 
   dimension: invoice_local_total_licence_referral_fee_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_licence_referral_fee_amount ;;
   }
 
   dimension: invoice_local_total_revenue_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_revenue_amount ;;
   }
 
+  measure: invoice_local_revenue_amount {
+    hidden: no
+    type: sum
+    sql: ${TABLE}.invoice_local_total_revenue_amount ;;
+  }
+
+  measure: invoice_gbp_revenue_amount {
+    hidden: no
+    value_format_name: gbp
+    type: sum
+    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * .75
+              when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * .58
+              when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * .90
+              else ${TABLE}.invoice_local_total_revenue_amount end;;
+  }
+
   dimension: invoice_local_total_services_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_services_amount ;;
   }
 
+  measure: invoice_local_services_amoun {
+    hidden: yes
+    type: sum
+    sql: ${TABLE}.invoice_local_total_services_amount ;;
+  }
+
   dimension: invoice_local_total_support_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_support_amount ;;
   }
 
   dimension: invoice_local_total_tax_amount {
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_tax_amount ;;
   }
@@ -147,16 +152,10 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_number ;;
   }
 
-  dimension_group: invoice_paid_at_ts {
+  dimension_group: invoice_paid {
     type: time
     timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}.invoice_paid_at_ts ;;
   }
@@ -167,6 +166,8 @@ view: invoices_fact {
   }
 
   dimension_group: invoice_period_end_at_ts {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -181,6 +182,8 @@ view: invoices_fact {
   }
 
   dimension_group: invoice_period_start_at_ts {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -195,11 +198,15 @@ view: invoices_fact {
   }
 
   dimension: invoice_pk {
+    hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.invoice_pk ;;
   }
 
   dimension_group: invoice_sent_at_ts {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -234,16 +241,22 @@ view: invoices_fact {
   }
 
   dimension: invoice_total_days_overdue {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.invoice_total_days_overdue ;;
   }
 
   dimension: invoice_total_days_to_pay {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.invoice_total_days_to_pay ;;
   }
 
   dimension: invoice_total_days_variance_on_payment_terms {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.invoice_total_days_variance_on_payment_terms ;;
   }
@@ -259,6 +272,8 @@ view: invoices_fact {
   }
 
   dimension: project_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.project_id ;;
   }
@@ -269,11 +284,15 @@ view: invoices_fact {
   }
 
   dimension: timesheet_project_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.timesheet_project_pk ;;
   }
 
   dimension: total_local_amount {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.total_local_amount ;;
   }

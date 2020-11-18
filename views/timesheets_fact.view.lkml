@@ -3,21 +3,29 @@ view: timesheets_fact {
     ;;
 
   dimension: company_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: timesheet_billable_hourly_cost_amount {
+    group_label: "Timesheet Details"
+
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_cost_amount ;;
   }
 
   dimension: timesheet_billable_hourly_rate_amount {
+    group_label: "Timesheet Details"
+
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_rate_amount ;;
   }
 
   dimension_group: timesheet_billing {
+    group_label: "Timesheet Details"
+
     type: time
     timeframes: [
       raw,
@@ -32,62 +40,91 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_has_been_billed {
+    group_label: "Timesheet Details"
+
     type: yesno
     sql: ${TABLE}.timesheet_has_been_billed ;;
   }
 
   dimension: timesheet_has_been_locked {
+    group_label: "Timesheet Details"
+
     type: yesno
     sql: ${TABLE}.timesheet_has_been_locked ;;
   }
 
   dimension: timesheet_hours_billed {
+    hidden: yes
     type: number
     sql: ${TABLE}.timesheet_hours_billed ;;
   }
 
+  measure: total_timesheet_hours_billed {
+    group_label: "Timesheet Details"
+
+    type: sum
+    sql: ${TABLE}.timesheet_hours_billed ;;
+  }
+
   dimension: timesheet_invoice_id {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.timesheet_invoice_id ;;
   }
 
   dimension: timesheet_is_billable {
+    group_label: "Timesheet Details"
+
     type: yesno
     sql: ${TABLE}.timesheet_is_billable ;;
   }
 
   dimension: timesheet_notes {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.timesheet_notes ;;
   }
 
   dimension: timesheet_pk {
+    hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.timesheet_pk ;;
   }
 
   dimension: timesheet_project_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.timesheet_project_pk ;;
   }
 
   dimension: timesheet_task_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.timesheet_task_pk ;;
   }
 
   dimension: timesheet_total_amount_billed {
     type: number
+    hidden: yes
+    sql: ${TABLE}.timesheet_total_amount_billed ;;
+  }
+
+  measure: total_timesheet_amount_billed {
+    hidden: yes
+    type: sum
     sql: ${TABLE}.timesheet_total_amount_billed ;;
   }
 
   dimension: user_pk {
+    hidden: yes
     type: string
     sql: ${TABLE}.user_pk ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
+
 }

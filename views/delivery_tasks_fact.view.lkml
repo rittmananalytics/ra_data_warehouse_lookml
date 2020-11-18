@@ -1,71 +1,89 @@
-view: delivery_tasks_dim {
-  sql_table_name: `analytics.delivery_tasks_dim`
+view: delivery_tasks_fact {
+  sql_table_name: `ra-development.analytics.delivery_tasks_fact`
     ;;
 
+  dimension: delivery_project_pk {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.delivery_project_pk ;;
+  }
+
+  dimension: delivery_task_pk {
+    primary_key: yes
+    hidden: yes
+
+    type: string
+    sql: ${TABLE}.delivery_task_pk ;;
+  }
+
   dimension: parent_task_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.parent_task_id ;;
   }
 
-  dimension: project_id {
-    type: string
-    sql: ${TABLE}.project_id ;;
-  }
-
   dimension: task_assignee_user_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.task_assignee_user_id ;;
   }
 
   dimension_group: task_completed_ts {
+    label: "Task Completed"
     type: time
     timeframes: [
-      raw,
       time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
     ]
     sql: ${TABLE}.task_completed_ts ;;
   }
 
   dimension_group: task_created_ts {
+    label: "Task Created"
+
     type: time
     timeframes: [
-      raw,
       time,
       date,
       week,
-      month,
-      quarter,
-      year
+      month
     ]
     sql: ${TABLE}.task_created_ts ;;
   }
 
   dimension: task_creator_user_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.task_creator_user_id ;;
   }
 
   dimension: task_description {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_description ;;
   }
 
   dimension: task_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.task_id ;;
   }
 
   dimension: task_is_completed {
+    group_label: "Project Tasks"
+
     type: yesno
     sql: ${TABLE}.task_is_completed ;;
   }
 
   dimension_group: task_last_modified_ts {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -80,77 +98,122 @@ view: delivery_tasks_dim {
   }
 
   dimension: task_name {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_name ;;
   }
 
-  dimension: task_pk {
-    type: string
-    sql: ${TABLE}.task_pk ;;
-  }
-
   dimension: task_priority {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_priority ;;
   }
 
   dimension: task_status {
+    group_label: "Project Tasks"
     type: string
     sql: ${TABLE}.task_status ;;
   }
 
   dimension: task_type {
+    group_label: "Project Tasks"
+
     type: string
     sql: ${TABLE}.task_type ;;
   }
 
+  dimension: task_resolution_type {
+    group_label: "Project Tasks"
+
+    type: string
+    sql: ${TABLE}.task_resolution_type ;;
+  }
+
+  dimension: task_status_colour {
+    group_label: "Project Tasks"
+
+    type: string
+    sql: ${TABLE}.task_status_colour ;;
+  }
+
   dimension: total_delivery_priority_low {
+    hidden: yes
+    group_label: "Project Tasks"
+
     type: number
     sql: ${TABLE}.total_delivery_priority_low ;;
   }
 
   dimension: total_delivery_priority_medium {
+    hidden: yes
+    group_label: "Project Tasks"
+
     type: number
     sql: ${TABLE}.total_delivery_priority_medium ;;
   }
 
   dimension: total_delivery_subtasks {
+    hidden: yes
+    group_label: "Project Tasks"
+
     type: number
     sql: ${TABLE}.total_delivery_subtasks ;;
   }
 
-  dimension: total_delivery_tasks {
-    type: number
+  measure: total_delivery_tasks {
+    hidden: no
+    group_label: "Project Tasks"
+
+    type: sum
     sql: ${TABLE}.total_delivery_tasks ;;
   }
 
-  dimension: total_delivery_tasks_completed {
-    type: number
+  measure: total_delivery_tasks_completed {
+    group_label: "Project Tasks"
+
+    type: sum
     sql: ${TABLE}.total_delivery_tasks_completed ;;
   }
 
   dimension: total_delivery_tasks_high {
+    hidden: yes
+    group_label: "Project Tasks"
+
     type: number
     sql: ${TABLE}.total_delivery_tasks_high ;;
   }
 
-  dimension: total_delivery_tasks_in_progress {
-    type: number
+  measure: total_delivery_tasks_in_progress {
+    group_label: "Project Tasks"
+
+    type: sum
     sql: ${TABLE}.total_delivery_tasks_in_progress ;;
   }
 
-  dimension: total_delivery_tasks_to_do {
-    type: number
+  measure: total_delivery_tasks_to_do {
+    group_label: "Project Tasks"
+
+    type: sum
     sql: ${TABLE}.total_delivery_tasks_to_do ;;
   }
 
-  dimension: total_issues {
-    type: number
+  measure: total_issues {
+    hidden: no
+    group_label: "Project Tasks"
+
+    type: sum
     sql: ${TABLE}.total_issues ;;
   }
 
-  dimension: total_task_hours_to_complete {
-    type: number
+  measure: total_task_hours_to_complete {
+    type: sum
+    sql: ${TABLE}.total_task_hours_to_complete ;;
+  }
+
+  measure: avg_task_hours_to_complete {
+    type: average
     sql: ${TABLE}.total_task_hours_to_complete ;;
   }
 
