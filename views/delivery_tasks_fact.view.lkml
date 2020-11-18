@@ -124,6 +124,20 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_type ;;
   }
 
+  dimension: task_resolution_type {
+    group_label: "Project Tasks"
+
+    type: string
+    sql: ${TABLE}.task_resolution_type ;;
+  }
+
+  dimension: task_status_colour {
+    group_label: "Project Tasks"
+
+    type: string
+    sql: ${TABLE}.task_status_colour ;;
+  }
+
   dimension: total_delivery_priority_low {
     hidden: yes
     group_label: "Project Tasks"
@@ -195,6 +209,11 @@ view: delivery_tasks_fact {
 
   measure: total_task_hours_to_complete {
     type: sum
+    sql: ${TABLE}.total_task_hours_to_complete ;;
+  }
+
+  measure: avg_task_hours_to_complete {
+    type: average
     sql: ${TABLE}.total_task_hours_to_complete ;;
   }
 
