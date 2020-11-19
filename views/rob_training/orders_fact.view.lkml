@@ -276,10 +276,6 @@ view: orders_fact {
       value: "year"
     }
     allowed_value: {
-      label: "Quarter on Quarter"
-      value: "quarter"
-    }
-    allowed_value: {
       label: "Month On Month"
       value: "month"
     }
