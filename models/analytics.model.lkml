@@ -28,7 +28,6 @@ explore: web_sessions_fact {
 
   }
 
-explore: looker_usage {}
 
 
 
