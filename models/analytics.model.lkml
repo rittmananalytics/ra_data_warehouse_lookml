@@ -28,7 +28,16 @@ explore: web_sessions_fact {
 
   }
 
-
+explore: ad_campaigns_dim {
+  label: "Marketing"
+  view_label: "Campaigns"
+  join: ad_campaign_performance_fact {
+    view_label: "Campaign Performance"
+    sql_on: ${ad_campaigns_dim.ad_campaign_pk} = ${ad_campaign_performance_fact.ad_campaign_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+}
 
 
 explore: companies_dim {
@@ -36,7 +45,7 @@ explore: companies_dim {
   view_label: "        Companies"
 
   join: projects_delivered {
-    view_label: "  Project Timesheets (Harvest)"
+    view_label: "Project Invoicing (Harvest)"
     from: timesheet_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
     type: left_outer
