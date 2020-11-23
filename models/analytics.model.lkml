@@ -28,14 +28,24 @@ explore: web_sessions_fact {
 
   }
 
-explore: looker_usage {}
+explore: ad_campaigns_dim {
+  label: "Marketing"
+  view_label: "Campaigns"
+  join: ad_campaign_performance_fact {
+    view_label: "Campaign Performance"
+    sql_on: ${ad_campaigns_dim.ad_campaign_pk} = ${ad_campaign_performance_fact.ad_campaign_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+}
+
 
 explore: companies_dim {
   label: "Business Operations"
-  view_label: "      Companies (Hubspot, Harvest)"
+  view_label: "        Companies"
 
   join: projects_delivered {
-    view_label: "  Project Timesheets (Harvest)"
+    view_label: "Project Invoicing (Harvest)"
     from: timesheet_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
     type: left_outer
@@ -112,6 +122,30 @@ explore: companies_dim {
 
     sql_on: ${projects_managed.delivery_project_pk} = ${delivery_tasks_fact.delivery_project_pk};;
     type: left_outer
+    relationship: one_to_many
+  }
+
+  join: contact_companies_fact {
+    sql_on: ${companies_dim.company_pk} = ${contact_companies_fact.company_pk};;
+    type: inner
+    relationship: one_to_many
+  }
+  join: contacts_dim {
+    view_label: "       Contacts"
+    sql_on: ${contact_companies_fact.contact_pk} = ${contacts_dim.contact_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  join: conversations_fact {
+    view_label: "       Contacts"
+    sql_on: ${contacts_dim.contact_pk} = ${conversations_fact.contact_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  join: looker_usage_fact {
+    view_label: "Looker Usage"
+    sql_on: ${companies_dim.company_pk} = ${looker_usage_fact.company_pk} ;;
+    type: inner
     relationship: one_to_many
   }
 }

@@ -2,28 +2,42 @@ view: ad_campaign_performance_fact {
   sql_table_name: `analytics.ad_campaign_performance_fact`
     ;;
 
-  dimension: actual_cpc {
-    type: number
+  measure: average_actual_cpc {
+    value_format_name: gbp_0
+
+    type: average
     sql: ${TABLE}.actual_cpc ;;
   }
 
-  dimension: actual_ctr {
-    type: number
+  dimension: ad_campaign_pk {
+    type: string
+    sql: ${TABLE}.ad_campaign_pk;;
+    primary_key: yes
+    hidden: yes
+  }
+
+  measure: average_actual_ctr {
+    value_format_name: percent_2
+    type: average
     sql: ${TABLE}.actual_ctr ;;
   }
 
-  dimension: actual_vs_reported_clicks_pct {
-    type: number
+  measure: average_actual_vs_reported_clicks_pct {
+    value_format_name: percent_2
+
+    type: average
     sql: ${TABLE}.actual_vs_reported_clicks_pct ;;
   }
 
-  dimension: avg_reported_bounce_rate {
-    type: number
+  measure: average_avg_reported_bounce_rate {
+    value_format_name: percent_2
+
+    type: average
     sql: ${TABLE}.avg_reported_bounce_rate ;;
   }
 
-  dimension: avg_reported_time_on_site {
-    type: number
+  measure: avg_reported_time_on_site {
+    type: average
     sql: ${TABLE}.avg_reported_time_on_site ;;
   }
 
@@ -41,43 +55,51 @@ view: ad_campaign_performance_fact {
     sql: ${TABLE}.campaign_date ;;
   }
 
-  dimension: reported_cpc {
-    type: number
+  measure: average_reported_cpc {
+    value_format_name: gbp_0
+    type: average
     sql: ${TABLE}.reported_cpc ;;
   }
 
-  dimension: reported_cpm {
-    type: number
+  measure: average_reported_cpm {
+    value_format_name: gbp_0
+
+    type: average
     sql: ${TABLE}.reported_cpm ;;
   }
 
-  dimension: reported_ctr {
-    type: number
+  measure: average_reported_ctr {
+    value_format_name: percent_2
+    type: average
     sql: ${TABLE}.reported_ctr ;;
   }
 
-  dimension: total_clicks {
-    type: number
+  measure: total_clicks {
+    type: sum
     sql: ${TABLE}.total_clicks ;;
   }
 
-  dimension: total_reported_clicks {
-    type: number
+  measure: total_reported_clicks {
+    type: sum
     sql: ${TABLE}.total_reported_clicks ;;
   }
 
-  dimension: total_reported_cost {
-    type: number
+  measure: total_reported_cost {
+    value_format_name: gbp_0
+
+    type: sum
     sql: ${TABLE}.total_reported_cost ;;
   }
 
-  dimension: total_reported_impressions {
-    type: number
+
+
+  measure: total_reported_impressions {
+    type: sum
     sql: ${TABLE}.total_reported_impressions ;;
   }
 
-  dimension: total_reported_invalid_clicks {
-    type: number
+  measure: total_reported_invalid_clicks {
+    type: sum
     sql: ${TABLE}.total_reported_invalid_clicks ;;
   }
 
