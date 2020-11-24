@@ -109,7 +109,9 @@ view: delivery_tasks_fact {
   dimension: deliverable_category {
     group_label: "Project Tasks"
     type: string
-    sql: ${TABLE}.deliverable_category;;
+    sql: case when ${TABLE}.deliverable_category is null and right(${TABLE}.deliverable_id,1) = 'a' then 'Historical'
+              when ${TABLE}.deliverable_category is null and safe_cast(right(${TABLE}.deliverable_id,1) as number) is not null then 'NetSuite'
+              else ${TABLE}.deliverable_category end;;
   }
 
   dimension_group: task_last_modified_ts {
