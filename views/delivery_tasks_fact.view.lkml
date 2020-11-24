@@ -106,10 +106,10 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.sprint_end_ts ;;
   }
 
-  dimension: deliverable_source {
+  dimension: deliverable_category {
     group_label: "Project Tasks"
     type: string
-    sql: ${TABLE}.source;;
+    sql: ${TABLE}.deliverable_category;;
   }
 
   dimension_group: task_last_modified_ts {
