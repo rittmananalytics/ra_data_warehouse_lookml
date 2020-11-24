@@ -251,6 +251,41 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.total_delivery_tasks_to_do ;;
   }
 
+  measure: total_delivery_tasks_blocked {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: ${TABLE}.total_delivery_tasks_blocked ;;
+  }
+
+  measure: total_delivery_tasks_in_qa {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: ${TABLE}.total_delivery_in_qa ;;
+  }
+
+  measure: total_delivery_tasks_in_client_qa {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: ${TABLE}.total_delivery_tasks_in_client_qa ;;
+  }
+
+  measure: total_delivery_tasks_in_add_to_looker {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: ${TABLE}.total_delivery_tasks_in_add_to_looker ;;
+  }
+
+  measure: total_delivery_tasks_in_design {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: ${TABLE}.total_delivery_tasks_in_design;;
+  }
+
   measure: total_issues {
     hidden: no
     group_label: "Project Tasks"
