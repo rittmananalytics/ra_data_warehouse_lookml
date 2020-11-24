@@ -99,18 +99,37 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.sprint_name ;;
   }
 
-  dimension_group: sprint_end_ts {
+  dimension_group: task_end_ts {
     group_label: "Project Tasks"
     type: time
-    timeframes: [date]
-    sql: ${TABLE}.sprint_end_ts ;;
+    timeframes: [date,time]
+    sql: ${TABLE}.task_end_ts ;;
+  }
+
+  dimension_group: task_start_ts {
+    group_label: "Project Tasks"
+    type: time
+    timeframes: [date,time]
+    sql: ${TABLE}.task_start_ts ;;
+  }
+
+  dimension: task_days_open {
+    group_label: "Project Tasks"
+    type: number
+    sql: case when task_status != 'Done' then timestamp_diff(current_timestamp,${TABLE}.task_start_ts,  DAY) end;;
+  }
+
+  measure: avg_task_days_open {
+    group_label: "Project Tasks"
+    type: average
+    sql: ${task_days_open};;
   }
 
   dimension: deliverable_category {
     group_label: "Project Tasks"
     type: string
-    sql: case when ${TABLE}.deliverable_category is null and right(${TABLE}.deliverable_id,1) = 'a' then 'Historical'
-              when ${TABLE}.deliverable_category is null and safe_cast(right(${TABLE}.deliverable_id,1) as number) is not null then 'NetSuite'
+    sql: case when ${TABLE}.deliverable_category is null and substr(${TABLE}.deliverable_id,length(${TABLE}.deliverable_id)-2,1)  = 'a' then 'Historical'
+              when ${TABLE}.deliverable_category is null and safe_cast(substr(${TABLE}.deliverable_id,length(${TABLE}.deliverable_id)-2,1) as int64) is not null then 'NetSuite'
               else ${TABLE}.deliverable_category end;;
   }
 
