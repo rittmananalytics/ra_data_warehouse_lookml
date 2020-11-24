@@ -81,6 +81,37 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_is_completed ;;
   }
 
+  dimension: deliverable_id {
+    group_label: "Project Tasks"
+    type: string
+  sql: ${TABLE}.deliverable_id ;;
+  }
+
+  dimension: deliverable_type {
+    group_label: "Project Tasks"
+    type: string
+    sql: ${TABLE}.deliverable_type ;;
+  }
+
+  dimension: sprint_name {
+    group_label: "Project Tasks"
+    type: string
+    sql: ${TABLE}.sprint_name ;;
+  }
+
+  dimension_group: sprint_end_ts {
+    group_label: "Project Tasks"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.sprint_end_ts ;;
+  }
+
+  dimension: deliverable_source {
+    group_label: "Project Tasks"
+    type: string
+    sql: ${TABLE}.source;;
+  }
+
   dimension_group: task_last_modified_ts {
     hidden: yes
 
