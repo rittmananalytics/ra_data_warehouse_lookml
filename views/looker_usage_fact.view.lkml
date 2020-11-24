@@ -37,7 +37,7 @@ view: looker_usage_fact {
       quarter,
       year
     ]
-    sql: ${TABLE}.created_time ;;
+    sql: timestamp(${TABLE}.created_time) ;;
   }
 
   dimension: dashboard_title {

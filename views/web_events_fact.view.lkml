@@ -217,8 +217,6 @@ view: web_events_fact {
     sql: ${TABLE}.web_event_pk ;;
   }
 
-
-
   dimension: time_on_page_secs {
     hidden: yes
     type: number
@@ -331,7 +329,65 @@ view: web_events_fact {
     sql: ${TABLE}.referrer_host ;;
   }
 
+  dimension: event_details_seq_1 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 1 then event_details end ;;
+  }
 
+  dimension: event_details_seq_2 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 2 then event_details end ;;
+  }
+
+  dimension: event_details_seq_3 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 3 then event_details end ;;
+  }
+
+  dimension: event_details_seq_4 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 4 then event_details end ;;
+  }
+
+  dimension: event_details_seq_5 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 5 then event_details end ;;
+  }
+
+  dimension: event_type_seq_1 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 1 then event_type end ;;
+  }
+
+  dimension: event_type_seq_2 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 2 then event_type end ;;
+  }
+
+  dimension: event_type_seq_3 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 3 then event_type end ;;
+  }
+
+  dimension: event_type_seq_4 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 4 then event_type end ;;
+  }
+
+  dimension: event_type_seq_5 {
+    group_label: "Event Sequence"
+    type: string
+    sql: case when event_seq = 5 then event_type end ;;
+  }
 
 
 

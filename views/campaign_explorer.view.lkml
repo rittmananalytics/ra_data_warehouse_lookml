@@ -1,7 +1,7 @@
 view: campaign_explorer {
   derived_table: {
     sql: with entrance_events as (SELECT event_id as entrance_event_id, utm_medium, utm_source,  utm_campaign, blended_user_id, event_seq as entrance_event_seq, event_ts FROM `ra-development.analytics.web_events_fact`
-      where utm_medium is not null),
+      where utm_source is not null),
       events as (select f.blended_user_id, f.event_id, event_type, event_seq,  event_details, replace(page_title, ' — Rittman Analytics','') as page_title, page_url_path, ip, time_on_page_secs, session_id
       from ra-development.analytics.web_events_fact f
       where event_type = 'Page View'),

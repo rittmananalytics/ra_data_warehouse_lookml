@@ -35,18 +35,20 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.project_cost_budget ;;
   }
 
-  dimension: project_delivery_end_ts {
+  dimension_group: project_delivery_end_ts {
     group_label: "   Project Details"
 
-    type: string
-    sql: ${TABLE}.project_delivery_end_ts ;;
+    type: time
+    timeframes: [date,week,month]
+    sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
 
-  dimension: project_delivery_start_ts {
+  dimension_group : project_delivery_start_ts {
     group_label: "   Project Details"
 
-    type: string
-    sql: ${TABLE}.project_delivery_start_ts ;;
+    type: time
+    timeframes: [date,week,month]
+    sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
   }
 
   dimension: project_fee_amount {

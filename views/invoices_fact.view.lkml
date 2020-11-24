@@ -42,6 +42,7 @@ view: invoices_fact {
     type: time
     timeframes: [
       date,
+      week,
       month,
       quarter
     ]
