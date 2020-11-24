@@ -195,7 +195,7 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
 
     type: number
-    sql: ${TABLE}.total_delivery_priority_low ;;
+    sql: ${TABLE}.total_priority_low ;;
   }
 
   dimension: total_delivery_priority_medium {
@@ -203,7 +203,7 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
 
     type: number
-    sql: ${TABLE}.total_delivery_priority_medium ;;
+    sql: ${TABLE}.total_priority_medium ;;
   }
 
   dimension: total_delivery_subtasks {
@@ -226,7 +226,7 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_completed ;;
+    sql: ${TABLE}.total_completed ;;
   }
 
   dimension: total_delivery_tasks_high {
@@ -234,56 +234,56 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
 
     type: number
-    sql: ${TABLE}.total_delivery_tasks_high ;;
+    sql: ${TABLE}.total_priority_high ;;
   }
 
   measure: total_delivery_tasks_in_progress {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_in_progress ;;
+    sql: ${TABLE}.total_in_progress ;;
   }
 
   measure: total_delivery_tasks_to_do {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_to_do ;;
+    sql: ${TABLE}.total_to_do ;;
   }
 
   measure: total_delivery_tasks_blocked {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_blocked ;;
+    sql: ${TABLE}.total_blocked ;;
   }
 
   measure: total_delivery_tasks_in_qa {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_in_qa ;;
+    sql: ${TABLE}.total_in_qa ;;
   }
 
   measure: total_delivery_tasks_in_client_qa {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_in_client_qa ;;
+    sql: ${TABLE}.total_in_client_qa ;;
   }
 
   measure: total_delivery_tasks_in_add_to_looker {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_in_add_to_looker ;;
+    sql: ${TABLE}.total_in_add_to_looker ;;
   }
 
   measure: total_delivery_tasks_in_design {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks_in_design;;
+    sql: ${TABLE}.total_in_design;;
   }
 
   measure: total_issues {
