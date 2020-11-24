@@ -262,7 +262,7 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_in_qa ;;
+    sql: ${TABLE}.total_delivery_tasks_in_qa ;;
   }
 
   measure: total_delivery_tasks_in_client_qa {
