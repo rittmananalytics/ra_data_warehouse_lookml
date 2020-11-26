@@ -125,6 +125,13 @@ explore: companies_dim {
     relationship: one_to_many
   }
 
+  join: users_dim {
+    view_label: "Project Teams"
+    sql_on: ${delivery_tasks_fact.user_pk} = ${users_dim.user_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+
   join: contact_companies_fact {
     sql_on: ${companies_dim.company_pk} = ${contact_companies_fact.company_pk};;
     type: inner

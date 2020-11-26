@@ -106,6 +106,10 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_end_ts ;;
   }
 
+  dimension: user_pk {
+    hidden: yes
+  }
+
   dimension_group: task_start_ts {
     group_label: "Project Tasks"
     type: time
@@ -219,14 +223,14 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_delivery_tasks ;;
+    sql: coalesce(${TABLE}.total_to_do,0) + coalesce(${TABLE}.total_in_add_to_looker,0) + coalesce(${TABLE}.total_in_design,0) + coalesce(${TABLE}.total_completed,0) + coalesce(${TABLE}.total_in_progress,0) + coalesce(${TABLE}.total_blocked,0) +coalesce(${TABLE}.total_in_client_qa,0);;
   }
 
   measure: total_delivery_tasks_completed {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_completed ;;
+    sql: coalesce(${TABLE}.total_completed,0) ;;
   }
 
   dimension: total_delivery_tasks_high {
@@ -241,49 +245,49 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_in_progress ;;
+    sql: coalesce(${TABLE}.total_in_progress,0) ;;
   }
 
   measure: total_delivery_tasks_to_do {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_to_do ;;
+    sql: coalesce(${TABLE}.total_to_do,0) ;;
   }
 
   measure: total_delivery_tasks_blocked {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_blocked ;;
+    sql: coalesce(${TABLE}.total_blocked,0) ;;
   }
 
   measure: total_delivery_tasks_in_qa {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_in_qa ;;
+    sql: coalesce(${TABLE}.total_in_qa,0) ;;
   }
 
   measure: total_delivery_tasks_in_client_qa {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_in_client_qa ;;
+    sql: coalesce(${TABLE}.total_in_client_qa,0) ;;
   }
 
   measure: total_delivery_tasks_in_add_to_looker {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_in_add_to_looker ;;
+    sql: coalesce(${TABLE}.total_in_add_to_looker,0) ;;
   }
 
   measure: total_delivery_tasks_in_design {
     group_label: "Project Tasks"
 
     type: sum
-    sql: ${TABLE}.total_in_design;;
+    sql: coalesce(${TABLE}.total_in_design,0);;
   }
 
   measure: total_issues {
