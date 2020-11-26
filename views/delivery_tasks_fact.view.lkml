@@ -117,6 +117,35 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_start_ts ;;
   }
 
+  dimension: task_sprint_day {
+    type: number
+    hidden: yes
+    sql: timestamp_diff(${TABLE}.task_start_ts,current_timestamp,DAY) ;;
+  }
+
+  dimension: task_target_status_delivery_day_target {
+    type: number
+    hidden: no
+  group_label: "Project Tasks"
+
+    sql: case when ${TABLE}.task_status = 'Design & Validation' then 1
+              when ${TABLE}.task_status = 'Blocked' then 3
+              when ${TABLE}.task_status = 'In Progress' then 6
+              when ${TABLE}.task_status = 'In QA' then 7
+              when ${TABLE}.task_status = 'Add to Looker' then 7
+              when ${TABLE}.task_status = 'Client QA' then 8
+        end;;
+  }
+
+
+
+  dimension_group: task_target_ts {
+    group_label: "Project Tasks"
+    type: time
+    timeframes: [date,time]
+    sql: timestamp_add(${TABLE}.task_start_ts,interval ${task_target_status_delivery_day_target} DAY) ;;
+  }
+
   dimension: task_days_open {
     group_label: "Project Tasks"
     type: number

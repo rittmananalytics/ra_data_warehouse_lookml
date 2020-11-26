@@ -120,6 +120,13 @@ view: timesheets_fact {
     sql: ${TABLE}.timesheet_total_amount_billed ;;
   }
 
+  measure: total_timesheet_cost_amount {
+    group_label: "Timesheet Details"
+
+    type: sum
+    sql: ${TABLE}.timesheet_hours_billed * coalesce(${TABLE}.timesheet_billable_hourly_cost_amount,25) ;;
+  }
+
   dimension: user_pk {
     hidden: yes
     type: string
