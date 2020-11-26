@@ -18,7 +18,7 @@ view: users_dim {
     group_label: "Consultant Details"
 
     type: number
-    sql: ${TABLE}.user_cost_rate ;;
+    sql: case when ${TABLE}.user_cost_rate = 100 then 32 else ${TABLE}.user_cost_rate end ;;
   }
 
   dimension_group: user_created_ts {

@@ -13,7 +13,7 @@ view: timesheets_fact {
     group_label: "Timesheet Details"
 
     type: number
-    sql: ${TABLE}.timesheet_billable_hourly_cost_amount ;;
+    sql: case when ${TABLE}.timesheet_billable_hourly_cost_amount = 100 then 32 else ${TABLE}.timesheet_billable_hourly_cost_amount end;;
   }
 
   dimension: timesheet_billable_hourly_rate_amount {
@@ -124,7 +124,7 @@ view: timesheets_fact {
     group_label: "Timesheet Details"
 
     type: sum
-    sql: ${TABLE}.timesheet_hours_billed * coalesce(${TABLE}.timesheet_billable_hourly_cost_amount,25) ;;
+    sql: ${TABLE}.timesheet_hours_billed * coalesce(case when ${TABLE}.timesheet_billable_hourly_cost_amount > 60 then 32 else ${TABLE}.timesheet_billable_hourly_cost_amount end,25) ;;
   }
 
   dimension: user_pk {
