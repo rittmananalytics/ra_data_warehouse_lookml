@@ -124,6 +124,12 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: delivery_task_history {
+    view_label: " Project Management (Jira)"
+    sql_on: ${delivery_tasks_fact.task_id} = ${delivery_task_history.task_id} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
 
   join: users_dim {
     view_label: "Project Teams"
