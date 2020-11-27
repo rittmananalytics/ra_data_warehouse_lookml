@@ -1,16 +1,22 @@
 view: delivery_task_history {
   derived_table: {
-    sql: with issue_transition_history as (SELECT concat('jira-',issueid) as issue_id, t.name as from_status,
+    sql: with source as (select * from (
+       select *,
+      MAX(_sdc_batched_at) OVER (PARTITION BY issueid ORDER BY _sdc_batched_at RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS max_sdc_batched_at
+      from `ra-development.stitch_jira2.issue_transitions`
+    )
+    where _sdc_batched_at = max_sdc_batched_at),
+    issue_transition_history as (SELECT concat('jira-',issueid) as issue_id, t.name as from_status,
       t.to.name as to_status,
       _sdc_received_at as transition_ts
       FROM
-      `ra-development.stitch_jira2.issue_transitions` t),
+      source t),
             issues as (select task_id, task_start_ts, task_status
                        from `ra-development.analytics_staging.stg_jira_projects_tasks`),
       issue_history_pivoted as (
       select task_id,
              task_start_ts as start_ts,
-             i.task_status as task_status,
+             last_value(i.task_status) over (partition by task_id order by transition_ts) as task_status,
              case when to_status = 'Design & Validation' then transition_ts end as design_ts,
              case when to_status = 'In Progress' then transition_ts end as in_progress_ts,
              case when to_status = 'Blocked' then transition_ts end as blocked_ts,
@@ -34,6 +40,10 @@ view: delivery_task_history {
         max(in_client_qa_ts) over (partition by task_id) as in_client_qa_ts,
         max(done_ts) over (partition by task_id) as done_ts
       from issue_history_pivoted
+      ),
+      task_latest_history_pivoted_deduped as (
+      select * from task_latest_history_pivoted
+      group by 1,2,3,4,5,6,7,8,9,10
       )
       select *,
              timestamp_diff(design_ts,start_ts,HOUR)/24 as hours_from_start_to_design,
@@ -51,7 +61,7 @@ view: delivery_task_history {
              timestamp_diff(in_client_qa_ts,design_ts,HOUR) as hours_from_design_to_client_qa,
 
              timestamp_diff(design_ts,done_ts,HOUR) as hours_from_design_to_done
-      from task_latest_history_pivoted
+      from task_latest_history_pivoted_deduped
       group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
        ;;
   }

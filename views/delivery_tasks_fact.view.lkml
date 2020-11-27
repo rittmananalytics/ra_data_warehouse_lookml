@@ -68,7 +68,7 @@ view: delivery_tasks_fact {
   }
 
   dimension: task_id {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.task_id ;;
