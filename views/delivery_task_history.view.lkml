@@ -2,10 +2,10 @@ view: delivery_task_history {
   derived_table: {
     sql: with source as (select * from (
        select *,
-      MAX(_sdc_batched_at) OVER (PARTITION BY issueid ORDER BY _sdc_batched_at RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS max_sdc_batched_at
+      MAX(_sdc_sequence) OVER (PARTITION BY issueid ORDER BY _sdc_sequence RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS max_sdc_sequence
       from `ra-development.stitch_jira2.issue_transitions`
     )
-    where _sdc_batched_at = max_sdc_batched_at),
+    where _sdc_sequence = max_sdc_sequence),
     issue_transition_history as (SELECT concat('jira-',issueid) as issue_id, t.name as from_status,
       t.to.name as to_status,
       _sdc_received_at as transition_ts
