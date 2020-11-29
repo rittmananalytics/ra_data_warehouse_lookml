@@ -3,7 +3,7 @@ view: delivery_task_history {
     sql: with source as (select * from (
        select *,
       MAX(_sdc_sequence) OVER (PARTITION BY issueid ORDER BY _sdc_sequence RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS max_sdc_sequence
-      from `ra-development.stitch_jira2.issue_transitions`
+      from `ra-development.stitch_jira.issue_transitions`
     )
     where _sdc_sequence = max_sdc_sequence),
     issue_transition_history as (SELECT concat('jira-',issueid) as issue_id, t.name as from_status,
