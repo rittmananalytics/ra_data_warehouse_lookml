@@ -53,7 +53,7 @@ view: delivery_task_history {
              case when task_status = 'Done' then greatest(timestamp_diff(in_client_qa_ts,start_ts,HOUR),timestamp_diff(in_qa_ts,start_ts,HOUR),timestamp_diff(in_progress_ts,start_ts,HOUR),timestamp_diff(looker_ts,start_ts,HOUR),timestamp_diff(done_ts,start_ts,HOUR))/24 end as hours_from_start_to_done,
              case when task_status not in ('Design & Validation','In Progress','Blocked','In QA') then greatest(timestamp_diff(in_client_qa_ts,start_ts,HOUR),timestamp_diff(in_qa_ts,start_ts,HOUR),timestamp_diff(in_progress_ts,start_ts,HOUR),timestamp_diff(looker_ts,start_ts,HOUR))/24 end as hours_from_start_to_looker,
              case when task_status not in ('Design & Validation','In Progress') then greatest(timestamp_diff(design_ts,start_ts,HOUR),timestamp_diff(in_progress_ts,start_ts,HOUR),timestamp_diff(design_ts,start_ts,HOUR),timestamp_diff(blocked_ts,start_ts,HOUR))/24 end as hours_from_start_to_blocked,
-             timestamp_diff(design_ts,in_progress_ts,HOUR) as hours_from_design_to_in_progress,
+             timestamp_diff(in_progress_ts,design_ts,HOUR) as hours_from_design_to_in_progress,
              timestamp_diff(in_qa_ts,in_progress_ts,HOUR) as hours_from_in_progress_to_qa,
              timestamp_diff(looker_ts,in_qa_ts,HOUR) as hours_from_qa_to_looker,
              timestamp_diff(in_client_qa_ts,looker_ts,HOUR) as hours_from_looker_to_client_qa,
