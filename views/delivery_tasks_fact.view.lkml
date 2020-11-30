@@ -113,7 +113,7 @@ view: delivery_tasks_fact {
   dimension_group: task_start_ts {
     group_label: "Project Tasks"
     type: time
-    timeframes: [date,time]
+    timeframes: [date,time,week,month]
     sql: ${TABLE}.task_start_ts ;;
   }
 
