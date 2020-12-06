@@ -44,9 +44,71 @@ explore: attribution_fact {
   view_label: "Conversion Attribution"
 }
 
+explore: contacts_dim {
+  label: "Contacts"
+  view_label: "          Contacts"
+  join: timesheets_fact {
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${contacts_dim.contact_pk} = ${timesheets_fact.contact_pk}  ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_delivered {
+    view_label: "Project Timesheets (Harvest)"
+    from: timesheet_projects_dim
+    sql_on: ${timesheets_fact.timesheet_project_pk} = ${projects_delivered.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: delivery_tasks_fact {
+    view_label: " Project Management (Jira)"
+    sql_on: ${contacts_dim.contact_pk} = ${delivery_tasks_fact.contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_managed {
+    view_label: " Project Management (Jira)"
+
+    from: delivery_projects_dim
+    sql_on: ${delivery_tasks_fact.delivery_project_pk} = ${projects_managed.delivery_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: conversations_fact {
+    view_label: "       Contacts"
+    sql_on: ${contacts_dim.contact_pk} = ${conversations_fact.contact_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  join: contact_companies_fact {
+    sql_on: ${contacts_dim.contact_pk} = ${contact_companies_fact.contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: companies_dim {
+    view_label: "       Companies"
+    sql_on: ${contact_companies_fact.company_pk} = ${contact_companies_fact.company_pk};;
+    type: inner
+    relationship: one_to_many
+  }
+  join: looker_usage_fact {
+    view_label: "Looker Usage"
+    sql_on: ${companies_dim.company_pk} = ${looker_usage_fact.company_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: looker_users_dim {
+    from: contacts_dim
+    view_label: "Looker Users"
+    sql_on: ${looker_usage_fact.contact_pk} = ${looker_users_dim.contact_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+}
+
 
 explore: companies_dim {
-  label: "Business Operations"
+  label: "Companies"
   view_label: "        Companies"
 
   join: projects_delivered {
