@@ -1,5 +1,5 @@
 view: contacts_dim {
-  sql_table_name: `analytics.contacts_dim`
+  sql_table_name: `ra-development.analytics.contacts_dim`
     ;;
 
   dimension: all_contact_addresses {
@@ -7,7 +7,10 @@ view: contacts_dim {
     sql: ${TABLE}.all_contact_addresses ;;
   }
 
-
+  dimension: all_contact_company_ids {
+    type: string
+    sql: ${TABLE}.all_contact_company_ids ;;
+  }
 
   dimension: all_contact_emails {
     type: string
@@ -19,14 +22,44 @@ view: contacts_dim {
     sql: ${TABLE}.all_contact_ids ;;
   }
 
+  dimension: contact_cost_rate {
+    type: number
+    sql: ${TABLE}.contact_cost_rate ;;
+  }
+
   dimension_group: contact_created {
     type: time
     timeframes: [
-      date
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
     ]
     sql: ${TABLE}.contact_created_date ;;
   }
 
+  dimension: contact_default_hourly_rate {
+    type: number
+    sql: ${TABLE}.contact_default_hourly_rate ;;
+  }
+
+  dimension: contact_is_active {
+    type: yesno
+    sql: ${TABLE}.contact_is_active ;;
+  }
+
+  dimension: contact_is_contractor {
+    type: yesno
+    sql: ${TABLE}.contact_is_contractor ;;
+  }
+
+  dimension: contact_is_staff {
+    type: yesno
+    sql: ${TABLE}.contact_is_staff ;;
+  }
 
   dimension_group: contact_last_modified {
     type: time
@@ -58,10 +91,13 @@ view: contacts_dim {
   }
 
   dimension: contact_pk {
-    primary_key: yes
-    hidden: yes
     type: string
     sql: ${TABLE}.contact_pk ;;
+  }
+
+  dimension: contact_weekly_capacity {
+    type: number
+    sql: ${TABLE}.contact_weekly_capacity ;;
   }
 
   dimension: job_title {
@@ -69,7 +105,10 @@ view: contacts_dim {
     sql: ${TABLE}.job_title ;;
   }
 
-
+  measure: count {
+    type: count
+    drill_fields: [contact_name]
+  }
 }
 
 view: contacts_dim__all_contact_addresses {

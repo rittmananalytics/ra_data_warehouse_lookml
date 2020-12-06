@@ -65,6 +65,13 @@ view: transactions_fact {
     sql: ${TABLE}.transaction_net_amount ;;
   }
 
+  dimension: contact_pk {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.contact_pk ;;
+  }
+
+
   dimension: transaction_pk {
     type: string
     sql: ${TABLE}.transaction_pk ;;

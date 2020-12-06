@@ -127,10 +127,10 @@ view: timesheets_fact {
     sql: ${TABLE}.timesheet_hours_billed * coalesce(case when ${TABLE}.timesheet_billable_hourly_cost_amount > 60 then 32 else ${TABLE}.timesheet_billable_hourly_cost_amount end,25) ;;
   }
 
-  dimension: user_pk {
+  dimension: contact_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.user_pk ;;
+    sql: ${TABLE}.contact_pk ;;
   }
 
 

@@ -40,6 +40,12 @@ view: looker_usage_fact {
     sql: timestamp(${TABLE}.created_time) ;;
   }
 
+  dimension: contact_pk {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.contact_pk ;;
+  }
+
   dimension: dashboard_title {
     type: string
     sql: ${TABLE}.dashboard_title ;;

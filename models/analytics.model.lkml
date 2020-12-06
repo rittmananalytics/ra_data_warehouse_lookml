@@ -39,6 +39,11 @@ explore: ad_campaigns_dim {
   }
 }
 
+explore: attribution_fact {
+  label: "Conversion Attribution"
+  view_label: "Conversion Attribution"
+}
+
 
 explore: companies_dim {
   label: "Business Operations"
@@ -75,8 +80,8 @@ explore: companies_dim {
   join: project_invoice_timesheet_users {
     view_label: "Project Invoicing (Harvest)"
 
-    from: users_dim
-    sql_on: ${project_invoice_timesheets.user_pk} = ${project_invoice_timesheet_users.user_pk} ;;
+    from: contacts_dim
+    sql_on: ${project_invoice_timesheets.contact_pk} = ${project_invoice_timesheet_users.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
   }
@@ -98,8 +103,8 @@ explore: companies_dim {
   join: project_timesheet_users {
     view_label: "  Project Timesheets (Harvest)"
 
-    from: users_dim
-    sql_on: ${project_timesheets.user_pk}  = ${project_timesheet_users.user_pk} ;;
+    from: contacts_dim
+    sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
     type: inner
     relationship: one_to_many
   }
@@ -131,9 +136,10 @@ explore: companies_dim {
     relationship: one_to_one
   }
 
-  join: users_dim {
+  join: team_dim {
+    from: contacts_dim
     view_label: "Project Teams"
-    sql_on: ${delivery_tasks_fact.user_pk} = ${users_dim.user_pk};;
+    sql_on: ${delivery_tasks_fact.contact_pk} = ${team_dim.contact_pk};;
     type: left_outer
     relationship: many_to_one
   }
@@ -160,5 +166,12 @@ explore: companies_dim {
     sql_on: ${companies_dim.company_pk} = ${looker_usage_fact.company_pk} ;;
     type: inner
     relationship: one_to_many
+  }
+  join: looker_users_dim {
+    from: contacts_dim
+    view_label: "Looker Users"
+    sql_on: ${looker_usage_fact.contact_pk} = ${looker_users_dim.contact_pk};;
+    type: left_outer
+    relationship: many_to_one
   }
 }

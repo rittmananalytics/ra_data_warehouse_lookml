@@ -34,6 +34,13 @@ view: looker_usage {
     sql: ${TABLE}.client ;;
   }
 
+  dimension: contact_pk {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.contact_pk ;;
+  }
+
+
   dimension_group: created_time {
     type: time
     datatype: date

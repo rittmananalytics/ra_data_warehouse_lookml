@@ -30,6 +30,12 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_assignee_user_id ;;
   }
 
+  dimension: contact_pk {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.contact_pk ;;
+  }
+
   dimension_group: task_completed_ts {
     label: "Task Completed"
     type: time
