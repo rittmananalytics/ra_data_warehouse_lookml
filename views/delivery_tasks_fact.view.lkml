@@ -30,6 +30,13 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_assignee_user_id ;;
   }
 
+  dimension: task_url {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.task_url ;;
+  }
+
+
   dimension: contact_pk {
     hidden: yes
     type: string
@@ -190,9 +197,12 @@ view: delivery_tasks_fact {
 
   dimension: task_name {
     group_label: "Project Tasks"
-
     type: string
     sql: ${TABLE}.task_name ;;
+    link: {
+      url: "https://{{ delivery_tasks_fact.task_url._value }}"
+      label: "View Task in Jira"
+    }
   }
 
   dimension: task_priority {

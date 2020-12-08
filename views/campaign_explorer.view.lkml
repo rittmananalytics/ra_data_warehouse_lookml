@@ -1,12 +1,12 @@
 view: campaign_explorer {
   derived_table: {
-    sql: with entrance_events as (SELECT event_id as entrance_event_id, utm_medium, utm_source,  utm_campaign, blended_user_id, event_seq as entrance_event_seq, event_ts FROM `ra-development.analytics.web_events_fact`
-      where utm_source is not null),
+    sql: with entrance_events as (SELECT event_id as entrance_event_id, referrer_host, utm_medium, utm_source,  utm_campaign, blended_user_id, event_seq as entrance_event_seq, event_ts FROM `ra-development.analytics.web_events_fact`
+      ),
       events as (select f.blended_user_id, f.event_id, event_type, event_seq,  event_details, replace(page_title, ' — Rittman Analytics','') as page_title, page_url_path, ip, time_on_page_secs, session_id
       from ra-development.analytics.web_events_fact f
       where event_type = 'Page View'),
       post_campaign_events as (
-      select e.blended_user_id, e.entrance_event_id, e.entrance_event_seq, e.utm_campaign, e.event_ts, t.event_id, t.event_seq, page_title, case when page_url_path like '%blog%' then 'Blog'
+      select e.blended_user_id, e.referrer_host, e.entrance_event_id, e.entrance_event_seq, e.utm_campaign, e.event_ts, t.event_id, t.event_seq, page_title, case when page_url_path like '%blog%' then 'Blog'
               when page_url_path like '%drilltodetail%' or page_url_path like '%podcast%' then 'Podcast'
               when page_url_path = '/' or page_url_path like '%home-index%' then 'Home Page'
               else 'Marketing' end as page_category, page_url_path, ip, session_id,
@@ -17,7 +17,7 @@ view: campaign_explorer {
       where e.blended_user_id != '*|HTML:EMAIL|*'
       and entrance_event_seq <= event_seq
       and e.utm_campaign not like '%EMAIL_CAMPAIGN%')
-SELECT entrance_event_id, blended_user_id, utm_campaign, event_ts,
+SELECT entrance_event_id, blended_user_id, utm_campaign, referrer_host, event_ts,
 MAX(IF(pageview_seq_num = 1, page_title, NULL)) as pageview_1,
 MAX(IF(pageview_seq_num = 2, page_title, NULL)) as pageview_2,
 MAX(IF(pageview_seq_num = 3, page_title, NULL)) as pageview_3,
@@ -39,7 +39,7 @@ MAX(IF(pageview_seq_num = 8, page_category, NULL)) as page_category_8,
 MAX(IF(pageview_seq_num = 9, page_category, NULL)) as page_category_9,
 MAX(IF(pageview_seq_num = 10, page_category, NULL)) as page_category_10
 FROM post_campaign_events
-group by 1,2,3,4;;
+group by 1,2,3,4,5;;
   }
 
 
@@ -69,6 +69,11 @@ group by 1,2,3,4;;
   dimension: utm_campaign {
     type: string
     sql: ${TABLE}.utm_campaign ;;
+  }
+
+  dimension: referrer_host {
+    type: string
+    sql: ${TABLE}.referrer_host ;;
   }
 
   dimension_group: event_ts {

@@ -1,15 +1,35 @@
 view: contacts_dim {
-  sql_table_name: `ra-development.analytics.contacts_dim`
-    ;;
+  derived_table: {
+    sql: SELECT
+  ct.*,
+  c.company_pk
+FROM (
+  SELECT
+    *
+  FROM
+    `ra-development.analytics.contacts_dim`,
+    UNNEST( all_contact_company_ids) AS company_id ) ct
+JOIN (
+  SELECT
+    *
+  FROM
+    `ra-development.analytics.companies_dim` c,
+    UNNEST (all_company_ids) AS company_id ) c
+ON
+  ct.company_id = c.company_id
+WHERE
+  ct.company_id = c.company_id ;;
+  }
+
 
   dimension: all_contact_addresses {
     hidden: yes
     sql: ${TABLE}.all_contact_addresses ;;
   }
 
-  dimension: all_contact_company_ids {
+  dimension: company_pk {
     type: string
-    sql: ${TABLE}.all_contact_company_ids ;;
+    sql: ${TABLE}.company_pk ;;
   }
 
   dimension: all_contact_emails {

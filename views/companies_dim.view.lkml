@@ -1,6 +1,5 @@
 view: companies_dim {
-  sql_table_name: `analytics.companies_dim`
-    ;;
+  sql_table_name: companies_dim;;
 
   dimension: all_company_addresses {
     hidden: yes
@@ -11,6 +10,10 @@ view: companies_dim {
     hidden: yes
     type: string
     sql: ${TABLE}.all_company_ids ;;
+  }
+
+  dimension: company_id {
+    hidden: yes
   }
 
   dimension: company_created {

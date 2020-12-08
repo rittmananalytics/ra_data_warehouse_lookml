@@ -75,51 +75,35 @@ explore: contacts_dim {
     relationship: one_to_many
   }
   join: conversations_fact {
-    view_label: "       Contacts"
+    view_label: "      Engagements"
     sql_on: ${contacts_dim.contact_pk} = ${conversations_fact.contact_pk} ;;
     type: inner
     relationship: many_to_one
   }
-  join: contact_companies_fact {
-    sql_on: ${contacts_dim.contact_pk} = ${contact_companies_fact.contact_pk};;
-    type: left_outer
-    relationship: one_to_many
-  }
   join: companies_dim {
     view_label: "       Companies"
-    sql_on: ${contact_companies_fact.company_pk} = ${contact_companies_fact.company_pk};;
+    sql_on: ${contacts_dim.company_pk} = ${companies_dim.company_pk};;
     type: inner
     relationship: one_to_many
   }
   join: looker_usage_fact {
     view_label: "Looker Usage"
-    sql_on: ${companies_dim.company_pk} = ${looker_usage_fact.company_pk} ;;
+    sql_on: ${looker_usage_fact.contact_pk} = ${contacts_dim.contact_pk};;
     type: inner
     relationship: one_to_many
   }
-  join: looker_users_dim {
-    from: contacts_dim
-    view_label: "Looker Users"
-    sql_on: ${looker_usage_fact.contact_pk} = ${looker_users_dim.contact_pk};;
-    type: left_outer
-    relationship: many_to_one
-  }
+
 }
 
 
 explore: companies_dim {
-  label: "Companies"
+  label: "Business Operations"
   view_label: "        Companies"
 
   join: projects_delivered {
     view_label: "Project Invoicing (Harvest)"
     from: timesheet_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: company_hubspot_id {
-    sql_on: ${companies_dim.company_pk} = ${company_hubspot_id.company_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
