@@ -36,6 +36,12 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_url ;;
   }
 
+  dimension: sprint_board_url {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.sprint_board_url ;;
+  }
+
 
   dimension: contact_pk {
     hidden: yes
@@ -110,6 +116,10 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
     type: string
     sql: ${TABLE}.sprint_name ;;
+    link: {
+      url: "https://{{ delivery_tasks_fact.sprint_board_url._value }}"
+      label: "View Sprint in Jira"
+    }
   }
 
   dimension_group: task_end_ts {
@@ -146,6 +156,8 @@ view: delivery_tasks_fact {
               when ${TABLE}.task_status = 'In Progress' then 6
               when ${TABLE}.task_status = 'In QA' then 7
               when ${TABLE}.task_status = 'Add to Looker' then 7
+              when ${TABLE}.task_status = 'Looker Internal QA' then 7
+              when ${TABLE}.task_status = 'Failed Client QA/QA Comment' then 8
               when ${TABLE}.task_status = 'Client QA' then 8
         end;;
   }
@@ -212,10 +224,18 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_priority ;;
   }
 
+  dimension: task_status_workflow_stage_number {
+    group_label: "Project Tasks"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.task_status_workflow_stage_number ;;
+  }
+
   dimension: task_status {
     group_label: "Project Tasks"
     type: string
     sql: ${TABLE}.task_status ;;
+    order_by_field: task_status_workflow_stage_number
   }
 
   dimension: task_type {
@@ -333,6 +353,20 @@ view: delivery_tasks_fact {
 
     type: sum
     sql: coalesce(${TABLE}.total_in_design,0);;
+  }
+
+  measure: total_delivery_tasks_in_looker_qa {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: coalesce(${TABLE}.total_in_looker_qa,0);;
+  }
+
+  measure: total_delivery_tasks_failed_client_qa {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: coalesce(${TABLE}.total_failed_client_qa,0);;
   }
 
   measure: total_issues {
