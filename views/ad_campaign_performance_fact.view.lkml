@@ -103,15 +103,7 @@ view: ad_campaign_performance_fact {
     sql: ${TABLE}.total_reported_invalid_clicks ;;
   }
 
-  dimension: utm_campaign {
-    type: string
-    sql: ${TABLE}.utm_campaign ;;
-  }
 
-  dimension: utm_source {
-    type: string
-    sql: ${TABLE}.utm_source ;;
-  }
 
   measure: count {
     type: count

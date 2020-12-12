@@ -19,7 +19,7 @@ view: web_sessions_fact {
   dimension: ad_campaign_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.ad_campaign_id ;;
+    sql: ${TABLE}.ad_campaign_pk ;;
   }
 
   dimension: customer_pk {

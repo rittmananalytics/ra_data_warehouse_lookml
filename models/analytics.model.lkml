@@ -31,18 +31,12 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
-  join: ad_campaign_performance_fact {
-    view_label: "Campaign Performance"
-    sql_on: ${ad_campaigns_dim.ad_campaign_pk} = ${ad_campaign_performance_fact.ad_campaign_pk}
-       and  ${ad_campaign_performance_fact.campaign_date} = ${web_sessions_fact.session_start_ts_date};;
-    type: left_outer
-    relationship: one_to_one
-  }
+
 
   }
 
 explore: ad_campaigns_dim {
-  label: "Marketing"
+  label: "Marketing Campaigns"
   view_label: "Campaigns"
   join: ad_campaign_performance_fact {
     view_label: "Campaign Performance"
@@ -50,6 +44,20 @@ explore: ad_campaigns_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: web_sessions_fact {
+    view_label: "Sessions"
+    sql_on: ${ad_campaign_performance_fact.ad_campaign_pk} = ${web_sessions_fact.ad_campaign_pk}
+       and. ${ad_campaign_performance_fact.campaign_date} = ${web_sessions_fact.session_start_ts_date};;
+      type: left_outer
+      relationship: one_to_many
+  }
+  join: web_events_fact {
+    view_label: " Events"
+    sql_on: ${web_sessions_fact.session_id} = ${web_events_fact.session_id} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
 }
 
 explore: attribution_fact {
