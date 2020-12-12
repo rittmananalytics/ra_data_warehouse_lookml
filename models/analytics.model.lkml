@@ -25,6 +25,19 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
+  join: ad_campaigns_dim {
+    view_label: "Campaigns"
+    sql_on: ${web_sessions_fact.ad_campaign_pk} = ${ad_campaigns_dim.ad_campaign_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: ad_campaign_performance_fact {
+    view_label: "Campaign Performance"
+    sql_on: ${ad_campaigns_dim.ad_campaign_pk} = ${ad_campaign_performance_fact.ad_campaign_pk}
+       and  ${ad_campaign_performance_fact.campaign_date} = ${web_sessions_fact.session_start_ts_date};;
+    type: left_outer
+    relationship: one_to_one
+  }
 
   }
 

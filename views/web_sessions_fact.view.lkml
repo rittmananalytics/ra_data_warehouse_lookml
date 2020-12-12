@@ -16,6 +16,12 @@ view: web_sessions_fact {
     sql: ${TABLE}.channel ;;
   }
 
+  dimension: ad_campaign_pk {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.ad_campaign_id ;;
+  }
+
   dimension: customer_pk {
     group_label: "  Audience"
 
