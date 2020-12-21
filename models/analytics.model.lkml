@@ -113,6 +113,17 @@ explore: contacts_dim {
     type: inner
     relationship: one_to_many
   }
+  join: contact_deals_fact {
+    sql_on: ${contacts_dim.contact_pk} = ${contact_deals_fact.contact_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: deals_fact {
+    view_label: "   Sales (Hubspot)"
+    sql_on: ${contact_deals_fact.deal_pk} = ${deals_fact.deal_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
 
 }
 

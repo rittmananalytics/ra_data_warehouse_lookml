@@ -557,6 +557,332 @@ view: deals_fact {
     sql: ${TABLE}.delivery_start_date_ts ;;
   }
 
+  dimension_group: date_entered_deal_stage_0 {
+    group_label: "  Deal Stage Durations"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_0 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_0 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_0 ;;
+  }
+
+  dimension: days_in_deal_stage_0 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_0 ;;
+  }
+
+  measure: count_deals_stage_0 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_0} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_1 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_1} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_2 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_2} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_3 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_3} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_4 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_4} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_5 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_5} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_6 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_6} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_7 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_7} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_8 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_8} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_9 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_9} is not null then ${deal_id} end;;
+  }
+
+  measure: count_deals_stage_10 {
+    group_label: "  Deal Stage Durations"
+    type: count_distinct
+    sql: case when ${days_in_deal_stage_10} is not null then ${deal_id} end;;
+  }
+
+  dimension_group: date_entered_deal_stage_1 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_1 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_1 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_1 ;;
+  }
+
+  dimension: days_in_deal_stage_1 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_1 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_2 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_2 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_2 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_2 ;;
+  }
+
+  dimension: days_in_deal_stage_2 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_2 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_3 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_3 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_3 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_3 ;;
+  }
+
+  dimension: days_in_deal_stage_3 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_3 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_4 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_4 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_4 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_4 ;;
+  }
+
+  dimension: days_in_deal_stage_4 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_4 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_5 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_5 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_5 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_5 ;;
+  }
+
+  dimension: days_in_deal_stage_5 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_5 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_6 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_6 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_6 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_6 ;;
+  }
+
+  dimension: days_in_deal_stage_6 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_6 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_7 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_7 ;;
+  }
+
+  dimension_group: date_exited_deal_stage_7 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_exited_deal_stage_7 ;;
+  }
+
+  dimension: days_in_deal_stage_7 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_7 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_8 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_8 ;;
+  }
+
+  dimension: days_in_deal_stage_8 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+
+    sql: ${TABLE}.days_in_deal_stage_8 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_9 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_9 ;;
+  }
+
+  dimension: days_in_deal_stage_9 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_9 ;;
+  }
+
+  dimension_group: date_entered_deal_stage_10 {
+    group_label: "  Deal Stage Durations"
+
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.date_entered_deal_stage_10 ;;
+  }
+
+  dimension: days_in_deal_stage_10 {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_deal_stage_10 ;;
+  }
+
+  dimension: manual_forecast_category {
+    group_label: " Deal Forecast"
+
+    type: string
+    sql: ${TABLE}.manual_forecast_category ;;
+  }
+
+  dimension: forecast_probability {
+    group_label: " Deal Forecast"
+
+    type: number
+    sql: ${TABLE}.forecast_probability ;;
+  }
+
+
+
+  dimension: predicted_amount {
+    group_label: " Deal Forecast"
+
+    type: string
+    sql: ${TABLE}.predicted_amount ;;
+  }
+
+  dimension: days_in_pipeline {
+    group_label: "  Deal Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_pipeline ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [owner_full_name, deal_name]

@@ -31,7 +31,9 @@ view: invoices_fact {
     timeframes: [
       raw,
       month,
-      quarter
+      quarter,
+      year,
+      quarter_of_year
     ]
     sql: ${TABLE}.first_invoice_month ;;
   }
