@@ -46,6 +46,26 @@ view: timesheets_fact {
     sql: ${TABLE}.timesheet_has_been_billed ;;
   }
 
+  dimension_group: first_client_timesheet {
+    group_label: "Timesheet Details"
+
+    type: time
+    timeframes: [
+      month
+    ]
+    sql: ${TABLE}.first_company_timesheet_billing_date ;;
+  }
+
+  dimension_group: last_client_timesheet  {
+    group_label: "Timesheet Details"
+
+    type: time
+    timeframes: [
+      month
+    ]
+    sql: ${TABLE}.last_company_timesheet_billing_date ;;
+  }
+
   dimension: timesheet_has_been_locked {
     group_label: "Timesheet Details"
 

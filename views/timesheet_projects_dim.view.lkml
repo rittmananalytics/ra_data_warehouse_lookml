@@ -115,12 +115,14 @@ view: timesheet_projects_dim {
 
   dimension: timesheet_project_pk {
     hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.timesheet_project_pk ;;
   }
 
-  measure: count {
-    type: count
+  measure: count_timesheet_projects {
+    type: count_distinct
+    sql:  ${TABLE}.timesheet_project_pk ;;
     drill_fields: [project_name]
   }
 }

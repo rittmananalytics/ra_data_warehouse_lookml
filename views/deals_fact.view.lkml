@@ -132,10 +132,22 @@ view: deals_fact {
     sql: ${TABLE}.deal_pk ;;
   }
 
+  measure: count_deals {
+    group_label: "Deal Measures"
+    type: count_distinct
+    sql: ${TABLE}.deal_pk ;;
+  }
+
+  measure: count_closed_won_deals {
+    group_label: "Deal Measures"
+    type: count_distinct
+    sql: case when ${TABLE}.pipeline_stage_closed_won then ${TABLE}.deal_pk end;;
+  }
+
   dimension: deal_type {
     group_label: "     Deal Details"
     type: string
-    sql: case when ${TABLE}.deal_type is null then 'existingbusiness' else ${TABLE}.deal_type end ;;
+    sql: case when ${TABLE}.deal_type is null then 'Existing Business' else ${TABLE}.deal_type end ;;
   }
 
   dimension: owner_email {

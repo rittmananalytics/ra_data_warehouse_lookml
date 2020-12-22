@@ -15,6 +15,11 @@ view: delivery_projects_dim {
     sql: ${TABLE}.delivery_project_pk ;;
   }
 
+  measure: count_delivery_projects {
+    type: count_distinct
+    sql: ${TABLE}.delivery_project_pk ;;
+  }
+
   dimension: project_category_description {
   group_label: "Delivery Projects"
 

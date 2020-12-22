@@ -38,6 +38,18 @@ view: invoices_fact {
     sql: ${TABLE}.first_invoice_month ;;
   }
 
+  dimension_group: last_invoice {
+    type: time
+    timeframes: [
+      raw,
+      month,
+      quarter,
+      year,
+      quarter_of_year
+    ]
+    sql: ${TABLE}.last_invoice_month ;;
+  }
+
 
 
   dimension_group: invoice {
@@ -303,8 +315,9 @@ view: invoices_fact {
     sql: ${TABLE}.total_local_amount ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
+  measure: count_invoices {
+    type: count_distinct
+    sql: ${TABLE}.invoice_pk ;;
+
   }
 }

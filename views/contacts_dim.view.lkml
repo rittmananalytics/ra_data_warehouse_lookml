@@ -115,6 +115,11 @@ WHERE
     sql: ${TABLE}.contact_pk ;;
   }
 
+  measure: count_contacts {
+    type: count_distinct
+    sql: ${TABLE}.contact_pk ;;
+  }
+
   dimension: contact_weekly_capacity {
     type: number
     sql: ${TABLE}.contact_weekly_capacity ;;
