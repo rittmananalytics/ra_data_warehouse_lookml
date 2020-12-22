@@ -233,6 +233,21 @@ explore: companies_dim {
     type: inner
     relationship: many_to_one
   }
+  join: contact_deals_fact {
+    view_label: "       Contacts"
+    sql_on: ${contacts_dim.contact_pk} = ${contact_deals_fact.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: contact_deals_dim {
+    view_label: "       Contacts"
+    from: deals_fact
+    sql_on: ${contact_deals_fact.deal_pk} = ${contact_deals_dim.deal_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+
+
   join: conversations_fact {
     view_label: "       Contacts"
     sql_on: ${contacts_dim.contact_pk} = ${conversations_fact.contact_pk} ;;
