@@ -28,26 +28,36 @@ WHERE
   }
 
   dimension: company_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: all_contact_emails {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.all_contact_emails ;;
   }
 
   dimension: all_contact_ids {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.all_contact_ids ;;
   }
 
   dimension: contact_cost_rate {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.contact_cost_rate ;;
   }
 
   dimension_group: contact_created {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -67,6 +77,8 @@ WHERE
   }
 
   dimension: contact_is_active {
+    hidden: yes
+
     type: yesno
     sql: ${TABLE}.contact_is_active ;;
   }
@@ -82,6 +94,8 @@ WHERE
   }
 
   dimension_group: contact_last_modified {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -111,6 +125,8 @@ WHERE
   }
 
   dimension: contact_pk {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.contact_pk ;;
   }

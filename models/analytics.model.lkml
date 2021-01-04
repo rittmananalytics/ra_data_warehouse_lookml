@@ -12,7 +12,6 @@ persist_with: analytics_default_datagroup
 
 explore: campaign_explorer {}
 
-explore: fy2019_accounts {}
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
