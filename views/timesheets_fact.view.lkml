@@ -33,6 +33,7 @@ view: timesheets_fact {
       date,
       week,
       month,
+      month_num,
       quarter,
       year
     ]
