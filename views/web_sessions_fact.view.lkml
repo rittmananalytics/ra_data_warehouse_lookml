@@ -217,7 +217,7 @@ view: web_sessions_fact {
     type: average
     label: "Avg Session Duration (mins)"
     value_format: "mm:ss"
-    sql: ${TABLE}.duration_in_s / (60.00*60*24) ;;
+    sql: timestamp_diff(${TABLE}.session_end_ts,${TABLE}.session_start_ts,MINUTE) ;;
   }
 
   measure: total_web_sessions_pk {

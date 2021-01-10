@@ -16,7 +16,8 @@ view: campaign_explorer {
       on e.blended_user_id = t.blended_user_id
       where e.blended_user_id != '*|HTML:EMAIL|*'
       and entrance_event_seq <= event_seq
-      and e.utm_campaign not like '%EMAIL_CAMPAIGN%')
+      --and e.utm_campaign not like '%EMAIL_CAMPAIGN%'
+      )
 SELECT entrance_event_id, blended_user_id, utm_campaign, referrer_host, event_ts,
 MAX(IF(pageview_seq_num = 1, page_title, NULL)) as pageview_1,
 MAX(IF(pageview_seq_num = 2, page_title, NULL)) as pageview_2,
