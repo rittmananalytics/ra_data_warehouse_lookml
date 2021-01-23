@@ -24,6 +24,12 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
+  join: web_session_enrichments_dim {
+    view_label: " Session Enrichments"
+    sql_on: ${web_sessions_fact.web_sessions_pk} = ${web_session_enrichments_dim.web_sessions_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
   join: ad_campaigns_dim {
     view_label: "Campaigns"
     sql_on: ${web_sessions_fact.ad_campaign_pk} = ${ad_campaigns_dim.ad_campaign_pk};;
