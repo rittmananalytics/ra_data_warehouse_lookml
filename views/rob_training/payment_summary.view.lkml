@@ -9,6 +9,7 @@ view: payment_summary {
 
   dimension: max_balance {
     type: number
+    value_format_name: "gbp"
     sql: ${TABLE}.max_balance ;;
   }
 
@@ -19,6 +20,7 @@ view: payment_summary {
 
   dimension: salary {
     type: number
+    value_format_name: "gbp"
     sql: ${TABLE}.salary ;;
   }
 

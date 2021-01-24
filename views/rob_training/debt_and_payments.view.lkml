@@ -28,16 +28,19 @@ view: debt_and_payments {
 
   dimension: outstanding_balance {
     type: number
+    value_format_name: "gbp"
     sql: ${TABLE}.outstanding_balance ;;
   }
 
   dimension: paid_this_year {
     type: number
+    value_format_name: "gbp"
     sql: ${TABLE}.paid_this_year ;;
   }
 
   dimension: principal_amount {
     type: number
+    value_format_name: "gbp"
     sql: ${TABLE}.principal_amount ;;
   }
 
@@ -58,7 +61,7 @@ view: debt_and_payments {
 
   dimension: scenario_id_ordered {
     type: string
-    sql: CONCAT(${TABLE}.scenario_id, "_", ${TABLE}.years_since_start) ;;
+    sql: CONCAT(${TABLE}.scenario_id, "_", ${date_year_year}) ;;
   }
 
   dimension: years_since_start {
