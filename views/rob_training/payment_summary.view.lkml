@@ -7,6 +7,11 @@ view: payment_summary {
     sql: ${TABLE}.interest_rate ;;
   }
 
+  dimension: overpayment_percent {
+    type: number
+    sql: ${TABLE}.overpayment_percent ;;
+  }
+
   dimension: max_balance {
     type: number
     value_format_name: "gbp"
@@ -33,6 +38,11 @@ view: payment_summary {
     primary_key: yes
     type: string
     sql: ${TABLE}.scenario_id ;;
+  }
+
+  dimension: payment_strategy {
+    type: string
+    sql: ${TABLE}.payment_strategy ;;
   }
 
   measure: total_interest_paid {
