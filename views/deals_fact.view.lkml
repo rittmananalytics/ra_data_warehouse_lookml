@@ -29,7 +29,7 @@ view: deals_fact {
     value_format_name: gbp
 
     type: sum
-    sql: case when ${TABLE}.pipeline_display_order <8 then ${TABLE}.deal_amount end;;
+    sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_amount end;;
   }
 
   measure: total_closed_won_deal_amount {
@@ -38,7 +38,7 @@ view: deals_fact {
     value_format_name: gbp
 
     type: sum
-    sql: case when ${TABLE}.pipeline_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then  ${TABLE}.deal_amount end;;
+    sql: case when ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then  ${TABLE}.deal_amount end;;
   }
 
 
@@ -161,7 +161,13 @@ view: deals_fact {
   measure: count_oppportunity_deals {
     group_label: "Deal Measures"
     type: count_distinct
-    sql: case when ${TABLE}.pipeline_display_order <8 then ${TABLE}.deal_pk end;;
+    sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_pk end;;
+  }
+
+  measure: count_closed_in_delivery_deals {
+    group_label: "Deal Measures"
+    type: count_distinct
+    sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_pk end;;
   }
 
 
@@ -169,7 +175,7 @@ view: deals_fact {
   measure: count_closed_won_deals {
     group_label: "Deal Measures"
     type: count_distinct
-    sql: case when ${TABLE}.pipeline_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then ${TABLE}.deal_pk end;;
+    sql: case when ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then ${TABLE}.deal_pk end;;
   }
 
   dimension: deal_type {
@@ -216,7 +222,7 @@ view: deals_fact {
     type: number
     hidden: yes
 
-    sql: ${TABLE}.deal_amount * ${TABLE}.pipeline_stage_close_probability_pct ;;
+    sql: ${TABLE}.deal_amount * ${TABLE}.pipeline_stage_close_probability_pct  ;;
   }
 
   measure: total_weighted_deal_amount {
@@ -226,6 +232,23 @@ view: deals_fact {
     sql: ${weighted_deal_amount} ;;
   }
 
+  measure: total_weighted_opportunity_deal_amount {
+    group_label: "Deal Measures"
+    type: sum
+    value_format_name: gbp
+    sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_amount * ${TABLE}.pipeline_stage_close_probability_pct  end ;;
+  }
+
+  measure: total_closed_in_delivery_deal_amount {
+    group_label: "Deal Measures"
+    type: sum
+    value_format_name: gbp
+    sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_amount  end ;;
+  }
+
+
+
+
   dimension: pipeline_stage_closed_won {
     group_label: "     Deal Details"
 
@@ -234,7 +257,7 @@ view: deals_fact {
   }
 
   dimension: pipeline_stage_display_order {
-    hidden: yes
+    hidden: no
     type: number
     sql: ${TABLE}.pipeline_stage_display_order ;;
   }
