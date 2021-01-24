@@ -12,7 +12,6 @@ persist_with: analytics_default_datagroup
 
 explore: campaign_explorer {}
 
-explore: fy2019_accounts {}
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
@@ -24,6 +23,12 @@ explore: web_sessions_fact {
     sql_on: ${web_sessions_fact.session_id} = ${web_events_fact.session_id} ;;
     type: left_outer
     relationship: one_to_many
+  }
+  join: web_session_enrichments_dim {
+    view_label: " Session Enrichments"
+    sql_on: ${web_sessions_fact.web_sessions_pk} = ${web_session_enrichments_dim.web_sessions_pk} ;;
+    type: left_outer
+    relationship: one_to_one
   }
   join: ad_campaigns_dim {
     view_label: "Campaigns"

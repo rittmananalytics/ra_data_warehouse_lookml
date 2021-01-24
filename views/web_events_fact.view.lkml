@@ -143,6 +143,17 @@ view: web_events_fact {
               else 'Marketing' end;;
   }
 
+  dimension: visit_value {
+    type: number
+    hidden: yes
+    sql: case when ${page_category} = "Blog" then 1 when ${page_category} = "Home Page" then 2 when ${page_category} = "Marketing" then 4 end ;;
+  }
+
+  measure: total_visitor_value {
+    type: sum
+    sql: ${visit_value};;
+  }
+
   dimension: postal_code {
     group_label: "  Audience"
     map_layer_name: us_zipcode_tabulation_areas
