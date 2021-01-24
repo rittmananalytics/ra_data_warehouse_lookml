@@ -23,6 +23,26 @@ view: deals_fact {
     sql: ${TABLE}.deal_amount ;;
   }
 
+  measure: total_oppportunity_deal_amount {
+    group_label: "Deal Measures"
+
+    value_format_name: gbp
+
+    type: sum
+    sql: case when ${TABLE}.pipeline_display_order <8 then ${TABLE}.deal_amount end;;
+  }
+
+  measure: total_closed_won_deal_amount {
+    group_label: "Deal Measures"
+
+    value_format_name: gbp
+
+    type: sum
+    sql: case when ${TABLE}.pipeline_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then  ${TABLE}.deal_amount end;;
+  }
+
+
+
   dimension: deal_amount_local_currency {
     hidden: yes
 
@@ -138,10 +158,18 @@ view: deals_fact {
     sql: ${TABLE}.deal_pk ;;
   }
 
+  measure: count_oppportunity_deals {
+    group_label: "Deal Measures"
+    type: count_distinct
+    sql: case when ${TABLE}.pipeline_display_order <8 then ${TABLE}.deal_pk end;;
+  }
+
+
+
   measure: count_closed_won_deals {
     group_label: "Deal Measures"
     type: count_distinct
-    sql: case when ${TABLE}.pipeline_stage_closed_won then ${TABLE}.deal_pk end;;
+    sql: case when ${TABLE}.pipeline_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then ${TABLE}.deal_pk end;;
   }
 
   dimension: deal_type {
