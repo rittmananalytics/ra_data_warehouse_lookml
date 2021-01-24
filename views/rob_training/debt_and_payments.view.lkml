@@ -58,7 +58,7 @@ view: debt_and_payments {
 
   dimension: scenario_id_ordered {
     type: string
-    sql: CONCAT(${TABLE}.scenario_id, "_", ${TABLE}.years_since_start ;;
+    sql: CONCAT(${TABLE}.scenario_id, "_", ${TABLE}.years_since_start) ;;
   }
 
   dimension: years_since_start {
