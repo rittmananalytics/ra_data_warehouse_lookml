@@ -369,6 +369,20 @@ view: delivery_tasks_fact {
     sql: coalesce(${TABLE}.total_failed_client_qa,0);;
   }
 
+  measure: total_revision_required {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: coalesce(${TABLE}.total_revision_required,0);;
+  }
+
+  measure: total_failed_internal_qa {
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: coalesce(${TABLE}.total_failed_internal_qa,0);;
+  }
+
   measure: total_issues {
     hidden: no
     group_label: "Project Tasks"
