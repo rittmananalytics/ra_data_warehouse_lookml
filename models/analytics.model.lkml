@@ -40,6 +40,11 @@ explore: web_sessions_fact {
 
   }
 
+explore: customer_events_xa {
+  label: "Customer Timeline"
+  view_label: "Customer Events"
+}
+
 explore: ad_campaigns_dim {
   label: "Marketing Campaigns"
   view_label: "Campaigns"
@@ -271,5 +276,11 @@ explore: companies_dim {
     sql_on: ${looker_usage_fact.contact_pk} = ${looker_users_dim.contact_pk};;
     type: left_outer
     relationship: many_to_one
+  }
+  join: customer_events_xa {
+    view_label: "Event Timeline"
+    sql_on: ${companies_dim.company_pk} = ${customer_events_xa.company_pk} ;;
+    type: inner
+    relationship: one_to_many
   }
 }
