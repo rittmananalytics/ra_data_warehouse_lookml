@@ -134,6 +134,18 @@ explore: contacts_dim {
     type: inner
     relationship: many_to_one
   }
+  join: contacts_influencer_list_xa {
+    view_label: "          Contacts"
+    sql_on: ${contacts_dim.hubspot_contact_id} = ${contacts_influencer_list_xa.hubspot_contact_id} ;;
+    type: inner
+    relationship: one_to_one
+    }
+  join: contacts_web_event_history_xa {
+    view_label: "Web History"
+    sql_on: ${contacts_dim.contact_pk} = ${contacts_web_event_history_xa.contact_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
 
 }
 

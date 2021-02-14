@@ -2,13 +2,14 @@ view: contacts_dim {
   derived_table: {
     sql: SELECT
   ct.*,
+  hb.contact_id as hubspot_contact_id,
   c.company_pk
 FROM (
   SELECT
     *
   FROM
     `ra-development.analytics.contacts_dim`,
-    UNNEST( all_contact_company_ids) AS company_id ) ct
+    UNNEST( all_contact_company_ids) AS company_id  ) ct
 JOIN (
   SELECT
     *
@@ -17,6 +18,15 @@ JOIN (
     UNNEST (all_company_ids) AS company_id ) c
 ON
   ct.company_id = c.company_id
+LEFT JOIN
+  (SELECT
+    contact_pk,
+    contact_id
+   FROM `ra-development.analytics.contacts_dim`,
+   UNNEST( all_contact_ids) as contact_id
+   WHERE
+    contact_id like '%hubspot%' ) hb
+ON ct.contact_pk = hb.contact_pk
 WHERE
   ct.company_id = c.company_id ;;
   }
@@ -46,6 +56,13 @@ WHERE
 
     type: string
     sql: ${TABLE}.all_contact_ids ;;
+  }
+
+  dimension: hubspot_contact_id {
+    hidden: yes
+
+    type: string
+    sql: ${TABLE}.hubspot_contact_id ;;
   }
 
   dimension: contact_cost_rate {
@@ -115,6 +132,7 @@ WHERE
   }
 
   dimension: contact_name {
+    label: "        Contact Name"
     type: string
     sql: ${TABLE}.contact_name ;;
   }
@@ -142,6 +160,8 @@ WHERE
   }
 
   dimension: job_title {
+    label: "      Contact Role"
+
     type: string
     sql: ${TABLE}.job_title ;;
   }
