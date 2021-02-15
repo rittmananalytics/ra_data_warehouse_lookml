@@ -59,7 +59,7 @@ WHERE
   }
 
   dimension: hubspot_contact_id {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.hubspot_contact_id ;;
