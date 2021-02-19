@@ -16,10 +16,10 @@ view: companies_dim {
     hidden: yes
   }
 
-  dimension: company_created {
-    type: date
-
-    sql: date(${TABLE}.company_created_date) ;;
+  dimension_group: company_created {
+    timeframes: [date,month]
+    type: time
+    sql: ${TABLE}.company_created_date ;;
   }
 
   dimension: company_currency_code {

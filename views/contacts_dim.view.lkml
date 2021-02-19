@@ -3,6 +3,8 @@ view: contacts_dim {
     sql: SELECT
   ct.*,
   hb.contact_id as hubspot_contact_id,
+  ce.contact_email as contact_email,
+
   c.company_pk
 FROM (
   SELECT
@@ -27,6 +29,14 @@ LEFT JOIN
    WHERE
     contact_id like '%hubspot%' ) hb
 ON ct.contact_pk = hb.contact_pk
+LEFT JOIN
+  (SELECT
+    contact_pk,
+    contact_email
+   FROM `ra-development.analytics.contacts_dim`,
+   UNNEST( all_contact_emails ) as contact_email
+    ) ce
+ON ct.contact_pk = ce.contact_pk
 WHERE
   ct.company_id = c.company_id ;;
   }
@@ -37,6 +47,11 @@ WHERE
     sql: ${TABLE}.all_contact_addresses ;;
   }
 
+  dimension: all_contact_emails {
+    hidden: no
+    sql: ${TABLE}.all_contact_emails ;;
+  }
+
   dimension: company_pk {
     hidden: yes
 
@@ -44,11 +59,11 @@ WHERE
     sql: ${TABLE}.company_pk ;;
   }
 
-  dimension: all_contact_emails {
-    hidden: yes
+  dimension: contact_email {
+    hidden: no
 
     type: string
-    sql: ${TABLE}.all_contact_emails ;;
+    sql: ${TABLE}.contact_email ;;
   }
 
   dimension: all_contact_ids {
