@@ -17,7 +17,7 @@ view: companies_dim {
   }
 
   dimension_group: company_created {
-    timeframes: [date,month]
+    timeframes: [date,month,quarter]
     type: time
     sql: ${TABLE}.company_created_date ;;
   }
