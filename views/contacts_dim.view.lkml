@@ -159,7 +159,7 @@ WHERE
 
   dimension: contact_pk {
     hidden: yes
-
+    primary_key: yes
     type: string
     sql: ${TABLE}.contact_pk ;;
   }
