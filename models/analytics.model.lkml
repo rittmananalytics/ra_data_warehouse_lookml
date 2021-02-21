@@ -108,7 +108,7 @@ explore: contacts_dim {
   join: conversations_fact {
     view_label: "      Engagements"
     sql_on: ${contacts_dim.contact_pk} = ${conversations_fact.contact_pk} ;;
-    type: inner
+    type: left_outer
     relationship: many_to_one
   }
   join: companies_dim {
@@ -120,24 +120,24 @@ explore: contacts_dim {
   join: looker_usage_fact {
     view_label: "Looker Usage"
     sql_on: ${looker_usage_fact.contact_pk} = ${contacts_dim.contact_pk};;
-    type: inner
+    type: left_outer
     relationship: one_to_many
   }
   join: contact_deals_fact {
     sql_on: ${contacts_dim.contact_pk} = ${contact_deals_fact.contact_pk} ;;
-    type: inner
+    type: left_outer
     relationship: one_to_many
   }
   join: deals_fact {
     view_label: "   Sales (Hubspot)"
     sql_on: ${contact_deals_fact.deal_pk} = ${deals_fact.deal_pk} ;;
-    type: inner
+    type: left_outer
     relationship: many_to_one
   }
   join: contacts_influencer_list_xa {
     view_label: "          Contacts"
     sql_on: ${contacts_dim.hubspot_contact_id} = ${contacts_influencer_list_xa.hubspot_contact_id} ;;
-    type: inner
+    type: left_outer
     relationship: one_to_one
     }
   join: contacts_web_event_history_xa {
