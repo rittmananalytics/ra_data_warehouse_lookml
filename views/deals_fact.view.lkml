@@ -38,7 +38,7 @@ view: deals_fact {
     value_format_name: gbp
 
     type: sum
-    sql: case when ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then  ${TABLE}.deal_amount end;;
+    sql: case when ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9  and ${TABLE}.deal_closed_amount_value is not null then  ${TABLE}.deal_amount end;;
   }
 
 
@@ -51,13 +51,14 @@ view: deals_fact {
   }
 
 
-  dimension: deal_closed {
-    type: date_time
+  dimension_group: deal_closed {
+    type: time
+    timeframes: [date,week,week_of_year,month, month_num, quarter,quarter_of_year,year]
     group_label: " Deal Sales Activity"
 
 
 
-    sql: ${TABLE}.deal_closed_ts ;;
+    sql: case when ${TABLE}.deal_closed_amount_value is not null and ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9 then ${TABLE}.deal_closed_ts end ;;
   }
 
   dimension: deal_closed_lost_reason {
