@@ -146,6 +146,12 @@ explore: contacts_dim {
     type: inner
     relationship: one_to_many
   }
+  join: contacts_web_interests_xa {
+    view_label: "          Contacts"
+    sql_on: ${contacts_dim.contact_pk} = ${contacts_web_interests_xa.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
 
 }
 

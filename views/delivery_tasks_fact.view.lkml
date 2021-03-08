@@ -320,6 +320,13 @@ view: delivery_tasks_fact {
     sql: coalesce(${TABLE}.total_to_do,0) ;;
   }
 
+  measure: total_failed_client_qa_comment {
+    group_label: "Project Tasks"
+    label: "Total Failed Client QA/QA Comment"
+    type: sum
+    sql: case when ${TABLE}.task_status = 'Failed Client QA/QA Comment' then 1 end ;;
+  }
+
   measure: total_delivery_tasks_blocked {
     group_label: "Project Tasks"
 

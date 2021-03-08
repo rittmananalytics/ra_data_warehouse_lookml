@@ -197,6 +197,7 @@ view: web_sessions_fact {
       time,
       day_of_week,
       date,
+      day_of_year,
       week,
       month,
       month_num,

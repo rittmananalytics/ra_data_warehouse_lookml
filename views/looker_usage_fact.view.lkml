@@ -15,7 +15,7 @@ view: looker_usage_fact {
   }
 
   measure: average_runtime_in_seconds {
-    type: sum
+    type: average
     sql: ${TABLE}.average_runtime_in_seconds ;;
   }
 
