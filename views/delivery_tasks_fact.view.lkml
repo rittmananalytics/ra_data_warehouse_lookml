@@ -228,7 +228,7 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
     hidden: yes
     type: number
-    sql: ${TABLE}.task_status_workflow_stage_number ;;
+    sql: coalesce(${TABLE}.task_status_workflow_stage_number,8) ;;
   }
 
   dimension: task_status {
