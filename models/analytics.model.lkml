@@ -12,6 +12,8 @@ persist_with: analytics_default_datagroup
 
 explore: campaign_explorer {}
 
+explore: contacts_segments_xa {}
+
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
