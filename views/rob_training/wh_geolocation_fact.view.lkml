@@ -1,5 +1,5 @@
 view: geolocation_fact {
-  sql_table_name: `ra-development.rob_training.wh_geolocation_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ra-development.rob_training.wh_geolocation_fact`
     ;;
 
   dimension: geolocation_city {

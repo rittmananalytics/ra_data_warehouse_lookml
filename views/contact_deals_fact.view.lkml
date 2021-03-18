@@ -1,5 +1,5 @@
 view: contact_deals_fact {
-  sql_table_name: `ra-development.analytics.contact_deals_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.contact_deals_fact`
     ;;
 
   dimension: contact_deal_pk {

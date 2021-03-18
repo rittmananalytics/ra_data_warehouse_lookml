@@ -1,6 +1,6 @@
 view: web_session_enrichments_dim {
   view_label: "Session Enrichments"
-  sql_table_name: `ra-development.analytics.web_session_enrichments_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.web_session_enrichments_dim`
     ;;
 
   dimension: blended_user_id {

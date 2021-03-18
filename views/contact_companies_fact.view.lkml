@@ -1,5 +1,5 @@
 view: contact_companies_fact {
-  sql_table_name: `ra-development.analytics.contact_companies_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.contact_companies_fact`
     ;;
 
   dimension: company_pk {

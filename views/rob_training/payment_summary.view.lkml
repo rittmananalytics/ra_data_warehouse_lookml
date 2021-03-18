@@ -1,5 +1,5 @@
 view: payment_summary {
-  sql_table_name: `ra-development.rob_training.payment_summary`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ra-development.rob_training.payment_summary`
     ;;
 
   dimension: interest_rate {

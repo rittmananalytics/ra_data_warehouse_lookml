@@ -1,5 +1,5 @@
 view: products_dim {
-  sql_table_name: `ra-development.rob_training.products_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ra-development.rob_training.products_dim`
     ;;
 
   dimension: product_id {

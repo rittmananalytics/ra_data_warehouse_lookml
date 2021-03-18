@@ -1,5 +1,5 @@
 view: looker_usage_fact {
-  sql_table_name: `ra-development.analytics.looker_usage_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.looker_usage_fact`
     ;;
   drill_fields: [id]
 

@@ -1,5 +1,5 @@
 view: currency_dim {
-  sql_table_name: `analytics.currency_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.currency_dim`
     ;;
 
   dimension: currency_code {

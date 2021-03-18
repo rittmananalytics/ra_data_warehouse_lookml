@@ -1,5 +1,5 @@
 view: conversations_fact {
-  sql_table_name: `ra-development.analytics.conversations_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.conversations_fact`
     ;;
 
   dimension: company_id {

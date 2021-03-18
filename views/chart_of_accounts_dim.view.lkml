@@ -1,5 +1,5 @@
 view: chart_of_accounts_dim {
-  sql_table_name: `analytics.chart_of_accounts_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.chart_of_accounts_dim`
     ;;
 
   dimension: account_bank_account_number {

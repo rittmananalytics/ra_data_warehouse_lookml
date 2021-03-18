@@ -1,5 +1,5 @@
 view: customer_events_xa {
-  sql_table_name: `ra-development.analytics.customer_events_xa`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.customer_events_xa`
     ;;
 
   dimension: client_event_seq {

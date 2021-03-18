@@ -1,5 +1,5 @@
 view: invoices_fact {
-  sql_table_name: `analytics.invoices_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.invoices_fact`
     ;;
 
   dimension: all_invoice_ids {

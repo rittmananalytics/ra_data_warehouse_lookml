@@ -1,5 +1,5 @@
 view: debt_and_payments {
-  sql_table_name: `ra-development.rob_training.debt_and_payments`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ra-development.rob_training.debt_and_payments`
     ;;
 
   dimension: conditional_interest_rate {

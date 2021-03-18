@@ -1,5 +1,5 @@
 view: order_payments_fact {
-  sql_table_name: `ra-development.rob_training.wh_order_payment_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ra-development.rob_training.wh_order_payment_fact`
     ;;
 
   dimension: order_payment_id {

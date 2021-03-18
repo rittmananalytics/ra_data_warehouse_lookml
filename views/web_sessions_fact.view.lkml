@@ -1,5 +1,5 @@
 view: web_sessions_fact {
-  sql_table_name: `analytics.web_sessions_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.web_sessions_fact`
     ;;
 
   dimension: blended_user_id {

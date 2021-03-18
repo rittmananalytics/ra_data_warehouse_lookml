@@ -1,5 +1,5 @@
 view: ad_roi_summary_fact {
-  sql_table_name: ad_roi_summary_fact
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ad_roi_summary_fact`
     ;;
 
   dimension: actual_cpc {

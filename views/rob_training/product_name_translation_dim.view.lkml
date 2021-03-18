@@ -1,5 +1,5 @@
 view: product_name_translation_dim {
-  sql_table_name: `ra-development.rob_training.wh_product_name_translation_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ra-development.rob_training.wh_product_name_translation_dim`
     ;;
   label: "Products"
 

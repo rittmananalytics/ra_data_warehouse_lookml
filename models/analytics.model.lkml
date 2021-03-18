@@ -156,7 +156,58 @@ explore: contacts_dim {
   }
 
 }
+ explore: projects_delivered {
+   view_label: "Projects"
+  from: timesheet_projects_dim
+  join: project_timesheets {
+    view_label: "  Project Timesheets (Harvest)"
+    from: timesheets_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
 
+
+  join: project_timesheet_users {
+    view_label: "  Project Timesheets (Harvest)"
+
+    from: contacts_dim
+    sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: companies_dim {
+    view_label: "Clients"
+    sql_on: ${projects_delivered.company_pk} = ${companies_dim.company_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_invoiced {
+    view_label: "Project Invoicing (Harvest)"
+
+    from: invoices_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: project_invoice_timesheets {
+    view_label: "Project Invoicing (Harvest)"
+
+    from: timesheets_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_invoice_timesheets.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: project_invoice_timesheet_users {
+    view_label: "Project Invoicing (Harvest)"
+
+    from: contacts_dim
+    sql_on: ${project_invoice_timesheets.contact_pk} = ${project_invoice_timesheet_users.contact_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+ }
 
 explore: companies_dim {
   label: "Business Operations"
@@ -213,7 +264,7 @@ explore: companies_dim {
 
     from: contacts_dim
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
-    type: inner
+    type: left_outer
     relationship: one_to_many
   }
   join: deals_fact {
