@@ -74,6 +74,7 @@ view: deals_fact {
       date,
       week,
       month,
+      month_num,
       quarter_of_year,
       quarter,
       year
