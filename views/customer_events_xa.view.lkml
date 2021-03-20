@@ -3,6 +3,8 @@ view: customer_events_xa {
     ;;
 
   dimension: client_event_seq {
+    group_label: "Event Timeline"
+
     type: number
     sql: ${TABLE}.client_event_seq ;;
   }
@@ -14,17 +16,22 @@ view: customer_events_xa {
   }
 
   dimension: company_pk {
-    hidden: no
+    group_label: "Event Timeline"
+
+    hidden: yes
     type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: company_name {
+    hidden: yes
     type: string
     sql: ${TABLE}.company_name ;;
   }
 
   dimension: event_contact_name {
+    group_label: "Event Timeline"
+
     type: string
     sql: ${TABLE}.event_contact_name ;;
   }
@@ -36,12 +43,16 @@ view: customer_events_xa {
   }
 
   dimension: event_details {
+    group_label: "Event Timeline"
+
     type: string
     sql: ${TABLE}.event_details ;;
   }
 
   dimension_group: event_ts {
     hidden: no
+    group_label: "Event Timeline"
+
     label: "Event"
     type: time
     timeframes: [
@@ -57,16 +68,21 @@ view: customer_events_xa {
   }
 
   dimension: event_type {
+    group_label: "Event Timeline"
     type: string
     sql: ${TABLE}.event_type ;;
   }
 
   dimension: event_value {
+    group_label: "Event Timeline"
+
     type: number
     sql: ${TABLE}.event_value ;;
   }
 
   dimension: months_since_client_created {
+    group_label: "Event Timeline"
+
     type: number
     sql: ${TABLE}.months_since_client_created ;;
   }
@@ -77,6 +93,7 @@ view: customer_events_xa {
 
   dimension: transaction_value {
     hidden: no
+    group_label: "Event Timeline"
 
     type: number
     sql: ${TABLE}.total_ltv ;;
@@ -84,11 +101,15 @@ view: customer_events_xa {
 
 
  measure: total_days_billed {
+  group_label: "Event Timeline"
+
    type: sum
    sql: case when ${event_type} = 'Delivery Cost' then safe_cast(${event_details} as float64) end ;;
  }
 
   measure: total_transaction_value {
+    group_label: "Event Timeline"
+
     type: sum_distinct
     sql_distinct_key: ${pk} ;;
     sql: ${TABLE}.total_ltv ;;

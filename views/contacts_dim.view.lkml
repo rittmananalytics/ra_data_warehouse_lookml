@@ -48,7 +48,7 @@ WHERE
   }
 
   dimension: all_contact_emails {
-    hidden: no
+    hidden: yes
     sql: ${TABLE}.all_contact_emails ;;
   }
 
@@ -61,6 +61,7 @@ WHERE
 
   dimension: contact_email {
     hidden: no
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_email ;;
@@ -75,6 +76,7 @@ WHERE
 
   dimension: hubspot_contact_id {
     hidden: no
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
 
     type: string
     sql: ${TABLE}.hubspot_contact_id ;;
@@ -104,6 +106,7 @@ WHERE
   }
 
   dimension: contact_default_hourly_rate {
+    hidden: yes
     type: number
     sql: ${TABLE}.contact_default_hourly_rate ;;
   }
@@ -116,11 +119,15 @@ WHERE
   }
 
   dimension: contact_is_contractor {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: yesno
     sql: ${TABLE}.contact_is_contractor ;;
   }
 
   dimension: contact_is_staff {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: yesno
     sql: ${TABLE}.contact_is_staff ;;
   }
@@ -142,17 +149,23 @@ WHERE
   }
 
   dimension: contact_mobile_phone {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: string
     sql: ${TABLE}.contact_mobile_phone ;;
   }
 
   dimension: contact_name {
     label: "        Contact Name"
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: string
     sql: ${TABLE}.contact_name ;;
   }
 
   dimension: contact_phone {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: string
     sql: ${TABLE}.contact_phone ;;
   }
@@ -165,23 +178,28 @@ WHERE
   }
 
   measure: count_contacts {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: count_distinct
     sql: ${TABLE}.contact_pk ;;
   }
 
   dimension: contact_weekly_capacity {
+    hidden: yes
     type: number
     sql: ${TABLE}.contact_weekly_capacity ;;
   }
 
   dimension: job_title {
     label: "      Contact Role"
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
 
     type: string
     sql: ${TABLE}.job_title ;;
   }
 
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [contact_name]
   }
@@ -194,21 +212,29 @@ view: contacts_dim__all_contact_addresses {
   }
 
   dimension: contact_city {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: string
     sql: ${TABLE}.contact_city ;;
   }
 
   dimension: contact_country {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: string
     sql: ${TABLE}.contact_country ;;
   }
 
   dimension: contact_postcode_zip {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: string
     sql: ${TABLE}.contact_postcode_zip ;;
   }
 
   dimension: contact_state {
+    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+
     type: string
     sql: ${TABLE}.contact_state ;;
   }
