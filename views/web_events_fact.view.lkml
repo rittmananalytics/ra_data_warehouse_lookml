@@ -1,5 +1,5 @@
 view: web_events_fact {
-  sql_table_name: `analytics.web_events_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.web_events_fact`
     ;;
 
 

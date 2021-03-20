@@ -1,5 +1,5 @@
 view: users_dim {
-  sql_table_name: `analytics.users_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.users_dim`
     ;;
 
   dimension: all_user_emails {

@@ -1,5 +1,5 @@
 view: contacts_web_event_history_xa {
-  sql_table_name: `ra-development.analytics.contacts_web_event_history_xa`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.contacts_web_event_history_xa`
     ;;
 
   dimension: contact_pk {

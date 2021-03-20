@@ -1,5 +1,5 @@
 view: looker_usage_fact {
-  sql_table_name: `ra-development.analytics.looker_usage_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.looker_usage_fact`
     ;;
   drill_fields: [id]
 
@@ -10,11 +10,14 @@ view: looker_usage_fact {
   }
 
   measure: approximate_web_usage_in_minutes {
+    group_label: "Looker"
     type: sum
     sql: ${TABLE}.approximate_web_usage_in_minutes ;;
   }
 
   measure: average_runtime_in_seconds {
+    group_label: "Looker"
+
     type: average
     sql: ${TABLE}.average_runtime_in_seconds ;;
   }
@@ -27,6 +30,8 @@ view: looker_usage_fact {
   }
 
   dimension_group: created {
+    group_label: "Looker"
+
     type: time
     timeframes: [
       raw,
@@ -47,21 +52,29 @@ view: looker_usage_fact {
   }
 
   dimension: dashboard_title {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.dashboard_title ;;
   }
 
   dimension: dialect {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.dialect ;;
   }
 
   dimension: explore {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.explore ;;
   }
 
   dimension: issuer_source {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.issuer_source ;;
   }
@@ -73,26 +86,36 @@ view: looker_usage_fact {
   }
 
   dimension: name {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.name ;;
   }
 
   dimension: rebuild_pdts_yes_no_ {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.rebuild_pdts_yes_no_ ;;
   }
 
   dimension: status {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.status ;;
   }
 
   dimension: title {
+    group_label: "Looker"
+
     type: string
     sql: ${TABLE}.title ;;
   }
 
   measure: query_count {
+    group_label: "Looker"
+
     type: count
     drill_fields: [id, name]
   }

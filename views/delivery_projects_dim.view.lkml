@@ -1,5 +1,5 @@
 view: delivery_projects_dim {
-  sql_table_name: `analytics.delivery_projects_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.delivery_projects_dim`
     ;;
 
   dimension: company_pk {

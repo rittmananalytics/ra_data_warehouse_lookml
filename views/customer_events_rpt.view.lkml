@@ -1,5 +1,5 @@
 view: customer_events_rpt {
-  sql_table_name: `analytics.customer_events_rpt`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.customer_events_rpt`
     ;;
 
   dimension: company_name {

@@ -1,9 +1,9 @@
 view: campaign_explorer {
   derived_table: {
-    sql: with entrance_events as (SELECT event_id as entrance_event_id, referrer_host, utm_medium, utm_source,  utm_campaign, blended_user_id, event_seq as entrance_event_seq, event_ts FROM `ra-development.analytics.web_events_fact`
+    sql: with entrance_events as (SELECT event_id as entrance_event_id, referrer_host, utm_medium, utm_source,  utm_campaign, blended_user_id, event_seq as entrance_event_seq, event_ts FROM `{{ _user_attributes['dataset'] }}.web_events_fact`
       ),
       events as (select f.blended_user_id, f.event_id, event_type, event_seq,  event_details, replace(page_title, ' — Rittman Analytics','') as page_title, page_url_path, ip, time_on_page_secs, session_id
-      from ra-development.analytics.web_events_fact f
+      from web_events_fact f
       where event_type = 'Page View'),
       post_campaign_events as (
       select e.blended_user_id, e.referrer_host, e.entrance_event_id, e.entrance_event_seq, e.utm_campaign, e.event_ts, t.event_id, t.event_seq, page_title, case when page_url_path like '%blog%' then 'Blog'

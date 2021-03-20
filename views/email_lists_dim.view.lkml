@@ -1,5 +1,5 @@
 view: email_lists_dim {
-  sql_table_name: `analytics.email_lists_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.email_lists_dim`
     ;;
 
   dimension: audience_name {

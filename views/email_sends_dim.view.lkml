@@ -1,5 +1,5 @@
 view: email_sends_dim {
-  sql_table_name: `analytics.email_sends_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.email_sends_dim`
     ;;
 
   dimension: campaign_archive_url {

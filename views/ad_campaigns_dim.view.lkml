@@ -1,5 +1,5 @@
 view: ad_campaigns_dim {
-  sql_table_name: `analytics.ad_campaigns_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ad_campaigns_dim`
     ;;
 
   dimension_group: ad_campaign_end {
