@@ -149,6 +149,13 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: contact_contracts {
+    from: contracts_fact
+    view_label: "Contracts Signed"
+    sql_on: ${contacts.contact_pk} = ${contact_contracts.contact_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
 
 }
  explore: projects_delivered {
@@ -310,6 +317,13 @@ explore: companies_dim {
     type: inner
     relationship: many_to_one
   }
+  join: contact_contracts {
+    from: contracts_fact
+    view_label: "Contracts Signed"
+    sql_on: ${contacts.contact_pk} = ${contact_contracts.contact_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
   join: contact_deals_fact {
     view_label: "       Contacts"
     sql_on: ${contacts.contact_pk} = ${contact_deals_fact.contact_pk} ;;
@@ -353,6 +367,12 @@ explore: companies_dim {
   join: gcp_billing_fact {
     view_label: "Product Usage"
     sql_on: ${companies_dim.company_pk} = ${gcp_billing_fact.company_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: contracts_fact {
+    view_label: "   Contracts"
+    sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;
     type: inner
     relationship: one_to_many
   }
