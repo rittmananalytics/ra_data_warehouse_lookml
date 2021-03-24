@@ -14,6 +14,7 @@ explore: campaign_explorer {}
 
 explore: contacts_segments_xa {}
 
+explore: rixo_load_errors {}
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
