@@ -12,10 +12,10 @@ persist_with: analytics_default_datagroup
 
 explore: campaign_explorer {}
 
-explore: contacts_segments_xa {}
+
 
 explore: rixo_load_errors {
-  hidden: no
+  hidden: yes
 }
 
 explore: web_sessions_fact {
@@ -348,30 +348,24 @@ explore: companies_dim {
     type: inner
     relationship: many_to_one
   }
-  join: looker_usage_fact {
-    view_label: "Product Usage"
-    sql_on: ${companies_dim.company_pk} = ${looker_usage_fact.company_pk} ;;
-    type: inner
-    relationship: one_to_many
-  }
-  join: looker_users {
-    from: contacts_dim
-    view_label: "Product Usage"
-    sql_on: ${looker_usage_fact.contact_pk} = ${looker_users.contact_pk};;
-    type: left_outer
-    relationship: many_to_one
-  }
+
   join: customer_events_xa {
     view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${customer_events_xa.company_pk} ;;
     type: inner
     relationship: one_to_many
   }
-  join: gcp_billing_fact {
-    view_label: "Product Usage"
-    sql_on: ${companies_dim.company_pk} = ${gcp_billing_fact.company_pk} ;;
+  join: product_usage_fact {
+    view_label: "Products"
+    sql_on: ${companies_dim.company_pk} = ${product_usage_fact.company_pk} ;;
     type: inner
     relationship: one_to_many
+  }
+  join: products_dim {
+    view_label: "Products"
+    sql_on: ${product_usage_fact.product_pk} = ${products_dim.product_pk} ;;
+    type: inner
+    relationship: many_to_one
   }
   join: contracts_fact {
     view_label: "   Contracts"

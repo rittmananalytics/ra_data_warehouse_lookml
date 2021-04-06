@@ -38,7 +38,26 @@ view: deals_fact {
     value_format_name: gbp
 
     type: sum
-    sql: case when ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9  and ${TABLE}.deal_closed_amount_value is not null then  ${TABLE}.deal_amount end;;
+    sql: case when ${TABLE}.pipeline_stage_closed_won   then  ${TABLE}.deal_amount end;;
+  }
+
+
+
+  measure: total_closed_lost_deal_amount {
+    group_label: "Deal Measures"
+
+    value_format_name: gbp
+
+    type: sum
+    sql: case when ${TABLE}.pipeline_stage_display_order = 10  then  ${TABLE}.deal_amount end;;
+  }
+
+  measure: total_closed_lost_deals {
+    group_label: "Deal Measures"
+
+
+    type: count_distinct
+    sql: case when ${TABLE}.pipeline_stage_display_order = 10  then  ${TABLE}.deal_pk end;;
   }
 
 
@@ -177,7 +196,7 @@ view: deals_fact {
   measure: count_closed_won_deals {
     group_label: "Deal Measures"
     type: count_distinct
-    sql: case when ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9  then ${TABLE}.deal_pk end;;
+    sql: case when ${TABLE}.pipeline_stage_closed_won  then ${TABLE}.deal_pk end;;
   }
 
   dimension: deal_type {

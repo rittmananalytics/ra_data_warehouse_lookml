@@ -66,6 +66,11 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_created_at_ts ;;
   }
 
+  measure: customer_total_active_months {
+    type: count_distinct
+    sql: ${invoice_issued_month} ;;
+  }
+
   dimension: invoice_creator_users_id {
     hidden: yes
     type: string
@@ -287,6 +292,11 @@ view: invoices_fact {
   dimension: months_since_first_invoice {
     type: number
     sql: ${TABLE}.months_since_first_invoice ;;
+  }
+
+  measure: total_months_active_customer {
+    type: max
+    sql: ${months_since_first_invoice} ;;
   }
 
   dimension: project_id {
