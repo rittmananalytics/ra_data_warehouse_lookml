@@ -12,6 +12,8 @@ persist_with: analytics_default_datagroup
 
 explore: campaign_explorer {}
 
+explore: actuals_v_targets {}
+
 
 
 explore: rixo_load_errors {
