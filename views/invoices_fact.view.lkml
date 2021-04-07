@@ -294,7 +294,7 @@ view: invoices_fact {
     sql: ${TABLE}.months_since_first_invoice ;;
   }
 
-  measure: total_months_active_customer {
+  measure: total_months_customer {
     type: max
     sql: ${months_since_first_invoice} ;;
   }
