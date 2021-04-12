@@ -43,6 +43,20 @@ view: timesheet_projects_dim {
     sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
 
+  dimension_group: project_revenue_expected_ts {
+    group_label: "   Project Details"
+
+    type: time
+    timeframes: [date,week,month]
+    sql: case when ${projects_invoiced.invoice_due_date} is null then timestamp_add(timestamp(${TABLE}.project_delivery_end_ts),interval 30 day) else timestamp(${projects_invoiced.invoice_due_date}) end ;;
+  }
+
+  dimension: is_project_active {
+    group_label: "   Project Details"
+    type: yesno
+    sql: case when timestamp_add(timestamp(${TABLE}.project_delivery_end_ts),interval 30 day) > current_timestamp then true else false end ;;
+  }
+
   dimension_group : project_delivery_start_ts {
     group_label: "   Project Details"
 
@@ -56,6 +70,42 @@ view: timesheet_projects_dim {
 
     type: number
     sql: ${TABLE}.project_fee_amount ;;
+  }
+
+  measure: total_project_fee_amount {
+    group_label: "Project Commercials"
+
+    type: sum_distinct
+    sql: case when ${project_fee_amount} = 7000 then 5000
+              when ${project_fee_amount} = 5500 then 4000
+              when ${project_fee_amount} = 5800 then 5000
+              when ${project_fee_amount} = 13620 then 9900
+              when ${project_fee_amount} = 9625 then 7000
+              else ${project_fee_amount} end;;
+  }
+
+  dimension: project_fee_amount_pro_rata {
+    group_label: "Project Commercials"
+
+    type: number
+    sql: ${TABLE}.total_project_fee_recognized_revenue ;;
+  }
+
+  measure: total_project_fee_amount_pro_rata {
+    group_label: "Project Commercials"
+    type: sum_distinct
+    sql:${project_fee_amount_pro_rata} ;;
+  }
+
+
+
+
+
+  dimension: total_business_days_pct_elapsed {
+    group_label: "Project Commercials"
+    type: number
+    value_format_name: percent_0
+    sql: 1- ${TABLE}.total_business_days_pct_left ;;
   }
 
   dimension: project_hourly_rate {
@@ -125,4 +175,7 @@ view: timesheet_projects_dim {
     sql:  ${TABLE}.timesheet_project_pk ;;
     drill_fields: [project_name]
   }
+
+
+
 }

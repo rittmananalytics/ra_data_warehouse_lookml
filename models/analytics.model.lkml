@@ -93,6 +93,14 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: projects_invoiced {
+    view_label: "Project Invoicing (Harvest)"
+
+    from: invoices_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
   join: delivery_tasks_fact {
     view_label: " Project Management (Jira)"
     sql_on: ${contacts.contact_pk} = ${delivery_tasks_fact.contact_pk};;
