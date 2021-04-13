@@ -8,11 +8,28 @@ datagroup: analytics_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+test: monthly_deal_target_within_range {
+  explore_source: actuals_v_targets {
+    column: deals_target {}
+    column: revenue_target {}
+    column: month_month {}
+    sorts: [month_month: asc]
+    limit: 1
+  }
+  assert: deal_2x_revenue {
+    expression: ${actuals_v_targets.deals_target}/${actuals_v_targets.revenue_target} <= 2 ;;
+  }
+}
+
+
+
 persist_with: analytics_default_datagroup
 
 explore: campaign_explorer {}
 
-explore: actuals_v_targets {}
+explore: actuals_v_targets {
+
+}
 
 explore: sales_funnel_xa {
   label: "Sales Funnel"
