@@ -14,6 +14,12 @@ view: product_usage_fact {
     sql: ${TABLE}.company_pk ;;
   }
 
+  dimension: contact_pk {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.contact_pk ;;
+  }
+
   dimension: product_account_id {
     group_label: "Product Usage"
 
@@ -59,6 +65,13 @@ view: product_usage_fact {
     sql: ${TABLE}.product_usage_amount ;;
   }
 
+  measure: total_product_usage_amount {
+    group_label: "Product Usage"
+
+    type: sum_distinct
+    value_format_name: decimal_2
+    sql: ${product_usage_cost} ;;
+  }
   dimension_group: product_usage_billing_ts {
     group_label: "Product Usage"
     label: "Product Usage"
@@ -135,7 +148,6 @@ view: product_usage_fact {
 
   measure: average_duration_secs {
     type: average_distinct
-    value_format_name: decimal_0
     sql: ${seconds_product_usage_duration} ;;
   }
 

@@ -14,7 +14,31 @@ explore: campaign_explorer {}
 
 explore: actuals_v_targets {}
 
+explore: sales_funnel_xa {
+  label: "Sales Funnel"
+  view_label: "     Sales Funnel"
+  join: companies_dim {
+    view_label: "  Organizations"
+    sql_on: ${sales_funnel_xa.company_pk} = ${companies_dim.company_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: contacts_dim {
+    view_label: "People"
+    sql_on: ${sales_funnel_xa.contact_pk} = ${contacts_dim.contact_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: people_organizations {
+    from: companies_dim
+    view_label: "People"
+    sql_on: ${contacts_dim.company_pk} = ${people_organizations.company_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+}
 
+explore: sales_funnel_summary_xa {}
 
 explore: rixo_load_errors {
   hidden: yes
@@ -369,6 +393,14 @@ explore: companies_dim {
     view_label: "Products"
     sql_on: ${companies_dim.company_pk} = ${product_usage_fact.company_pk} ;;
     type: inner
+    relationship: one_to_many
+  }
+  join: product_usage_contacts {
+    from: contacts_dim
+    view_label: "Products"
+    sql_on: ${product_usage_fact.contact_pk} = ${product_usage_contacts.contact_pk};;
+
+    type: left_outer
     relationship: one_to_many
   }
   join: products_dim {
