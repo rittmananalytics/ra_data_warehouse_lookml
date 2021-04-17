@@ -25,13 +25,15 @@ test: monthly_deal_target_within_range {
 
 persist_with: analytics_default_datagroup
 
-explore: campaign_explorer {}
 
 explore: actuals_v_targets {
+  hidden: yes
 
 }
 
 explore: sales_funnel_xa {
+  hidden: yes
+
   label: "Sales Funnel"
   view_label: "     Sales Funnel"
   join: companies_dim {
@@ -55,7 +57,6 @@ explore: sales_funnel_xa {
   }
 }
 
-explore: sales_funnel_summary_xa {}
 
 explore: rixo_load_errors {
   hidden: yes
@@ -85,9 +86,13 @@ explore: web_sessions_fact {
 explore: customer_events_xa {
   label: "Customer Timeline"
   view_label: "Customer Events"
+  hidden: yes
+
 }
 
 explore: ad_campaigns_dim {
+  hidden: yes
+
   label: "Marketing Campaigns"
   view_label: "Campaigns"
   join: ad_campaign_performance_fact {
@@ -112,10 +117,7 @@ explore: ad_campaigns_dim {
 
 }
 
-explore: attribution_fact {
-  label: "Conversion Attribution"
-  view_label: "Conversion Attribution"
-}
+
 
 explore: contacts {
   from: contacts_dim
@@ -210,9 +212,17 @@ explore: contacts {
     type: inner
     relationship: one_to_many
   }
+  join: contact_nps_survey_fact {
+    sql_on: ${contacts.contact_pk} = ${contact_nps_survey_fact.contact_pk} ;;
+    view_label: "NPS Scores"
+    type: inner
+    relationship: one_to_many
+  }
 
 }
  explore: projects_delivered {
+  hidden: yes
+
    view_label: "Projects"
   from: timesheet_projects_dim
   join: project_timesheets {
@@ -262,6 +272,7 @@ explore: contacts {
     type: left_outer
     relationship: many_to_one
   }
+
 
  }
 
@@ -429,6 +440,12 @@ explore: companies_dim {
   join: contracts_fact {
     view_label: "   Contracts"
     sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: contact_nps_survey_fact {
+    sql_on: ${contacts.contact_pk} = ${contact_nps_survey_fact.contact_pk} ;;
+    view_label: "NPS Scores"
     type: inner
     relationship: one_to_many
   }
