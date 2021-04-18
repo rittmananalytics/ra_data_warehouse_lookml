@@ -279,7 +279,12 @@ explore: contacts {
 explore: companies_dim {
   label: "Business Operations"
   view_label: "        Companies"
-
+  join: client_prospect_status_dim {
+    view_label: "        Companies"
+    sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
   join: projects_delivered {
     view_label: "    Project Invoicing (Harvest)"
     from: timesheet_projects_dim
