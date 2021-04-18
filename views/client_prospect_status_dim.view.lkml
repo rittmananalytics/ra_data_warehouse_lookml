@@ -17,7 +17,7 @@ view: client_prospect_status_dim {
       FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_pk
       GROUP BY
           1,2)
-      select company_pk,
+      select company_pk, company_name,
              case when count_timesheet_projects = 1 or closed_won_deals = 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'New Client'
                   when count_timesheet_projects > 2 and closed_won_deals > 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'Repeat Client'
                   when count_timesheet_projects = 0 and count_deals > closed_lost_deals then 'Prospect'
@@ -40,19 +40,27 @@ view: client_prospect_status_dim {
        ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
+
 
   dimension: company_pk {
     type: string
+    hidden: yes
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: client_status {
     type: string
     sql: ${TABLE}.client_status ;;
+  }
+
+  dimension: client_name {
+    type: string
+    sql: case when ${TABLE}.is_client then ${TABLE}.company_name end ;;
+  }
+
+  dimension: prospect_name {
+    type: string
+    sql: case when ${TABLE}.is_prospect then ${TABLE}.company_name end ;;
   }
 
   dimension: is_client {
@@ -65,7 +73,5 @@ view: client_prospect_status_dim {
     sql: ${TABLE}.is_prospect ;;
   }
 
-  set: detail {
-    fields: [company_pk, client_status, is_client, is_prospect]
-  }
+
 }

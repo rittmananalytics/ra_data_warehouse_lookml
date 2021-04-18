@@ -25,6 +25,7 @@ test: monthly_deal_target_within_range {
 
 persist_with: analytics_default_datagroup
 
+explore: actuals_vs_budget {}
 
 explore: actuals_v_targets {
   hidden: yes

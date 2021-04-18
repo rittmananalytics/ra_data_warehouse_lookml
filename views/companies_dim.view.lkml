@@ -521,6 +521,8 @@ view: companies_dim {
 
 
 
+
+
   dimension: company_phone {
     hidden: yes
 
@@ -529,7 +531,7 @@ view: companies_dim {
   }
 
   dimension: company_pk {
-    hidden: no
+    hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.company_pk ;;
