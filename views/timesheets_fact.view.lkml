@@ -75,7 +75,9 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_hours_billed {
-    hidden: yes
+    group_label: "Timesheet Details"
+
+    hidden: no
     type: number
     sql: ${TABLE}.timesheet_hours_billed ;;
   }

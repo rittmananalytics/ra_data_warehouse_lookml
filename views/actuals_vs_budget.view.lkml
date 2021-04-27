@@ -7,6 +7,13 @@ view: actuals_vs_budget {
     sql: ${TABLE}.Account ;;
   }
 
+  dimension: pk {
+    type: string
+    primary_key: yes
+    hidden: yes
+    sql: concat(${period_date},${description}) ;;
+  }
+
   dimension: account_code {
     type: string
     sql: ${TABLE}.Account_Code ;;
@@ -70,9 +77,13 @@ view: actuals_vs_budget {
       week,
       month,
       month_num,
+      fiscal_month_num,
+      fiscal_quarter_of_year,
+      fiscal_quarter,
       quarter_of_year,
       quarter,
-      year
+      year,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date
