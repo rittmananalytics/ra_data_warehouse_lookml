@@ -11,7 +11,7 @@ view: actuals_vs_budget {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${period_date},${description}) ;;
+    sql: concat(${period_date},${account_code}) ;;
   }
 
   dimension: account_code {
@@ -86,8 +86,7 @@ view: actuals_vs_budget {
       fiscal_year
     ]
     convert_tz: no
-    datatype: date
-    sql: ${TABLE}.Period ;;
+    sql: timestamp(${TABLE}.Period) ;;
   }
 
   dimension: report_amount {
@@ -125,11 +124,7 @@ view: actuals_vs_budget {
     type: string
     order_by_field: report_sort_order
 
-    sql: case when ${TABLE}.Type = 'REVENUE' then 'Sales'
-              when ${TABLE}.type = 'DIRECTCOSTS' then 'Direct Costs'
-              when ${TABLE}.type = 'OVERHEADS' then 'Operating Expenses'
-              when ${TABLE}.type = 'EXPENSE' then 'Operating Expenses'
-              end ;;
+    sql: case when ${TABLE}.type = 'EXPENSE' then 'OVERHEADS' else ${TABLE}.type end;;
   }
 
   measure: count {

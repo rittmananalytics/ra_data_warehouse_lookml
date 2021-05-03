@@ -8,38 +8,15 @@ datagroup: analytics_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+fiscal_month_offset: -3
 
 
-explore: sales_funnel_xa {
-  hidden: yes
-
-  label: "Sales Funnel"
-  view_label: "     Sales Funnel"
-  join: companies_dim {
-    view_label: "  Organizations"
-    sql_on: ${sales_funnel_xa.company_pk} = ${companies_dim.company_pk} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: contacts_dim {
-    view_label: "People"
-    sql_on: ${sales_funnel_xa.contact_pk} = ${contacts_dim.contact_pk};;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: people_organizations {
-    from: companies_dim
-    view_label: "People"
-    sql_on: ${contacts_dim.company_pk} = ${people_organizations.company_pk} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-}
 
 
-explore: rixo_load_errors {
-  hidden: yes
-}
+
+
+
+
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
