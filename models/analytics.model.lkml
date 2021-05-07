@@ -241,6 +241,13 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
+  join: company_deal_value_attribute {
+    view_label: "        Companies"
+    sql_on: ${companies_dim.company_pk} = ${company_deal_value_attribute.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+
+  }
   join: projects_delivered {
     view_label: "    Project Invoicing (Harvest)"
     from: timesheet_projects_dim
