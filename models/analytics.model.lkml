@@ -8,17 +8,15 @@ datagroup: analytics_default_datagroup {
   max_cache_age: "1 hour"
 }
 
-persist_with: analytics_default_datagroup
-
-explore: campaign_explorer {}
-
-explore: actuals_v_targets {}
+fiscal_month_offset: -3
 
 
 
-explore: rixo_load_errors {
-  hidden: yes
-}
+
+
+
+
+
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
@@ -44,9 +42,13 @@ explore: web_sessions_fact {
 explore: customer_events_xa {
   label: "Customer Timeline"
   view_label: "Customer Events"
+  hidden: yes
+
 }
 
 explore: ad_campaigns_dim {
+  hidden: yes
+
   label: "Marketing Campaigns"
   view_label: "Campaigns"
   join: ad_campaign_performance_fact {
@@ -71,10 +73,7 @@ explore: ad_campaigns_dim {
 
 }
 
-explore: attribution_fact {
-  label: "Conversion Attribution"
-  view_label: "Conversion Attribution"
-}
+
 
 explore: contacts {
   from: contacts_dim
@@ -90,6 +89,14 @@ explore: contacts {
     view_label: "Project Timesheets (Harvest)"
     from: timesheet_projects_dim
     sql_on: ${timesheets_fact.timesheet_project_pk} = ${projects_delivered.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_invoiced {
+    view_label: "Project Invoicing (Harvest)"
+
+    from: invoices_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
     type: left_outer
     relationship: one_to_many
   }
@@ -161,9 +168,17 @@ explore: contacts {
     type: inner
     relationship: one_to_many
   }
+  join: contact_nps_survey_fact {
+    sql_on: ${contacts.contact_pk} = ${contact_nps_survey_fact.contact_pk} ;;
+    view_label: "NPS Scores"
+    type: inner
+    relationship: one_to_many
+  }
 
 }
  explore: projects_delivered {
+  hidden: yes
+
    view_label: "Projects"
   from: timesheet_projects_dim
   join: project_timesheets {
@@ -214,12 +229,25 @@ explore: contacts {
     relationship: many_to_one
   }
 
+
  }
 
 explore: companies_dim {
   label: "Business Operations"
   view_label: "        Companies"
+  join: client_prospect_status_dim {
+    view_label: "        Companies"
+    sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: company_deal_value_attribute {
+    view_label: "        Companies"
+    sql_on: ${companies_dim.company_pk} = ${company_deal_value_attribute.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
 
+  }
   join: projects_delivered {
     view_label: "    Project Invoicing (Harvest)"
     from: timesheet_projects_dim
@@ -363,6 +391,14 @@ explore: companies_dim {
     type: inner
     relationship: one_to_many
   }
+  join: product_usage_contacts {
+    from: contacts_dim
+    view_label: "Products"
+    sql_on: ${product_usage_fact.contact_pk} = ${product_usage_contacts.contact_pk};;
+
+    type: left_outer
+    relationship: one_to_many
+  }
   join: products_dim {
     view_label: "Products"
     sql_on: ${product_usage_fact.product_pk} = ${products_dim.product_pk} ;;
@@ -372,6 +408,12 @@ explore: companies_dim {
   join: contracts_fact {
     view_label: "   Contracts"
     sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: contact_nps_survey_fact {
+    sql_on: ${contacts.contact_pk} = ${contact_nps_survey_fact.contact_pk} ;;
+    view_label: "NPS Scores"
     type: inner
     relationship: one_to_many
   }
