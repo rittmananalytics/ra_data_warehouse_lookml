@@ -59,6 +59,16 @@ view: conversations_fact {
     sql: substr(${TABLE}.conversation_body,1,100) ;;
   }
 
+dimension: cs_conversation {
+  label: "Is Customer Success Engagement"
+  group_label: "Engagements"
+  type:  string
+  sql: CASE when
+       ${TABLE}.conversation_subject like '%1-2-1%' OR ${TABLE}.conversation_body like '%Agenda to Follow%'
+      then 'Yes'
+      else 'No' end;;
+}
+
   dimension_group: conversation_created {
     label: "Engagement"
     group_label: "Engagements"
