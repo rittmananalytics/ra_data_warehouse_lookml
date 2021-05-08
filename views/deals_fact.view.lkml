@@ -23,6 +23,17 @@ view: deals_fact {
     sql: ${TABLE}.deal_amount ;;
   }
 
+measure: total_deal_amount_gbp_converted  {
+  group_label: "Deal Measures"
+  label: "Total Deal Amount GBP"
+  value_format_name: gbp
+  type: sum
+  sql:  CASE
+         when ${TABLE}.deal_currency_code = 'USD' then ${TABLE}.deal_amount * .75
+         when ${TABLE}.deal_currency_code = 'CAD' then ${TABLE}.deal_amount * .58
+         when ${TABLE}.deal_currency_code = 'EUR' then ${TABLE}.deal_amount * 0.90
+         else ${TABLE}.deal_amount end ;;
+}
   measure: total_oppportunity_deal_amount {
     group_label: "Deal Measures"
 
