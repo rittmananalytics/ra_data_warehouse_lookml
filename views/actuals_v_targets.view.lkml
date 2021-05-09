@@ -27,8 +27,8 @@ view: actuals_v_targets {
       ),
       won_deals as (
       SELECT
-          date_trunc(date(deals_fact.deal_created_ts ),month) AS month,
-          COALESCE(SUM(deals_fact.deal_amount ), 0) AS total_closed_deal_amount
+          date_trunc(date(case when deals_fact.deal_closed_amount_value is not null and deals_fact.pipeline_stage_display_order >=8 and deals_fact.pipeline_display_order <=9 then deals_fact.deal_closed_ts end ),month) AS month,
+          COALESCE(SUM(case when deals_fact.pipeline_stage_closed_won   then  deals_fact.deal_amount end), 0) AS total_closed_deal_amount
       FROM `analytics.companies_dim` AS companies_dim
       FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_pk
      -- WHERE ((( deals_fact.deal_created_ts  ) >= ((TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR))) AND ( deals_fact.deal_created_ts  ) < ((TIMESTAMP(CONCAT(CAST(DATE_ADD(CAST(TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR) AS DATE), INTERVAL 1 YEAR) AS STRING), ' ', CAST(TIME(CAST(TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR) AS TIMESTAMP)) AS STRING))))))) AND (deals_fact.pipeline_stage_closed_won )

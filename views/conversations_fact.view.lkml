@@ -124,6 +124,20 @@ view: conversations_fact {
     sql: ${TABLE}.conversation_subject ;;
   }
 
+  dimension: conversation_to_contact_name {
+    group_label: "Engagements"
+    label: "Contact Name To"
+    type: string
+    sql: ${TABLE}.conversation_to_contact_name ;;
+  }
+
+  dimension: conversation_from_contact_name {
+    group_label: "Engagements"
+    label: "Contact Name From"
+    type: string
+    sql: ${TABLE}.conversation_from_contact_name ;;
+  }
+
   dimension: conversation_user_type {
     hidden: yes
 
