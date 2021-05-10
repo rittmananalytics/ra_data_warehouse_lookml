@@ -417,4 +417,10 @@ explore: companies_dim {
     type: inner
     relationship: one_to_many
   }
+  join: cs_engagement_fact {
+    sql_on: ${cs_engagement_fact.primary_key} = ${companies_dim.company_pk} ;;
+    view_label: "Customer Success Engagements"
+    type: inner
+    relationship: one_to_many
+  }
 }
