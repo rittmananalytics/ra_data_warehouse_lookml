@@ -40,19 +40,62 @@ view: actuals_v_targets {
       )
       select t.`month`, t.revenue_target, r.revenue_actual, t.deals_target, d.total_deal_amount, t.deals_closed_target, w.total_closed_deal_amount
       from targets t
-      join revenue r
+      left join revenue r
       on t.month = r.month
-      join deals d
+      left join deals d
       on t.month = d.month
-      join won_deals w
+      left join won_deals w
       on t.month = w.month
        ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
+  parameter: measure_group {
+    type: unquoted
+    allowed_value: {label:"Actual Revenue" value: "revenue"}
+    allowed_value: {label:"Actual New Deals" value: "deals"}
+    allowed_value: {label:"Actual Closed Won Deals" value: "closed_deals"}
+    default_value: "revenue"
   }
+
+  parameter: target_group {
+    type: unquoted
+    allowed_value: {label:"Target Revenue" value: "revenue"}
+    allowed_value: {label:"Target New Deals" value: "deals"}
+    allowed_value: {label:"Target Closed Won Deals" value: "closed_deals"}
+    default_value: "revenue"
+  }
+
+  measure: actual {
+    label_from_parameter: measure_group
+  type: sum
+    value_format_name: gbp
+    sql:
+    {% if measure_group._parameter_value == 'revenue' %}
+      ${TABLE}.revenue_actual
+    {% elsif measure_group._parameter_value == 'deals' %}
+      ${TABLE}.total_deal_amount
+    {% elsif measure_group._parameter_value == 'closed_deals' %}
+      ${TABLE}.total_closed_deal_amount
+    {% endif %} ;;
+  }
+
+  measure: target {
+    label_from_parameter: target_group
+    type: sum
+    value_format_name: gbp
+    sql:
+    {% if target_group._parameter_value == 'revenue' %}
+      ${TABLE}.revenue_target
+    {% elsif target_group._parameter_value == 'deals' %}
+      ${TABLE}.deals_target
+    {% elsif target_group._parameter_value == 'closed_deals' %}
+      ${TABLE}.deals_closed_target
+    {% endif %} ;;
+  }
+
+
+
+
 
   dimension_group: month {
     type: time
@@ -61,31 +104,42 @@ view: actuals_v_targets {
   }
 
   measure: revenue_target {
+    hidden: yes
     type: sum
     sql: ${TABLE}.revenue_target ;;
   }
 
   measure: revenue_actual {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.revenue_actual ;;
   }
 
   measure: deals_target {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.deals_target ;;
   }
 
   measure: total_deal_amount {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.total_deal_amount ;;
   }
 
   measure: deals_closed_target {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.deals_closed_target ;;
   }
 
   measure: total_closed_deal_amount {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.total_closed_deal_amount ;;
   }
