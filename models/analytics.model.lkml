@@ -12,12 +12,6 @@ fiscal_month_offset: -3
 
 
 
-
-
-
-
-
-
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
   label: "Web Analytics"
@@ -413,7 +407,7 @@ explore: companies_dim {
   }
   join: contact_nps_survey_fact {
     sql_on: ${contacts.contact_pk} = ${contact_nps_survey_fact.contact_pk} ;;
-    view_label: "NPS Scores"
+    view_label: "       Contacts"
     type: inner
     relationship: one_to_many
   }
@@ -423,4 +417,24 @@ explore: companies_dim {
     type: inner
     relationship: one_to_many
   }
+
+  join: contacts_influencer_list_xa {
+    view_label: "       Contacts"
+    sql_on: ${contacts.hubspot_contact_id} = ${contacts_influencer_list_xa.hubspot_contact_id} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: contacts_web_event_history_xa {
+    view_label: "       Contacts"
+    sql_on: ${contacts.contact_pk} = ${contacts_web_event_history_xa.contact_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: contacts_web_interests_xa {
+    view_label: "       Contacts"
+    sql_on: ${contacts.contact_pk} = ${contacts_web_interests_xa.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
 }

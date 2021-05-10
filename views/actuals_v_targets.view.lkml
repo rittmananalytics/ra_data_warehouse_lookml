@@ -27,8 +27,8 @@ view: actuals_v_targets {
       ),
       won_deals as (
       SELECT
-          date_trunc(date(deals_fact.deal_created_ts ),month) AS month,
-          COALESCE(SUM(deals_fact.deal_amount ), 0) AS total_closed_deal_amount
+          date_trunc(date(case when deals_fact.deal_closed_amount_value is not null and deals_fact.pipeline_stage_display_order >=8 and deals_fact.pipeline_display_order <=9 then deals_fact.deal_closed_ts end ),month) AS month,
+          COALESCE(SUM(case when deals_fact.pipeline_stage_closed_won   then  deals_fact.deal_amount end), 0) AS total_closed_deal_amount
       FROM `analytics.companies_dim` AS companies_dim
       FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_pk
      -- WHERE ((( deals_fact.deal_created_ts  ) >= ((TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR))) AND ( deals_fact.deal_created_ts  ) < ((TIMESTAMP(CONCAT(CAST(DATE_ADD(CAST(TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR) AS DATE), INTERVAL 1 YEAR) AS STRING), ' ', CAST(TIME(CAST(TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR) AS TIMESTAMP)) AS STRING))))))) AND (deals_fact.pipeline_stage_closed_won )
@@ -40,19 +40,62 @@ view: actuals_v_targets {
       )
       select t.`month`, t.revenue_target, r.revenue_actual, t.deals_target, d.total_deal_amount, t.deals_closed_target, w.total_closed_deal_amount
       from targets t
-      join revenue r
+      left join revenue r
       on t.month = r.month
-      join deals d
+      left join deals d
       on t.month = d.month
-      join won_deals w
+      left join won_deals w
       on t.month = w.month
        ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
+  parameter: measure_group {
+    type: unquoted
+    allowed_value: {label:"Actual Revenue" value: "revenue"}
+    allowed_value: {label:"Actual New Deals" value: "deals"}
+    allowed_value: {label:"Actual Closed Won Deals" value: "closed_deals"}
+    default_value: "revenue"
   }
+
+  parameter: target_group {
+    type: unquoted
+    allowed_value: {label:"Target Revenue" value: "revenue"}
+    allowed_value: {label:"Target New Deals" value: "deals"}
+    allowed_value: {label:"Target Closed Won Deals" value: "closed_deals"}
+    default_value: "revenue"
+  }
+
+  measure: actual {
+    label_from_parameter: measure_group
+  type: sum
+    value_format_name: gbp
+    sql:
+    {% if measure_group._parameter_value == 'revenue' %}
+      ${TABLE}.revenue_actual
+    {% elsif measure_group._parameter_value == 'deals' %}
+      ${TABLE}.total_deal_amount
+    {% elsif measure_group._parameter_value == 'closed_deals' %}
+      ${TABLE}.total_closed_deal_amount
+    {% endif %} ;;
+  }
+
+  measure: target {
+    label_from_parameter: target_group
+    type: sum
+    value_format_name: gbp
+    sql:
+    {% if target_group._parameter_value == 'revenue' %}
+      ${TABLE}.revenue_target
+    {% elsif target_group._parameter_value == 'deals' %}
+      ${TABLE}.deals_target
+    {% elsif target_group._parameter_value == 'closed_deals' %}
+      ${TABLE}.deals_closed_target
+    {% endif %} ;;
+  }
+
+
+
+
 
   dimension_group: month {
     type: time
@@ -61,31 +104,42 @@ view: actuals_v_targets {
   }
 
   measure: revenue_target {
+    hidden: yes
     type: sum
     sql: ${TABLE}.revenue_target ;;
   }
 
   measure: revenue_actual {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.revenue_actual ;;
   }
 
   measure: deals_target {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.deals_target ;;
   }
 
   measure: total_deal_amount {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.total_deal_amount ;;
   }
 
   measure: deals_closed_target {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.deals_closed_target ;;
   }
 
   measure: total_closed_deal_amount {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.total_closed_deal_amount ;;
   }
