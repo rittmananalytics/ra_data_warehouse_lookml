@@ -1,5 +1,5 @@
 view: delivery_tasks_fact {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.delivery_tasks_fact`
+  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.delivery_tasks_fact`
     ;;
 
   dimension: delivery_project_pk {
@@ -14,6 +14,11 @@ view: delivery_tasks_fact {
 
     type: string
     sql: ${TABLE}.delivery_task_pk ;;
+  }
+
+  dimension: task_is_latest_sprint_version {
+    type: yesno
+    sql: ${TABLE}.is_latest_task_version ;;
   }
 
   dimension: parent_task_id {
@@ -125,7 +130,7 @@ view: delivery_tasks_fact {
   dimension_group: task_end_ts {
     group_label: "Project Tasks"
     type: time
-    timeframes: [date,time]
+    timeframes: [date,time,week,month,month_num]
     sql: ${TABLE}.task_end_ts ;;
   }
 
@@ -136,7 +141,7 @@ view: delivery_tasks_fact {
   dimension_group: task_start_ts {
     group_label: "Project Tasks"
     type: time
-    timeframes: [date,time,week,month]
+    timeframes: [date,time,week,month,month_num]
     sql: ${TABLE}.task_start_ts ;;
   }
 
@@ -188,7 +193,9 @@ view: delivery_tasks_fact {
     type: string
     sql: case when ${TABLE}.deliverable_category is null and substr(${TABLE}.deliverable_id,length(${TABLE}.deliverable_id)-2,1)  = 'a' then 'Historical'
               when ${TABLE}.deliverable_category is null and safe_cast(substr(${TABLE}.deliverable_id,length(${TABLE}.deliverable_id)-2,1) as int64) is not null then 'NetSuite'
-              else ${TABLE}.deliverable_category end;;
+              when ${TABLE}.deliverable_category in ('Historical Data','Historic') then 'Historical'
+              when lower(${TABLE}.task_name) like '%historic%' then 'Historical'
+              else 'NetSuite' end;;
   }
 
   dimension_group: task_last_modified_ts {

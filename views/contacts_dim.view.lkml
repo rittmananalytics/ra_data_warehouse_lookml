@@ -10,13 +10,13 @@ FROM (
   SELECT
     *
   FROM
-    `{{ _user_attributes['dataset'] }}.contacts_dim`,
+    `{{ _user_attributes['dbt_dataset'] }}.contacts_dim`,
     UNNEST( all_contact_company_ids) AS company_id  ) ct
 JOIN (
   SELECT
     *
   FROM
-    `{{ _user_attributes['dataset'] }}.companies_dim` c,
+    `{{ _user_attributes['dbt_dataset'] }}.companies_dim` c,
     UNNEST (all_company_ids) AS company_id ) c
 ON
   ct.company_id = c.company_id
@@ -24,7 +24,7 @@ LEFT JOIN
   (SELECT
     contact_pk,
     contact_id
-   FROM `{{ _user_attributes['dataset'] }}.contacts_dim`,
+   FROM `{{ _user_attributes['dbt_dataset'] }}.contacts_dim`,
    UNNEST( all_contact_ids) as contact_id
    WHERE
     contact_id like '%hubspot%' ) hb
@@ -33,7 +33,7 @@ LEFT JOIN
   (SELECT
     contact_pk,
     contact_email
-   FROM `{{ _user_attributes['dataset'] }}.contacts_dim`,
+   FROM `{{ _user_attributes['dbt_dataset'] }}.contacts_dim`,
    UNNEST( all_contact_emails ) as contact_email
     ) ce
 ON ct.contact_pk = ce.contact_pk
@@ -61,7 +61,7 @@ WHERE
 
   dimension: contact_email {
     hidden: no
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_email ;;
@@ -76,7 +76,7 @@ WHERE
 
   dimension: hubspot_contact_id {
     hidden: no
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.hubspot_contact_id ;;
@@ -119,14 +119,14 @@ WHERE
   }
 
   dimension: contact_is_contractor {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: yesno
     sql: ${TABLE}.contact_is_contractor ;;
   }
 
   dimension: contact_is_staff {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: yesno
     sql: ${TABLE}.contact_is_staff ;;
@@ -149,7 +149,7 @@ WHERE
   }
 
   dimension: contact_mobile_phone {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_mobile_phone ;;
@@ -157,14 +157,14 @@ WHERE
 
   dimension: contact_name {
     label: "        Contact Name"
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_name ;;
   }
 
   dimension: contact_phone {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_phone ;;
@@ -178,7 +178,7 @@ WHERE
   }
 
   measure: count_contacts {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: count_distinct
     sql: ${TABLE}.contact_pk ;;
@@ -192,7 +192,7 @@ WHERE
 
   dimension: job_title {
     label: "      Contact Role"
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.job_title ;;
@@ -212,28 +212,28 @@ view: contacts_dim__all_contact_addresses {
   }
 
   dimension: contact_city {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_city ;;
   }
 
   dimension: contact_country {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_country ;;
   }
 
   dimension: contact_postcode_zip {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_postcode_zip ;;
   }
 
   dimension: contact_state {
-    group_label: "{{ _view._name| replace: '_', ' ' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_state ;;

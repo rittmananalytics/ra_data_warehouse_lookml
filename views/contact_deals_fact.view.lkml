@@ -1,5 +1,5 @@
 view: contact_deals_fact {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.contact_deals_fact`
+  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.contact_deals_fact`
     ;;
 
   dimension: contact_deal_pk {

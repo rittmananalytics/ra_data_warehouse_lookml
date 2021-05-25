@@ -1,5 +1,5 @@
 view: contacts_influencer_list_xa {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.contacts_influencer_list_xa`
+  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.contacts_influencer_list_xa`
     ;;
 
   dimension: contact_influencer_score {
@@ -22,6 +22,8 @@ view: contacts_influencer_list_xa {
   }
 
   dimension: influencer_status {
+    group_label: "        {{ 'Contacts'| replace: '_', ' ' | replace: 'xa', '' | replace: 'list', '' | replace: 'influencer', '' |capitalize}}"
+
     type: string
     sql: ${TABLE}.influencer_status ;;
   }

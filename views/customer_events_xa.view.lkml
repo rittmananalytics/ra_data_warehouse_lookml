@@ -1,5 +1,5 @@
 view: customer_events_xa {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.customer_events_xa`
+  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.customer_events_xa`
     ;;
 
   dimension: client_event_seq {

@@ -1,5 +1,5 @@
 view: timesheets_fact {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.timesheets_fact`
+  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.timesheets_fact`
     ;;
 
   dimension: company_pk {

@@ -1,5 +1,5 @@
 view: attribution_fact {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.attribution_fact`
+  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.attribution_fact`
     ;;
 
   dimension: account_opening_session {

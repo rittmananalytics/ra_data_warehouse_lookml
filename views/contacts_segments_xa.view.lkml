@@ -1,5 +1,5 @@
 view: contacts_segments_xa {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.contacts_segments_xa`
+  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.contacts_segments_xa`
     ;;
 
   dimension: buying_stage {

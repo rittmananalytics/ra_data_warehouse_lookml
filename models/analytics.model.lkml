@@ -114,11 +114,32 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
-  join: conversations_fact {
+  join: contact_engagements_fact {
     view_label: "      Engagements"
-    sql_on: ${contacts.contact_pk} = ${conversations_fact.contact_pk} ;;
+    sql_on: ${contacts.contact_pk} = ${contact_engagements_fact.from_contact_pk} ;;
     type: left_outer
     relationship: many_to_one
+  }
+  join: contact_engagement_deal_fact {
+    from: deals_fact
+    view_label: "  Engagement Deals"
+    sql_on: ${contact_engagements_fact.deal_pk} = ${contact_engagement_deal_fact.deal_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: contacts_engaged_dim {
+    from: contacts_dim
+    view_label: " Contacts Engaged"
+    sql_on: ${contact_engagements_fact.to_contact_pk} = ${contacts_engaged_dim.contact_pk} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
+  join: companies_engaged_dim {
+    from: companies_dim
+    view_label: "   Companies Engaged"
+    sql_on: ${companies_engaged_dim.company_pk} = ${companies_dim.company_pk};;
+    type: inner
+    relationship: one_to_many
   }
   join: companies_dim {
     view_label: "       Companies"
@@ -372,11 +393,26 @@ explore: companies_dim {
   }
 
 
-  join: conversations_fact {
+  join: contact_engagements_fact {
     view_label: "       Contacts"
-    sql_on: ${contacts.contact_pk} = ${conversations_fact.contact_pk} ;;
+    sql_on: ${contacts.contact_pk} = ${contact_engagements_fact.to_contact_pk} ;;
     type: inner
     relationship: many_to_one
+  }
+
+  join: contacts_engaged_dim {
+    from: contacts_dim
+    view_label: "       Contacts"
+    sql_on: ${contact_engagements_fact.to_contact_pk} = ${contacts_engaged_dim.contact_pk} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
+  join: companies_engaged_dim {
+    from: companies_dim
+    view_label: "       Contacts"
+    sql_on: ${companies_engaged_dim.company_pk} = ${companies_dim.company_pk};;
+    type: inner
+    relationship: one_to_many
   }
 
   join: customer_events_xa {
