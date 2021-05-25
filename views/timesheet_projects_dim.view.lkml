@@ -1,5 +1,5 @@
 view: timesheet_projects_dim {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.timesheet_projects_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.timesheet_projects_dim`
     ;;
   view_label: "  Timesheets"
   dimension: company_pk {

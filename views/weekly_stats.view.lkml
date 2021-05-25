@@ -1,5 +1,5 @@
 view: weekly_stats {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.daily_activity.weekly_stats`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.daily_activity.weekly_stats`
     ;;
 
   dimension: avg_event_value {

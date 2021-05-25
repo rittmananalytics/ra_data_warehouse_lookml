@@ -1,5 +1,5 @@
 view: ad_campaign_performance_fact {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.ad_campaign_performance_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ad_campaign_performance_fact`
     ;;
 
   measure: average_actual_cpc {

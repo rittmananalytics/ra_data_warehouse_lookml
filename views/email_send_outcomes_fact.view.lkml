@@ -1,5 +1,5 @@
 view: email_send_outcomes_fact {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.email_send_outcomes_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.email_send_outcomes_fact`
     ;;
 
   dimension: action {

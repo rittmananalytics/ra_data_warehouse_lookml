@@ -1,5 +1,5 @@
 view: ad_performance_snapshot_fact {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.ad_performance_snapshot_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.ad_performance_snapshot_fact`
     ;;
 
   dimension: account_id {

@@ -1,5 +1,5 @@
 view: delivery_tasks_fact {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.delivery_tasks_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.delivery_tasks_fact`
     ;;
 
   dimension: delivery_project_pk {

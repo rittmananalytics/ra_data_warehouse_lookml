@@ -1,5 +1,5 @@
 view: contacts_influencer_list_xa {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.contacts_influencer_list_xa`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.contacts_influencer_list_xa`
     ;;
 
   dimension: contact_influencer_score {

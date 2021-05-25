@@ -1,5 +1,5 @@
 view: deals_fact {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.deals_fact`;;
+  sql_table_name: `{{ _user_attributes['dataset'] }}.deals_fact`;;
   view_label: "Sales Pipeline"
 
   dimension: company_pk {

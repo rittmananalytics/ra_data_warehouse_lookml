@@ -1,5 +1,5 @@
 view: adsets_dim {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.adsets_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.adsets_dim`
     ;;
 
   dimension: account_id {

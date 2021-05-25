@@ -10,13 +10,13 @@ FROM (
   SELECT
     *
   FROM
-    `{{ _user_attributes['dbt_dataset'] }}.contacts_dim`,
+    `{{ _user_attributes['dataset'] }}.contacts_dim`,
     UNNEST( all_contact_company_ids) AS company_id  ) ct
 JOIN (
   SELECT
     *
   FROM
-    `{{ _user_attributes['dbt_dataset'] }}.companies_dim` c,
+    `{{ _user_attributes['dataset'] }}.companies_dim` c,
     UNNEST (all_company_ids) AS company_id ) c
 ON
   ct.company_id = c.company_id
@@ -24,7 +24,7 @@ LEFT JOIN
   (SELECT
     contact_pk,
     contact_id
-   FROM `{{ _user_attributes['dbt_dataset'] }}.contacts_dim`,
+   FROM `{{ _user_attributes['dataset'] }}.contacts_dim`,
    UNNEST( all_contact_ids) as contact_id
    WHERE
     contact_id like '%hubspot%' ) hb
@@ -33,7 +33,7 @@ LEFT JOIN
   (SELECT
     contact_pk,
     contact_email
-   FROM `{{ _user_attributes['dbt_dataset'] }}.contacts_dim`,
+   FROM `{{ _user_attributes['dataset'] }}.contacts_dim`,
    UNNEST( all_contact_emails ) as contact_email
     ) ce
 ON ct.contact_pk = ce.contact_pk

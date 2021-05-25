@@ -1,5 +1,5 @@
 view: transactions_fact {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.transactions_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.transactions_fact`
     ;;
 
   dimension_group: transaction_created_ts {

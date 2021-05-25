@@ -1,5 +1,5 @@
 view: fy2019_accounts {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.xero_reports.fy2019_accounts`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.xero_reports.fy2019_accounts`
     ;;
 
   dimension: account {

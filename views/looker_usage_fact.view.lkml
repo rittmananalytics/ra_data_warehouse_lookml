@@ -1,5 +1,5 @@
 view: looker_usage_fact {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.looker_usage_fact`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.looker_usage_fact`
     ;;
   drill_fields: [id]
 

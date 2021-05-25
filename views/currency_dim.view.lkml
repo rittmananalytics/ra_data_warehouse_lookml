@@ -1,5 +1,5 @@
 view: currency_dim {
-  sql_table_name: `{{ _user_attributes['dbt_dataset'] }}.currency_dim`
+  sql_table_name: `{{ _user_attributes['dataset'] }}.currency_dim`
     ;;
 
   dimension: currency_code {
