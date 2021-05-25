@@ -12,12 +12,6 @@ fiscal_month_offset: -3
 
 
 
-
-
-
-
-
-
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
   label: "Web Analytics"
@@ -453,6 +447,13 @@ explore: companies_dim {
     type: inner
     relationship: one_to_many
   }
+  join: cs_engagement_fact {
+    sql_on: ${cs_engagement_fact.primary_key} = ${companies_dim.company_pk} ;;
+    view_label: "Customer Success Engagements"
+    type: inner
+    relationship: one_to_many
+  }
+
   join: contacts_influencer_list_xa {
     view_label: "       Contacts"
     sql_on: ${contacts.hubspot_contact_id} = ${contacts_influencer_list_xa.hubspot_contact_id} ;;

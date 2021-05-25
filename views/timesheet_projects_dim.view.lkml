@@ -97,9 +97,16 @@ view: timesheet_projects_dim {
     sql:${project_fee_amount_pro_rata} ;;
   }
 
-
-
-
+  measure: total_project_fee_amount_pro_rata_gbp {
+    group_label: "Project Commercials"
+    type: sum_distinct
+    sql: case when ${project_fee_amount} = 7000 then ${project_fee_amount_pro_rata} * .75
+              when ${project_fee_amount} = 5500 then ${project_fee_amount_pro_rata} * .75
+              when ${project_fee_amount} = 5800 then ${project_fee_amount_pro_rata} * .90
+              when ${project_fee_amount} = 13620 then ${project_fee_amount_pro_rata} * .75
+              when ${project_fee_amount} = 9625 then ${project_fee_amount_pro_rata} * .75
+              else ${project_fee_amount_pro_rata} end;;
+  }
 
   dimension: total_business_days_pct_elapsed {
     group_label: "Project Commercials"
