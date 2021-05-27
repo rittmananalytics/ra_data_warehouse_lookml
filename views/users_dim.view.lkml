@@ -2,17 +2,9 @@ view: users_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.users_dim`
     ;;
 
-  dimension: all_user_emails {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.all_user_emails ;;
-  }
 
-  dimension: all_user_ids {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.all_user_ids ;;
-  }
+
+
 
   dimension: user_cost_rate {
     group_label: "Consultant Details"

@@ -8,12 +8,7 @@ view: contact_engagements_fact {
     sql: ${TABLE}.deal_pk ;;
   }
 
-  dimension: engagement_id {
-    hidden: yes
 
-    type: string
-    sql: ${TABLE}.engagement_id ;;
-  }
 
   dimension: engagement_pk {
     hidden: yes

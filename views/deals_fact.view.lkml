@@ -73,12 +73,7 @@ measure: total_deal_amount_gbp_converted  {
 
 
 
-  dimension: deal_amount_local_currency {
-    hidden: yes
 
-    type: number
-    sql: ${TABLE}.deal_amount_local_currency ;;
-  }
 
 
   dimension_group: deal_closed {

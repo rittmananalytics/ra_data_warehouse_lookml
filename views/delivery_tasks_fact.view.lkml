@@ -224,12 +224,7 @@ view: delivery_tasks_fact {
     }
   }
 
-  dimension: task_priority {
-    group_label: "Project Tasks"
 
-    type: string
-    sql: ${TABLE}.task_priority ;;
-  }
 
   dimension: task_status_workflow_stage_number {
     group_label: "Project Tasks"
@@ -252,12 +247,7 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_type ;;
   }
 
-  dimension: task_resolution_type {
-    group_label: "Project Tasks"
 
-    type: string
-    sql: ${TABLE}.task_resolution_type ;;
-  }
 
   dimension: task_status_colour {
     group_label: "Project Tasks"
@@ -266,21 +256,7 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_status_colour ;;
   }
 
-  dimension: total_delivery_priority_low {
-    hidden: yes
-    group_label: "Project Tasks"
 
-    type: number
-    sql: ${TABLE}.total_priority_low ;;
-  }
-
-  dimension: total_delivery_priority_medium {
-    hidden: yes
-    group_label: "Project Tasks"
-
-    type: number
-    sql: ${TABLE}.total_priority_medium ;;
-  }
 
   dimension: total_delivery_subtasks {
     hidden: yes
@@ -305,13 +281,6 @@ view: delivery_tasks_fact {
     sql: coalesce(${TABLE}.total_completed,0) ;;
   }
 
-  dimension: total_delivery_tasks_high {
-    hidden: yes
-    group_label: "Project Tasks"
-
-    type: number
-    sql: ${TABLE}.total_priority_high ;;
-  }
 
   measure: total_delivery_tasks_in_progress {
     group_label: "Project Tasks"

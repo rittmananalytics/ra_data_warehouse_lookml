@@ -2,11 +2,7 @@ view: invoices_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.invoices_fact`
     ;;
 
-  dimension: all_invoice_ids {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.all_invoice_ids ;;
-  }
+
 
   dimension: company_id {
     hidden: yes

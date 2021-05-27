@@ -1,20 +1,8 @@
 view: companies_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.companies_dim`;;
 
-  dimension: all_company_addresses {
-    hidden: yes
-    sql: ${TABLE}.all_company_addresses ;;
-  }
 
-  dimension: all_company_ids {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.all_company_ids ;;
-  }
 
-  dimension: company_id {
-    hidden: yes
-  }
 
   dimension_group: company_created {
     group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
@@ -143,40 +131,5 @@ view: companies_dim {
 
       company_name
     ]
-  }
-}
-
-view: companies_dim__all_company_addresses {
-  dimension: company_address {
-    type: string
-    sql: ${TABLE}.company_address ;;
-  }
-
-  dimension: company_address2 {
-    type: string
-    sql: ${TABLE}.company_address2 ;;
-  }
-
-  dimension: company_city {
-    type: string
-    sql: ${TABLE}.company_city ;;
-  }
-
-  dimension: company_country {
-    type: string
-    sql: ${TABLE}.company_country ;;
-  }
-
-  dimension: company_state {
-    type: string
-    sql: ${TABLE}.company_state ;;
-  }
-
-  dimension: company_zip {
-    type: string
-    sql: ${TABLE}.company_zip ;;
-  }
-  measure: count {
-    type: count
   }
 }

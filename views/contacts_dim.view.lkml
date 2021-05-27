@@ -42,15 +42,7 @@ WHERE
   }
 
 
-  dimension: all_contact_addresses {
-    hidden: yes
-    sql: ${TABLE}.all_contact_addresses ;;
-  }
 
-  dimension: all_contact_emails {
-    hidden: yes
-    sql: ${TABLE}.all_contact_emails ;;
-  }
 
   dimension: company_pk {
     hidden: yes
@@ -67,12 +59,7 @@ WHERE
     sql: ${TABLE}.contact_email ;;
   }
 
-  dimension: all_contact_ids {
-    hidden: yes
 
-    type: string
-    sql: ${TABLE}.all_contact_ids ;;
-  }
 
   dimension: hubspot_contact_id {
     hidden: no
@@ -148,12 +135,7 @@ WHERE
     sql: ${TABLE}.contact_last_modified_date ;;
   }
 
-  dimension: contact_mobile_phone {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
-    type: string
-    sql: ${TABLE}.contact_mobile_phone ;;
-  }
 
   dimension: contact_name {
     label: "        Contact Name"
@@ -202,40 +184,5 @@ WHERE
     hidden: yes
     type: count
     drill_fields: [contact_name]
-  }
-}
-
-view: contacts_dim__all_contact_addresses {
-  dimension: contact_address {
-    type: string
-    sql: ${TABLE}.contact_address ;;
-  }
-
-  dimension: contact_city {
-    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
-
-    type: string
-    sql: ${TABLE}.contact_city ;;
-  }
-
-  dimension: contact_country {
-    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
-
-    type: string
-    sql: ${TABLE}.contact_country ;;
-  }
-
-  dimension: contact_postcode_zip {
-    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
-
-    type: string
-    sql: ${TABLE}.contact_postcode_zip ;;
-  }
-
-  dimension: contact_state {
-    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
-
-    type: string
-    sql: ${TABLE}.contact_state ;;
   }
 }
