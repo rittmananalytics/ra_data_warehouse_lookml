@@ -1,11 +1,9 @@
 view: companies_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.companies_dim`;;
 
-
-
-
   dimension_group: company_created {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     {{ _view._name| replace: '_', ' ' |
+        replace: 'dim', '' | capitalize}}  Company"
 
     timeframes: [date,month,quarter]
     type: time

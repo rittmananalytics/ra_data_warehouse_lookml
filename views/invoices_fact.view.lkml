@@ -16,11 +16,7 @@ view: invoices_fact {
     sql: ${TABLE}.company_pk ;;
   }
 
-  dimension: creator_users_pk {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.creator_users_pk ;;
-  }
+
 
   dimension_group: first_invoice {
     type: time
