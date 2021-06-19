@@ -318,6 +318,7 @@ view: rfm_model {
     }
     dimension: company_pk {
       hidden: yes
+      primary_key: yes
       label: "        Companies Company Pk"
     }
     dimension: rfm_frequency_score {
