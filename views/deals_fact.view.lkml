@@ -576,7 +576,7 @@ measure: total_deal_amount_gbp_converted  {
 
   dimension: deal_currency_code {
     group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
-
+    description: "This is the purpose the field"
     type: string
     sql: ${TABLE}.deal_currency_code ;;
   }

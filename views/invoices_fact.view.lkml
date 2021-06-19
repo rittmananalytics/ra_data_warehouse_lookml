@@ -286,6 +286,50 @@ view: invoices_fact {
     sql: ${TABLE}.months_since_first_invoice ;;
   }
 
+  dimension: months_before_last_invoice {
+    type: number
+    sql: ${TABLE}.months_before_last_invoice ;;
+  }
+
+  dimension: is_invoice_in_clients_last_12m {
+    type: yesno
+    sql: ${months_before_last_invoice} < 12 ;;
+  }
+
+
+
+
+
+
+
+  measure: invoice_months_recency {
+    type: max
+    sql: ${TABLE}.invoice_months_before_now ;;
+    filters: [is_invoice_in_clients_last_12m: "Yes"]
+  }
+
+  dimension: invoice_months_before_now {
+    type: number
+    sql: ${TABLE}.invoice_months_before_now ;;
+  }
+
+  measure: min_invoice_months_before_now {
+    type: min
+    sql: ${invoice_months_before_now} ;;
+  }
+
+  measure: total_invoice_gbp_amount_in_clients_last_12m {
+    value_format_name: gbp
+    type: sum
+    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * .75
+    when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * .58
+    when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * .90
+    else ${TABLE}.invoice_local_total_revenue_amount end;;
+    filters: [is_invoice_in_clients_last_12m: "Yes"]
+  }
+
+
+
   measure: total_months_customer {
     type: max
     sql: ${months_since_first_invoice} ;;
@@ -321,5 +365,11 @@ view: invoices_fact {
     type: count_distinct
     sql: ${TABLE}.invoice_pk ;;
 
+  }
+
+  measure: total_invoice_count_in_clients_last_12m {
+    type: count_distinct
+    sql: ${TABLE}.invoice_pk ;;
+    filters: [is_invoice_in_clients_last_12m: "Yes"]
   }
 }

@@ -18,24 +18,12 @@ view: client_prospect_status_dim {
       GROUP BY
           1,2)
       select company_pk, company_name,
-             case when count_timesheet_projects = 1 or closed_won_deals = 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'New Client'
-                  when count_timesheet_projects > 2 and closed_won_deals > 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'Repeat Client'
+             case when count_timesheet_projects = 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'New Client'
+                  when count_timesheet_projects > 2 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'Repeat Client'
                   when count_timesheet_projects = 0 and count_deals > closed_lost_deals then 'Prospect'
                   when count_timesheet_projects = 0 and count_deals > 0 and count_deals <= closed_lost_deals then 'Lost Prospect'
                   else 'None'
-             end as client_status,
-             case when count_timesheet_projects = 1 or closed_won_deals = 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then true
-                  when count_timesheet_projects > 2 and closed_won_deals > 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then true
-                  when count_timesheet_projects = 0 and count_deals > closed_lost_deals then false
-                  when count_timesheet_projects = 0 and count_deals > 0 and count_deals <= closed_lost_deals then false
-                  else false
-             end as is_client,
-             case when count_timesheet_projects = 1 or closed_won_deals = 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then false
-                  when count_timesheet_projects > 2 and closed_won_deals > 1 and company_name not like '%Looker%' and company_name not like '%Segment%' then false
-                  when count_timesheet_projects = 0 and count_deals > closed_lost_deals then true
-                  when count_timesheet_projects = 0 and count_deals > 0 and count_deals <= closed_lost_deals then true
-                  else false
-             end as is_prospect
+             end as client_status
       from company_metrics
        ;;
   }
@@ -53,25 +41,27 @@ view: client_prospect_status_dim {
     sql: ${TABLE}.client_status ;;
   }
 
-  dimension: client_name {
-    type: string
-    sql: case when ${TABLE}.is_client then ${TABLE}.company_name end ;;
-  }
-
-  dimension: prospect_name {
-    type: string
-    sql: case when ${TABLE}.is_prospect then ${TABLE}.company_name end ;;
-  }
-
   dimension: is_client {
     type: yesno
-    sql: ${TABLE}.is_client ;;
+    sql: ${client_status} like '%Client%' ;;
   }
 
   dimension: is_prospect {
     type: yesno
-    sql: ${TABLE}.is_prospect ;;
+    sql: ${client_status} like '%Prospect%' ;;
   }
+
+  dimension: client_name {
+    type: string
+    sql: case when ${is_client} then ${TABLE}.company_name end ;;
+  }
+
+  dimension: prospect_name {
+    type: string
+    sql: case when ${is_prospect} then ${TABLE}.company_name end ;;
+  }
+
+
 
 
 }

@@ -256,6 +256,12 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
+  join: rfm_model {
+    view_label: "        Companies"
+    sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
   join: company_deal_value_attribute {
     view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${company_deal_value_attribute.company_pk} ;;
