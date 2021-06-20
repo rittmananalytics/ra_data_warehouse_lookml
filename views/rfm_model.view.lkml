@@ -3,7 +3,7 @@ view: rfm_model {
       explore_source: companies_dim {
         column: total_invoice_count_in_clients_last_12m { field: projects_invoiced.total_invoice_count_in_clients_last_12m }
         column: total_invoice_gbp_amount_in_clients_last_12m { field: projects_invoiced.total_invoice_gbp_amount_in_clients_last_12m }
-        column: invoice_months_recency { field: projects_invoiced.invoice_months_recency }
+        column: invoice_months_recency { field: projects_invoiced.min_invoice_months_before_now }
         column: company_pk { field: company_deal_value_attribute.company_pk }
         filters: {
           field: projects_invoiced.invoice_gbp_revenue_amount
