@@ -195,6 +195,7 @@ view: web_sessions_fact {
     timeframes: [
       raw,
       time,
+      hour4,
       day_of_week,
       date,
       day_of_year,

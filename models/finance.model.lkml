@@ -15,11 +15,13 @@ explore: actuals_vs_budget {
 
 }
 
-explore: consultant_revenue_attribution {}
+explore: consultant_revenue_attribution {
+  hidden: yes
+}
 
 
 
 explore: actuals_v_targets {
-  hidden: no
+  hidden: yes
 
 }
