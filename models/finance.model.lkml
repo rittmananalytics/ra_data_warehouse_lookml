@@ -22,6 +22,6 @@ explore: consultant_revenue_attribution {
 
 
 explore: actuals_v_targets {
-  hidden: yes
+  hidden: no
 
 }
