@@ -59,7 +59,7 @@ FROM
               when 'LICKFIVETRAN' then 'LIK001'
               else projects_delivered.project_code end
             AS projects_delivered_project_code,
-                (FORMAT_TIMESTAMP('%Y-%m', projects_invoiced.invoice_created_at_ts )) AS projects_invoiced_invoice_month,
+                timestamp(date_trunc(date(projects_invoiced.invoice_created_at_ts ),MONTH)) AS projects_invoiced_invoice_month,
             project_timesheet_users.contact_name  AS project_timesheet_users_contact_name,
             ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE( case when projects_invoiced.invoice_currency = 'USD' then projects_invoiced.invoice_local_total_revenue_amount * .75
               when projects_invoiced.invoice_currency = 'CAD' then projects_invoiced.invoice_local_total_revenue_amount * .58
@@ -97,24 +97,40 @@ select * except (revenue),
        sum(hours_billed) over (partition by project_code) as project_hours_billed,
        safe_divide(hours_billed,sum(hours_billed) over (partition by project_code)) as consultant_pct_project_hours_billed,
        sum(distinct revenue) over (partition by project_code) * safe_divide(hours_billed,sum(hours_billed) over (partition by project_code)) as consultant_attributed_revenue,
+       row_number() over (partition by consultant_name order by invoice_month) as consultant_project_seq,
+       row_number() over (partition by substr(project_code,1,3) order by invoice_month) as client_project_seq
 from basic_numbers
 where revenue >0),
 monthly_project_totals as (
-select invoice_month, project_code, consultant_name,  sum(consultant_attributed_revenue) as attributed_revenue
+select invoice_month, project_code, consultant_name,  consultant_project_seq, client_project_seq, sum(consultant_attributed_revenue) as attributed_revenue
 from project_attributed_revenue
 where consultant_name is not null
-group by 1,2,3),
+group by 1,2,3,4,5),
 consultant_monthly_totals as (
-select invoice_month, consultant_name, sum(attributed_revenue) as attributed_revenue
+select invoice_month, consultant_name,  consultant_project_seq, client_project_seq, sum(attributed_revenue) as attributed_revenue
 from monthly_project_totals
-group by 1,2
-order by 1,2)
+group by 1,2,3,4
+order by 1,2,3,4)
 select * from monthly_project_totals ;;
   }
-dimension: invoice_month {}
+dimension_group : invoice {
+  type: time
+  timeframes: [month,month_num,quarter,quarter_of_year,year]
+  sql: ${TABLE}.invoice_month ;;
+}
 dimension: project_code {}
 dimension: consultant_name {}
+dimension: consultant_project_seq {
+  type: number
+  sql: ${TABLE}.consultant_project_seq ;;
+}
+dimension: client_project_seq {
+  type: number
+  sql: ${TABLE}.client_project_seq ;;
+}
+
 measure: attributed_revenue {
   type: sum
+  value_format_name: gbp
 }
 }
