@@ -3,6 +3,8 @@ view: contacts_influencer_list_xa {
     ;;
 
   dimension: contact_influencer_score {
+    group_label: "        Contacts"
+
     type: number
     sql: ${TABLE}.contact_influencer_score ;;
   }
@@ -22,7 +24,7 @@ view: contacts_influencer_list_xa {
   }
 
   dimension: influencer_status {
-    group_label: "        {{ 'Contacts'| replace: '_', ' ' | replace: 'xa', '' | replace: 'list', '' | replace: 'influencer', '' |capitalize}}"
+    group_label: "        Contacts"
 
     type: string
     sql: ${TABLE}.influencer_status ;;

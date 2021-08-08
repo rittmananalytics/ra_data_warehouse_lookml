@@ -79,7 +79,6 @@ measure: total_deal_amount_gbp_converted  {
   dimension_group: deal_closed {
     type: time
     timeframes: [date,week,week_of_year,month, month_num, quarter,quarter_of_year,year]
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Sales Activity"
 
 
 
@@ -87,7 +86,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: deal_closed_lost_reason {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Sales Activity"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Sales Activity"
 
     type: string
     sql: ${TABLE}.deal_closed_lost_reason ;;
@@ -108,7 +107,8 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: deal_description {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "     Deal Description"
 
     type: string
     sql: ${TABLE}.deal_description ;;
@@ -122,7 +122,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: deal_is_deleted {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: yesno
     sql: ${TABLE}.deal_is_deleted ;;
   }
@@ -137,8 +137,8 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: deal_name {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
-
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "      Deal Name"
     type: string
     sql: ${TABLE}.deal_name ;;
   }
@@ -165,7 +165,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: deal_pipeline_stage {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Activity"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: date_time
 
@@ -180,19 +180,19 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   measure: count_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
     type: count_distinct
     sql: ${TABLE}.deal_pk ;;
   }
 
   measure: count_oppportunity_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
     type: count_distinct
     sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_pk end;;
   }
 
   measure: count_closed_in_delivery_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
     type: count_distinct
     sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_pk end;;
   }
@@ -200,26 +200,27 @@ measure: total_deal_amount_gbp_converted  {
 
 
   measure: count_closed_won_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
     type: count_distinct
     sql: case when ${TABLE}.pipeline_stage_closed_won  then ${TABLE}.deal_pk end;;
   }
 
   dimension: deal_type {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
-    type: string
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "    Deal Type"
+
     sql: case when ${TABLE}.deal_type is null then 'Existing Business' else ${TABLE}.deal_type end ;;
   }
 
   dimension: owner_email {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Sales Activity"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: string
     sql: ${TABLE}.owner_email ;;
   }
 
   dimension: owner_full_name {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Sales Activity"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: string
     sql: ${TABLE}.owner_full_name ;;
@@ -232,8 +233,9 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: pipeline_label {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     order_by_field: pipeline_display_order
+    hidden: yes
     type: string
     sql: ${TABLE}.pipeline_label ;;
   }
@@ -277,23 +279,25 @@ measure: total_deal_amount_gbp_converted  {
 
 
   dimension: pipeline_stage_closed_won {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
-
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "Is Closed Won"
     type: yesno
     sql: ${TABLE}.pipeline_stage_closed_won ;;
   }
 
   dimension: pipeline_stage_display_order {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
-    hidden: no
+    hidden: yes
     type: number
     sql: ${TABLE}.pipeline_stage_display_order ;;
   }
 
   dimension: pipeline_stage_label {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: string
+    label: "  Deal Pipeline Stage"
+
     order_by_field: pipeline_stage_display_order
 
     sql: ${TABLE}.pipeline_stage_label ;;
@@ -306,21 +310,21 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: number_of_sprints {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: number
     sql: ${TABLE}.deal_number_of_sprints ;;
   }
 
   dimension: deal_components {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
-
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
     type: string
     sql: ${TABLE}.deal_components ;;
   }
 
   dimension: services {
-    group_label: "  {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Component Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
 
 
     type: yesno
@@ -328,21 +332,21 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: managed_services {
-    group_label: "  {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Component Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
 
     type: yesno
     sql: ${TABLE}.is_managed_services_deal ;;
   }
 
   dimension: license_referral {
-    group_label: "  {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Component Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
 
     type: yesno
     sql: ${TABLE}.is_license_referral_deal ;;
   }
 
   dimension: training {
-    group_label: "  {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Component Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
     type: yesno
     sql: ${TABLE}.is_training_deal ;;
   }
@@ -375,7 +379,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: looker {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
 
     type: yesno
     sql: ${TABLE}.is_looker_skill_requirement ;;
@@ -389,7 +393,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: segment {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
 
     type: yesno
     sql: ${TABLE}.is_segment_skill_requirement ;;
@@ -410,14 +414,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: dbt {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
 
     type: yesno
     sql: ${TABLE}.is_dbt_skill_requirement ;;
   }
 
   dimension: stitch {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
 
     type: yesno
     sql: ${TABLE}.is_stitch_skill_requirement ;;
@@ -431,14 +435,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: gcp {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
 
     type: yesno
     sql: ${TABLE}.is_gcp_skill_requirement ;;
   }
 
   dimension: snowflake {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
 
     type: yesno
     sql: ${TABLE}.is_snowflake_skill_requirement ;;
@@ -452,7 +456,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: qubit {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
 
     type: yesno
     sql: ${TABLE}.is_qubit_skill_requirement ;;
@@ -466,7 +470,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: fivetran {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Technology Filters"
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Technologies"
     type: yesno
     sql: ${TABLE}.is_fivetran_skill_requirement ;;
   }
@@ -479,48 +483,50 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: pricing_model {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: string
     sql: ${TABLE}.deal_pricing_model ;;
   }
 
   dimension: partner_referral {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: string
     sql: ${TABLE}.deal_partner_referral ;;
   }
 
   dimension: sprint_type {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Project Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: string
     sql: ${TABLE}.deal_sprint_type ;;
   }
 
   dimension: license_referral_harvest_project_code {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
-
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
     type: string
     sql: ${TABLE}.deal_license_referral_harvest_project_code ;;
   }
 
   dimension: jira_project_code {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Project Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
 
     type: string
     sql: ${TABLE}.deal_jira_project_code ;;
   }
 
   dimension: assigned_consultant {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Project Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: string
     sql: ${TABLE}.deal_assigned_consultant ;;
   }
 
   dimension: products_in_solution {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
 
     type: string
     sql: ${TABLE}.deal_products_in_solution ;;
@@ -575,14 +581,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: deal_currency_code {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     description: "This is the purpose the field"
     type: string
     sql: ${TABLE}.deal_currency_code ;;
   }
 
   dimension: deal_source {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Source"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
     hidden: yes
 
     type: string
@@ -590,7 +596,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: hs_analytics_source {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Source"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
     hidden: yes
 
     type: string
@@ -598,7 +604,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: hs_analytics_source_data_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Source"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
     hidden: yes
 
     type: string
@@ -606,7 +612,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: hs_analytics_source_data_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Source"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
     hidden: yes
 
     type: string
@@ -615,20 +621,22 @@ measure: total_deal_amount_gbp_converted  {
 
   dimension: deal_end_ts {
      type: date_time
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Project Details"
+    hidden: yes
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     sql: ${TABLE}.deal_end_ts ;;
   }
 
   dimension: deal_sales_email_last_replied {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Sales Activity"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Sales Activity"
+    hidden: yes
 
     type: date_time
     sql: ${TABLE}.deal_sales_email_last_replied ;;
   }
 
   dimension: deal_last_meeting_booked_date {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Sales Activity"
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Sales Activity"
 
      type: date_time
 
@@ -636,14 +644,16 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: delivery_schedule_ts {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Project Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
 
      type: date_time
     sql: ${TABLE}.delivery_schedule_ts ;;
   }
 
   dimension: delivery_start_date_ts {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Project Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
 
      type: date_time
 
@@ -651,14 +661,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_entered_deal_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: time
     timeframes: [date]
     sql: ${TABLE}.date_entered_deal_stage_0 ;;
   }
 
   dimension_group: date_exited_deal_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -666,80 +676,81 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_0 ;;
   }
 
   measure: count_deals_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_0} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_1} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_2} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_3 {
-    group_label: "  Deal Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
+
     type: count_distinct
     sql: case when ${days_in_deal_stage_3} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_4} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_5} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_6} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_7} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_8 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_8} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_9 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_9} is not null then ${deal_id} end;;
   }
 
   measure: count_deals_stage_10 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
     type: count_distinct
     sql: case when ${days_in_deal_stage_10} is not null then ${deal_id} end;;
   }
 
   dimension_group: date_entered_deal_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -747,7 +758,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_exited_deal_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -755,14 +766,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_1 ;;
   }
 
   dimension_group: date_entered_deal_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -770,7 +781,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_exited_deal_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -778,14 +789,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_2 ;;
   }
 
   dimension_group: date_entered_deal_stage_3 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -793,7 +804,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_exited_deal_stage_3 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -801,14 +812,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_3 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_3 ;;
   }
 
   dimension_group: date_entered_deal_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -816,7 +827,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_exited_deal_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -824,14 +835,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_4 ;;
   }
 
   dimension_group: date_entered_deal_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -839,7 +850,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_exited_deal_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -847,14 +858,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_5 ;;
   }
 
   dimension_group: date_entered_deal_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -862,7 +873,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_exited_deal_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -870,14 +881,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_6 ;;
   }
 
   dimension_group: date_entered_deal_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -885,7 +896,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_exited_deal_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -893,14 +904,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_7 ;;
   }
 
   dimension_group: date_entered_deal_stage_8 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
 
@@ -909,7 +920,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_8 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
 
@@ -917,7 +928,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension_group: date_entered_deal_stage_9 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -925,14 +936,14 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_9 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_9 ;;
   }
 
   dimension_group: date_entered_deal_stage_10 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: time
     timeframes: [date]
@@ -940,21 +951,23 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: days_in_deal_stage_10 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
 
     type: number
     sql: ${TABLE}.days_in_deal_stage_10 ;;
   }
 
   dimension: manual_forecast_category {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
 
     type: string
     sql: ${TABLE}.manual_forecast_category ;;
   }
 
   dimension: forecast_probability {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.forecast_probability ;;
@@ -963,14 +976,15 @@ measure: total_deal_amount_gbp_converted  {
 
 
   dimension: predicted_amount {
-    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
-
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
     type: string
     sql: ${TABLE}.predicted_amount ;;
   }
 
   dimension: days_in_pipeline {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.days_in_pipeline ;;

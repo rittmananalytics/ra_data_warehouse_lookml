@@ -31,6 +31,8 @@ view: invoices_fact {
   }
 
   dimension_group: last_invoice {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -45,6 +47,7 @@ view: invoices_fact {
 
 
   dimension_group: invoice {
+    label: "      Invoice"
     type: time
     timeframes: [
       date,
@@ -70,11 +73,14 @@ view: invoices_fact {
   }
 
   dimension: invoice_currency {
+    group_label: "        Invoice Details"
     type: string
     sql: ${TABLE}.invoice_currency ;;
   }
 
   dimension_group: invoice_due {
+    group_label: "        Invoice Details"
+
     type: time
     timeframes: [
       date
@@ -83,11 +89,12 @@ view: invoices_fact {
   }
 
   dimension_group: invoice_issued {
+    hidden: yes
+
     type: time
     timeframes: [
       date,
-      month,
-      quarter
+      month
     ]
     sql: ${TABLE}.invoice_issue_at_ts ;;
   }
@@ -163,11 +170,15 @@ view: invoices_fact {
   }
 
   dimension: invoice_number {
+    group_label: "        Invoice Details"
+
     type: string
     sql: ${TABLE}.invoice_number ;;
   }
 
   dimension_group: invoice_paid {
+    group_label: "        Invoice Details"
+
     type: time
     timeframes: [
       date
@@ -176,6 +187,8 @@ view: invoices_fact {
   }
 
   dimension: invoice_payment_term {
+    group_label: "        Invoice Details"
+
     type: string
     sql: ${TABLE}.invoice_payment_term ;;
   }
@@ -236,21 +249,29 @@ view: invoices_fact {
   }
 
   dimension: invoice_seq {
+    group_label: "        Invoice Details"
+
     type: number
     sql: ${TABLE}.invoice_seq ;;
   }
 
   dimension: invoice_status {
+    group_label: "        Invoice Details"
+
     type: string
     sql: ${TABLE}.invoice_status ;;
   }
 
   dimension: invoice_subject {
+    group_label: "        Invoice Details"
+
     type: string
     sql: ${TABLE}.invoice_subject ;;
   }
 
   dimension: invoice_tax_rate_pct {
+    group_label: "        Invoice Details"
+
     type: string
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
@@ -277,21 +298,32 @@ view: invoices_fact {
   }
 
   dimension: invoice_type {
+    group_label: "        Invoice Details"
+
     type: string
     sql: ${TABLE}.invoice_type ;;
   }
 
   dimension: months_since_first_invoice {
+    group_label: "        Invoice Details"
+    hidden: yes
+
     type: number
     sql: ${TABLE}.months_since_first_invoice ;;
   }
 
   dimension: months_before_last_invoice {
+    group_label: "        Invoice Details"
+    hidden: yes
+
     type: number
     sql: ${TABLE}.months_before_last_invoice ;;
   }
 
   dimension: is_invoice_in_clients_last_12m {
+    group_label: "        Invoice Details"
+    hidden: yes
+
     type: yesno
     sql: ${months_before_last_invoice} < 12 ;;
   }
@@ -309,6 +341,9 @@ view: invoices_fact {
   }
 
   dimension: invoice_months_before_now {
+    group_label: "      Invoice Details"
+    hidden: yes
+
     type: number
     sql: ${TABLE}.invoice_months_before_now ;;
   }
@@ -343,6 +378,9 @@ view: invoices_fact {
   }
 
   dimension: quarters_since_first_invoice {
+    group_label: "      Invoice Details"
+    hidden: yes
+
     type: number
     sql: ${TABLE}.quarters_since_first_invoice ;;
   }
@@ -368,6 +406,7 @@ view: invoices_fact {
   }
 
   measure: total_invoice_count_in_clients_last_12m {
+    hidden: yes
     type: count_distinct
     sql: ${TABLE}.invoice_pk ;;
     filters: [is_invoice_in_clients_last_12m: "Yes"]

@@ -2,8 +2,7 @@ view: companies_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.companies_dim`;;
 
   dimension_group: company_created {
-    group_label: "     {{ _view._name| replace: '_', ' ' |
-        replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     timeframes: [date,month,quarter]
     type: time
@@ -17,7 +16,7 @@ view: companies_dim {
   }
 
   dimension: company_description {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     type: string
     sql: ${TABLE}.company_description ;;
@@ -34,7 +33,7 @@ view: companies_dim {
 
   dimension: company_industry {
     hidden: no
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     type: string
     sql: ${TABLE}.company_industry ;;
@@ -58,7 +57,7 @@ view: companies_dim {
 
   dimension: company_linkedin_bio {
     hidden: no
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     type: string
     sql: ${TABLE}.company_linkedin_bio ;;
@@ -66,14 +65,14 @@ view: companies_dim {
 
   dimension: company_linkedin_company_page {
     hidden: no
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     type: string
     sql: ${TABLE}.company_linkedin_company_page ;;
   }
 
   dimension: company_name {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     label: "Company"
     type: string
@@ -99,7 +98,7 @@ view: companies_dim {
   }
 
   dimension: company_twitterhandle {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     hidden: no
 
@@ -108,7 +107,7 @@ view: companies_dim {
   }
 
   dimension: company_website {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     hidden: no
 
@@ -117,7 +116,7 @@ view: companies_dim {
   }
 
   measure: count {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Company"
+    group_label: "     Company"
 
     type: count
     drill_fields: [detail*]

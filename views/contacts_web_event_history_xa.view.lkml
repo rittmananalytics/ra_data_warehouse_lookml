@@ -9,12 +9,14 @@ view: contacts_web_event_history_xa {
   }
 
   dimension: event_details {
+    group_label: "      Contact Web Events"
+
     type: string
     sql: ${TABLE}.event_details ;;
   }
 
   dimension_group: event_ts {
-    group_label: "Event"
+    group_label: "      Contact Web Events"
     type: time
     timeframes: [
       raw,
@@ -24,21 +26,29 @@ view: contacts_web_event_history_xa {
   }
 
   dimension: event_type {
+    group_label: "      Contact Web Events"
+
     type: string
     sql: ${TABLE}.event_type ;;
   }
 
   dimension: ip {
+    group_label: "      Contact Web Events"
+
     type: string
     sql: ${TABLE}.ip ;;
   }
 
   dimension: page_title {
+    group_label: "      Contact Web Events"
+
     type: string
     sql: ${TABLE}.page_title ;;
   }
 
   dimension: page_url {
+    group_label: "      Contact Web Events"
+
     type: string
     sql: ${TABLE}.page_url ;;
   }
@@ -50,8 +60,5 @@ view: contacts_web_event_history_xa {
     sql: ${TABLE}.web_event_pk ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
+
 }

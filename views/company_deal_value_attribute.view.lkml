@@ -15,33 +15,39 @@ view: company_deal_value_attribute {
        ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
+
 
   dimension: company_pk {
     type: string
+    hidden: yes
     primary_key: yes
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: initial_deal_amount {
+    group_label: "     Company"
+
     type: number
     sql: ${TABLE}.initial_deal_amount ;;
   }
 
   dimension: expansion_deal_amount {
+    group_label: "     Company"
+
     type: number
     sql: ${TABLE}.expansion_deal_amount ;;
   }
 
   measure:total_initial_deal_amount {
+    group_label: "     Company"
+
     type: sum
     sql: ${TABLE}.initial_deal_amount ;;
   }
 
   measure: total_expansion_deal_amount {
+    group_label: "     Company"
+
     type: sum
     sql: ${TABLE}.expansion_deal_amount ;;
   }

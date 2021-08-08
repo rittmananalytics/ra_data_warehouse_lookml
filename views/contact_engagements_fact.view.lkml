@@ -18,12 +18,16 @@ view: contact_engagements_fact {
   }
 
   dimension: engagement_title {
+    group_label: "        Contact Engagements"
+
     type: string
     sql: ${TABLE}.engagement_title ;;
   }
 
   dimension_group: engagement_ts {
     label: "Engagement"
+    group_label: "        Contact Engagements"
+
     type: time
     timeframes: [
       raw,
@@ -38,6 +42,8 @@ view: contact_engagements_fact {
   }
 
   dimension: engagment_type {
+    group_label: "        Contact Engagements"
+
     type: string
     sql: ${TABLE}.engagment_type ;;
   }
@@ -56,12 +62,16 @@ view: contact_engagements_fact {
   }
 
   measure: count_engagements {
+    group_label: "        Contact Engagements"
+
     type: count_distinct
     sql: ${TABLE}.engagement_pk;;
     drill_fields: []
   }
 
   measure: count_meetings {
+    group_label: "        Contact Engagements"
+
     type: count_distinct
     sql: ${TABLE}.engagement_pk;;
     filters: [engagment_type : "MEETING"]

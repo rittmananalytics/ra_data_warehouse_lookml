@@ -53,7 +53,7 @@ WHERE
 
   dimension: contact_email {
     hidden: no
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.contact_email ;;
@@ -63,7 +63,7 @@ WHERE
 
   dimension: hubspot_contact_id {
     hidden: no
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: string
     sql: ${TABLE}.hubspot_contact_id ;;
@@ -106,14 +106,14 @@ WHERE
   }
 
   dimension: contact_is_contractor {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: yesno
     sql: ${TABLE}.contact_is_contractor ;;
   }
 
   dimension: contact_is_staff {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
+    group_label: "        {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}"
 
     type: yesno
     sql: ${TABLE}.contact_is_staff ;;
