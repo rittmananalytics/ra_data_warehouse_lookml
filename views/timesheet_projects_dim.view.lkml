@@ -39,7 +39,7 @@ view: timesheet_projects_dim {
     group_label: "   Project Details"
 
     type: time
-    timeframes: [date,week,month]
+    timeframes: [date,week,month,week_of_year,month_num,quarter,quarter_of_year,day_of_week,day_of_month,day_of_week_index]
     sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
 
@@ -61,7 +61,7 @@ view: timesheet_projects_dim {
     group_label: "   Project Details"
 
     type: time
-    timeframes: [date,week,month]
+    timeframes: [date,week,month,week_of_year,month_num,quarter,quarter_of_year,day_of_week,day_of_month,day_of_week_index]
     sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
   }
 
