@@ -139,10 +139,10 @@ view: invoices_fact {
     hidden: no
     value_format_name: gbp
     type: sum
-    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * .75
-              when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * .58
-              when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * .90
-              else ${TABLE}.invoice_local_total_revenue_amount end;;
+    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * 3.75
+    when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * 3.58
+    when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * 3.90
+    else ${TABLE}.invoice_local_total_revenue_amount * 3.63 end;;
   }
 
   dimension: invoice_local_total_services_amount {
@@ -356,10 +356,10 @@ view: invoices_fact {
   measure: total_invoice_gbp_amount_in_clients_last_12m {
     value_format_name: gbp
     type: sum
-    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * .75
-    when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * .58
-    when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * .90
-    else ${TABLE}.invoice_local_total_revenue_amount end;;
+    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * 3.75
+    when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * 3.58
+    when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * 3.90
+    else ${TABLE}.invoice_local_total_revenue_amount * 3.63 end;;
     filters: [is_invoice_in_clients_last_12m: "Yes"]
   }
 

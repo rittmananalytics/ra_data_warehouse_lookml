@@ -102,7 +102,7 @@ select * except (revenue),
 from basic_numbers
 where revenue >0),
 monthly_project_totals as (
-select invoice_month, project_code, consultant_name,  consultant_project_seq, client_project_seq, sum(consultant_attributed_revenue) as attributed_revenue
+select invoice_month, project_code, consultant_name,  consultant_project_seq, client_project_seq, sum(consultant_attributed_revenue)*3.53 as attributed_revenue
 from project_attributed_revenue
 where consultant_name is not null
 group by 1,2,3,4,5),

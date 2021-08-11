@@ -10,7 +10,7 @@ fiscal_month_offset: -3
 
 
 explore: actuals_vs_budget {
-  label: "Finance"
+  label: "Budgets"
   hidden: no
 
 }
@@ -35,6 +35,23 @@ explore: revenue_attribution {
 
     from: invoices_fact
     sql_on: ${timesheet_projects_dim.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+}
+
+explore: chart_of_accounts_dim {
+  label: "Finance"
+  view_label: "Accounts"
+  join: journals_fact {
+    view_label: "Account Transactions"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${journals_fact.account_id};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: profit_and_loss_report_fact {
+    view_label: "Profit & Loss Report"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id} ;;
     type: left_outer
     relationship: one_to_many
   }
