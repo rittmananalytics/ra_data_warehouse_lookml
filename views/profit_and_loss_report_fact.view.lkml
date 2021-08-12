@@ -87,6 +87,7 @@ view: profit_and_loss_report_fact {
 
   measure: amount {
     type: sum
+    value_format_name: gbp
     sql: ${TABLE}.net_amount ;;
   }
 

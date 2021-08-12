@@ -94,7 +94,15 @@ view: chart_of_accounts_dim {
     group_label: "Reporting"
 
     type: string
+    order_by_field: account_report_category_order
     sql: ${TABLE}.account_report_category ;;
+  }
+
+  dimension: account_report_category_order {
+    group_label: "Reporting"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.account_report_category_order ;;
   }
 
   dimension: account_report_group {
@@ -112,8 +120,15 @@ view: chart_of_accounts_dim {
 
   dimension: account_report_sub_category {
     group_label: "Reporting"
-
+    order_by_field: account_report_sub_category_order
     type: string
+    sql: ${TABLE}.account_report_sub_category ;;
+  }
+
+  dimension: account_report_sub_category_order {
+    group_label: "Reporting"
+    hidden: yes
+    type: number
     sql: ${TABLE}.account_report_sub_category ;;
   }
 

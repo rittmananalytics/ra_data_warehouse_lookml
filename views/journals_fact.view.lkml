@@ -36,9 +36,9 @@ view: journals_fact {
     sql: ${TABLE}.description ;;
   }
 
-  dimension: gross_amount {
-    type: string
-    sql: ${TABLE}.gross_amount ;;
+  measure: gross_amount {
+    type: sum
+    sql: ${TABLE}.gross_amount * -1;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
@@ -76,12 +76,14 @@ view: journals_fact {
 
   dimension: journal_pk {
     type: string
+    primary_key: yes
     sql: ${TABLE}.journal_pk ;;
   }
 
-  dimension: net_amount {
-    type: string
-    sql: ${TABLE}.net_amount ;;
+  measure: net_amount {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount * -1;;
   }
 
   dimension: reference {
@@ -104,9 +106,9 @@ view: journals_fact {
     sql: ${TABLE}.source_type ;;
   }
 
-  dimension: tax_amount {
-    type: string
-    sql: ${TABLE}.tax_amount ;;
+  measure: tax_amount {
+    type: sum
+    sql: ${TABLE}.tax_amount * -1 ;;
   }
 
   dimension: tax_name {
@@ -123,23 +125,5 @@ view: journals_fact {
   # measures for numeric dimensions, but you can also add measures of many different types.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: count {
-    type: count
-    drill_fields: [tax_name, account_name]
-  }
 
-  # These sum and average measures are hidden by default.
-  # If you want them to show up in your explore, remove hidden: yes.
-
-  measure: total_journal_number {
-    type: sum
-    hidden: yes
-    sql: ${journal_number} ;;
-  }
-
-  measure: average_journal_number {
-    type: average
-    hidden: yes
-    sql: ${journal_number} ;;
-  }
 }

@@ -162,9 +162,15 @@ view: general_ledger_fact {
     sql: ${TABLE}.manual_journal_id ;;
   }
 
+  dimension: journal_net_amount {
+    type: number
+    sql: ${TABLE}.net_amount ;;
+  }
+
   measure: net_amount {
     type: sum
-    sql: ${TABLE}.net_amount ;;
+    sql: coalesce(${TABLE}.net_amount * -1,0);;
+    value_format_name: gbp_0
   }
 
   dimension: payment_id {
@@ -207,6 +213,8 @@ view: general_ledger_fact {
     type: string
     sql: ${TABLE}.tax_type ;;
   }
+
+
 
   # A measure is a field that uses a SQL aggregate function. Here are count, sum, and average
   # measures for numeric dimensions, but you can also add measures of many different types.

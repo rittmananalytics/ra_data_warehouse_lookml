@@ -43,9 +43,9 @@ explore: revenue_attribution {
 explore: chart_of_accounts_dim {
   label: "Finance"
   view_label: "Accounts"
-  join: journals_fact {
-    view_label: "Account Transactions"
-    sql_on: ${chart_of_accounts_dim.account_id} = ${journals_fact.account_id};;
+  join: general_ledger_fact {
+    view_label: "General Ledger"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${general_ledger_fact.account_id};;
     type: left_outer
     relationship: one_to_many
   }
