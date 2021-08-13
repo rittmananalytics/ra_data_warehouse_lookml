@@ -14,6 +14,18 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.project_budget_amount ;;
   }
 
+  measure: project_hours_budget {
+    group_label: "Project Commercials"
+    type: sum
+    sql: ${TABLE}.project_budget_amount ;;
+  }
+
+  measure: project_fte_budget {
+    group_label: "Project Commercials"
+    type: sum
+    sql: ${TABLE}.project_budget_amount / (35*4);;
+  }
+
   dimension: project_budget_by {
     group_label: "Project Commercials"
 
@@ -81,6 +93,7 @@ view: timesheet_projects_dim {
               when ${project_fee_amount} = 5800 then 5000
               when ${project_fee_amount} = 13620 then 9900
               when ${project_fee_amount} = 9625 then 7000
+              when ${project_code} like '%THR%' or ${project_code} like "%REV%" then ${project_fee_amount} * .75
               else ${project_fee_amount} end;;
   }
 
@@ -105,6 +118,8 @@ view: timesheet_projects_dim {
               when ${project_fee_amount} = 5800 then ${project_fee_amount_pro_rata} * .90
               when ${project_fee_amount} = 13620 then ${project_fee_amount_pro_rata} * .75
               when ${project_fee_amount} = 9625 then ${project_fee_amount_pro_rata} * .75
+              when ${project_code} like '%THR%' or ${project_code} like "%REV%" then ${project_fee_amount_pro_rata} * .75
+
               else ${project_fee_amount_pro_rata} end;;
   }
 
