@@ -11,12 +11,12 @@ fiscal_month_offset: -3
 
 explore: actuals_vs_budget {
   label: "Budgets"
-  hidden: no
+  hidden: yes
 
 }
 
 explore: revenue_attribution {
-  hidden: no
+  hidden: yes
   label: "Attribution"
   view_label: "Revenue Attribution"
   join: timesheet_projects_dim {
@@ -42,6 +42,7 @@ explore: revenue_attribution {
 
 explore: chart_of_accounts_dim {
   label: "Finance"
+  hidden: yes
   view_label: "Accounts"
   join: general_ledger_fact {
     view_label: "General Ledger"
@@ -72,6 +73,6 @@ explore: chart_of_accounts_dim {
 
 
 explore: actuals_v_targets {
-  hidden: no
+  hidden: yes
 
 }
