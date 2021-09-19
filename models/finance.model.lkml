@@ -55,6 +55,18 @@ explore: chart_of_accounts_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: bank_transactions_fact {
+    view_label: "Bank Transactions"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${bank_transactions_fact.account_id} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: bank_account_details {
+    view_label: "Bank Transactions"
+    sql_on: ${bank_transactions_fact.bank_account_id} = ${bank_account_details.bank_account_id} ;;
+    type: inner
+    relationship: many_to_one
+  }
 }
 
 

@@ -139,10 +139,10 @@ view: invoices_fact {
     hidden: no
     value_format_name: gbp
     type: sum
-    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * 0.75
-    when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * 0.58
-    when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * 0.90
-    else ${TABLE}.invoice_local_total_revenue_amount  end;;
+    sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * 0.73
+    when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * 0.57
+    when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * 0.85
+    else ${TABLE}.invoice_local_total_revenue_amount   end;;
   }
 
   dimension: invoice_local_total_services_amount {

@@ -135,8 +135,10 @@ view: bank_transactions_fact {
     type: sum
     value_format_name: gbp
 
-    sql: ${TABLE}.total ;;
+    sql: case when ${type} = 'SPEND' then ${TABLE}.total*-1 else ${TABLE}.total end ;;
   }
+
+
 
   measure: total_tax {
     type: sum
