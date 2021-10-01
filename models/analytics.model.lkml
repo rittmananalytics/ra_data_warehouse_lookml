@@ -303,13 +303,47 @@ explore: contacts {
  }
 
 explore: companies_dim {
-  label: "Business Operations"
+  query: FTE_forecast {
+    description: "Forecast FTE requirement from scheduled projects"
+    dimensions: [company_name, projects_delivered.project_delivery_end_ts_month]
+    measures: [projects_delivered.project_fte_budget]
+    filters: [
+      companies_dim.company_name: "-RevenueRoll",
+      projects_delivered.is_project_active: "Yes",
+      projects_delivered.project_delivery_start_ts_date: "after this month"
+    ]
+  }
+  query: qualified_sales_pipeline {
+      description: "Details of current sales pipeline"
+      dimensions: [
+        company_name,
+        deals_fact.assigned_consultant,
+        deals_fact.deal_currency_code,
+        deals_fact.deal_name,
+        deals_fact.deal_type,
+        deals_fact.number_of_sprints,
+        deals_fact.pipeline_stage_label,
+        deals_fact.pricing_model,
+        deals_fact.sprint_type
+      ]
+      measures: [deals_fact.total_deal_amount]
+      filters: [
+        companies_dim.company_name: "-Apex Auctions",
+        deals_fact.pipeline_stage_label: "Meeting and Sales Qualified,Awaiting Proposal,Deal Agreed & Awaiting Sign-off"
+      ]
+    }
+  label: "     Business Operations"
   view_label: "        Companies"
   join: client_prospect_status_dim {
     view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_one
+  }
+  join: companies_dim__all_company_addresses {
+    view_label: "        Companies"
+    sql: LEFT JOIN UNNEST(${companies_dim.all_company_addresses}) as companies_dim__all_company_addresses ;;
+    relationship: one_to_many
   }
   join: rfm_model {
     view_label: "        Companies"

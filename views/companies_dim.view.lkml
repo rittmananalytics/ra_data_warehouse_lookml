@@ -22,6 +22,10 @@ view: companies_dim {
     sql: ${TABLE}.company_description ;;
   }
 
+  dimension: all_company_addresses {
+    hidden: yes
+    sql: ${TABLE}.all_company_addresses ;;
+  }
 
 
   dimension: company_finance_status {
@@ -128,5 +132,70 @@ view: companies_dim {
 
       company_name
     ]
+  }
+}
+
+view: companies_dim__all_company_ids {
+  # No primary key is defined for this view. In order to join this view in an Explore,
+  # define primary_key: yes on a dimension that has no repeated values.
+
+  # Here's what a typical dimension looks like in LookML.
+  # A dimension is a groupable field that can be used to filter query results.
+  # This dimension will be called "Companies Dim All Company Ids" in Explore.
+
+  dimension: companies_dim__all_company_ids {
+    type: string
+    sql: companies_dim__all_company_ids ;;
+  }
+}
+
+# The name of this view in Looker is "Companies Dim All Company Addresses"
+view: companies_dim__all_company_addresses {
+  # No primary key is defined for this view. In order to join this view in an Explore,
+  # define primary_key: yes on a dimension that has no repeated values.
+
+  # Here's what a typical dimension looks like in LookML.
+  # A dimension is a groupable field that can be used to filter query results.
+  # This dimension will be called "Company Address" in Explore.
+
+  dimension: company_address {
+    group_label: "Company Addresses"
+    type: string
+    sql: ${TABLE}.company_address ;;
+  }
+
+  dimension: company_address2 {
+    group_label: "Company Addresses"
+
+    type: string
+    sql: ${TABLE}.company_address2 ;;
+  }
+
+  dimension: company_city {
+    group_label: "Company Addresses"
+
+    type: string
+    sql: ${TABLE}.company_city ;;
+  }
+
+  dimension: company_country {
+    group_label: "Company Addresses"
+
+    type: string
+    sql: ${TABLE}.company_country ;;
+  }
+
+  dimension: company_state {
+    group_label: "Company Addresses"
+
+    type: string
+    sql: ${TABLE}.company_state ;;
+  }
+
+  dimension: company_zip {
+    group_label: "Company Addresses"
+
+    type: zipcode
+    sql: ${TABLE}.company_zip ;;
   }
 }

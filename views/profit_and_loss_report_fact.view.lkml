@@ -78,7 +78,11 @@ view: profit_and_loss_report_fact {
     type: time
     timeframes: [
       raw,
-      month
+      month,
+      fiscal_month_num,
+      fiscal_quarter_of_year,
+      fiscal_quarter,
+      fiscal_year
     ]
     convert_tz: no
     datatype: date
