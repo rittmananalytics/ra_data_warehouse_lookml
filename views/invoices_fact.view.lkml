@@ -25,7 +25,11 @@ view: invoices_fact {
       month,
       quarter,
       year,
-      quarter_of_year
+      quarter_of_year,
+       fiscal_month_num,
+      fiscal_quarter_of_year,
+      fiscal_year,
+      fiscal_quarter
     ]
     sql: ${TABLE}.first_invoice_month ;;
   }
@@ -56,6 +60,10 @@ view: invoices_fact {
       quarter_of_year,
       week,
       month,
+       fiscal_month_num,
+      fiscal_quarter_of_year,
+      fiscal_year,
+      fiscal_quarter,
       quarter
     ]
     sql: ${TABLE}.invoice_created_at_ts ;;

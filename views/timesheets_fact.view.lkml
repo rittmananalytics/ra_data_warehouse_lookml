@@ -40,6 +40,10 @@ view: timesheets_fact {
       month,
       month_num,
       quarter,
+      fiscal_month_num,
+      fiscal_quarter_of_year,
+      fiscal_year,
+      fiscal_quarter,
       year
     ]
     sql: ${TABLE}.timesheet_billing_date ;;
@@ -81,7 +85,7 @@ view: timesheets_fact {
 
   dimension: timesheet_hours_billed {
     group_label: "Timesheet Details"
-
+    value_format_name: decimal_1
     hidden: no
     type: number
     sql: ${TABLE}.timesheet_hours_billed ;;
@@ -89,6 +93,7 @@ view: timesheets_fact {
 
   measure: total_timesheet_hours_billed {
     group_label: "Timesheet Details"
+    value_format_name: decimal_0
 
     type: sum
     sql: ${TABLE}.timesheet_hours_billed ;;

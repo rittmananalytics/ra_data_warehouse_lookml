@@ -10,6 +10,8 @@ datagroup: analytics_default_datagroup {
 
 fiscal_month_offset: -3
 
+explore: actuals_targets_yago {}
+
 
 
 explore: web_sessions_fact {
@@ -91,7 +93,7 @@ explore: actuals_v_targets {
 explore: customer_events_xa {
   label: "Customer Timeline"
   view_label: "Customer Events"
-  hidden: yes
+  hidden: no
 
 }
 
@@ -133,6 +135,12 @@ explore: contacts {
     sql_on: ${contacts.contact_pk} = ${timesheets_fact.contact_pk}  ;;
     type: left_outer
     relationship: one_to_many
+  }
+  join: simulated_daily_timesheet_billing_target {
+    view_label: "Project Timesheets Targets"
+    sql_on: ${timesheets_fact.timesheet_billing_date} = ${simulated_daily_timesheet_billing_target.calendar_date_date} ;;
+    type: left_outer
+    relationship: many_to_one
   }
   join: projects_delivered {
     view_label: "Project Timesheets (Harvest)"

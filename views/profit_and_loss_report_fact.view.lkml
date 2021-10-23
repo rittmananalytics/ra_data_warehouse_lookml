@@ -95,6 +95,8 @@ view: profit_and_loss_report_fact {
     sql: ${TABLE}.net_amount ;;
   }
 
+
+
   dimension: profit_and_loss_pk {
     hidden: yes
     type: string
