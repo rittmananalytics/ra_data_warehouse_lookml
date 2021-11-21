@@ -49,6 +49,13 @@ view: timesheets_fact {
     sql: ${TABLE}.timesheet_billing_date ;;
   }
 
+  dimension: months_since_first_team_member_billing_date {
+    group_label: "Timesheet Details"
+    label: "Months Since First Billing"
+    type: number
+    sql: date_diff(date(${TABLE}.timesheet_billing_date),date(${delivery_team_fact_xa.first_billing_date}),MONTH) ;;
+  }
+
   dimension: timesheet_has_been_billed {
     group_label: "Timesheet Details"
 

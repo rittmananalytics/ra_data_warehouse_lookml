@@ -119,6 +119,11 @@ view: general_ledger_fact {
       date,
       week,
       month,
+      month_num,
+      fiscal_year,
+      fiscal_quarter_of_year,
+      fiscal_quarter,
+      fiscal_month_num,
       quarter,
       year
     ]

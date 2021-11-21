@@ -171,6 +171,12 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: delivery_team_fact_xa {
+    view_label: "Project Stats"
+    sql_on: ${contacts.contact_pk} = ${delivery_team_fact_xa.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
   join: contact_engagements_fact {
     view_label: "      Engagements"
     sql_on: ${contacts.contact_pk} = ${contact_engagements_fact.from_contact_pk} ;;
@@ -275,6 +281,12 @@ explore: contacts {
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
     type: left_outer
     relationship: one_to_many
+  }
+  join: delivery_team_fact_xa {
+    view_label: "Project Stats"
+    sql_on: ${project_timesheet_users.contact_pk}.contact_pk} = ${delivery_team_fact_xa.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_one
   }
   join: companies_dim {
     view_label: "Clients"
@@ -396,6 +408,12 @@ explore: companies_dim {
     sql_on: ${project_invoice_timesheets.contact_pk} = ${project_invoice_timesheet_users.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
+  }
+  join: delivery_team_fact_xa {
+    view_label: "Project Stats"
+    sql_on: ${project_timesheet_users.contact_pk} = ${delivery_team_fact_xa.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_one
   }
   join: project_timesheets {
     view_label: "  Project Timesheets (Harvest)"

@@ -24,7 +24,7 @@ view: customer_events_xa {
   }
 
   dimension: company_name {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.company_name ;;
   }
