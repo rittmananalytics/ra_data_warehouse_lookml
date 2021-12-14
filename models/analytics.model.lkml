@@ -97,6 +97,11 @@ explore: customer_events_xa {
 
 }
 
+explore: client_concentration {
+  label: "Client Concentration"
+  view_label: "Monthly Concentration"
+}
+
 explore: ad_campaigns_dim {
   hidden: yes
 
@@ -320,6 +325,7 @@ explore: contacts {
   }
 
 
+
  }
 
 explore: companies_dim {
@@ -365,6 +371,12 @@ explore: companies_dim {
     sql: LEFT JOIN UNNEST(${companies_dim.all_company_addresses}) as companies_dim__all_company_addresses ;;
     relationship: one_to_many
   }
+  join: dynamic_company_attributes {
+    view_label: "        Companies"
+    sql_on: ${companies_dim.company_pk} = ${dynamic_company_attributes.company_pk} ;;
+    relationship: one_to_one
+    type: left_outer
+    }
   join: rfm_model {
     view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
@@ -593,5 +605,6 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+
 
 }

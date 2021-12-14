@@ -95,7 +95,7 @@ view: companies_dim {
   }
 
   dimension: company_pk {
-    hidden: yes
+    hidden: no
     primary_key: yes
     type: string
     sql: ${TABLE}.company_pk ;;
