@@ -328,6 +328,8 @@ explore: contacts {
 
  }
 
+explore: project_metrics {}
+
 explore: companies_dim {
   query: FTE_forecast {
     description: "Forecast FTE requirement from scheduled projects"
@@ -605,6 +607,8 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+
+
 
 
 }

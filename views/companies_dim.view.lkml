@@ -173,14 +173,13 @@ view: companies_dim__all_company_addresses {
 
   dimension: company_city {
     group_label: "Company Addresses"
-
     type: string
     sql: ${TABLE}.company_city ;;
   }
 
   dimension: company_country {
     group_label: "Company Addresses"
-
+    map_layer_name: countries
     type: string
     sql: ${TABLE}.company_country ;;
   }

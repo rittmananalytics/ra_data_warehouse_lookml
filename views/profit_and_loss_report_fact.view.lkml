@@ -79,6 +79,8 @@ view: profit_and_loss_report_fact {
     timeframes: [
       raw,
       month,
+      month_num,
+      year,
       fiscal_month_num,
       fiscal_quarter_of_year,
       fiscal_quarter,

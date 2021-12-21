@@ -73,7 +73,7 @@ view: timesheet_projects_dim {
     group_label: "   Project Details"
 
     type: time
-    timeframes: [date,week,month,week_of_year,month_num,quarter,quarter_of_year,day_of_week,day_of_month,day_of_week_index]
+    timeframes: [date,week,month,week_of_year,month_num,quarter,quarter_of_year,day_of_week,day_of_month,day_of_week_index, year]
     sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
   }
 
@@ -88,11 +88,14 @@ view: timesheet_projects_dim {
     group_label: "Project Commercials"
 
     type: sum_distinct
-    sql: case when ${project_fee_amount} = 7000 then 5000
+    sql: case
+              when ${project_fee_amount} = 7000 and ${companies_dim.company_name} like '%Ageras%' then 6000
+              when ${project_fee_amount} = 7000 and ${companies_dim.company_name} not like '%Ageras%' then 5000
               when ${project_fee_amount} = 5500 then 4000
               when ${project_fee_amount} = 5800 then 5000
               when ${project_fee_amount} = 13620 then 9900
               when ${project_fee_amount} = 9625 then 7000
+              when ${project_fee_amount} = 8250 then 7000
               when ${project_code} like '%THR%' or ${project_code} like "%REV%" then ${project_fee_amount} * .75
               else ${project_fee_amount} end;;
   }
