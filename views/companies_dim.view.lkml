@@ -9,6 +9,247 @@ view: companies_dim {
     sql: ${TABLE}.company_created_date ;;
   }
 
+  dimension: appeal_of_ra_to_sponsor {
+    group_label: "Ideal Customer Attributes"
+    type: string
+    sql: ${TABLE}.Appeal_of_RA_to_Sponsor ;;
+  }
+
+  dimension: analytics_maturity {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: initcap(${TABLE}.Client_Maturity) ;;
+  }
+
+
+
+  dimension: customer_satisfaction {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.Customer_Satisfaction ;;
+  }
+
+  # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
+  # measures for this dimension, but you can also add measures of many different aggregates.
+  # Click on the type parameter to see all the options in the Quick Help panel on the right.
+
+
+  measure: average_customer_satisfaction {
+    group_label: "Ideal Customer Attributes"
+    value_format_name: decimal_1
+
+    type: average
+    sql: ${customer_satisfaction} ;;
+  }
+
+  dimension: data_analyst_on_staff {
+    group_label: "Ideal Customer Attributes"
+
+    type: yesno
+    sql: ${TABLE}.Data_Analyst_on_staff="Y" ;;
+  }
+
+  dimension: department {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Department ;;
+  }
+
+  dimension: expectations_alignment {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Expectations_Alignment ;;
+  }
+
+  dimension: account_growth_potential {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.Growth_Potential ;;
+  }
+
+  measure: average_account_growth_potential {
+    group_label: "Ideal Customer Attributes"
+    value_format_name: decimal_1
+
+    type: average
+    sql: ${account_growth_potential} ;;
+  }
+
+  dimension: ip_reusability {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.IP_Reusability ;;
+  }
+
+  measure: average_ip_reusability {
+    group_label: "Ideal Customer Attributes"
+    value_format_name: decimal_1
+
+    type: average
+    sql: ${ip_reusability} ;;
+  }
+
+  dimension: lead_technology {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Lead_Technology ;;
+  }
+
+  dimension: market {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Market ;;
+  }
+
+  dimension: marketing_channel {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Marketing_Channel ;;
+  }
+
+  dimension: plan_to_hand_over {
+    group_label: "Ideal Customer Attributes"
+
+    type: yesno
+    sql: ${TABLE}.Plan_to_Hand_over="Y" ;;
+  }
+
+  dimension: profitability {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.Profitability ;;
+  }
+
+  measure: average_profitability {
+    group_label: "Ideal Customer Attributes"
+    value_format_name: decimal_1
+
+    type: average
+    sql: ${profitability} ;;
+  }
+
+  dimension: ra_lead {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.RA_Lead ;;
+  }
+
+  dimension: ra_satisfaction {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.RA_Satisfaction ;;
+  }
+
+  measure: average_ra_satisfaction {
+    group_label: "Ideal Customer Attributes"
+    value_format_name: decimal_1
+
+    type: average
+    sql: ${ra_satisfaction} ;;
+  }
+
+  dimension: rank {
+    group_label: "Ideal Customer Attributes"
+    type: number
+    sql: ${TABLE}.Rank ;;
+  }
+
+  dimension: segment_order {
+    hidden: yes
+    type: number
+    sql: case when ${TABLE}.Segment = 'Platinum' then 1
+              when ${TABLE}.Segment = 'Gold' then 2
+              when ${TABLE}.Segment = 'Silver' then 3
+              when ${TABLE}.Segment = 'Bronze' then 4
+              end;;
+  }
+
+  dimension: referenceability {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.Referenceability ;;
+  }
+
+  measure: average_referenceability {
+    group_label: "Ideal Customer Attributes"
+    value_format_name: decimal_1
+
+    type: average
+    sql: ${referenceability} ;;
+  }
+
+  dimension: ideal_customer_score {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.Score ;;
+  }
+
+  measure: average_ideal_customer_score {
+    group_label: "Ideal Customer Attributes"
+    value_format_name: decimal_1
+
+    type: average
+    sql: ${ideal_customer_score} ;;
+  }
+
+  dimension: segment {
+    group_label: "Ideal Customer Attributes"
+    order_by_field: segment_order
+
+    type: string
+    sql: ${TABLE}.segment ;;
+  }
+
+  dimension: service {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Service ;;
+  }
+
+  dimension: size {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Size ;;
+  }
+
+  dimension: size_of_ra_team {
+    group_label: "Ideal Customer Attributes"
+
+    type: number
+    sql: ${TABLE}.Size_of_RA_Team ;;
+  }
+
+  dimension: status {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Status ;;
+  }
+
+  dimension: verticals {
+    group_label: "Ideal Customer Attributes"
+
+    type: string
+    sql: ${TABLE}.Verticals ;;
+  }
+
+
   dimension: company_currency_code {
     hidden: yes
     type: string
@@ -197,4 +438,7 @@ view: companies_dim__all_company_addresses {
     type: zipcode
     sql: ${TABLE}.company_zip ;;
   }
+
+
+
 }
