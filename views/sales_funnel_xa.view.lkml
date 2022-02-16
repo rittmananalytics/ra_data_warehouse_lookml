@@ -87,6 +87,28 @@ view: sales_funnel_xa {
     sql: ${TABLE}.event_id ;;
   }
 
+  dimension: conversion_event {
+    type: number
+    sql: ${TABLE}.conversion_event ;;
+  }
+
+  dimension: conversion_cycle_hour_length {
+    type: number
+    sql: ${TABLE}.conversion_cycle_hour_length ;;
+    hidden: yes
+  }
+
+  measure: avg_conversion_cycle_hour_length {
+    type: average
+    sql: ${conversion_cycle_hour_length} ;;
+  }
+
+  dimension: user_conversion_cycle {
+    hidden: no
+    type: number
+    sql: ${TABLE}.user_conversion_cycle;;
+  }
+
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
@@ -121,6 +143,21 @@ view: sales_funnel_xa {
     type: number
     hidden: yes
     sql: ${TABLE}.funnel_stage ;;
+  }
+
+  dimension: salesperson_name {
+    type: string
+    sql: ${TABLE}.salesperson_name ;;
+  }
+
+  dimension: is_latest_sales_interaction {
+    type: yesno
+    sql: ${TABLE}.is_latest_sales_interaction ;;
+  }
+
+  dimension: max_funnel_stage {
+    type: number
+    sql: ${TABLE}.max_funnel_stage ;;
   }
 
   dimension: funnel_stage_name {
