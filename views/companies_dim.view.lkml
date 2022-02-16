@@ -4,9 +4,105 @@ view: companies_dim {
   dimension_group: company_created {
     group_label: "     Company"
 
-    timeframes: [date,month,quarter]
+    timeframes: [date,month,quarter,year]
     type: time
     sql: ${TABLE}.company_created_date ;;
+  }
+
+  parameter: rows_dimension {
+    type: unquoted
+    group_label: "Ideal Customer Analysis"
+
+    hidden: no
+    allowed_value: {value: "analytics_maturity" label: "Analytics Maturity"}
+    allowed_value: {value: "customer_satisfaction" label: "Customer Satisfaction"}
+    allowed_value: {value: "ra_satisfaction" label: "RA Team Satisfaction"}
+    allowed_value: {value: "department" label: "Department"}
+    allowed_value: {value: "data_analyst_on_staff" label: "Data Analyst On Client Team?"}
+    allowed_value: {value: "expectations_alignment" label: "Expectations Alignment"}
+    allowed_value: {value: "account_growth_potential" label: "Account Growth Potential"}
+    allowed_value: {value: "ip_reusability" label: "Reusability"}
+    allowed_value: {value: "lead_technology" label: "Lead Technology"}
+    allowed_value: {value: "market" label: "Market"}
+    allowed_value: {value: "ra_lead" label: "RA Lead"}
+    allowed_value: {value: "marketing_channel" label: "Marketing Channel"}
+    allowed_value: {value: "plan_to_hand_over" label: "Client Had Plan to Hand-Over?"}
+    allowed_value: {value: "size_of_ra_team" label: "RA Team Size"}
+    allowed_value: {value: "referenceability" label: "Referenceability"}
+    allowed_value: {value: "status" label: "Client Status"}
+    allowed_value: {value: "segment" label: "Ideal Customer Segment"}
+    allowed_value: {value: "service" label: "Service Delivered"}
+    allowed_value: {value: "verticals" label: "Vertical Market"}
+
+    default_value: "Segment"
+  }
+
+  parameter: columns_dimension {
+    type: unquoted
+    group_label: "Ideal Customer Analysis"
+
+    hidden: no
+    allowed_value: {value: "analytics_maturity" label: "Analytics Maturity"}
+    allowed_value: {value: "customer_satisfaction" label: "Customer Satisfaction"}
+    allowed_value: {value: "ra_satisfaction" label: "RA Team Satisfaction"}
+    allowed_value: {value: "department" label: "Department"}
+    allowed_value: {value: "data_analyst_on_staff" label: "Data Analyst On Client Team?"}
+    allowed_value: {value: "expectations_alignment" label: "Expectations Alignment"}
+    allowed_value: {value: "account_growth_potential" label: "Account Growth Potential"}
+    allowed_value: {value: "ip_reusability" label: "Reusability"}
+    allowed_value: {value: "lead_technology" label: "Lead Technology"}
+    allowed_value: {value: "market" label: "Market"}
+    allowed_value: {value: "ra_lead" label: "RA Lead"}
+    allowed_value: {value: "marketing_channel" label: "Marketing Channel"}
+    allowed_value: {value: "plan_to_hand_over" label: "Client Had Plan to Hand-Over?"}
+    allowed_value: {value: "size_of_ra_team" label: "RA Team Size"}
+    allowed_value: {value: "referenceability" label: "Referenceability"}
+    allowed_value: {value: "status" label: "Client Status"}
+    allowed_value: {value: "segment" label: "Ideal Customer Segment"}
+    allowed_value: {value: "service" label: "Service Delivered"}
+    allowed_value: {value: "verticals" label: "Vertical Market"}
+    default_value: "Segment"
+  }
+
+  parameter: analysis_measure {
+    type: unquoted
+    group_label: "Ideal Customer Analysis"
+    hidden: no
+    allowed_value: {value: "score" label: "Ideal Customer Score"}
+    allowed_value: {value: "customer_satisfaction" label: "Customer Satisfaction"}
+    allowed_value: {value: "ra_satisfaction" label: "RA Team Satisfaction"}
+    allowed_value: {value: "Growth_Potential" label: "Growth Potential"}
+    allowed_value: {value: "profitability" label: "Revenue"}
+    allowed_value: {value: "ip_reusability" label: "Reusability"}
+    allowed_value: {value: "Referenceability" label: "Referenceability"}
+
+
+    default_value: "score"
+  }
+
+  dimension: analysis_rows {
+    label_from_parameter: rows_dimension
+    group_label: "Ideal Customer Analysis"
+
+    hidden: no
+    sql:  ${TABLE}.{% parameter rows_dimension %};;
+  }
+
+  dimension: analysis_columns {
+    label_from_parameter: columns_dimension
+    group_label: "Ideal Customer Analysis"
+
+    hidden: no
+    sql:  ${TABLE}.{% parameter columns_dimension %};;
+  }
+
+  measure: analysis_value {
+    label_from_parameter: analysis_measure
+    value_format_name: decimal_0
+    group_label: "Ideal Customer Analysis"
+    type: average
+    hidden: no
+    sql:  ${TABLE}.{% parameter analysis_measure %};;
   }
 
   dimension: appeal_of_ra_to_sponsor {
@@ -20,6 +116,23 @@ view: companies_dim {
 
     type: string
     sql: initcap(${TABLE}.Client_Maturity) ;;
+  }
+
+  dimension: rfm_segment {
+    group_label: "Ideal Customer Attributes"
+    hidden: yes
+    type: string
+    sql: ${rfm_model.rfm_segment} ;;
+
+  }
+
+  dimension: client_current_status {
+    group_label: "Ideal Customer Attributes"
+    hidden: yes
+
+    type: string
+    sql: ${client_prospect_status_dim.client_status} ;;
+
   }
 
 
@@ -322,7 +435,7 @@ view: companies_dim {
     label: "Company"
     type: string
     sql: case when ${TABLE}.company_name = 'indexlabs.co.uk' then 'Football Index' else ${TABLE}.company_name end;;
-}
+  }
 
 
 

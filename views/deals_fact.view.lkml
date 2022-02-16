@@ -164,10 +164,11 @@ measure: total_deal_amount_gbp_converted  {
     sql: ${TABLE}.deal_pipeline_stage_id ;;
   }
 
-  dimension: deal_pipeline_stage {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+  dimension_group: deal_pipeline_stage {
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Pipeline"
 
-    type: date_time
+    type: time
+    timeframes: [date,month,week,year]
 
     sql: ${TABLE}.deal_pipeline_stage_ts ;;
   }
@@ -233,7 +234,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: pipeline_label {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Pipeline"
     order_by_field: pipeline_display_order
     hidden: yes
     type: string
@@ -279,7 +280,7 @@ measure: total_deal_amount_gbp_converted  {
 
 
   dimension: pipeline_stage_closed_won {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Pipeline"
     label: "Is Closed Won"
     type: yesno
     sql: ${TABLE}.pipeline_stage_closed_won ;;
@@ -294,7 +295,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: pipeline_stage_label {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Pipeline"
     type: string
     label: "  Deal Pipeline Stage"
 
