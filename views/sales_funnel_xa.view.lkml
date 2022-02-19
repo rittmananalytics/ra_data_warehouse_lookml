@@ -11,38 +11,23 @@ view: sales_funnel_xa {
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called "Campaign" in Explore.
 
-  dimension: campaign {
-    hidden: yes
 
-    type: string
-    sql: ${TABLE}.campaign ;;
-  }
 
-  dimension: pk {
-    type: string
-    primary_key: yes
-    hidden: yes
-    sql: concat(${company_pk},${sales_funnel_interaction_seq}) ;;
-  }
 
   dimension: company_pk {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: contact_pk {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.contact_pk ;;
   }
 
-  dimension: content {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.content ;;
-  }
+
 
   dimension: conversion_interaction_seq {
     hidden: yes
@@ -76,13 +61,14 @@ view: sales_funnel_xa {
   }
 
   dimension: event_details {
-    label: "       Funnel Event"
+    label: "       Funnel Event Details"
     type: string
     sql: ${TABLE}.event_details ;;
   }
 
   dimension: event_id {
     hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.event_id ;;
   }
@@ -141,7 +127,7 @@ view: sales_funnel_xa {
 
   dimension: funnel_stage {
     type: number
-    hidden: yes
+    hidden: no
     sql: ${TABLE}.funnel_stage ;;
   }
 
@@ -217,26 +203,7 @@ view: sales_funnel_xa {
     sql: ${TABLE}.is_pre_conversion_interaction ;;
   }
 
-  dimension: keyword {
-    hidden: yes
 
-    type: string
-    sql: ${TABLE}.keyword ;;
-  }
-
-  dimension: medium {
-    hidden: yes
-
-    type: string
-    sql: ${TABLE}.medium ;;
-  }
-
-  dimension: referrer_host {
-    hidden: yes
-
-    type: string
-    sql: ${TABLE}.referrer_host ;;
-  }
 
   dimension: sales_funnel_interaction_seq {
     label: "    Funnel Stage Sequence"
@@ -251,36 +218,49 @@ view: sales_funnel_xa {
     sql: ${TABLE}.sales_interaction_seq ;;
   }
 
-  dimension: search_term {
-    hidden: yes
-
+  dimension: blended_id {
     type: string
-    sql: ${TABLE}.search_term ;;
+    sql: ${TABLE}.blended_id ;;
   }
 
-  dimension: source {
-    hidden: yes
 
-    type: string
-    sql: ${TABLE}.source ;;
-  }
-
-  dimension: user_id {
-    hidden: yes
-
-    type: string
-    sql: ${TABLE}.user_id ;;
-  }
 
   measure: count_interactions {
-    type: count
+    type: count_distinct
+    sql: ${TABLE}.event_id ;;
     drill_fields: []
   }
 
-
-  measure: count_conversions {
+  measure: count_converting_interactions {
     type: count_distinct
-    sql: case when ${has_converted} then ${TABLE}.company_pk end;;
+    sql: case when ${user_conversion_cycle} is not null then ${TABLE}.event_id end;;
+    drill_fields: []
+  }
+
+  measure: count_conversion_cycles {
+    type: count_distinct
+    sql: concat(${company_pk},${user_conversion_cycle}) ;;
+    }
+
+  measure: count_order_conversions {
+    type: count_distinct
+    sql: concat(${company_pk},${user_conversion_cycle}) ;;
+  }
+
+
+
+  measure: count_non_converting_interactions {
+    type: count_distinct
+    sql: case when ${user_conversion_cycle} is null then ${TABLE}.event_id end;;
+  }
+
+
+
+
+
+  measure: count_customer_conversions {
+    type: count_distinct
+    sql: case when ${is_first_conversion} then ${TABLE}.company_pk end;;
     drill_fields: []
   }
 

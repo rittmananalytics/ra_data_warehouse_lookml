@@ -316,7 +316,7 @@ view: invoices_fact {
 
   dimension: months_since_first_invoice {
     group_label: "        Invoice Details"
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${TABLE}.months_since_first_invoice ;;

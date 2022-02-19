@@ -40,7 +40,7 @@ explore: sales_funnel_xa {
   view_label: "        Sales Funnel"
   join: companies_dim{
     view_label: "    Companies"
-    sql_on: ${sales_funnel_xa.company_pk} = ${companies_dim.company_pk} ;;
+    sql_on: ${sales_funnel_xa.blended_id} = ${companies_dim.company_pk} ;;
     type: left_outer
     relationship: many_to_one
   }
