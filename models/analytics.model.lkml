@@ -450,6 +450,11 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
   join: delivery_tasks_fact {
     view_label: " Project Management (Jira)"
     sql_on: ${contacts.contact_pk} = ${delivery_tasks_fact.contact_pk};;
@@ -621,6 +626,11 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
 
   join: payments_fact {
     view_label: " Payments"
@@ -711,6 +721,11 @@ explore: companies_dim {
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
     type: left_outer
     relationship: one_to_many
+  }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
   }
   join: project_invoice_timesheets {
     view_label: "    Project Invoicing (Harvest)"

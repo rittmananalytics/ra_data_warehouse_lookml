@@ -54,6 +54,7 @@ view: payments_fact {
 
   measure: total_payment_amount {
     type: sum
+    value_format_name: gbp
     sql: ${TABLE}.payment_bank_amount ;;
   }
 
@@ -62,10 +63,7 @@ view: payments_fact {
     sql: safe_cast(${TABLE}.payment_bank_amount as float64);;
   }
 
-  measure: total_bank_amount {
-    type: sum
-    sql: ${TABLE}.payment_bank_amount ;;
-  }
+
 
   dimension: payment_code {
     type: string

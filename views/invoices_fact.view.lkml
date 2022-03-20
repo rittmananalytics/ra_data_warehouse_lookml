@@ -107,40 +107,36 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_issue_at_ts ;;
   }
 
-  dimension: invoice_local_total_billed_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_billed_amount ;;
-  }
+  #dimension: invoice_local_total_billed_amount {
+  #  hidden: yes
+  #  type: number
+  #  sql: ${TABLE}.invoice_local_total_billed_amount ;;
+  #}
 
-  dimension: invoice_local_total_due_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_due_amount ;;
-  }
+  #dimension: invoice_local_total_due_amount {
+  #  hidden: yes
+   # type: number
+  #  sql: ${TABLE}.invoice_local_total_due_amount ;;
+  #}
 
-  dimension: invoice_local_total_expenses_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_expenses_amount ;;
-  }
+  #dimension: invoice_local_total_expenses_amount {
+  #  hidden: yes
+  #  type: number
+  #  sql: ${TABLE}.invoice_local_total_expenses_amount ;;
+  #}
 
-  dimension: invoice_local_total_licence_referral_fee_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_licence_referral_fee_amount ;;
-  }
+  #dimension: invoice_local_total_licence_referral_fee_amount {
+   # hidden: yes
+  #  type: number
+  #  sql: ${TABLE}.invoice_local_total_licence_referral_fee_amount ;;
+  #}
 
-  dimension: invoice_local_total_revenue_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_revenue_amount ;;
-  }
+
 
 
 
   measure: invoice_gbp_revenue_amount {
-    hidden: no
+    hidden: yes
     value_format_name: gbp
     type: sum
     sql: case when lower(${TABLE}.invoice_status) in ('open','paid') then
@@ -151,109 +147,39 @@ view: invoices_fact {
           end;;
   }
 
-  dimension: invoice_local_total_services_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_services_amount ;;
-  }
+  #dimension: invoice_local_total_services_amount {
+  #  hidden: yes
+  #  type: number
+  #  sql: ${TABLE}.invoice_local_total_services_amount ;;
+  #}
 
-  measure: invoice_local_services_amoun {
-    hidden: yes
-    type: sum
-    sql: ${TABLE}.invoice_local_total_services_amount ;;
-  }
+  #measure: invoice_local_services_amoun {
+  #  hidden: yes
+  #  type: sum
+  #  sql: ${TABLE}.invoice_local_total_services_amount ;;
+  #}
 
-  dimension: invoice_local_total_support_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_support_amount ;;
-  }
-
-  dimension: invoice_local_total_tax_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_tax_amount ;;
-  }
-
-  dimension: invoice_currency_rate {
-    hidden: no
-    type: number
-    sql: ${TABLE}.invoice_currency_rate ;;
-  }
+  #dimension: invoice_local_total_support_amount {
+  #  hidden: yes
+  #  type: number
+  #  sql: ${TABLE}.invoice_local_total_support_amount ;;
+  #}
 
 
 
-  dimension: invoice_gbp_tax_amount {
-    hidden: yes
-    type: number
-    value_format_name: gbp
-    sql: ${TABLE}.invoice_local_total_tax_amount * ${TABLE}.invoice_currency_rate ;;
-  }
-
-  measure: total_gross_amount_local {
-    group_label: "Reporting"
-
-    hidden: no
-    type: sum
-    sql: ${TABLE}.invoice_local_total_revenue_amount ;;
-  }
-
-  measure: total_tax_local {
-    group_label: "Reporting"
-
-    hidden: no
-    type: sum
-    sql: ${TABLE}.invoice_local_total_tax_amount ;;
-  }
-
-  measure: total_net_amount_local {
-    group_label: "Reporting"
-
-    hidden: no
-    type: sum
-    value_format_name: gbp
-    sql: ${invoice_local_total_revenue_amount} - ${invoice_local_total_tax_amount};;
-  }
 
 
 
-  measure: total_tax_gbp {
-    group_label: "Reporting"
-    hidden: no
-    type: sum
-    value_format_name: gbp
-    sql: ${invoice_gbp_tax_amount} ;;
-  }
 
-  dimension: invoice_gbp_net_amount {
-    hidden: no
-    type: number
-    sql: ${invoice_gbp_amount} ;;
-  }
 
-  dimension: invoice_gbp_amount {
-    hidden: no
-    type: number
-    sql: ${TABLE}.total_gbp_amount;;
-  }
 
-  measure: total_gross_amount_gbp {
-    group_label: "Reporting"
 
-    hidden: no
-    type: sum
-    value_format_name: gbp
-    sql: ${invoice_gbp_amount} ;;
-  }
 
-  measure: total_net_amount_gbp {
-    group_label: "Reporting"
 
-    hidden: no
-    type: sum
-    value_format_name: gbp
-    sql: ${invoice_gbp_amount} - ${invoice_gbp_tax_amount};;
-  }
+
+
+
+
 
   dimension: invoice_number {
     group_label: "        Invoice Details"
@@ -483,6 +409,103 @@ view: invoices_fact {
 
     type: number
     sql: ${TABLE}.total_local_amount ;;
+  }
+
+  dimension: invoice_local_total_revenue_amount {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.invoice_local_total_revenue_amount ;;
+  }
+
+
+  dimension: invoice_gbp_amount {
+    hidden: no
+    type: number
+    sql: case when ${TABLE}.total_gbp_amount is null then ${TABLE}.total_local_amount / ${exchange_rates.currency_rate} else ${TABLE}.total_gbp_amount end;;
+  }
+
+  dimension: invoice_local_total_tax_amount {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_local_amount * (safe_cast(${TABLE}.invoice_tax_rate_pct as float64) / 100) ;;
+  }
+
+  dimension: invoice_currency_rate {
+    hidden: no
+    type: number
+    sql: case when ${TABLE}.invoice_currency_rate is null or ${TABLE}.invoice_currency_rate = 0 then ${exchange_rates.currency_rate} else ${TABLE}.invoice_currency_rate end ;;
+  }
+
+
+  dimension: invoice_gbp_tax_amount {
+    hidden: yes
+    type: number
+    value_format_name: gbp
+    sql: ${invoice_gbp_amount} * (safe_cast(${TABLE}.invoice_tax_rate_pct as float64) / 100) ;;
+
+  }
+
+  dimension: invoice_gbp_net_amount {
+    hidden: no
+    type: number
+    sql: ${invoice_gbp_amount} ;;
+  }
+
+
+
+
+
+
+
+
+  measure: total_gross_amount_local {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    sql: ${TABLE}.total_local_amount ;;
+  }
+
+  measure: total_tax_local {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    sql: ${invoice_local_total_tax_amount};;
+  }
+
+  measure: total_net_amount_local {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    sql: ${total_local_amount} - ${invoice_local_total_tax_amount};;
+  }
+
+  measure: total_gross_amount_gbp {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    value_format_name: gbp
+    sql: ${invoice_gbp_amount} ;;
+  }
+
+  measure: total_tax_gbp {
+    group_label: "Reporting"
+    hidden: no
+    type: sum
+    value_format_name: gbp
+    sql: ${invoice_gbp_tax_amount} ;;
+  }
+
+  measure: total_net_amount_gbp {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    value_format_name: gbp
+    sql: ${invoice_gbp_amount} - ${invoice_gbp_tax_amount};;
   }
 
   measure: count_invoices {
