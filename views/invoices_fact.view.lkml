@@ -112,7 +112,9 @@ view: invoices_fact {
     type: time
     timeframes: [
       date,
-      month
+      month,
+      quarter,
+      year
     ]
     sql: ${TABLE}.invoice_issue_at_ts ;;
   }
