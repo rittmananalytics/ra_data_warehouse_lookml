@@ -97,7 +97,7 @@ view: invoices_fact {
   }
 
   dimension_group: invoice_issued {
-    hidden: yes
+    hidden: no
 
     type: time
     timeframes: [
@@ -137,11 +137,7 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_local_total_revenue_amount ;;
   }
 
-  measure: invoice_local_revenue_amount {
-    hidden: no
-    type: sum
-    sql: ${TABLE}.invoice_local_total_revenue_amount ;;
-  }
+
 
   measure: invoice_gbp_revenue_amount {
     hidden: no
@@ -177,6 +173,86 @@ view: invoices_fact {
     hidden: yes
     type: number
     sql: ${TABLE}.invoice_local_total_tax_amount ;;
+  }
+
+  dimension: invoice_currency_rate {
+    hidden: no
+    type: number
+    sql: ${TABLE}.invoice_currency_rate ;;
+  }
+
+
+
+  dimension: invoice_gbp_tax_amount {
+    hidden: yes
+    type: number
+    value_format_name: gbp
+    sql: ${TABLE}.invoice_local_total_tax_amount * ${TABLE}.invoice_currency_rate ;;
+  }
+
+  measure: total_gross_amount_local {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    sql: ${TABLE}.invoice_local_total_revenue_amount ;;
+  }
+
+  measure: total_tax_local {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    sql: ${TABLE}.invoice_local_total_tax_amount ;;
+  }
+
+  measure: total_net_amount_local {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    value_format_name: gbp
+    sql: ${invoice_local_total_revenue_amount} - ${invoice_local_total_tax_amount};;
+  }
+
+
+
+  measure: total_tax_gbp {
+    group_label: "Reporting"
+    hidden: no
+    type: sum
+    value_format_name: gbp
+    sql: ${invoice_gbp_tax_amount} ;;
+  }
+
+  dimension: invoice_gbp_net_amount {
+    hidden: no
+    type: number
+    sql: ${invoice_gbp_amount} ;;
+  }
+
+  dimension: invoice_gbp_amount {
+    hidden: no
+    type: number
+    sql: ${TABLE}.total_gbp_amount;;
+  }
+
+  measure: total_gross_amount_gbp {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    value_format_name: gbp
+    sql: ${invoice_gbp_amount} ;;
+  }
+
+  measure: total_net_amount_gbp {
+    group_label: "Reporting"
+
+    hidden: no
+    type: sum
+    value_format_name: gbp
+    sql: ${invoice_gbp_amount} - ${invoice_gbp_tax_amount};;
   }
 
   dimension: invoice_number {
@@ -282,7 +358,7 @@ view: invoices_fact {
   dimension: invoice_tax_rate_pct {
     group_label: "        Invoice Details"
 
-    type: string
+    type: number
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
 

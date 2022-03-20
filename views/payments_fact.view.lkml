@@ -36,18 +36,34 @@ view: payments_fact {
     sql: ${TABLE}.invoice_number ;;
   }
 
+  dimension: payment_invoice_fk {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.payment_invoice_fk ;;
+  }
+
   dimension: invoice_type {
     type: string
     sql: ${TABLE}.invoice_type ;;
   }
 
   dimension: payment_amount {
-    type: string
-    sql: ${TABLE}.payment_amount ;;
+    type: number
+    sql: safe_cast(${TABLE}.payment_amount as float64);;
+  }
+
+  measure: total_payment_amount {
+    type: sum
+    sql: ${TABLE}.payment_bank_amount ;;
   }
 
   dimension: payment_bank_amount {
-    type: string
+    type: number
+    sql: safe_cast(${TABLE}.payment_bank_amount as float64);;
+  }
+
+  measure: total_bank_amount {
+    type: sum
     sql: ${TABLE}.payment_bank_amount ;;
   }
 
@@ -94,7 +110,9 @@ view: payments_fact {
   }
 
   dimension: payment_pk {
+    hidden: yes
     type: string
+    primary_key: yes
     sql: ${TABLE}.payment_pk ;;
   }
 

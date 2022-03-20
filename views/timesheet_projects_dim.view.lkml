@@ -16,12 +16,15 @@ view: timesheet_projects_dim {
 
   measure: project_hours_budget {
     group_label: "Project Commercials"
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.project_budget_amount ;;
   }
 
   measure: project_fte_budget {
     group_label: "Project Commercials"
+    hidden: yes
     type: sum
     sql: ${TABLE}.project_budget_amount / (35*4);;
   }
@@ -51,7 +54,7 @@ view: timesheet_projects_dim {
     group_label: "   Project Details"
 
     type: time
-    timeframes: [date,week,month,week_of_year,month_num,quarter,quarter_of_year,day_of_week,day_of_month,day_of_week_index]
+    timeframes: [date,week,month,month_num,quarter]
     sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
 
@@ -73,7 +76,7 @@ view: timesheet_projects_dim {
     group_label: "   Project Details"
 
     type: time
-    timeframes: [date,week,month,week_of_year,month_num,quarter,quarter_of_year,day_of_week,day_of_month,day_of_week_index, year]
+    timeframes: [date,week,month,month_num,quarter, year]
     sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
   }
 

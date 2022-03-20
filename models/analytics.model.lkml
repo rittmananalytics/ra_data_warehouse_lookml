@@ -579,12 +579,13 @@ explore: contacts {
 
 }
  explore: projects_delivered {
-  hidden: yes
+  label: "Projects"
+  hidden: no
 
-   view_label: "Projects"
+   view_label: "         Projects"
   from: timesheet_projects_dim
   join: project_timesheets {
-    view_label: "  Project Timesheets (Harvest)"
+    view_label: "     Timesheets"
     from: timesheets_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
     type: left_outer
@@ -593,7 +594,7 @@ explore: contacts {
 
 
   join: project_timesheet_users {
-    view_label: "  Project Timesheets (Harvest)"
+    view_label: "     Timesheets"
 
     from: contacts_dim
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
@@ -607,34 +608,25 @@ explore: contacts {
     relationship: one_to_one
   }
   join: companies_dim {
-    view_label: "Clients"
+    view_label: "         Projects"
     sql_on: ${projects_delivered.company_pk} = ${companies_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
   join: projects_invoiced {
-    view_label: "Project Invoicing (Harvest)"
+    view_label: "   Invoices"
 
     from: invoices_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
     type: left_outer
     relationship: one_to_many
   }
-  join: project_invoice_timesheets {
-    view_label: "Project Invoicing (Harvest)"
 
-    from: timesheets_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_invoice_timesheets.timesheet_project_pk} ;;
+  join: payments_fact {
+    view_label: " Payments"
     type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
     relationship: one_to_many
-  }
-  join: project_invoice_timesheet_users {
-    view_label: "Project Invoicing (Harvest)"
-
-    from: contacts_dim
-    sql_on: ${project_invoice_timesheets.contact_pk} = ${project_invoice_timesheet_users.contact_pk} ;;
-    type: left_outer
-    relationship: many_to_one
   }
 
 
@@ -924,4 +916,7 @@ explore: companies_dim {
 
 
 
+
+
 }
+explore: events {}
