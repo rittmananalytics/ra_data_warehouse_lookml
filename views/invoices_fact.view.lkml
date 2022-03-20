@@ -96,6 +96,16 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_due_at_ts ;;
   }
 
+  dimension_group: payment {
+    group_label: "        Invoice Details"
+    description: "Either the date that payment is expected OR the date that payment has been received - note that if expected payment date is populated that should supercede payment date for unpaid invoices"
+    type: time
+    timeframes: [
+      date
+    ]
+    sql: coalesce(${payments_fact.payment_date},${TABLE}.invoice_due_at_ts) ;;
+  }
+
   dimension_group: invoice_issued {
     hidden: no
 

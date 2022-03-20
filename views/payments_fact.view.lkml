@@ -55,7 +55,7 @@ view: payments_fact {
   measure: total_payment_amount {
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.payment_bank_amount ;;
+    sql: ${TABLE}.payment_amount ;;
   }
 
   dimension: payment_bank_amount {
