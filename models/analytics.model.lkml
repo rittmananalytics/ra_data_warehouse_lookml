@@ -12,7 +12,10 @@ fiscal_month_offset: -3
 
 explore: actuals_targets_yago {}
 
-
+explore: hr_survey_results_fact {
+  label: "Staff Satisfaction"
+  view_label: "Staff Satisfaction"
+}
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
