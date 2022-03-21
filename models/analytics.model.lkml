@@ -642,9 +642,16 @@ explore: contacts {
     relationship: one_to_many
   }
 
+  join: deals_fact {
+    view_label: "Sales Deals"
+    sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
+    type: full_outer
+    relationship: one_to_many
+
 
 
  }
+}
 
 explore: project_metrics {}
 
