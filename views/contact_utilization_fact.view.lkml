@@ -151,7 +151,7 @@ view: contact_utilization_fact {
 
   measure: average_target {
     label: "                 Target"
-    value_format_name: decimal_0
+    value_format_name: percent_0
 
     type: average
     sql: ${target} ;;

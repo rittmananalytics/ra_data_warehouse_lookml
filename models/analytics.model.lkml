@@ -20,9 +20,9 @@ explore: hr_survey_results_fact {
 explore: contact_utilization_fact {
   label: "Utilization"
   view_label: "Utilization"
-  join: contacts_dim {
+  join: staff_dim {
     view_label: "   Delivery Team"
-    sql_on: ${contact_utilization_fact.contact_pk} = ${contacts_dim.contact_pk} ;;
+    sql_on: ${contact_utilization_fact.contact_pk} = ${staff_dim.contact_pk} ;;
     type: inner
     relationship: many_to_one
   }
