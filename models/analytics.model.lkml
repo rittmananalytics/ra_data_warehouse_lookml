@@ -17,6 +17,17 @@ explore: hr_survey_results_fact {
   view_label: "Staff Satisfaction"
 }
 
+explore: contact_utilization_fact {
+  label: "Utilization"
+  view_label: "Utilization"
+  join: contacts_dim {
+    view_label: "   Delivery Team"
+    sql_on: ${contact_utilization_fact.contact_pk} = ${contacts_dim.contact_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+}
+
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
   label: "Web Analytics"
