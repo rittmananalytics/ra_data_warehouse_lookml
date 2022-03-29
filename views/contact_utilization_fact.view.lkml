@@ -47,34 +47,8 @@ view: contact_utilization_fact {
     sql: ${actual_story_points} ;;
   }
 
-  dimension: actual_utilization {
-    hidden: yes
 
-    type: number
-    sql: ${TABLE}.actual_utilization ;;
-  }
 
-  measure: average_actual_utilization {
-    label: "   Actual Utilization"
-    value_format_name: percent_2
-
-    type: average
-    sql: ${actual_utilization} ;;
-  }
-
-  dimension: actual_variance_to_forecast {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.actual_variance_to_forecast ;;
-  }
-
-  measure: average_actual_variance_to_forecast {
-    label: " Actual Variance to Forecast"
-    type: average
-    value_format_name: decimal_2
-
-    sql: ${actual_variance_to_forecast} ;;
-  }
 
   dimension: contact_pk {
     hidden: yes
@@ -96,19 +70,6 @@ view: contact_utilization_fact {
     sql: ${forecast_billable_hours} ;;
   }
 
-  dimension: forecast_utilization {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.forecast_utilization ;;
-  }
-
-  measure: average_forecast_utilization {
-    label: "     Forecast Utilization"
-    type: average
-    value_format_name: percent_2
-
-    sql: ${forecast_utilization} ;;
-  }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
