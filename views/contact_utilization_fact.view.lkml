@@ -136,7 +136,7 @@ view: contact_utilization_fact {
   dimension: time_off {
     type: number
     hidden: yes
-    sql: ${TABLE}.time_off ;;
+    sql: ${TABLE}.days_off ;;
   }
 
   measure: average_time_off {
