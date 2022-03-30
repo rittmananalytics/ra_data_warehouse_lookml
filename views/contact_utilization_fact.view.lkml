@@ -143,7 +143,7 @@ view: contact_utilization_fact {
   }
 
   measure: average_target {
-    label: "                 Target"
+    label: "                 Average Target"
     value_format_name: percent_0
 
     type: average
@@ -158,11 +158,53 @@ view: contact_utilization_fact {
   }
 
   measure: average_target_billable_capacity {
-    label: "         Target Billable Capacity"
+    label: "         Average Target Billable Capacity"
     value_format_name: decimal_0
 
     type: average
     sql: ${target_billable_capacity} ;;
+  }
+
+  measure: total_target_billable_capacity {
+    label: "         Total Target Billable Capacity"
+    value_format_name: decimal_0
+
+    type: sum
+    sql: ${target_billable_capacity} ;;
+  }
+
+  dimension: forecast_utilization {
+    sql: ${forecast_billable_hours}/${target_billable_capacity} ;;
+    hidden: yes
+  }
+
+  measure: average_forecast_utilization {
+    value_format_name: percent_2
+    type: average
+    sql: ${forecast_utilization} ;;
+  }
+
+  dimension: actual_utilization {
+    sql: ${actual_billable_hours}/${target_billable_capacity} ;;
+    hidden: yes
+  }
+
+  measure: average_actual_utilization {
+    value_format_name: percent_2
+    type: average
+    sql: ${actual_utilization} ;;
+  }
+
+  measure: actual_to_forecast_utilization_variance {
+    value_format_name: percent_2
+    type: average
+    sql: ${actual_utilization}-${forecast_utilization} ;;
+  }
+
+  measure: actual_to_target_utilization_variance {
+    value_format_name: percent_2
+    type: average
+    sql: ${actual_utilization}-${target} ;;
   }
 
   dimension: time_off {
