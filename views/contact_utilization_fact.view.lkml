@@ -24,10 +24,18 @@ view: contact_utilization_fact {
 
 
   measure: average_actual_billable_hours {
-    label: "    Actual Billable Hours"
+    label: "    Average Actual Billable Hours"
     value_format_name: decimal_0
 
     type: average
+    sql: ${actual_billable_hours} ;;
+  }
+
+  measure: total_actual_billable_hours {
+    label: "    Total Actual Billable Hours"
+    value_format_name: decimal_0
+
+    type: sum
     sql: ${actual_billable_hours} ;;
   }
 
@@ -40,10 +48,18 @@ view: contact_utilization_fact {
 
 
   measure: average_actual_story_points {
-    label: "Actual Story Points"
+    label: "Average Actual Story Points"
     value_format_name: decimal_0
 
     type: average
+    sql: ${actual_story_points} ;;
+  }
+
+  measure: total_actual_story_points {
+    label: "Total Actual Story Points"
+    value_format_name: decimal_0
+
+    type: sum
     sql: ${actual_story_points} ;;
   }
 
@@ -63,8 +79,16 @@ view: contact_utilization_fact {
   }
 
   measure: average_forecast_billable_hours {
-    label: "       Forecast Billable Hours"
+    label: "       Average Forecast Billable Hours"
     type: average
+    value_format_name: decimal_2
+
+    sql: ${forecast_billable_hours} ;;
+  }
+
+  measure: total_forecast_billable_hours {
+    label: "       Total Forecast Billable Hours"
+    type: sum
     value_format_name: decimal_2
 
     sql: ${forecast_billable_hours} ;;
@@ -75,7 +99,7 @@ view: contact_utilization_fact {
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: forecast {
-    label: "               Forecast Week"
+    label: "               Forecast"
     type: time
     timeframes: [
       week
@@ -90,10 +114,18 @@ view: contact_utilization_fact {
   }
 
   measure: average_hours_per_week {
-    label: "             Hours Per Week"
+    label: "             Average Hours Per Week"
     value_format_name: decimal_0
 
     type: average
+    sql: ${hours_per_week} ;;
+  }
+
+  measure: total_hours_per_week {
+    label: "             Total Hours Per Week"
+    value_format_name: decimal_0
+
+    type: sum
     sql: ${hours_per_week} ;;
   }
 
@@ -101,7 +133,7 @@ view: contact_utilization_fact {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${TABLE}.hr_utilization_pk ;;
+    sql: concat(${TABLE}.contact_pk,${TABLE}.forecast_week) ;;
   }
 
   dimension: target {
@@ -140,10 +172,18 @@ view: contact_utilization_fact {
   }
 
   measure: average_time_off {
-    label: "                  Time-Off"
+    label: "                  Average Time-Off"
     value_format_name: decimal_0
 
     type: average
+    sql: ${time_off} ;;
+  }
+
+  measure: total_time_off {
+    label: "                  Time-Off"
+    value_format_name: decimal_0
+
+    type: sum
     sql: ${time_off} ;;
   }
 
@@ -156,10 +196,18 @@ view: contact_utilization_fact {
   }
 
   measure: average_total_capacity {
-    label: "           Total Capacity"
+    label: "           Average Total Capacity"
     value_format_name: decimal_0
 
     type: average
+    sql: ${total_capacity} ;;
+  }
+
+  measure: total_total_capacity {
+    label: "           Total Total Capacity"
+    value_format_name: decimal_0
+
+    type: sum
     sql: ${total_capacity} ;;
   }
 
