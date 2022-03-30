@@ -180,7 +180,7 @@ view: contact_utilization_fact {
   }
 
   measure: total_time_off {
-    label: "                  Time-Off"
+    label: "                  Total Time-Off"
     value_format_name: decimal_0
 
     type: sum
