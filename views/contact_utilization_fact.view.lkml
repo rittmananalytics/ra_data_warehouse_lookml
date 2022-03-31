@@ -174,7 +174,7 @@ view: contact_utilization_fact {
   }
 
   dimension: forecast_utilization {
-    sql: ${forecast_billable_hours}/${target_billable_capacity} ;;
+    sql: coalesce(safe_divide(${forecast_billable_hours},${target_billable_capacity}),0) ;;
     hidden: yes
   }
 
@@ -185,7 +185,7 @@ view: contact_utilization_fact {
   }
 
   dimension: actual_utilization {
-    sql: ${actual_billable_hours}/${target_billable_capacity} ;;
+    sql: coalesce(safe_divide(${actual_billable_hours},${target_billable_capacity}),0) ;;
     hidden: yes
   }
 
