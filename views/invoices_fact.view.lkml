@@ -70,6 +70,8 @@ view: invoices_fact {
   }
 
   measure: customer_total_active_months {
+    group_label: "RFM"
+
     type: count_distinct
     sql: ${invoice_issued_month} ;;
   }
@@ -103,8 +105,12 @@ view: invoices_fact {
     timeframes: [
       date
     ]
-    sql: coalesce(timestamp(${payments_fact.payment_date}),${TABLE}.invoice_due_at_ts) ;;
-  }
+    sql: CASE
+          WHEN ${TABLE}.expected_payment_at_ts < current_timestamp AND ${TABLE}.invoice_due_at_ts < current_timestamp THEN current_timestamp
+          WHEN ${TABLE}.expected_payment_at_ts IS NULL THEN ${TABLE}.invoice_due_at_ts
+          ELSE ${TABLE}.expected_payment_at_ts
+        END;;
+      }
 
   dimension_group: invoice_issued {
     hidden: no
@@ -117,6 +123,17 @@ view: invoices_fact {
       year
     ]
     sql: ${TABLE}.invoice_issue_at_ts ;;
+  }
+
+  dimension_group: expected_payment {
+    group_label: "        Invoice Details"
+
+    hidden: no
+    type: time
+    timeframes: [
+      date
+    ]
+    sql: ${TABLE}.expected_payment_at_ts ;;
   }
 
   #dimension: invoice_local_total_billed_amount {
@@ -359,6 +376,8 @@ view: invoices_fact {
 
 
   measure: invoice_months_recency {
+    group_label: "RFM"
+
     type: max
     sql: ${TABLE}.invoice_months_before_now ;;
     filters: [is_invoice_in_clients_last_12m: "Yes"]
@@ -373,12 +392,16 @@ view: invoices_fact {
   }
 
   measure: min_invoice_months_before_now {
+    group_label: "RFM"
+
     type: min
     sql: ${invoice_months_before_now} ;;
   }
 
   measure: total_invoice_gbp_amount_in_clients_last_12m {
     value_format_name: gbp
+    group_label: "RFM"
+
     type: sum
     sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * 0.75
     when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * 0.58
@@ -390,6 +413,8 @@ view: invoices_fact {
 
 
   measure: total_months_customer {
+    group_label: "RFM"
+
     type: max
     sql: ${months_since_first_invoice} ;;
   }
