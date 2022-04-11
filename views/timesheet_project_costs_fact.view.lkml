@@ -43,8 +43,14 @@ view: timesheet_project_costs_fact {
 
   measure: total_cost_gbp {
     type: sum
-    value_format_name: gbp
-    sql: ${expense_amount_gbp} ;;
+    value_format_name: gbp_0
+    sql: coalesce(${expense_amount_gbp},0) ;;
+  }
+
+  measure: total_cost_local {
+    type: sum
+    value_format_name: decimal_0
+    sql: coalesce(${expense_amount_local},0) ;;
   }
 
 

@@ -9,19 +9,31 @@ view: timesheets_fact {
     sql: ${TABLE}.company_pk ;;
   }
 
-  dimension: timesheet_billable_hourly_cost_amount {
+  dimension: timesheet_billable_hourly_cost_amount_gbp {
     group_label: "Timesheet Details"
 
     type: number
-    sql: case when ${TABLE}.timesheet_billable_hourly_cost_amount = 100 then 32 else ${TABLE}.timesheet_billable_hourly_cost_amount end;;
+    sql: ${TABLE}.timesheet_billable_hourly_cost_amount;;
   }
 
-  dimension: timesheet_billable_hourly_rate_amount {
+  measure: avg_timesheet_billable_hourly_cost_amount_gbp {
+    group_label: "Timesheet Details"
+    type: average
+    value_format_name: gbp
+    sql: ${timesheet_billable_hourly_cost_amount_gbp} ;;
+
+
+  }
+
+
+  dimension: timesheet_billable_hourly_rate_amount_gbp {
     group_label: "Timesheet Details"
 
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_rate_amount ;;
   }
+
+
 
   dimension_group: timesheet_billing {
     group_label: "Timesheet Details"
@@ -95,7 +107,7 @@ view: timesheets_fact {
     value_format_name: decimal_1
     hidden: no
     type: number
-    sql: ${TABLE}.timesheet_hours_billed ;;
+    sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
 
   measure: total_timesheet_hours_billed {
@@ -103,7 +115,7 @@ view: timesheets_fact {
     value_format_name: decimal_0
 
     type: sum
-    sql: ${TABLE}.timesheet_hours_billed ;;
+    sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
 
   dimension: timesheet_invoice_id {
@@ -157,14 +169,15 @@ view: timesheets_fact {
   measure: total_timesheet_amount_billed {
     hidden: yes
     type: sum
-    sql: ${TABLE}.timesheet_total_amount_billed ;;
+    sql: coalesce(${TABLE}.timesheet_total_amount_billed,0) ;;
   }
 
-  measure: total_timesheet_cost_amount {
+  measure: total_timesheet_cost_amount_gbp {
     group_label: "Timesheet Details"
 
     type: sum
-    sql: ${TABLE}.timesheet_hours_billed * coalesce(case when ${TABLE}.timesheet_billable_hourly_cost_amount > 60 then 32 else ${TABLE}.timesheet_billable_hourly_cost_amount end,25) ;;
+    value_format_name: gbp_0
+    sql: coalesce(${TABLE}.timesheet_hours_billed * ${TABLE}.timesheet_billable_hourly_cost_amount,0) ;;
   }
 
   dimension: contact_pk {

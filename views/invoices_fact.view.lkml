@@ -526,7 +526,7 @@ view: invoices_fact {
 
     hidden: no
     type: sum
-    value_format_name: gbp
+    value_format_name: gbp_0
     sql: ${invoice_gbp_amount} ;;
   }
 
@@ -534,7 +534,7 @@ view: invoices_fact {
     group_label: "Reporting"
     hidden: no
     type: sum
-    value_format_name: gbp
+    value_format_name: gbp_0
     sql: ${invoice_gbp_tax_amount} ;;
   }
 
@@ -543,7 +543,7 @@ view: invoices_fact {
 
     hidden: no
     type: sum
-    value_format_name: gbp
+    value_format_name: gbp_0
     sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
   }
 
