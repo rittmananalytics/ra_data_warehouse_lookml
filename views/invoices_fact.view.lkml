@@ -517,7 +517,7 @@ view: invoices_fact {
 
     hidden: no
     type: sum
-    sql: ${total_local_amount} - ${invoice_local_total_tax_amount};;
+    sql: ${total_local_amount} - coalesce(${invoice_local_total_tax_amount},0);;
   }
 
   measure: total_gross_amount_gbp {
@@ -543,7 +543,7 @@ view: invoices_fact {
     hidden: no
     type: sum
     value_format_name: gbp
-    sql: ${invoice_gbp_amount} - ${invoice_gbp_tax_amount};;
+    sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
   }
 
   measure: count_invoices {
