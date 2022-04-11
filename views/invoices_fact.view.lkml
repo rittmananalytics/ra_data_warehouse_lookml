@@ -456,9 +456,10 @@ view: invoices_fact {
 
 
   dimension: invoice_gbp_amount {
-    hidden: no
+    hidden: yes
     type: number
-    sql: case when ${TABLE}.total_gbp_amount is null then ${TABLE}.total_local_amount / ${exchange_rates.currency_rate} else ${TABLE}.total_gbp_amount end;;
+    value_format_name: gbp_0
+    sql: case when ${TABLE}.total_gbp_amount is null then ${TABLE}.total_local_amount * ${exchange_rates.currency_rate} else ${TABLE}.total_gbp_amount end;;
   }
 
   dimension: invoice_local_total_tax_amount {
@@ -483,7 +484,7 @@ view: invoices_fact {
   }
 
   dimension: invoice_gbp_net_amount {
-    hidden: no
+    hidden: yes
     type: number
     sql: ${invoice_gbp_amount} ;;
   }
