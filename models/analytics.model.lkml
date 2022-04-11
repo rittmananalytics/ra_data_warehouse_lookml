@@ -645,6 +645,18 @@ explore: contacts {
     type: left_outer
     relationship: many_to_one
   }
+  join: timesheet_project_costs_fact {
+    view_label: "  Other Costs"
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${timesheet_project_costs_fact.timesheet_project_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: expenses_exchange_rates {
+    from: exchange_rates
+    sql_on: ${timesheet_project_costs_fact.expense_currency_code} = ${expenses_exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
 
   join: payments_fact {
     view_label: " Payments"

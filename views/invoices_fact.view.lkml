@@ -106,6 +106,7 @@ view: invoices_fact {
       date
     ]
     sql: CASE
+          WHEN timestamp(${payments_fact.payment_date}) is not null then timestamp(${payments_fact.payment_date})
           WHEN ${TABLE}.expected_payment_at_ts < current_timestamp AND ${TABLE}.invoice_due_at_ts < current_timestamp THEN current_timestamp
           WHEN ${TABLE}.expected_payment_at_ts IS NULL THEN ${TABLE}.invoice_due_at_ts
           ELSE ${TABLE}.expected_payment_at_ts
