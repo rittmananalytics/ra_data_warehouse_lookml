@@ -10,11 +10,16 @@ datagroup: analytics_default_datagroup {
 
 fiscal_month_offset: -3
 
-explore: actuals_targets_yago {}
+explore: actuals_targets_yago {
+  hidden: yes
+
+}
 
 explore: hr_survey_results_fact {
   label: "Staff Satisfaction"
   view_label: "Staff Satisfaction"
+  hidden: yes
+
 }
 
 explore: contact_utilization_fact {
@@ -101,12 +106,12 @@ explore: sales_funnel_xa {
 
 explore: actuals_vs_budget {
   label: "Actuals vs Budget"
-  hidden: no
+  hidden: yes
 
 }
 
 explore: revenue_attribution {
-  hidden: no
+  hidden: yes
   label: "Attribution"
   view_label: "Revenue Attribution"
   join: timesheet_projects_dim {
@@ -388,20 +393,23 @@ explore: chart_of_accounts_dim {
 
 
 explore: actuals_v_targets {
-  hidden: no
+  hidden: yes
 
 }
 
 explore: customer_events_xa {
   label: "Customer Timeline"
   view_label: "Customer Events"
-  hidden: no
+  hidden: yes
+
 
 }
 
 explore: client_concentration {
   label: "Client Concentration"
   view_label: "Monthly Concentration"
+  hidden: yes
+
 }
 
 explore: ad_campaigns_dim {
@@ -967,4 +975,7 @@ explore: companies_dim {
 
 
 }
-explore: events {}
+explore: events {
+  hidden: yes
+
+}
