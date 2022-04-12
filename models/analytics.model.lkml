@@ -23,7 +23,7 @@ explore: hr_survey_results_fact {
 }
 
 explore: contact_utilization_fact {
-  label: "Utilization"
+  label: "Resourcing"
   view_label: "Utilization"
   join: staff_dim {
     view_label: "   Delivery Team"
@@ -35,7 +35,7 @@ explore: contact_utilization_fact {
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
-  label: "Web Analytics"
+  label: "Marketing"
   view_label: "  Sessions"
 
   join: web_events_fact {
@@ -56,6 +56,7 @@ explore: web_sessions_fact {
 
 explore: sales_funnel_xa {
   label: "Sales Funnel"
+  hidden: yes
   view_label: "        Sales Funnel"
   join: companies_dim{
     view_label: "    Companies"
@@ -374,7 +375,7 @@ explore: revenue_attribution {
 }
 
 explore: chart_of_accounts_dim {
-  label: "P&L"
+  label: "Finance"
   view_label: "Accounts"
   join: general_ledger_fact {
     view_label: "General Ledger"
@@ -443,7 +444,7 @@ explore: ad_campaigns_dim {
 
 explore: contacts {
   from: contacts_dim
-  label: "       Contacts"
+  label: "       People"
   view_label: "          Contacts"
   join: timesheets_fact {
     view_label: "Project Timesheets (Harvest)"
@@ -684,7 +685,9 @@ explore: contacts {
  }
 }
 
-explore: project_metrics {}
+explore: project_metrics {
+  hidden: yes
+}
 
 explore: companies_dim {
   query: FTE_forecast {
@@ -716,7 +719,7 @@ explore: companies_dim {
         deals_fact.pipeline_stage_label: "Meeting and Sales Qualified,Awaiting Proposal,Deal Agreed & Awaiting Sign-off"
       ]
     }
-  label: "     Business Operations"
+  label: "     Companies"
   view_label: "        Companies"
   join: client_prospect_status_dim {
     view_label: "        Companies"
