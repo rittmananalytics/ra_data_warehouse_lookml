@@ -266,6 +266,23 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.total_delivery_subtasks ;;
   }
 
+  dimension: task_story_points {
+    hidden: yes
+    group_label: "Project Tasks"
+
+    type: number
+    sql: ${TABLE}.task_story_points ;;
+  }
+
+  measure:  total_task_story_points{
+    group_label: "Project Tasks"
+
+    type: sum
+    sql: coalesce(${TABLE}.task_story_points,0) ;;
+
+
+  }
+
   measure: total_delivery_tasks {
     hidden: no
     group_label: "Project Tasks"
