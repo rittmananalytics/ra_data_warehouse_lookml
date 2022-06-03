@@ -109,12 +109,7 @@ explore: sales_funnel_xa {
     type: left_outer
     relationship: one_to_many
   }
-  join: dynamic_company_attributes {
-    view_label: "    Companies"
-    sql_on: ${companies_dim.company_pk} = ${dynamic_company_attributes.company_pk} ;;
-    relationship: one_to_one
-    type: left_outer
-  }
+
   join: rfm_model {
     view_label: "    Companies"
     sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
@@ -132,11 +127,7 @@ explore: sales_funnel_xa {
 
 
 
-explore: actuals_vs_budget {
-  label: "Actuals vs Budget"
-  hidden: yes
 
-}
 
 
 
@@ -343,11 +334,12 @@ explore: contacts {
     type: inner
     relationship: one_to_many
   }
-  join: dynamic_company_attributes {
-    view_label: "        Companies"
-    sql_on: ${companies_dim.company_pk} = ${dynamic_company_attributes.company_pk} ;;
-    relationship: one_to_one
+
+  join: payments_fact {
+    view_label: " Payments"
     type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+    relationship: one_to_many
   }
   join: rfm_model {
     view_label: "        Companies"
@@ -368,6 +360,7 @@ explore: contacts {
     type: left_outer
     relationship: one_to_one
   }
+
 
 }
  explore: projects_delivered {
@@ -503,12 +496,7 @@ explore: companies_dim {
     sql: LEFT JOIN UNNEST(${companies_dim.all_company_addresses}) as companies_dim__all_company_addresses ;;
     relationship: one_to_many
   }
-  join: dynamic_company_attributes {
-    view_label: "        Companies"
-    sql_on: ${companies_dim.company_pk} = ${dynamic_company_attributes.company_pk} ;;
-    relationship: one_to_one
-    type: left_outer
-    }
+
   join: rfm_model {
     view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;

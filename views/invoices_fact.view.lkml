@@ -69,6 +69,12 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_sent_at_ts ;;
   }
 
+  dimension: invoice_sent_at_ts {
+    hidden: yes
+    type: date
+    sql: ${TABLE}.invoice_sent_at_ts ;;
+  }
+
   measure: customer_total_active_months {
     group_label: "RFM"
 
