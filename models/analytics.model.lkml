@@ -140,22 +140,7 @@ explore: actuals_vs_budget {
 
 
 
-explore: chart_of_accounts_dim {
-  label: "Finance"
-  view_label: "Accounts"
-  join: general_ledger_fact {
-    view_label: "General Ledger"
-    sql_on: ${chart_of_accounts_dim.account_id} = ${general_ledger_fact.account_id};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: profit_and_loss_report_fact {
-    view_label: "Profit & Loss Report"
-    sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-}
+
 
 
 
@@ -428,6 +413,12 @@ explore: contacts {
     type: left_outer
     relationship: many_to_one
   }
+  join: payments_fact {
+    view_label: " Payments"
+    type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+    relationship: one_to_many
+  }
   join: rfm_model {
     view_label: "    Companies"
     sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
@@ -453,12 +444,6 @@ explore: contacts {
     relationship: many_to_one
   }
 
-  join: payments_fact {
-    view_label: " Payments"
-    type: left_outer
-    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
-    relationship: one_to_many
-  }
 
   join: deals_fact {
     view_label: "Sales Deals"
@@ -844,11 +829,3 @@ explore: companies_dim {
       relationship: many_to_one
     }
     }
-
-
-
-
-  explore: actuals_v_targets {
-    hidden: yes
-
-  }
