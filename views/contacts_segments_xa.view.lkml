@@ -3,11 +3,15 @@ view: contacts_segments_xa {
     ;;
 
   dimension: buying_stage {
+    group_label: "Contact Analytics"
+
     type: string
     sql: ${TABLE}.buying_stage ;;
   }
 
   dimension: contact_segment {
+    group_label: "Contact Analytics"
+
     type: string
     sql: ${TABLE}.contact_segment ;;
   }
@@ -18,17 +22,18 @@ view: contacts_segments_xa {
   }
 
   dimension: engagement_level {
+    group_label: "Contact Analytics"
+
     type: string
     sql: ${TABLE}.engagement_level ;;
   }
 
-  dimension: name {
+  dimension: segment_name {
+    group_label: "Contact Analytics"
+
     type: string
     sql: ${TABLE}.name ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [name]
-  }
+
 }

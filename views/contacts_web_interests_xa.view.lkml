@@ -65,14 +65,14 @@ view: contacts_web_interests_xa {
   }
 
   dimension: last_page_title {
-    group_label: "        Contacts"
+    group_label: "Contact Analytics"
 
     type: string
     sql: ${TABLE}.last_page_title ;;
   }
 
   dimension_group: last_visit {
-    group_label: "        Contacts"
+    group_label: "Contact Analytics"
 
     type: time
     timeframes: [
