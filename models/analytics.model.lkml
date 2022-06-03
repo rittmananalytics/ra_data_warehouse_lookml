@@ -428,6 +428,18 @@ explore: contacts {
     type: left_outer
     relationship: many_to_one
   }
+  join: rfm_model {
+    view_label: "    Companies"
+    sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: client_prospect_status_dim {
+    view_label: "    Companies"
+    sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
   join: timesheet_project_costs_fact {
     view_label: "  Other Costs"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${timesheet_project_costs_fact.timesheet_project_pk};;
@@ -617,6 +629,12 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
+  join: payments_fact {
+    view_label: " Payments"
+    type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+    relationship: one_to_many
+  }
 
   join: team_dim {
     from: contacts_dim
@@ -745,10 +763,92 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  }
+
+
+
+  explore: revenue_attribution {
+    hidden: yes
+    label: "Attribution"
+    view_label: "Revenue Attribution"
+    join: timesheet_projects_dim {
+      sql_on: ${revenue_attribution.project_code} = ${timesheet_projects_dim.project_code} ;;
+      type: inner
+      relationship: many_to_one
+    }
+    join: companies_dim {
+      view_label: "Clients"
+      sql_on: ${timesheet_projects_dim.company_pk} = ${companies_dim.company_pk} ;;
+      type: inner
+      relationship: many_to_one
+    }
+    join: projects_invoiced {
+      view_label: "Project Invoicing (Harvest)"
+
+      from: invoices_fact
+      sql_on: ${timesheet_projects_dim.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
+      type: left_outer
+      relationship: one_to_many
+    }
+    join: exchange_rates {
+      sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+      type: left_outer
+      relationship: many_to_one
+    }
+    join: rfm_model {
+      view_label: "    Companies"
+      sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
+      type: left_outer
+      relationship: one_to_one
+    }
+    join: client_prospect_status_dim {
+      view_label: "    Companies"
+      sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
+      type: left_outer
+      relationship: one_to_one
+    }
+    join: payments_fact {
+      view_label: " Payments"
+      type: left_outer
+      sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+      relationship: one_to_many
+    }
+  }
+
+  explore: chart_of_accounts_dim {
+    label: "Finance"
+    hidden: yes
+    view_label: "Accounts"
+    join: general_ledger_fact {
+      view_label: "General Ledger"
+      sql_on: ${chart_of_accounts_dim.account_id} = ${general_ledger_fact.account_id};;
+      type: left_outer
+      relationship: one_to_many
+    }
+    join: profit_and_loss_report_fact {
+      view_label: "Profit & Loss Report"
+      sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id} ;;
+      type: left_outer
+      relationship: one_to_many
+    }
+    join: bank_transactions_fact {
+      view_label: "Bank Transactions"
+      sql_on: ${chart_of_accounts_dim.account_id} = ${bank_transactions_fact.account_id} ;;
+      type: left_outer
+      relationship: one_to_many
+    }
+    join: bank_account_details {
+      view_label: "Bank Transactions"
+      sql_on: ${bank_transactions_fact.bank_account_id} = ${bank_account_details.bank_account_id} ;;
+      type: inner
+      relationship: many_to_one
+    }
+    }
 
 
 
 
+  explore: actuals_v_targets {
+    hidden: yes
 
-
-}
+  }

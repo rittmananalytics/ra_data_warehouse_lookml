@@ -11,12 +11,12 @@ view: contacts_dim {
     sql: ${TABLE}.company_pk ;;
   }
 
-  dimension: contact_email {
+  dimension: contact_emails {
     hidden: no
     group_label: "      Contact Details"
 
     type: string
-    sql: ${TABLE}.contact_email ;;
+    sql: (SELECT string_agg(contact_email) contact_email FROM UNNEST(all_contact_emails) contact_email where contact_email is not null) ;;
   }
 
    dimension: hubspot_contact_id {
@@ -142,11 +142,11 @@ view: contacts_dim {
     sql: ${TABLE}.contact_weekly_capacity ;;
   }
 
-  dimension: job_title {
+  dimension: job_titles {
     group_label: "      Contact Details"
 
     type: string
-    sql: ${TABLE}.job_title ;;
+    sql: (SELECT string_agg(job_title) job_title FROM UNNEST(all_job_titles) job_title) ;;
   }
 
 
