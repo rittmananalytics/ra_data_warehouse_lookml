@@ -30,7 +30,7 @@ view: contacts_dim {
   dimension: contact_cost_rate {
     group_label: "Staff Details"
 
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${TABLE}.contact_cost_rate ;;
@@ -55,13 +55,15 @@ view: contacts_dim {
   dimension: contact_default_hourly_rate {
     group_label: "Staff Details"
 
-    hidden: yes
+    hidden: no
     type: number
     sql: ${TABLE}.contact_default_hourly_rate ;;
   }
 
   dimension: contact_is_active {
-    hidden: yes
+    group_label: "Staff Details"
+
+    hidden: no
 
     type: yesno
     sql: ${TABLE}.contact_is_active ;;
@@ -137,9 +139,9 @@ view: contacts_dim {
   dimension: contact_weekly_capacity {
     group_label: "Staff Details"
 
-    hidden: yes
+    hidden: no
     type: number
-    sql: ${TABLE}.contact_weekly_capacity ;;
+    sql: ${TABLE}.contact_weekly_capacity/60/60 ;;
   }
 
   dimension: job_titles {
