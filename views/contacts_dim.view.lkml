@@ -31,6 +31,7 @@ view: contacts_dim {
     group_label: "Staff Details"
 
     hidden: no
+    value_format_name: gbp
 
     type: number
     sql: ${TABLE}.contact_cost_rate ;;
@@ -54,6 +55,7 @@ view: contacts_dim {
 
   dimension: contact_default_hourly_rate {
     group_label: "Staff Details"
+    value_format_name: gbp
 
     hidden: no
     type: number
