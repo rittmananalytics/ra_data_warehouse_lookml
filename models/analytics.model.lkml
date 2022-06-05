@@ -207,6 +207,14 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: projects_delivered_clients {
+    from: companies_dim
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${timesheets_fact.company_pk} = ${companies_dim.company_pk}
+        and ${projects_delivered.company_pk} = ${companies_dim.company_pk};;
+    type: inner
+    relationship: one_to_many
+  }
   join: projects_invoiced {
     view_label: "Project Invoicing (Harvest)"
 

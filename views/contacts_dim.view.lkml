@@ -1,5 +1,45 @@
 view: contacts_dim {
-  sql_table_name: `ra-development.analytics.contacts_dim`;;
+  derived_table: {
+    sql: SELECT
+        ct.*,
+        hb.contact_id as hubspot_contact_id,
+        ce.contact_email as contact_email,
+
+      c.company_pk
+      FROM (
+      SELECT
+      *
+      FROM
+      `{{ _user_attributes['dataset'] }}.contacts_dim`,
+      UNNEST( all_contact_company_ids) AS company_id  ) ct
+      JOIN (
+      SELECT
+      *
+      FROM
+      `{{ _user_attributes['dataset'] }}.companies_dim` c,
+      UNNEST (all_company_ids) AS company_id ) c
+      ON
+      ct.company_id = c.company_id
+      LEFT JOIN
+      (SELECT
+      contact_pk,
+      contact_id
+      FROM `{{ _user_attributes['dataset'] }}.contacts_dim`,
+      UNNEST( all_contact_ids) as contact_id
+      WHERE
+      contact_id like '%hubspot%' ) hb
+      ON ct.contact_pk = hb.contact_pk
+      LEFT JOIN
+      (SELECT
+      contact_pk,
+      contact_email
+      FROM `{{ _user_attributes['dataset'] }}.contacts_dim`,
+      UNNEST( all_contact_emails ) as contact_email
+      ) ce
+      ON ct.contact_pk = ce.contact_pk
+      WHERE
+      ct.company_id = c.company_id ;;
+  }
 
 
 
