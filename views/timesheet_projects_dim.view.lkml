@@ -87,21 +87,7 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.project_fee_amount ;;
   }
 
-  measure: total_project_fee_amount {
-    group_label: "Project Commercials"
 
-    type: sum_distinct
-    sql: case
-              when ${project_fee_amount} = 7000 and ${companies_dim.company_name} like '%Ageras%' then 6000
-              when ${project_fee_amount} = 7000 and ${companies_dim.company_name} not like '%Ageras%' then 5000
-              when ${project_fee_amount} = 5500 then 4000
-              when ${project_fee_amount} = 5800 then 5000
-              when ${project_fee_amount} = 13620 then 9900
-              when ${project_fee_amount} = 9625 then 7000
-              when ${project_fee_amount} = 8250 then 7000
-              when ${project_code} like '%THR%' or ${project_code} like "%REV%" then ${project_fee_amount} * .75
-              else ${project_fee_amount} end;;
-  }
 
   dimension: project_fee_amount_pro_rata {
     group_label: "Project Commercials"
@@ -110,24 +96,9 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.total_project_fee_recognized_revenue ;;
   }
 
-  measure: total_project_fee_amount_pro_rata {
-    group_label: "Project Commercials"
-    type: sum_distinct
-    sql:${project_fee_amount_pro_rata} ;;
-  }
 
-  measure: total_project_fee_amount_pro_rata_gbp {
-    group_label: "Project Commercials"
-    type: sum_distinct
-    sql: case when ${project_fee_amount} = 7000 then ${project_fee_amount_pro_rata} * .75
-              when ${project_fee_amount} = 5500 then ${project_fee_amount_pro_rata} * .75
-              when ${project_fee_amount} = 5800 then ${project_fee_amount_pro_rata} * .90
-              when ${project_fee_amount} = 13620 then ${project_fee_amount_pro_rata} * .75
-              when ${project_fee_amount} = 9625 then ${project_fee_amount_pro_rata} * .75
-              when ${project_code} like '%THR%' or ${project_code} like "%REV%" then ${project_fee_amount_pro_rata} * .75
 
-              else ${project_fee_amount_pro_rata} end;;
-  }
+
 
   dimension: total_business_days_pct_elapsed {
     group_label: "Project Commercials"

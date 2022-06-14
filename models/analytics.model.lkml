@@ -210,10 +210,16 @@ explore: contacts {
   join: projects_delivered_clients {
     from: companies_dim
     view_label: "Project Timesheets (Harvest)"
-    sql_on: ${timesheets_fact.company_pk} = ${companies_dim.company_pk}
-        and ${projects_delivered.company_pk} = ${companies_dim.company_pk};;
+    sql_on: ${timesheets_fact.company_pk} = ${projects_delivered_clients.company_pk}
+        and ${projects_delivered.company_pk} = ${projects_delivered_clients.company_pk};;
     type: inner
     relationship: one_to_many
+  }
+  join: timesheet_tasks_dim {
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${timesheets_fact.timesheet_task_pk} = ${timesheet_tasks_dim.timesheet_task_pk} ;;
+    type: inner
+    relationship: many_to_one
   }
   join: projects_invoiced {
     view_label: "Project Invoicing (Harvest)"
@@ -268,16 +274,12 @@ explore: contacts {
     relationship: many_to_one
     type: left_outer
   }
-  join: companies_engaged_dim {
+
+  join: delivered_companies_dim {
     from: companies_dim
-    view_label: "   Companies Engaged"
-    sql_on: ${companies_engaged_dim.company_pk} = ${companies_dim.company_pk};;
-    type: inner
-    relationship: one_to_many
-  }
-  join: companies_dim {
     view_label: "       Companies"
-    sql_on: ${contacts.company_pk} = ${companies_dim.company_pk};;
+    sql_on: ${projects_delivered.company_pk} = ${delivered_companies_dim.company_pk}
+     and ${timesheets_fact.company_pk} = ${delivered_companies_dim.company_pk};;
     type: inner
     relationship: one_to_many
   }
