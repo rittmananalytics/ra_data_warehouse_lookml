@@ -61,7 +61,13 @@ view: timesheets_fact {
     sql: ${TABLE}.timesheet_billing_date ;;
   }
 
+  measure: last_timesheet_billing_date {
+    group_label: "Timesheet Details"
 
+    type: date
+    sql: max(${timesheet_billing_raw}) ;;
+    convert_tz: no
+  }
 
   dimension: timesheet_has_been_billed {
     group_label: "Timesheet Details"
