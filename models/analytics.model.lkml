@@ -10,6 +10,11 @@ datagroup: analytics_default_datagroup {
 
 fiscal_month_offset: +3
 
+access_grant: can_view_pii {
+  user_attribute: can_see_pii
+  allowed_values: ["yes"]
+}
+
 explore: actuals_targets_yago {
   hidden: yes
 
