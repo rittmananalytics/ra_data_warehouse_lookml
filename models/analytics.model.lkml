@@ -2,6 +2,7 @@ connection: "ra_dw_prod"
 
 # include all the views
 include: "/views/**/*.view"
+include: "/dashboards/**/*.dashboard"
 
 datagroup: analytics_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -805,7 +806,7 @@ explore: companies_dim {
 
   explore: chart_of_accounts_dim {
     label: "Finance"
-    hidden: yes
+    hidden: no
     view_label: "Accounts"
     join: general_ledger_fact {
       view_label: "General Ledger"
