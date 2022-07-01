@@ -149,6 +149,12 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.project_name ;;
   }
 
+  measure: total_project_fee_amount {
+    group_label: "Project Commercials"
+    type: sum
+    sql: ${project_fee_amount} ;;
+  }
+
   dimension: project_over_budget_notification_pct {
     group_label: "Project Commercials"
 
