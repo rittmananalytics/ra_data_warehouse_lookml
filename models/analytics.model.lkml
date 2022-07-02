@@ -2,7 +2,6 @@ connection: "ra_dw_prod"
 
 # include all the views
 include: "/views/**/*.view"
-include: "/dashboards/**/*.dashboard"
 
 datagroup: analytics_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -11,10 +10,7 @@ datagroup: analytics_default_datagroup {
 
 fiscal_month_offset: +3
 
-access_grant: can_view_pii {
-  user_attribute: can_see_pii
-  allowed_values: ["yes"]
-}
+
 
 explore: actuals_targets_yago {
   hidden: yes
@@ -200,12 +196,7 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
-  join: simulated_daily_timesheet_billing_target {
-    view_label: "Project Timesheets Targets"
-    sql_on: ${timesheets_fact.timesheet_billing_date} = ${simulated_daily_timesheet_billing_target.calendar_date_date} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
+
   join: projects_delivered {
     view_label: "Project Timesheets (Harvest)"
     from: timesheet_projects_dim
@@ -370,12 +361,7 @@ explore: contacts {
     relationship: one_to_one
 
   }
-  join: client_prospect_status_dim {
-    view_label: "        Companies"
-    sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
+
 
 
 }
@@ -727,12 +713,7 @@ explore: companies_dim {
     type: inner
     relationship: one_to_many
   }
-  join: cs_engagement_fact {
-    sql_on: ${cs_engagement_fact.primary_key} = ${companies_dim.company_pk} ;;
-    view_label: "Customer Success Engagements"
-    type: inner
-    relationship: one_to_many
-  }
+
 
   join: contacts_influencer_list_xa {
     view_label: "       Contacts"
