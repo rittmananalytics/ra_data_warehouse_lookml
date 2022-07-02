@@ -22,9 +22,9 @@ explore: actuals_targets_yago {
 }
 
 explore: hr_survey_results_fact {
-  label: "Staff Satisfaction"
+  label: "Team"
   view_label: "Staff Satisfaction"
-  hidden: yes
+  hidden: no
 
 }
 
@@ -757,7 +757,7 @@ explore: companies_dim {
 
 
   explore: revenue_attribution {
-    hidden: yes
+    hidden: no
     label: "Attribution"
     view_label: "Revenue Attribution"
     join: timesheet_projects_dim {
@@ -803,6 +803,7 @@ explore: companies_dim {
       relationship: one_to_many
     }
   }
+
 
   explore: chart_of_accounts_dim {
     label: "Finance"

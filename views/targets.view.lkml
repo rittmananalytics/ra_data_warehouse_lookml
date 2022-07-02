@@ -21,9 +21,14 @@ view: targets {
     sql: ${TABLE}.deals_target ;;
   }
 
-  dimension: enps {
+  dimension: enps_target {
     type: number
     sql: ${TABLE}.enps ;;
+  }
+
+  dimension: hr_survey_target {
+    type: number
+    sql: ${TABLE}.hr_survey ;;
   }
 
   dimension_group: period {
@@ -66,6 +71,18 @@ view: targets {
     type: sum
     value_format_name: gbp
     sql: ${deals_target} ;;
+  }
+
+  measure: avg_enps_target {
+    type: average
+    value_format_name: decimal_2
+    sql: ${enps_target} ;;
+  }
+
+  measure: avg_hr_survey_target {
+    type: average
+    value_format_name: decimal_2
+    sql: ${hr_survey_target} ;;
   }
 
   measure: count {
