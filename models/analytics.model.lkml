@@ -18,6 +18,8 @@ explore: actuals_targets_yago {
 
 }
 
+explore: certification_progress {}
+
 explore: hr_survey_results_fact {
   label: "Team"
   view_label: "Staff Satisfaction"
