@@ -1,7 +1,7 @@
 view: staff_dim {
   derived_table: {
     sql: SELECT contact_pk, contact_name, contact_is_contractor, contact_is_staff, contact_weekly_capacity, contact_default_hourly_rate, contact_cost_rate, contact_is_active, contact_created_date FROM `ra-development.analytics.contacts_dim`
-      where contact_is_staff
+      where contact_is_staff or contact_name = 'Rob Bramwell'
        ;;
   }
 

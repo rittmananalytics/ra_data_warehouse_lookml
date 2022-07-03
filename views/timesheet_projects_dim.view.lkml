@@ -169,7 +169,7 @@ view: timesheet_projects_dim {
   }
 
   dimension: timesheet_project_pk {
-    hidden: yes
+    hidden: no
     primary_key: yes
     type: string
     sql: ${TABLE}.timesheet_project_pk ;;

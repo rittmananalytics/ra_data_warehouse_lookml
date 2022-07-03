@@ -2,6 +2,7 @@ connection: "ra_dw_prod"
 
 # include all the views
 include: "/views/**/*.view"
+include: "/dashboards/**.*"
 
 datagroup: analytics_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -348,19 +349,7 @@ explore: contacts {
     sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
     relationship: one_to_many
   }
-  join: rfm_model {
-    view_label: "        Companies"
-    sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-  join: company_deal_value_attribute {
-    view_label: "        Companies"
-    sql_on: ${companies_dim.company_pk} = ${company_deal_value_attribute.company_pk} ;;
-    type: left_outer
-    relationship: one_to_one
 
-  }
 
 
 
@@ -383,7 +372,7 @@ explore: contacts {
   join: project_timesheet_users {
     view_label: "     Timesheets"
 
-    from: contacts_dim
+    from: staff_dim
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
     type: left_outer
     relationship: one_to_many
@@ -735,10 +724,27 @@ explore: companies_dim {
   }
   }
 
+  explore: project_attribution {
+    label: "Attribution"
+    view_label: "Project Attribution"
+    join: staff_dim {
+      view_label: "Team"
+      sql_on: ${project_attribution.contact_pk} = ${staff_dim.contact_pk} ;;
+      type: inner
+      relationship: many_to_one
+    }
+    join: timesheet_projects_dim {
+      view_label: "Projects"
+      sql_on: ${project_attribution.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
+      type: inner
+      relationship: many_to_one
+    }
+  }
+
 
 
   explore: revenue_attribution {
-    hidden: no
+    hidden: yes
     label: "Attribution"
     view_label: "Revenue Attribution"
     join: timesheet_projects_dim {
