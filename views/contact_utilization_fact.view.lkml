@@ -102,7 +102,8 @@ view: contact_utilization_fact {
     label: "               Forecast"
     type: time
     timeframes: [
-      week
+      week,
+      month
     ]
     sql: ${TABLE}.forecast_week ;;
   }

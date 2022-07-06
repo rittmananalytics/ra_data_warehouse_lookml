@@ -3,45 +3,21 @@
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
-  preferred_slug: 7B5OOYlmu4f6ei00QuRdys
+  preferred_slug: ozZDN2fqLKhgMwiLNNw1zS
   elements:
   - name: Revenue vs Target L12M
     title: Revenue vs Target L12M
     merged_queries:
     - model: analytics
       explore: projects_delivered
-      type: looker_line
+      type: table
       fields: [projects_invoiced.invoice_month, projects_invoiced.total_net_amount_gbp]
       fill_fields: [projects_invoiced.invoice_month]
       filters:
         projects_invoiced.invoice_month: 12 months ago for 12 months
       sorts: [projects_invoiced.invoice_month desc]
       limit: 500
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: targets
       type: table
@@ -97,6 +73,7 @@
     show_silhouette: false
     totals_color: "#808080"
     type: looker_area
+    column_limit: 50
     row: 15
     col: 0
     width: 8
@@ -610,44 +587,14 @@
     merged_queries:
     - model: analytics
       explore: companies_dim
-      type: looker_line
+      type: table
       fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
       fill_fields: [deals_fact.deal_created_month]
       filters:
         deals_fact.deal_created_month: 12 months
       sorts: [deals_fact.deal_created_month desc]
       limit: 500
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: normal
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      series_types: {}
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: targets
       type: table
@@ -696,6 +643,7 @@
     show_null_points: true
     interpolation: linear
     type: looker_line
+    column_limit: 50
     row: 7
     col: 0
     width: 8
@@ -705,7 +653,7 @@
     merged_queries:
     - model: analytics
       explore: companies_dim
-      type: looker_line
+      type: table
       fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
       fill_fields: [deals_fact.deal_created_month]
       filters:
@@ -714,37 +662,7 @@
         deals_fact.pipeline_stage_closed_won: 'Yes'
       sorts: [deals_fact.deal_created_month desc]
       limit: 500
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: normal
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      series_types: {}
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: targets
       type: table
@@ -794,6 +712,7 @@
     show_null_points: true
     interpolation: linear
     type: looker_line
+    column_limit: 50
     row: 7
     col: 8
     width: 8
@@ -985,7 +904,6 @@
   - name: ''
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: |-
       <p align="center">
 
@@ -1049,100 +967,20 @@
       palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
       options:
         steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: '11:FS - 66d0041ead3ff519bfdf82aef916258d
-              - projects_invoiced.invoice_gbp_revenue_amount', id: '11:FS - 66d0041ead3ff519bfdf82aef916258d
-              - projects_invoiced.invoice_gbp_revenue_amount', name: '11:FS - Project
-              Invoicing (Harvest) Invoice Gbp Revenue Amount'}, {axisId: Apex Auctions
-              - 2213d6596efcb238ec5b4dee0358521b - projects_invoiced.invoice_gbp_revenue_amount,
-            id: Apex Auctions - 2213d6596efcb238ec5b4dee0358521b - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Apex Auctions - Project Invoicing (Harvest) Invoice Gbp Revenue
-              Amount}, {axisId: Brighton & Hove City Council - c89a3df907b432792ed4c54c80bb2f53
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Brighton & Hove
-              City Council - c89a3df907b432792ed4c54c80bb2f53 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Brighton & Hove City Council - Project Invoicing (Harvest) Invoice
-              Gbp Revenue Amount}, {axisId: Code Climate - 83493a72a4e7d4ff75506b015a21b45c
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Code Climate - 83493a72a4e7d4ff75506b015a21b45c
-              - projects_invoiced.invoice_gbp_revenue_amount, name: Code Climate -
-              Project Invoicing (Harvest) Invoice Gbp Revenue Amount}, {axisId: Colourpop
-              - 806e0df66961681b122d657719145289 - projects_invoiced.invoice_gbp_revenue_amount,
-            id: Colourpop - 806e0df66961681b122d657719145289 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Colourpop - Project Invoicing (Harvest) Invoice Gbp Revenue Amount},
-          {axisId: East Sussex County Council - 037c81589631beae80e8394bd3ac78a5 -
-              projects_invoiced.invoice_gbp_revenue_amount, id: East Sussex County
-              Council - 037c81589631beae80e8394bd3ac78a5 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: East Sussex County Council - Project Invoicing (Harvest) Invoice
-              Gbp Revenue Amount}, {axisId: Florence - bbf5e1be3178100ef6a81c2e4ba0304e
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Florence - bbf5e1be3178100ef6a81c2e4ba0304e
-              - projects_invoiced.invoice_gbp_revenue_amount, name: Florence - Project
-              Invoicing (Harvest) Invoice Gbp Revenue Amount}, {axisId: FluentFlix
-              Ltd. - 163c7a71eddc6fb717650add5fc9f0fb - projects_invoiced.invoice_gbp_revenue_amount,
-            id: FluentFlix Ltd. - 163c7a71eddc6fb717650add5fc9f0fb - projects_invoiced.invoice_gbp_revenue_amount,
-            name: FluentFlix Ltd. - Project Invoicing (Harvest) Invoice Gbp Revenue
-              Amount}, {axisId: Football Index - 0424bc4a77fd3dbcd9009d2cae4821a7
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Football Index -
-              0424bc4a77fd3dbcd9009d2cae4821a7 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Football Index - Project Invoicing (Harvest) Invoice Gbp Revenue
-              Amount}, {axisId: Funda Real Estate B.V. - 12da4b17221321f39438c2722e2c1b64
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Funda Real Estate
-              B.V. - 12da4b17221321f39438c2722e2c1b64 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Funda Real Estate B.V. - Project Invoicing (Harvest) Invoice Gbp
-              Revenue Amount}, {axisId: INTO University Partnerships - bd029a5e283d33f9e213fa1e6c03513d
-              - projects_invoiced.invoice_gbp_revenue_amount, id: INTO University
-              Partnerships - bd029a5e283d33f9e213fa1e6c03513d - projects_invoiced.invoice_gbp_revenue_amount,
-            name: INTO University Partnerships - Project Invoicing (Harvest) Invoice
-              Gbp Revenue Amount}, {axisId: Let's Do This - 7c7221ad2cd46aff94e4ea43e89977ad
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Let's Do This -
-              7c7221ad2cd46aff94e4ea43e89977ad - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Let's Do This - Project Invoicing (Harvest) Invoice Gbp Revenue
-              Amount}, {axisId: Lithko Contracting - 202bec75017440d2eeeba47082fef7dc
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Lithko Contracting
-              - 202bec75017440d2eeeba47082fef7dc - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Lithko Contracting - Project Invoicing (Harvest) Invoice Gbp Revenue
-              Amount}, {axisId: Looker Data Sciences - b7213b99eeacfae52bdbbf55268db573
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Looker Data Sciences
-              - b7213b99eeacfae52bdbbf55268db573 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Looker Data Sciences - Project Invoicing (Harvest) Invoice Gbp Revenue
-              Amount}, {axisId: Oracle Corporation (South Africa) (Pty) Ltd - e8f308adaa3ed63686457a9c4d5e745d
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Oracle Corporation
-              (South Africa) (Pty) Ltd - e8f308adaa3ed63686457a9c4d5e745d - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Oracle Corporation (South Africa) (Pty) Ltd - Project Invoicing
-              (Harvest) Invoice Gbp Revenue Amount}, {axisId: Popsa - 07941fd6d840d11195aa813712a48649
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Popsa - 07941fd6d840d11195aa813712a48649
-              - projects_invoiced.invoice_gbp_revenue_amount, name: Popsa - Project
-              Invoicing (Harvest) Invoice Gbp Revenue Amount}, {axisId: Qubit - 5f83fcd60e4ce6b24764786c609fddf3
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Qubit - 5f83fcd60e4ce6b24764786c609fddf3
-              - projects_invoiced.invoice_gbp_revenue_amount, name: Qubit - Project
-              Invoicing (Harvest) Invoice Gbp Revenue Amount}, {axisId: Rebtel - e6f3a8cb0f43c18c8b0e4c2e33613655
-              - projects_invoiced.invoice_gbp_revenue_amount, id: Rebtel - e6f3a8cb0f43c18c8b0e4c2e33613655
-              - projects_invoiced.invoice_gbp_revenue_amount, name: Rebtel - Project
-              Invoicing (Harvest) Invoice Gbp Revenue Amount}, {axisId: Resolver -
-              c4f737384bfec4f1ac2c516535cf0bcc - projects_invoiced.invoice_gbp_revenue_amount,
-            id: Resolver - c4f737384bfec4f1ac2c516535cf0bcc - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Resolver - Project Invoicing (Harvest) Invoice Gbp Revenue Amount},
-          {axisId: RIXO - bbcc38c7bc7a5862c83e75317da3a110 - projects_invoiced.invoice_gbp_revenue_amount,
-            id: RIXO - bbcc38c7bc7a5862c83e75317da3a110 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: RIXO - Project Invoicing (Harvest) Invoice Gbp Revenue Amount},
-          {axisId: Segment - 4b77e2a9d8e9cfc299f504b32d6e3d2b - projects_invoiced.invoice_gbp_revenue_amount,
-            id: Segment - 4b77e2a9d8e9cfc299f504b32d6e3d2b - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Segment - Project Invoicing (Harvest) Invoice Gbp Revenue Amount},
-          {axisId: Switcher Studio - d9c4d21d7830c8815d82f668e49b6ea3 - projects_invoiced.invoice_gbp_revenue_amount,
-            id: Switcher Studio - d9c4d21d7830c8815d82f668e49b6ea3 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Switcher Studio - Project Invoicing (Harvest) Invoice Gbp Revenue
-              Amount}, {axisId: Tide - 5a36fb1447b97a68c423cc67981858c8 - projects_invoiced.invoice_gbp_revenue_amount,
-            id: Tide - 5a36fb1447b97a68c423cc67981858c8 - projects_invoiced.invoice_gbp_revenue_amount,
-            name: Tide - Project Invoicing (Harvest) Invoice Gbp Revenue Amount}],
-        showLabels: true, showValues: true, unpinAxis: false, tickDensity: default,
-        type: linear}, {label: '', orientation: right, series: [{axisId: client_concentration,
+    y_axes: [{label: '', orientation: left, series: [{axisId: client_concentration,
             id: client_concentration, name: Client Concentration}], showLabels: true,
-        showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
+        showValues: true, maxValue: 1, minValue: 0, unpinAxis: false, tickDensity: default,
         type: linear}]
     series_types:
       client_concentration: line
     series_colors:
       client_concentration: "#4A80BC"
-    reference_lines: [{reference_type: line, range_start: max, range_end: min, margin_top: deviation,
-        margin_value: mean, margin_bottom: deviation, label_position: right, color: "#D03452",
-        line_value: ".5", label: Target}]
+    reference_lines: [{reference_type: margins, range_start: max, range_end: min,
+        label_position: right, color: "#D03452", line_value: ".5", label: Target,
+        margin_bottom: ".1", margin_top: ".2", margin_value: ".5"}, {reference_type: margins,
+        range_start: max, range_end: min, label_position: right, color: "#F4B87B",
+        line_value: ".3", margin_top: ".1", margin_value: ".3", margin_bottom: ".2",
+        label: Monitor}]
     show_null_points: true
     interpolation: linear
     defaults_version: 1
@@ -1155,7 +993,6 @@
   - name: " (2)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: |-
       <p align="center">
 
@@ -1433,106 +1270,6 @@
     col: 0
     width: 8
     height: 6
-  - title: Customer Retention L12M
-    name: Customer Retention L12M
-    model: analytics
-    explore: companies_dim
-    type: table
-    fields: [projects_invoiced.first_invoice_month, companies_dim.company_name, project_timesheets.total_timesheet_hours_billed,
-      project_timesheets.timesheet_billing_month]
-    pivots: [project_timesheets.timesheet_billing_month]
-    filters:
-      project_timesheets.total_timesheet_hours_billed: ">0"
-      companies_dim.company_name: "-Brighton & Hove City Council,-East Sussex County\
-        \ Council"
-      project_timesheets.timesheet_is_billable: 'Yes'
-      project_timesheets.timesheet_billing_month: 12 months
-    sorts: [project_timesheets.timesheet_billing_month, projects_invoiced.first_invoice_month]
-    limit: 500
-    dynamic_fields: [{table_calculation: active, label: Active, expression: 'if(coalesce(${project_timesheets.total_timesheet_hours_billed},0)>0,yes,no)',
-        value_format: !!null '', value_format_name: !!null '', _kind_hint: measure,
-        _type_hint: yesno}, {category: table_calculation, expression: 'if(pivot_offset(${active},-1)=yes,if(${active}=no,yes,no),no)',
-        label: At Risk, value_format: !!null '', value_format_name: !!null '', _kind_hint: measure,
-        table_calculation: at_risk, _type_hint: yesno}, {category: table_calculation,
-        expression: "if(${active}=no,\n   if(pivot_offset(${at_risk},-1)=yes \n  \
-          \  ,yes,no),no)", label: Churned, value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: churned, _type_hint: yesno}, {category: table_calculation,
-        expression: 'if(${active}=yes,"Active",if(${churned}=yes,"Churned",if(${at_risk}=yes,"At
-          Risk","")))', label: Status, value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: status, _type_hint: string}, {category: table_calculation,
-        expression: 'if(${active}=yes,3,if(${churned}=yes,1,if(${at_risk}=yes,2,0)))',
-        label: Status Code, value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: status_code, _type_hint: number}]
-    show_view_names: false
-    show_row_numbers: false
-    truncate_column_names: false
-    hide_totals: false
-    hide_row_totals: false
-    table_theme: white
-    limit_displayed_rows: false
-    enable_conditional_formatting: true
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    color_application:
-      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-    series_labels:
-      status_code: Status
-      companies_dim.company_name: Client
-      project_timesheets.timesheet_billing_month: Month
-    conditional_formatting: [{type: equal to, value: 0, background_color: "#FFFFFF",
-        font_color: "#FFFFFF", color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
-          palette_id: d9abd293-3cd0-448c-9540-4a55690e4ce1}, bold: false, italic: false,
-        strikethrough: false, fields: !!null ''}, {type: equal to, value: 3, background_color: "#7bc739",
-        font_color: "#7bc739", color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
-          palette_id: d9abd293-3cd0-448c-9540-4a55690e4ce1}, bold: false, italic: false,
-        strikethrough: false, fields: !!null ''}, {type: equal to, value: 2, background_color: "#E48522",
-        font_color: "#E48522", color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
-          palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830}, bold: false, italic: false,
-        strikethrough: false, fields: !!null ''}, {type: equal to, value: 1, background_color: "#D13452",
-        font_color: "#D13452", color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
-          palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830}, bold: false, italic: false,
-        strikethrough: false, fields: !!null ''}]
-    hidden_fields: [active, churned, project_timesheets.total_timesheet_hours_billed,
-      status, at_risk, projects_invoiced.first_invoice_month]
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    legend_position: center
-    point_style: none
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    defaults_version: 1
-    series_types: {}
-    transpose: false
-    truncate_text: true
-    size_to_fit: true
-    header_text_alignment: left
-    header_font_size: 12
-    rows_font_size: 12
-    listen: {}
-    row: 25
-    col: 0
-    width: 16
-    height: 10
   - title: Net Profit after Tax & Dividends
     name: Net Profit after Tax & Dividends
     model: analytics
@@ -1652,48 +1389,14 @@
     merged_queries:
     - model: analytics
       explore: hr_survey_results_fact
-      type: looker_line
+      type: table
       fields: [hr_survey_results_fact.avg_e_nps, hr_survey_results_fact.survey_ts_month]
       filters:
         hr_survey_results_fact.survey_ts_month: 12 months
         hr_survey_results_fact.avg_e_nps: NOT NULL
       sorts: [hr_survey_results_fact.survey_ts_month desc]
       limit: 500
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      color_application:
-        collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-        palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-        options:
-          steps: 5
-      y_axes: [{label: '', orientation: left, series: [{axisId: hr_survey_results_fact.avg_e_nps,
-              id: hr_survey_results_fact.avg_e_nps, name: Avg E Nps}], showLabels: true,
-          showValues: true, maxValue: 60, minValue: 0, unpinAxis: false, tickDensity: default,
-          tickDensityCustom: 5, type: linear}]
-      reference_lines: []
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: targets
       type: table
@@ -1739,6 +1442,7 @@
     show_null_points: true
     interpolation: linear
     type: looker_line
+    column_limit: 50
     row: 60
     col: 0
     width: 8
@@ -2135,7 +1839,6 @@
   - name: " (3)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: |-
       <p align="center">
 
@@ -2147,7 +1850,7 @@
     width: 24
     height: 2
   - type: button
-    name: button_1397
+    name: button_1441
     rich_content_json: '{"text":"View Deals in Hubspot","description":"View current
       deal board in Hubspot","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/all/board"}'
     row: 14
@@ -2155,35 +1858,35 @@
     width: 8
     height: 1
   - type: button
-    name: button_1398
+    name: button_1442
     rich_content_json: '{"text":"View Open Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/2560409/board"}'
     row: 14
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1399
+    name: button_1443
     rich_content_json: '{"text":"View Closed Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/8745353/list"}'
     row: 14
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1400
+    name: button_1444
     rich_content_json: '{"text":"View Active Projects in Harvest","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://rittman.harvestapp.com/projects?filter=active"}'
     row: 24
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1401
+    name: button_1445
     rich_content_json: '{"text":"View Revenue by Client YTD in Xero","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://reporting.xero.com/!2r8Ny/v1/Run/1209"}'
     row: 24
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1402
+    name: button_1446
     rich_content_json: '{"text":"View Revenue vs Target and Forecast in Google Sheets","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://docs.google.com/spreadsheets/d/1gAVDTqfxpzGN6OFbYqGTMwoBSckCE0yTC1J4YS65Z_4/edit#gid=0"}'
     row: 24
     col: 0
@@ -2241,7 +1944,7 @@
     merged_queries:
     - model: analytics
       explore: project_attribution
-      type: looker_column
+      type: table
       fields: [staff_dim.contact_name, project_attribution.attributed_revenue_gbp]
       filters:
         project_attribution.billing_month: 3 months ago for 3 months
@@ -2252,50 +1955,7 @@
           label: Avg Monthly Attributed Revenue, value_format: !!null '', value_format_name: gbp_0,
           _kind_hint: measure, table_calculation: avg_monthly_attributed_revenue,
           _type_hint: number}]
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      value_labels: legend
-      label_type: labPer
-      color_application:
-        collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-        palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-        options:
-          steps: 5
-      hidden_series: [Will Berrystone - project_attribution.attributed_revenue_gbp,
-        Younes Chahid - project_attribution.attributed_revenue_gbp, Rob Bramwell -
-          project_attribution.attributed_revenue_gbp, Carlo Behtash - project_attribution.attributed_revenue_gbp,
-        David Murray - project_attribution.attributed_revenue_gbp, Mike Calleja -
-          project_attribution.attributed_revenue_gbp, Asif Ashraf - project_attribution.attributed_revenue_gbp,
-        project_attribution.attributed_revenue_gbp]
-      series_types: {}
-      show_null_points: true
-      interpolation: linear
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: project_attribution
       type: table
@@ -2351,6 +2011,7 @@
     show_dropoff: true
     hidden_fields: [project_attribution.attributed_revenue_gbp]
     type: looker_bar
+    column_limit: 50
     row: 52
     col: 16
     width: 8
@@ -2441,7 +2102,7 @@
     merged_queries:
     - model: analytics
       explore: companies_dim
-      type: looker_line
+      type: table
       fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
       fill_fields: [deals_fact.deal_created_month]
       filters:
@@ -2450,37 +2111,7 @@
         deals_fact.pipeline_stage_closed_won: 'Yes'
       sorts: [deals_fact.deal_created_month desc]
       limit: 500
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: normal
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      series_types: {}
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: targets
       type: table
@@ -2540,6 +2171,7 @@
     show_null_points: true
     interpolation: linear
     type: single_value
+    column_limit: 50
     row: 0
     col: 0
     width: 4
@@ -2549,38 +2181,14 @@
     merged_queries:
     - model: analytics
       explore: projects_delivered
-      type: looker_line
+      type: table
       fields: [projects_invoiced.invoice_month, projects_invoiced.total_net_amount_gbp]
       fill_fields: [projects_invoiced.invoice_month]
       filters:
         projects_invoiced.invoice_month: 2 months ago for 2 months
       sorts: [projects_invoiced.invoice_month desc]
       limit: 500
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: targets
       type: table
@@ -2644,6 +2252,7 @@
     show_silhouette: false
     totals_color: "#808080"
     type: single_value
+    column_limit: 50
     row: 0
     col: 4
     width: 4
@@ -2653,48 +2262,14 @@
     merged_queries:
     - model: analytics
       explore: hr_survey_results_fact
-      type: looker_line
+      type: table
       fields: [hr_survey_results_fact.avg_e_nps, hr_survey_results_fact.survey_ts_month]
       filters:
         hr_survey_results_fact.survey_ts_month: 1 months ago for 1 months
         hr_survey_results_fact.avg_e_nps: NOT NULL
       sorts: [hr_survey_results_fact.survey_ts_month desc]
       limit: 500
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      color_application:
-        collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-        palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-        options:
-          steps: 5
-      y_axes: [{label: '', orientation: left, series: [{axisId: hr_survey_results_fact.avg_e_nps,
-              id: hr_survey_results_fact.avg_e_nps, name: Avg E Nps}], showLabels: true,
-          showValues: true, maxValue: 60, minValue: 0, unpinAxis: false, tickDensity: default,
-          tickDensityCustom: 5, type: linear}]
-      reference_lines: []
-      defaults_version: 1
+      join_fields: []
     - model: analytics
       explore: targets
       type: table
@@ -2755,6 +2330,7 @@
     interpolation: linear
     type: single_value
     series_types: {}
+    column_limit: 50
     row: 0
     col: 16
     width: 4
@@ -2848,6 +2424,7 @@
     hidden_fields: [target, certification_progress.total_score, certification_progress.score_target,
       running_total_of_certification_progress_score_target_2, total_points, progress]
     series_types: {}
+    listen: {}
     row: 0
     col: 20
     width: 4
@@ -3275,7 +2852,87 @@
     totals_color: "#808080"
     defaults_version: 1
     truncate_column_names: false
+    listen: {}
     row: 0
     col: 8
     width: 4
     height: 5
+  - title: Client Billing L12M
+    name: Client Billing L12M
+    model: analytics
+    explore: projects_delivered
+    type: looker_grid
+    fields: [projects_invoiced.total_gross_amount_gbp, companies_dim.company_name,
+      projects_invoiced.invoice_month]
+    pivots: [projects_invoiced.invoice_month]
+    fill_fields: [projects_invoiced.invoice_month]
+    filters:
+      projects_invoiced.first_invoice_year: 24 months ago for 24 months
+      projects_invoiced.invoice_date: 12 months ago for 12 months
+      projects_invoiced.months_since_first_invoice: "<=12"
+    sorts: [projects_invoiced.invoice_month, companies_dim.company_name]
+    limit: 500
+    column_limit: 50
+    dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${projects_invoiced.total_gross_amount_gbp}),null,running_total(${projects_invoiced.total_gross_amount_gbp}))',
+        label: Running total of    Invoices Total Gross Amount Gbp, value_format: !!null '',
+        value_format_name: gbp_0, _kind_hint: measure, table_calculation: running_total_of_invoices_total_gross_amount_gbp,
+        _type_hint: number}]
+    show_view_names: false
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    truncate_header: false
+    series_cell_visualizations:
+      projects_invoiced.total_gross_amount_gbp:
+        is_active: false
+    conditional_formatting: [{type: along a scale..., value: !!null '', background_color: !!null '',
+        font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+          palette_id: 95584bf9-c29e-41ea-b6e7-79e9c126e177, options: {steps: 5}},
+        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    legend_position: center
+    series_types: {}
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: false
+    interpolation: linear
+    defaults_version: 1
+    hidden_fields: [running_total_of_invoices_total_gross_amount_gbp]
+    listen: {}
+    row: 25
+    col: 0
+    width: 16
+    height: 10
