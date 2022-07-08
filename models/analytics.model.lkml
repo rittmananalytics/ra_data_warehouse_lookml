@@ -140,18 +140,8 @@ explore: sales_funnel_xa {
 
 
 
-explore: actuals_v_targets {
-  hidden: yes
-
-}
-
-explore: customer_events_xa {
-  label: "Customer Timeline"
-  view_label: "Customer Events"
-  hidden: yes
 
 
-}
 
 explore: client_concentration {
   label: "Client Concentration"
@@ -442,9 +432,7 @@ explore: contacts {
  }
 }
 
-explore: project_metrics {
-  hidden: yes
-}
+
 
 explore: companies_dim {
   query: FTE_forecast {
@@ -457,25 +445,7 @@ explore: companies_dim {
       projects_delivered.project_delivery_start_ts_date: "after this month"
     ]
   }
-  query: qualified_sales_pipeline {
-      description: "Details of current sales pipeline"
-      dimensions: [
-        company_name,
-        deals_fact.assigned_consultant,
-        deals_fact.deal_currency_code,
-        deals_fact.deal_name,
-        deals_fact.deal_type,
-        deals_fact.number_of_sprints,
-        deals_fact.pipeline_stage_label,
-        deals_fact.pricing_model,
-        deals_fact.sprint_type
-      ]
-      measures: [deals_fact.total_deal_amount]
-      filters: [
-        companies_dim.company_name: "-Apex Auctions",
-        deals_fact.pipeline_stage_label: "Meeting and Sales Qualified,Awaiting Proposal,Deal Agreed & Awaiting Sign-off"
-      ]
-    }
+
   label: "     Companies"
   view_label: "        Companies"
   join: client_prospect_status_dim {
@@ -484,11 +454,7 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
-  join: companies_dim__all_company_addresses {
-    view_label: "        Companies"
-    sql: LEFT JOIN UNNEST(${companies_dim.all_company_addresses}) as companies_dim__all_company_addresses ;;
-    relationship: one_to_many
-  }
+
 
   join: rfm_model {
     view_label: "        Companies"
@@ -745,54 +711,7 @@ explore: companies_dim {
 
 
 
-  explore: revenue_attribution {
-    hidden: yes
-    label: "Attribution"
-    view_label: "Revenue Attribution"
-    join: timesheet_projects_dim {
-      sql_on: ${revenue_attribution.project_code} = ${timesheet_projects_dim.project_code} ;;
-      type: inner
-      relationship: many_to_one
-    }
-    join: companies_dim {
-      view_label: "Clients"
-      sql_on: ${timesheet_projects_dim.company_pk} = ${companies_dim.company_pk} ;;
-      type: inner
-      relationship: many_to_one
-    }
-    join: projects_invoiced {
-      view_label: "Project Invoicing (Harvest)"
-
-      from: invoices_fact
-      sql_on: ${timesheet_projects_dim.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
-      type: left_outer
-      relationship: one_to_many
-    }
-    join: exchange_rates {
-      sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
-      type: left_outer
-      relationship: many_to_one
-    }
-    join: rfm_model {
-      view_label: "    Companies"
-      sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
-      type: left_outer
-      relationship: one_to_one
-    }
-    join: client_prospect_status_dim {
-      view_label: "    Companies"
-      sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
-      type: left_outer
-      relationship: one_to_one
-    }
-    join: payments_fact {
-      view_label: " Payments"
-      type: left_outer
-      sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
-      relationship: one_to_many
-    }
-  }
-
+  
 
   explore: chart_of_accounts_dim {
     label: "Finance"
