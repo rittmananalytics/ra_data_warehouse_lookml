@@ -13,10 +13,6 @@ fiscal_month_offset: +3
 
 
 
-explore: actuals_targets_yago {
-  hidden: yes
-
-}
 
 explore: certification_progress {}
 
@@ -359,6 +355,12 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: projects_delivered_is_ontime {
+    view_label: "         Projects"
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_delivered_is_ontime.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+    }
 
 
   join: project_timesheet_users {
@@ -711,7 +713,7 @@ explore: companies_dim {
 
 
 
-  
+
 
   explore: chart_of_accounts_dim {
     label: "Finance"
