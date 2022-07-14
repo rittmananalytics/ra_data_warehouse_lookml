@@ -16,6 +16,8 @@ fiscal_month_offset: +3
 
 explore: certification_progress {}
 
+explore: kpi_scorecard {}
+
 explore: hr_survey_results_fact {
   label: "Team"
   view_label: "Staff Satisfaction"
