@@ -1,5 +1,5 @@
-- dashboard: business_summary_2022
-  title: Business Summary 2022
+- dashboard: business_summary_2022_v3
+  title: Business Summary 2022 v3
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
@@ -477,7 +477,8 @@
       deals_fact.total_weighted_opportunity_deal_amount, deals_fact.count_oppportunity_deals]
     filters:
       deals_fact.pipeline_stage_label: Initial Enquiry,Meeting and Sales Qualified,Presentation
-        Given & Sprints Scoped,Proposal Sent,PoC Underway,Deal Agreed & Awaiting Sign-off
+        Given & Sprints Scoped,Proposal Sent,PoC Underway,Deal Agreed & Awaiting Sign-off,Awaiting
+        Proposal
       companies_dim.company_name: "-Apex Auctions"
     sorts: [deals_fact.pipeline_stage_label]
     limit: 500
@@ -970,7 +971,7 @@
     fill_fields: [profit_and_loss_report_fact.period_month]
     filters:
       profit_and_loss_report_fact.account_report_category: Revenue,Cost of Delivery,Overheads
-      profit_and_loss_report_fact.period_year: 12 months ago for 12 months
+      profit_and_loss_report_fact.period_year: 12 months
     sorts: [profit_and_loss_report_fact.amount desc 0, profit_and_loss_report_fact.account_report_category]
     limit: 500
     total: true
@@ -1817,7 +1818,7 @@
     pivots: [companies_dim.company_name]
     fill_fields: [projects_invoiced.invoice_month]
     filters:
-      projects_invoiced.invoice_month: 12 months ago for 12 months
+      projects_invoiced.invoice_month: 12 months
     sorts: [companies_dim.company_name, projects_invoiced.invoice_month desc]
     limit: 500
     x_axis_gridlines: false
@@ -1964,7 +1965,7 @@
     pivots: [staff_dim.contact_name]
     fill_fields: [project_attribution.billing_month]
     filters:
-      project_attribution.billing_month: 12 months ago for 12 months
+      project_attribution.billing_month: 12 months
     sorts: [staff_dim.contact_name, project_attribution.billing_month desc]
     limit: 500
     row_total: right
@@ -2035,15 +2036,15 @@
     col: 0
     width: 8
     height: 8
-  - name: Individual 1mth vs 3mth Avg Attributed Revenue LM
-    title: Individual 1mth vs 3mth Avg Attributed Revenue LM
+  - name: Individual Attributed Revenue CM vs L3M
+    title: Individual Attributed Revenue CM vs L3M
     merged_queries:
     - model: analytics
       explore: project_attribution
       type: table
       fields: [staff_dim.contact_name, project_attribution.attributed_revenue_gbp]
       filters:
-        project_attribution.billing_month: 3 months ago for 3 months
+        project_attribution.billing_month: 3 months
         staff_dim.contact_name: "-Mike Calleja,-Rob Bramwell,-Will Berrystone"
       sorts: [staff_dim.contact_name]
       limit: 500
@@ -2057,8 +2058,9 @@
       type: table
       fields: [staff_dim.contact_name, project_attribution.attributed_revenue_gbp]
       filters:
-        project_attribution.billing_month: 1 months ago for 1 months
-        staff_dim.contact_name: "-Mike Calleja,-Rob Bramwell,-Will Berrystone"
+        project_attribution.billing_month: 1 months
+        staff_dim.contact_name: "-Mike Calleja,-Rob Bramwell,-Will Berrystone,-Toby\
+          \ Sexton"
       sorts: [project_attribution.attributed_revenue_gbp desc 0]
       limit: 500
       join_fields:
@@ -2193,8 +2195,8 @@
     col: 16
     width: 8
     height: 7
-  - name: Closed Deals vs Target LM
-    title: Closed Deals vs Target LM
+  - name: New Deals vs Target This Month
+    title: New Deals vs Target This Month
     merged_queries:
     - model: analytics
       explore: companies_dim
@@ -2202,16 +2204,15 @@
       fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
       fill_fields: [deals_fact.deal_created_month]
       filters:
-        deals_fact.deal_created_month: 2 months ago for 2 months
+        deals_fact.deal_created_month: 2 months
         deals_fact.deal_is_deleted: 'No'
-        deals_fact.pipeline_stage_closed_won: 'Yes'
       sorts: [deals_fact.deal_created_month desc]
       limit: 500
       join_fields: []
     - model: analytics
       explore: targets
       type: table
-      fields: [targets.period_month, targets.total_deals_closed_target]
+      fields: [targets.period_month, targets.total_deals_target]
       fill_fields: [targets.period_month]
       filters:
         targets.period_month: 12 months
@@ -2227,7 +2228,7 @@
         steps: 5
     custom_color_enabled: true
     show_single_value_title: true
-    single_value_title: Closed Deals LM
+    single_value_title: New Deals This Month
     value_format: '"£"0,"K"'
     show_comparison: true
     comparison_type: progress_percentage
@@ -2274,8 +2275,8 @@
     col: 0
     width: 4
     height: 5
-  - name: Revenue vs Target LM
-    title: Revenue vs Target LM
+  - name: Revenue vs Target This Month
+    title: Revenue vs Target This Month
     merged_queries:
     - model: analytics
       explore: projects_delivered
@@ -2283,7 +2284,7 @@
       fields: [projects_invoiced.invoice_month, projects_invoiced.total_net_amount_gbp]
       fill_fields: [projects_invoiced.invoice_month]
       filters:
-        projects_invoiced.invoice_month: 2 months ago for 2 months
+        projects_invoiced.invoice_month: 2 months
       sorts: [projects_invoiced.invoice_month desc]
       limit: 500
       join_fields: []
@@ -2304,7 +2305,7 @@
         steps: 5
     custom_color_enabled: true
     show_single_value_title: true
-    single_value_title: Net Revenue LM
+    single_value_title: Net Revenue This Month
     value_format: '"£"0,"K"'
     show_comparison: true
     comparison_type: progress_percentage
@@ -2437,16 +2438,14 @@
     col: 16
     width: 4
     height: 5
-  - title: Certification Progress vs Target LM
-    name: Certification Progress vs Target LM
+  - title: Cert Progress vs Target To Date
+    name: Cert Progress vs Target To Date
     model: analytics
     explore: certification_progress
     type: single_value
     fields: [certification_progress.progress_month, certification_progress.score_target,
       certification_progress.total_score]
     fill_fields: [certification_progress.progress_month]
-    filters:
-      certification_progress.progress_month: 1 months ago for 1 months
     sorts: [certification_progress.progress_month]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: 'if(${certification_progress.total_score}=0,null,${certification_progress.score_target})',
@@ -2472,7 +2471,13 @@
         _kind_hint: measure, table_calculation: total_points, _type_hint: number},
       {category: table_calculation, expression: "${progress}/${total_points}", label: Progress
           to Date, value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
-        table_calculation: progress_to_date, _type_hint: number}]
+        table_calculation: progress_to_date, _type_hint: number}, {category: table_calculation,
+        expression: "lookup(\n  trunc_months(now()),trunc_months(${certification_progress.progress_month}),${progress_to_date})",
+        label: Total Progress To Date, value_format: !!null '', value_format_name: percent_0,
+        _kind_hint: measure, table_calculation: total_progress_to_date, _type_hint: number},
+      {category: table_calculation, expression: "lookup(\n  trunc_months(now()),trunc_months(${certification_progress.progress_month}),${target_progress})",
+        label: Target Progress To Date, value_format: !!null '', value_format_name: percent_0,
+        _kind_hint: measure, table_calculation: target_progress_to_date, _type_hint: number}]
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: true
@@ -2487,6 +2492,7 @@
       palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
       options:
         steps: 5
+    single_value_title: Overall Progress To Date
     comparison_label: Target
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -2524,15 +2530,16 @@
         Partner Status
     defaults_version: 1
     hidden_fields: [target, certification_progress.total_score, certification_progress.score_target,
-      running_total_of_certification_progress_score_target_2, total_points, progress]
+      running_total_of_certification_progress_score_target_2, total_points, progress,
+      target_progress, progress_to_date]
     series_types: {}
     listen: {}
     row: 10
     col: 20
     width: 4
     height: 5
-  - title: Project On Time Delivery vs Target LM
-    name: Project On Time Delivery vs Target LM
+  - title: Project On Time Delivery vs Target This Month
+    name: Project On Time Delivery vs Target This Month
     model: analytics
     explore: projects_delivered
     type: single_value
@@ -2687,15 +2694,15 @@
     col: 12
     width: 4
     height: 5
-  - title: Actual Utilisation vs Target LM
-    name: Actual Utilisation vs Target LM
+  - title: Actual Utilisation vs Target This Month
+    name: Actual Utilisation vs Target This Month
     model: analytics
     explore: contact_utilization_fact
     type: single_value
     fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
       contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity]
     filters:
-      contact_utilization_fact.forecast_week: 1 months ago for 1 months
+      contact_utilization_fact.forecast_week: 1 months
       staff_dim.contact_name: "-Toby Sexton"
       staff_dim.contact_is_contractor: 'No'
     limit: 500
@@ -2968,12 +2975,11 @@
     pivots: [projects_invoiced.invoice_month]
     fill_fields: [projects_invoiced.invoice_month]
     filters:
-      projects_invoiced.first_invoice_year: 24 months ago for 24 months
-      projects_invoiced.invoice_date: 12 months ago for 12 months
-      projects_invoiced.months_since_first_invoice: "<=12"
+      projects_invoiced.invoice_date: 12 months
     sorts: [projects_invoiced.invoice_month, companies_dim.company_name]
     limit: 500
     column_limit: 50
+    total: true
     dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${projects_invoiced.total_gross_amount_gbp}),null,running_total(${projects_invoiced.total_gross_amount_gbp}))',
         label: Running total of    Invoices Total Gross Amount Gbp, value_format: !!null '',
         value_format_name: gbp_0, _kind_hint: measure, table_calculation: running_total_of_invoices_total_gross_amount_gbp,
@@ -3044,7 +3050,7 @@
   - name: " (4)"
     type: text
     title_text: ''
-    subtitle_text: Key Company Metrics
+    subtitle_text: Key Company Metrics <b>This Month</b>
     body_text: ''
     row: 9
     col: 0
@@ -14540,7 +14546,7 @@
     pivots: [profit_and_loss_report_fact.account_report_category]
     fill_fields: [general_ledger_fact.journal_month]
     filters:
-      general_ledger_fact.journal_month: 12 months ago for 12 months
+      general_ledger_fact.journal_month: 12 months
       chart_of_accounts_dim.account_report_group: "-NULL"
       profit_and_loss_report_fact.account_report_category: "-NULL"
     sorts: [profit_and_loss_report_fact.account_report_category, general_ledger_fact.journal_month
