@@ -82,7 +82,7 @@ measure: total_deal_amount_gbp_converted  {
 
 
 
-    sql: case when ${TABLE}.deal_closed_amount_value is not null and ${TABLE}.pipeline_stage_display_order >=8 and ${TABLE}.pipeline_display_order <=9 then ${TABLE}.deal_closed_ts end ;;
+    sql: ${TABLE}.deal_closed_ts;;
   }
 
   dimension: deal_closed_lost_reason {
