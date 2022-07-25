@@ -3,50 +3,19 @@
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
-  preferred_slug: mNJozzeZbBIz6D7HPZ33UQ
+  preferred_slug: WD2gNHJUvbX8kdoXzUvPwX
   elements:
   - name: Revenue vs Target L12M
     title: Revenue vs Target L12M
     merged_queries:
     - model: analytics
       explore: projects_delivered
-      type: looker_line
+      type: table
       fields: [projects_invoiced.invoice_month, projects_invoiced.total_net_amount_gbp]
       fill_fields: [projects_invoiced.invoice_month]
       sorts: [projects_invoiced.invoice_month desc]
       limit: 500
       filter_expression: "${projects_invoiced.invoice_date}>add_months(-12,now())"
-      analysis_config:
-        forecasting:
-        - confidence_interval: 0.95
-          field_name: projects_invoiced.total_net_amount_gbp
-          forecast_n: 3
-          forecast_interval: month
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      defaults_version: 1
       join_fields: []
     - model: analytics
       explore: targets
@@ -626,48 +595,12 @@
     merged_queries:
     - model: analytics
       explore: companies_dim
-      type: looker_line
+      type: table
       fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
       fill_fields: [deals_fact.deal_created_month]
       sorts: [deals_fact.deal_created_month desc]
       limit: 500
       filter_expression: "${deals_fact.deal_created_month}>add_months(-12,now())"
-      analysis_config:
-        forecasting:
-        - confidence_interval: 0.95
-          field_name: deals_fact.total_deal_amount_gbp_converted
-          forecast_n: 3
-          forecast_interval: month
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      color_application:
-        collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-        palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-        options:
-          steps: 5
-      defaults_version: 1
       join_fields: []
     - model: analytics
       explore: targets
@@ -740,46 +673,15 @@
     merged_queries:
     - model: analytics
       explore: companies_dim
-      type: looker_line
-      fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
-      fill_fields: [deals_fact.deal_created_month]
+      type: table
+      fields: [deals_fact.total_deal_amount_gbp_converted, deals_fact.deal_closed_month]
+      fill_fields: [deals_fact.deal_closed_month]
       filters:
         deals_fact.deal_is_deleted: 'No'
         deals_fact.pipeline_stage_closed_won: 'Yes'
-      sorts: [deals_fact.deal_created_month desc]
+      sorts: [deals_fact.deal_closed_month desc]
       limit: 500
       filter_expression: "${deals_fact.deal_created_month}>add_months(-12,now())"
-      analysis_config:
-        forecasting:
-        - confidence_interval: 0.95
-          field_name: deals_fact.total_deal_amount_gbp_converted
-          forecast_n: 3
-          forecast_interval: month
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      defaults_version: 1
       join_fields: []
     - model: analytics
       explore: targets
@@ -792,7 +694,7 @@
       limit: 500
       join_fields:
       - field_name: targets.period_month
-        source_field_name: deals_fact.deal_created_month
+        source_field_name: deals_fact.deal_closed_month
     color_application:
       collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
       palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
@@ -837,7 +739,6 @@
     interpolation: linear
     type: looker_line
     hidden_fields: [targets.total_deals_closed_target]
-    sorts: [deals_fact.deal_created_month desc]
     column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_closed_target}),80000,${targets.total_deals_closed_target})',
         label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
@@ -1135,7 +1036,6 @@
   - name: " (2)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: |-
       <p align="center">
 
@@ -1914,7 +1814,7 @@
     width: 24
     height: 2
   - type: button
-    name: button_1496
+    name: button_1543
     rich_content_json: '{"text":"View Deals in Hubspot","description":"View current
       deal board in Hubspot","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/all/board"}'
     row: 24
@@ -1922,35 +1822,35 @@
     width: 8
     height: 1
   - type: button
-    name: button_1497
+    name: button_1544
     rich_content_json: '{"text":"View Open Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/2560409/board"}'
     row: 24
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1498
+    name: button_1545
     rich_content_json: '{"text":"View Closed Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/8745353/list"}'
     row: 24
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1499
+    name: button_1546
     rich_content_json: '{"text":"View Active Projects in Harvest","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://rittman.harvestapp.com/projects?filter=active"}'
     row: 34
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1500
+    name: button_1547
     rich_content_json: '{"text":"View Revenue by Client YTD in Xero","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://reporting.xero.com/!2r8Ny/v1/Run/1209"}'
     row: 34
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1501
+    name: button_1548
     rich_content_json: '{"text":"View Revenue vs Target and Forecast in Google Sheets","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://docs.google.com/spreadsheets/d/1gAVDTqfxpzGN6OFbYqGTMwoBSckCE0yTC1J4YS65Z_4/edit#gid=0"}'
     row: 34
     col: 0
@@ -3064,7 +2964,7 @@
     merged_queries:
     - model: analytics
       explore: contact_utilization_fact
-      type: single_value
+      type: table
       fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
         contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
         contact_utilization_fact.forecast_month]
@@ -3085,251 +2985,7 @@
         {category: table_calculation, expression: "${contact_utilization_fact.total_forecast_billable_hours}/${contact_utilization_fact.total_total_capacity}",
           label: Forecast Utilization, value_format: !!null '', value_format_name: percent_0,
           _kind_hint: measure, table_calculation: forecast_utilization, _type_hint: number}]
-      custom_color_enabled: true
-      show_single_value_title: true
-      show_comparison: true
-      comparison_type: progress_percentage
-      comparison_reverse_colors: false
-      show_comparison_label: true
-      enable_conditional_formatting: false
-      conditional_formatting_include_totals: false
-      conditional_formatting_include_nulls: false
-      comparison_label: Target
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      series_types: {}
-      series_colors:
-        target_utilization: "#8C3535"
-        actual_utilization: "#519947"
-        forecast_utilization: "#7AB7F4"
-      series_labels: {}
-      theme: traditional
-      customTheme: ''
-      layout: fixed
-      minWidthForIndexColumns: true
-      headerFontSize: 12
-      bodyFontSize: 12
-      showTooltip: true
-      showHighlight: false
-      columnOrder: {}
-      rowSubtotals: true
-      colSubtotals: false
-      spanRows: true
-      spanCols: true
-      calculateOthers: false
-      sortColumnsBy: pivots
-      useViewName: false
-      useHeadings: false
-      useShortName: false
-      useUnit: false
-      groupVarianceColumns: false
-      genericLabelForSubtotals: false
-      indexColumn: false
-      transposeTable: false
-      label|contact_utilization_fact.forecast_week: Week
-      heading|contact_utilization_fact.forecast_week: ''
-      hide|contact_utilization_fact.forecast_week: false
-      label|staff_dim.contact_name: Name
-      heading|staff_dim.contact_name: ''
-      hide|staff_dim.contact_name: false
-      subtotalDepth: '1'
-      label|contact_utilization_fact.total_time_off: Time Off
-      heading|contact_utilization_fact.total_time_off: ''
-      style|contact_utilization_fact.total_time_off: normal
-      reportIn|contact_utilization_fact.total_time_off: '1'
-      unit|contact_utilization_fact.total_time_off: Hours
-      comparison|contact_utilization_fact.total_time_off: no_variance
-      switch|contact_utilization_fact.total_time_off: false
-      var_num|contact_utilization_fact.total_time_off: false
-      var_pct|contact_utilization_fact.total_time_off: false
-      label|contact_utilization_fact.average_target: Target
-      heading|contact_utilization_fact.average_target: ''
-      style|contact_utilization_fact.average_target: normal
-      reportIn|contact_utilization_fact.average_target: '1'
-      unit|contact_utilization_fact.average_target: ''
-      comparison|contact_utilization_fact.average_target: no_variance
-      switch|contact_utilization_fact.average_target: false
-      var_num|contact_utilization_fact.average_target: true
-      var_pct|contact_utilization_fact.average_target: false
-      label|contact_utilization_fact.total_hours_per_week: Hours Per Week
-      label|contact_utilization_fact.total_total_capacity: Total Capacity
-      label|contact_utilization_fact.total_target_billable_capacity: Target Capacity
-      label|contact_utilization_fact.total_forecast_billable_hours: Forecast Hours
-      label|contact_utilization_fact.total_actual_billable_hours: Actual Hours
-      label|contact_utilization_fact.total_actual_story_points: Story Points
-      heading|contact_utilization_fact.total_actual_story_points: Story Points Delivered
-      label|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      heading|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      switch|contact_utilization_fact.average_forecast_utilization: false
-      label|contact_utilization_fact.average_actual_utilization: Actual Utilization
-      label|contact_utilization_fact.actual_to_forecast_utilization_variance: Variance
-      label|contact_utilization_fact.actual_to_target_utilization_variance: Variance
-      hidden_fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
-        contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
-        forecast_utilization]
-      hidden_points_if_no: []
-      label|actual_utilization: Actual Utilization
-      heading|actual_utilization: ''
-      style|actual_utilization: normal
-      reportIn|actual_utilization: '1'
-      unit|actual_utilization: ''
-      comparison|actual_utilization: contact_utilization_fact.average_target
-      switch|actual_utilization: false
-      var_num|actual_utilization: true
-      var_pct|actual_utilization: false
-      label|actual_utilization_to_forecast_variance: Actual Utilization to Forecast
-        Variance
-      heading|actual_utilization_to_forecast_variance: ''
-      style|actual_utilization_to_forecast_variance: normal
-      reportIn|actual_utilization_to_forecast_variance: '1'
-      unit|actual_utilization_to_forecast_variance: ''
-      comparison|actual_utilization_to_forecast_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_forecast_variance: false
-      var_num|actual_utilization_to_forecast_variance: true
-      var_pct|actual_utilization_to_forecast_variance: true
-      label|actual_utilization_to_target_variance: Actual Utilization to Target Variance
-      heading|actual_utilization_to_target_variance: ''
-      style|actual_utilization_to_target_variance: normal
-      reportIn|actual_utilization_to_target_variance: '1'
-      unit|actual_utilization_to_target_variance: ''
-      comparison|actual_utilization_to_target_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_target_variance: false
-      var_num|actual_utilization_to_target_variance: true
-      var_pct|actual_utilization_to_target_variance: false
-      label|contact_utilization_fact.average_hours_per_week: "             Hours Per\
-        \ Week"
-      heading|contact_utilization_fact.average_hours_per_week: ''
-      style|contact_utilization_fact.average_hours_per_week: normal
-      reportIn|contact_utilization_fact.average_hours_per_week: '1'
-      unit|contact_utilization_fact.average_hours_per_week: ''
-      comparison|contact_utilization_fact.average_hours_per_week: no_variance
-      switch|contact_utilization_fact.average_hours_per_week: false
-      var_num|contact_utilization_fact.average_hours_per_week: true
-      var_pct|contact_utilization_fact.average_hours_per_week: false
-      label|contact_utilization_fact.average_total_capacity: "           Total Capacity"
-      heading|contact_utilization_fact.average_total_capacity: ''
-      style|contact_utilization_fact.average_total_capacity: normal
-      reportIn|contact_utilization_fact.average_total_capacity: '1'
-      unit|contact_utilization_fact.average_total_capacity: ''
-      comparison|contact_utilization_fact.average_total_capacity: no_variance
-      switch|contact_utilization_fact.average_total_capacity: false
-      var_num|contact_utilization_fact.average_total_capacity: true
-      var_pct|contact_utilization_fact.average_total_capacity: false
-      label|contact_utilization_fact.average_target_billable_capacity: "         Target\
-        \ Billable Capacity"
-      heading|contact_utilization_fact.average_target_billable_capacity: ''
-      style|contact_utilization_fact.average_target_billable_capacity: normal
-      reportIn|contact_utilization_fact.average_target_billable_capacity: '1'
-      unit|contact_utilization_fact.average_target_billable_capacity: ''
-      comparison|contact_utilization_fact.average_target_billable_capacity: no_variance
-      switch|contact_utilization_fact.average_target_billable_capacity: false
-      var_num|contact_utilization_fact.average_target_billable_capacity: true
-      var_pct|contact_utilization_fact.average_target_billable_capacity: false
-      label|contact_utilization_fact.average_forecast_billable_hours: "       Forecast\
-        \ Billable Hours"
-      heading|contact_utilization_fact.average_forecast_billable_hours: ''
-      style|contact_utilization_fact.average_forecast_billable_hours: normal
-      reportIn|contact_utilization_fact.average_forecast_billable_hours: '1'
-      unit|contact_utilization_fact.average_forecast_billable_hours: ''
-      comparison|contact_utilization_fact.average_forecast_billable_hours: no_variance
-      switch|contact_utilization_fact.average_forecast_billable_hours: false
-      var_num|contact_utilization_fact.average_forecast_billable_hours: true
-      var_pct|contact_utilization_fact.average_forecast_billable_hours: false
-      label|contact_utilization_fact.average_actual_billable_hours: "    Actual Billable\
-        \ Hours"
-      heading|contact_utilization_fact.average_actual_billable_hours: ''
-      style|contact_utilization_fact.average_actual_billable_hours: normal
-      reportIn|contact_utilization_fact.average_actual_billable_hours: '1'
-      unit|contact_utilization_fact.average_actual_billable_hours: ''
-      comparison|contact_utilization_fact.average_actual_billable_hours: no_variance
-      switch|contact_utilization_fact.average_actual_billable_hours: false
-      var_num|contact_utilization_fact.average_actual_billable_hours: true
-      var_pct|contact_utilization_fact.average_actual_billable_hours: false
-      label|contact_utilization_fact.average_actual_story_points: Actual Story Points
-      heading|contact_utilization_fact.average_actual_story_points: ''
-      style|contact_utilization_fact.average_actual_story_points: normal
-      reportIn|contact_utilization_fact.average_actual_story_points: '1'
-      unit|contact_utilization_fact.average_actual_story_points: ''
-      comparison|contact_utilization_fact.average_actual_story_points: no_variance
-      switch|contact_utilization_fact.average_actual_story_points: false
-      var_num|contact_utilization_fact.average_actual_story_points: true
-      var_pct|contact_utilization_fact.average_actual_story_points: false
-      label|forecast_utilization: Forecast Utilization
-      heading|forecast_utilization: ''
-      style|forecast_utilization: normal
-      reportIn|forecast_utilization: '1'
-      unit|forecast_utilization: ''
-      comparison|forecast_utilization: no_variance
-      switch|forecast_utilization: false
-      var_num|forecast_utilization: true
-      var_pct|forecast_utilization: false
-      show_row_numbers: true
-      transpose: false
-      truncate_text: true
-      hide_totals: false
-      hide_row_totals: false
-      size_to_fit: true
-      table_theme: white
-      header_text_alignment: left
-      header_font_size: '12'
-      rows_font_size: '12'
-      label|contact_utilization_fact.average_time_off: "                  Time-Off"
-      heading|contact_utilization_fact.average_time_off: ''
-      style|contact_utilization_fact.average_time_off: normal
-      reportIn|contact_utilization_fact.average_time_off: '1'
-      unit|contact_utilization_fact.average_time_off: ''
-      comparison|contact_utilization_fact.average_time_off: no_variance
-      switch|contact_utilization_fact.average_time_off: false
-      var_num|contact_utilization_fact.average_time_off: true
-      var_pct|contact_utilization_fact.average_time_off: false
-      show_sql_query_menu_options: false
-      show_totals: true
-      show_row_totals: true
-      truncate_header: false
-      series_column_widths:
-        grouped-column-contact_utilization_fact.forecast_week: 165
-      series_cell_visualizations:
-        contact_utilization_fact.average_time_off:
-          is_active: false
-        forecast_utilization:
-          is_active: true
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-        actual_utilization:
-          is_active: false
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      truncate_column_names: false
+      join_fields: []
     - model: analytics
       explore: projects_delivered
       type: table
@@ -3347,8 +3003,6 @@
         {category: table_calculation, expression: '0.9', label: Target % of Projects
             Ontime, value_format: !!null '', value_format_name: percent_0, _kind_hint: dimension,
           table_calculation: target_of_projects_ontime, _type_hint: number}]
-      hidden_fields: [projects_delivered_is_ontime.count_ontime_timesheet_projects,
-        projects_delivered.count_timesheet_projects]
       join_fields:
       - field_name: projects_delivered.project_delivery_end_ts_month
         source_field_name: contact_utilization_fact.forecast_month
@@ -4653,6 +4307,7 @@
         value_format: "#,##0%"
         is_numeric: true
       pivots: []
+    column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
@@ -4693,7 +4348,7 @@
     merged_queries:
     - model: analytics
       explore: contact_utilization_fact
-      type: single_value
+      type: table
       fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
         contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
         contact_utilization_fact.forecast_month]
@@ -4714,251 +4369,7 @@
         {category: table_calculation, expression: "${contact_utilization_fact.total_forecast_billable_hours}/${contact_utilization_fact.total_total_capacity}",
           label: Forecast Utilization, value_format: !!null '', value_format_name: percent_0,
           _kind_hint: measure, table_calculation: forecast_utilization, _type_hint: number}]
-      custom_color_enabled: true
-      show_single_value_title: true
-      show_comparison: true
-      comparison_type: progress_percentage
-      comparison_reverse_colors: false
-      show_comparison_label: true
-      enable_conditional_formatting: false
-      conditional_formatting_include_totals: false
-      conditional_formatting_include_nulls: false
-      comparison_label: Target
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      series_types: {}
-      series_colors:
-        target_utilization: "#8C3535"
-        actual_utilization: "#519947"
-        forecast_utilization: "#7AB7F4"
-      series_labels: {}
-      theme: traditional
-      customTheme: ''
-      layout: fixed
-      minWidthForIndexColumns: true
-      headerFontSize: 12
-      bodyFontSize: 12
-      showTooltip: true
-      showHighlight: false
-      columnOrder: {}
-      rowSubtotals: true
-      colSubtotals: false
-      spanRows: true
-      spanCols: true
-      calculateOthers: false
-      sortColumnsBy: pivots
-      useViewName: false
-      useHeadings: false
-      useShortName: false
-      useUnit: false
-      groupVarianceColumns: false
-      genericLabelForSubtotals: false
-      indexColumn: false
-      transposeTable: false
-      label|contact_utilization_fact.forecast_week: Week
-      heading|contact_utilization_fact.forecast_week: ''
-      hide|contact_utilization_fact.forecast_week: false
-      label|staff_dim.contact_name: Name
-      heading|staff_dim.contact_name: ''
-      hide|staff_dim.contact_name: false
-      subtotalDepth: '1'
-      label|contact_utilization_fact.total_time_off: Time Off
-      heading|contact_utilization_fact.total_time_off: ''
-      style|contact_utilization_fact.total_time_off: normal
-      reportIn|contact_utilization_fact.total_time_off: '1'
-      unit|contact_utilization_fact.total_time_off: Hours
-      comparison|contact_utilization_fact.total_time_off: no_variance
-      switch|contact_utilization_fact.total_time_off: false
-      var_num|contact_utilization_fact.total_time_off: false
-      var_pct|contact_utilization_fact.total_time_off: false
-      label|contact_utilization_fact.average_target: Target
-      heading|contact_utilization_fact.average_target: ''
-      style|contact_utilization_fact.average_target: normal
-      reportIn|contact_utilization_fact.average_target: '1'
-      unit|contact_utilization_fact.average_target: ''
-      comparison|contact_utilization_fact.average_target: no_variance
-      switch|contact_utilization_fact.average_target: false
-      var_num|contact_utilization_fact.average_target: true
-      var_pct|contact_utilization_fact.average_target: false
-      label|contact_utilization_fact.total_hours_per_week: Hours Per Week
-      label|contact_utilization_fact.total_total_capacity: Total Capacity
-      label|contact_utilization_fact.total_target_billable_capacity: Target Capacity
-      label|contact_utilization_fact.total_forecast_billable_hours: Forecast Hours
-      label|contact_utilization_fact.total_actual_billable_hours: Actual Hours
-      label|contact_utilization_fact.total_actual_story_points: Story Points
-      heading|contact_utilization_fact.total_actual_story_points: Story Points Delivered
-      label|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      heading|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      switch|contact_utilization_fact.average_forecast_utilization: false
-      label|contact_utilization_fact.average_actual_utilization: Actual Utilization
-      label|contact_utilization_fact.actual_to_forecast_utilization_variance: Variance
-      label|contact_utilization_fact.actual_to_target_utilization_variance: Variance
-      hidden_fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
-        contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
-        forecast_utilization]
-      hidden_points_if_no: []
-      label|actual_utilization: Actual Utilization
-      heading|actual_utilization: ''
-      style|actual_utilization: normal
-      reportIn|actual_utilization: '1'
-      unit|actual_utilization: ''
-      comparison|actual_utilization: contact_utilization_fact.average_target
-      switch|actual_utilization: false
-      var_num|actual_utilization: true
-      var_pct|actual_utilization: false
-      label|actual_utilization_to_forecast_variance: Actual Utilization to Forecast
-        Variance
-      heading|actual_utilization_to_forecast_variance: ''
-      style|actual_utilization_to_forecast_variance: normal
-      reportIn|actual_utilization_to_forecast_variance: '1'
-      unit|actual_utilization_to_forecast_variance: ''
-      comparison|actual_utilization_to_forecast_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_forecast_variance: false
-      var_num|actual_utilization_to_forecast_variance: true
-      var_pct|actual_utilization_to_forecast_variance: true
-      label|actual_utilization_to_target_variance: Actual Utilization to Target Variance
-      heading|actual_utilization_to_target_variance: ''
-      style|actual_utilization_to_target_variance: normal
-      reportIn|actual_utilization_to_target_variance: '1'
-      unit|actual_utilization_to_target_variance: ''
-      comparison|actual_utilization_to_target_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_target_variance: false
-      var_num|actual_utilization_to_target_variance: true
-      var_pct|actual_utilization_to_target_variance: false
-      label|contact_utilization_fact.average_hours_per_week: "             Hours Per\
-        \ Week"
-      heading|contact_utilization_fact.average_hours_per_week: ''
-      style|contact_utilization_fact.average_hours_per_week: normal
-      reportIn|contact_utilization_fact.average_hours_per_week: '1'
-      unit|contact_utilization_fact.average_hours_per_week: ''
-      comparison|contact_utilization_fact.average_hours_per_week: no_variance
-      switch|contact_utilization_fact.average_hours_per_week: false
-      var_num|contact_utilization_fact.average_hours_per_week: true
-      var_pct|contact_utilization_fact.average_hours_per_week: false
-      label|contact_utilization_fact.average_total_capacity: "           Total Capacity"
-      heading|contact_utilization_fact.average_total_capacity: ''
-      style|contact_utilization_fact.average_total_capacity: normal
-      reportIn|contact_utilization_fact.average_total_capacity: '1'
-      unit|contact_utilization_fact.average_total_capacity: ''
-      comparison|contact_utilization_fact.average_total_capacity: no_variance
-      switch|contact_utilization_fact.average_total_capacity: false
-      var_num|contact_utilization_fact.average_total_capacity: true
-      var_pct|contact_utilization_fact.average_total_capacity: false
-      label|contact_utilization_fact.average_target_billable_capacity: "         Target\
-        \ Billable Capacity"
-      heading|contact_utilization_fact.average_target_billable_capacity: ''
-      style|contact_utilization_fact.average_target_billable_capacity: normal
-      reportIn|contact_utilization_fact.average_target_billable_capacity: '1'
-      unit|contact_utilization_fact.average_target_billable_capacity: ''
-      comparison|contact_utilization_fact.average_target_billable_capacity: no_variance
-      switch|contact_utilization_fact.average_target_billable_capacity: false
-      var_num|contact_utilization_fact.average_target_billable_capacity: true
-      var_pct|contact_utilization_fact.average_target_billable_capacity: false
-      label|contact_utilization_fact.average_forecast_billable_hours: "       Forecast\
-        \ Billable Hours"
-      heading|contact_utilization_fact.average_forecast_billable_hours: ''
-      style|contact_utilization_fact.average_forecast_billable_hours: normal
-      reportIn|contact_utilization_fact.average_forecast_billable_hours: '1'
-      unit|contact_utilization_fact.average_forecast_billable_hours: ''
-      comparison|contact_utilization_fact.average_forecast_billable_hours: no_variance
-      switch|contact_utilization_fact.average_forecast_billable_hours: false
-      var_num|contact_utilization_fact.average_forecast_billable_hours: true
-      var_pct|contact_utilization_fact.average_forecast_billable_hours: false
-      label|contact_utilization_fact.average_actual_billable_hours: "    Actual Billable\
-        \ Hours"
-      heading|contact_utilization_fact.average_actual_billable_hours: ''
-      style|contact_utilization_fact.average_actual_billable_hours: normal
-      reportIn|contact_utilization_fact.average_actual_billable_hours: '1'
-      unit|contact_utilization_fact.average_actual_billable_hours: ''
-      comparison|contact_utilization_fact.average_actual_billable_hours: no_variance
-      switch|contact_utilization_fact.average_actual_billable_hours: false
-      var_num|contact_utilization_fact.average_actual_billable_hours: true
-      var_pct|contact_utilization_fact.average_actual_billable_hours: false
-      label|contact_utilization_fact.average_actual_story_points: Actual Story Points
-      heading|contact_utilization_fact.average_actual_story_points: ''
-      style|contact_utilization_fact.average_actual_story_points: normal
-      reportIn|contact_utilization_fact.average_actual_story_points: '1'
-      unit|contact_utilization_fact.average_actual_story_points: ''
-      comparison|contact_utilization_fact.average_actual_story_points: no_variance
-      switch|contact_utilization_fact.average_actual_story_points: false
-      var_num|contact_utilization_fact.average_actual_story_points: true
-      var_pct|contact_utilization_fact.average_actual_story_points: false
-      label|forecast_utilization: Forecast Utilization
-      heading|forecast_utilization: ''
-      style|forecast_utilization: normal
-      reportIn|forecast_utilization: '1'
-      unit|forecast_utilization: ''
-      comparison|forecast_utilization: no_variance
-      switch|forecast_utilization: false
-      var_num|forecast_utilization: true
-      var_pct|forecast_utilization: false
-      show_row_numbers: true
-      transpose: false
-      truncate_text: true
-      hide_totals: false
-      hide_row_totals: false
-      size_to_fit: true
-      table_theme: white
-      header_text_alignment: left
-      header_font_size: '12'
-      rows_font_size: '12'
-      label|contact_utilization_fact.average_time_off: "                  Time-Off"
-      heading|contact_utilization_fact.average_time_off: ''
-      style|contact_utilization_fact.average_time_off: normal
-      reportIn|contact_utilization_fact.average_time_off: '1'
-      unit|contact_utilization_fact.average_time_off: ''
-      comparison|contact_utilization_fact.average_time_off: no_variance
-      switch|contact_utilization_fact.average_time_off: false
-      var_num|contact_utilization_fact.average_time_off: true
-      var_pct|contact_utilization_fact.average_time_off: false
-      show_sql_query_menu_options: false
-      show_totals: true
-      show_row_totals: true
-      truncate_header: false
-      series_column_widths:
-        grouped-column-contact_utilization_fact.forecast_week: 165
-      series_cell_visualizations:
-        contact_utilization_fact.average_time_off:
-          is_active: false
-        forecast_utilization:
-          is_active: true
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-        actual_utilization:
-          is_active: false
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      truncate_column_names: false
+      join_fields: []
     - model: analytics
       explore: projects_delivered
       type: table
@@ -4976,8 +4387,6 @@
         {category: table_calculation, expression: '0.9', label: Target % of Projects
             Ontime, value_format: !!null '', value_format_name: percent_0, _kind_hint: dimension,
           table_calculation: target_of_projects_ontime, _type_hint: number}]
-      hidden_fields: [projects_delivered_is_ontime.count_ontime_timesheet_projects,
-        projects_delivered.count_timesheet_projects]
       join_fields:
       - field_name: projects_delivered.project_delivery_end_ts_month
         source_field_name: contact_utilization_fact.forecast_month
@@ -6284,6 +5693,7 @@
         is_numeric: true
       pivots: []
     sorts: [process_customer_perspective_weighted_30 desc]
+    column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
@@ -6324,7 +5734,7 @@
     merged_queries:
     - model: analytics
       explore: contact_utilization_fact
-      type: single_value
+      type: table
       fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
         contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
         contact_utilization_fact.forecast_month]
@@ -6345,251 +5755,7 @@
         {category: table_calculation, expression: "${contact_utilization_fact.total_forecast_billable_hours}/${contact_utilization_fact.total_total_capacity}",
           label: Forecast Utilization, value_format: !!null '', value_format_name: percent_0,
           _kind_hint: measure, table_calculation: forecast_utilization, _type_hint: number}]
-      custom_color_enabled: true
-      show_single_value_title: true
-      show_comparison: true
-      comparison_type: progress_percentage
-      comparison_reverse_colors: false
-      show_comparison_label: true
-      enable_conditional_formatting: false
-      conditional_formatting_include_totals: false
-      conditional_formatting_include_nulls: false
-      comparison_label: Target
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      series_types: {}
-      series_colors:
-        target_utilization: "#8C3535"
-        actual_utilization: "#519947"
-        forecast_utilization: "#7AB7F4"
-      series_labels: {}
-      theme: traditional
-      customTheme: ''
-      layout: fixed
-      minWidthForIndexColumns: true
-      headerFontSize: 12
-      bodyFontSize: 12
-      showTooltip: true
-      showHighlight: false
-      columnOrder: {}
-      rowSubtotals: true
-      colSubtotals: false
-      spanRows: true
-      spanCols: true
-      calculateOthers: false
-      sortColumnsBy: pivots
-      useViewName: false
-      useHeadings: false
-      useShortName: false
-      useUnit: false
-      groupVarianceColumns: false
-      genericLabelForSubtotals: false
-      indexColumn: false
-      transposeTable: false
-      label|contact_utilization_fact.forecast_week: Week
-      heading|contact_utilization_fact.forecast_week: ''
-      hide|contact_utilization_fact.forecast_week: false
-      label|staff_dim.contact_name: Name
-      heading|staff_dim.contact_name: ''
-      hide|staff_dim.contact_name: false
-      subtotalDepth: '1'
-      label|contact_utilization_fact.total_time_off: Time Off
-      heading|contact_utilization_fact.total_time_off: ''
-      style|contact_utilization_fact.total_time_off: normal
-      reportIn|contact_utilization_fact.total_time_off: '1'
-      unit|contact_utilization_fact.total_time_off: Hours
-      comparison|contact_utilization_fact.total_time_off: no_variance
-      switch|contact_utilization_fact.total_time_off: false
-      var_num|contact_utilization_fact.total_time_off: false
-      var_pct|contact_utilization_fact.total_time_off: false
-      label|contact_utilization_fact.average_target: Target
-      heading|contact_utilization_fact.average_target: ''
-      style|contact_utilization_fact.average_target: normal
-      reportIn|contact_utilization_fact.average_target: '1'
-      unit|contact_utilization_fact.average_target: ''
-      comparison|contact_utilization_fact.average_target: no_variance
-      switch|contact_utilization_fact.average_target: false
-      var_num|contact_utilization_fact.average_target: true
-      var_pct|contact_utilization_fact.average_target: false
-      label|contact_utilization_fact.total_hours_per_week: Hours Per Week
-      label|contact_utilization_fact.total_total_capacity: Total Capacity
-      label|contact_utilization_fact.total_target_billable_capacity: Target Capacity
-      label|contact_utilization_fact.total_forecast_billable_hours: Forecast Hours
-      label|contact_utilization_fact.total_actual_billable_hours: Actual Hours
-      label|contact_utilization_fact.total_actual_story_points: Story Points
-      heading|contact_utilization_fact.total_actual_story_points: Story Points Delivered
-      label|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      heading|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      switch|contact_utilization_fact.average_forecast_utilization: false
-      label|contact_utilization_fact.average_actual_utilization: Actual Utilization
-      label|contact_utilization_fact.actual_to_forecast_utilization_variance: Variance
-      label|contact_utilization_fact.actual_to_target_utilization_variance: Variance
-      hidden_fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
-        contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
-        forecast_utilization]
-      hidden_points_if_no: []
-      label|actual_utilization: Actual Utilization
-      heading|actual_utilization: ''
-      style|actual_utilization: normal
-      reportIn|actual_utilization: '1'
-      unit|actual_utilization: ''
-      comparison|actual_utilization: contact_utilization_fact.average_target
-      switch|actual_utilization: false
-      var_num|actual_utilization: true
-      var_pct|actual_utilization: false
-      label|actual_utilization_to_forecast_variance: Actual Utilization to Forecast
-        Variance
-      heading|actual_utilization_to_forecast_variance: ''
-      style|actual_utilization_to_forecast_variance: normal
-      reportIn|actual_utilization_to_forecast_variance: '1'
-      unit|actual_utilization_to_forecast_variance: ''
-      comparison|actual_utilization_to_forecast_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_forecast_variance: false
-      var_num|actual_utilization_to_forecast_variance: true
-      var_pct|actual_utilization_to_forecast_variance: true
-      label|actual_utilization_to_target_variance: Actual Utilization to Target Variance
-      heading|actual_utilization_to_target_variance: ''
-      style|actual_utilization_to_target_variance: normal
-      reportIn|actual_utilization_to_target_variance: '1'
-      unit|actual_utilization_to_target_variance: ''
-      comparison|actual_utilization_to_target_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_target_variance: false
-      var_num|actual_utilization_to_target_variance: true
-      var_pct|actual_utilization_to_target_variance: false
-      label|contact_utilization_fact.average_hours_per_week: "             Hours Per\
-        \ Week"
-      heading|contact_utilization_fact.average_hours_per_week: ''
-      style|contact_utilization_fact.average_hours_per_week: normal
-      reportIn|contact_utilization_fact.average_hours_per_week: '1'
-      unit|contact_utilization_fact.average_hours_per_week: ''
-      comparison|contact_utilization_fact.average_hours_per_week: no_variance
-      switch|contact_utilization_fact.average_hours_per_week: false
-      var_num|contact_utilization_fact.average_hours_per_week: true
-      var_pct|contact_utilization_fact.average_hours_per_week: false
-      label|contact_utilization_fact.average_total_capacity: "           Total Capacity"
-      heading|contact_utilization_fact.average_total_capacity: ''
-      style|contact_utilization_fact.average_total_capacity: normal
-      reportIn|contact_utilization_fact.average_total_capacity: '1'
-      unit|contact_utilization_fact.average_total_capacity: ''
-      comparison|contact_utilization_fact.average_total_capacity: no_variance
-      switch|contact_utilization_fact.average_total_capacity: false
-      var_num|contact_utilization_fact.average_total_capacity: true
-      var_pct|contact_utilization_fact.average_total_capacity: false
-      label|contact_utilization_fact.average_target_billable_capacity: "         Target\
-        \ Billable Capacity"
-      heading|contact_utilization_fact.average_target_billable_capacity: ''
-      style|contact_utilization_fact.average_target_billable_capacity: normal
-      reportIn|contact_utilization_fact.average_target_billable_capacity: '1'
-      unit|contact_utilization_fact.average_target_billable_capacity: ''
-      comparison|contact_utilization_fact.average_target_billable_capacity: no_variance
-      switch|contact_utilization_fact.average_target_billable_capacity: false
-      var_num|contact_utilization_fact.average_target_billable_capacity: true
-      var_pct|contact_utilization_fact.average_target_billable_capacity: false
-      label|contact_utilization_fact.average_forecast_billable_hours: "       Forecast\
-        \ Billable Hours"
-      heading|contact_utilization_fact.average_forecast_billable_hours: ''
-      style|contact_utilization_fact.average_forecast_billable_hours: normal
-      reportIn|contact_utilization_fact.average_forecast_billable_hours: '1'
-      unit|contact_utilization_fact.average_forecast_billable_hours: ''
-      comparison|contact_utilization_fact.average_forecast_billable_hours: no_variance
-      switch|contact_utilization_fact.average_forecast_billable_hours: false
-      var_num|contact_utilization_fact.average_forecast_billable_hours: true
-      var_pct|contact_utilization_fact.average_forecast_billable_hours: false
-      label|contact_utilization_fact.average_actual_billable_hours: "    Actual Billable\
-        \ Hours"
-      heading|contact_utilization_fact.average_actual_billable_hours: ''
-      style|contact_utilization_fact.average_actual_billable_hours: normal
-      reportIn|contact_utilization_fact.average_actual_billable_hours: '1'
-      unit|contact_utilization_fact.average_actual_billable_hours: ''
-      comparison|contact_utilization_fact.average_actual_billable_hours: no_variance
-      switch|contact_utilization_fact.average_actual_billable_hours: false
-      var_num|contact_utilization_fact.average_actual_billable_hours: true
-      var_pct|contact_utilization_fact.average_actual_billable_hours: false
-      label|contact_utilization_fact.average_actual_story_points: Actual Story Points
-      heading|contact_utilization_fact.average_actual_story_points: ''
-      style|contact_utilization_fact.average_actual_story_points: normal
-      reportIn|contact_utilization_fact.average_actual_story_points: '1'
-      unit|contact_utilization_fact.average_actual_story_points: ''
-      comparison|contact_utilization_fact.average_actual_story_points: no_variance
-      switch|contact_utilization_fact.average_actual_story_points: false
-      var_num|contact_utilization_fact.average_actual_story_points: true
-      var_pct|contact_utilization_fact.average_actual_story_points: false
-      label|forecast_utilization: Forecast Utilization
-      heading|forecast_utilization: ''
-      style|forecast_utilization: normal
-      reportIn|forecast_utilization: '1'
-      unit|forecast_utilization: ''
-      comparison|forecast_utilization: no_variance
-      switch|forecast_utilization: false
-      var_num|forecast_utilization: true
-      var_pct|forecast_utilization: false
-      show_row_numbers: true
-      transpose: false
-      truncate_text: true
-      hide_totals: false
-      hide_row_totals: false
-      size_to_fit: true
-      table_theme: white
-      header_text_alignment: left
-      header_font_size: '12'
-      rows_font_size: '12'
-      label|contact_utilization_fact.average_time_off: "                  Time-Off"
-      heading|contact_utilization_fact.average_time_off: ''
-      style|contact_utilization_fact.average_time_off: normal
-      reportIn|contact_utilization_fact.average_time_off: '1'
-      unit|contact_utilization_fact.average_time_off: ''
-      comparison|contact_utilization_fact.average_time_off: no_variance
-      switch|contact_utilization_fact.average_time_off: false
-      var_num|contact_utilization_fact.average_time_off: true
-      var_pct|contact_utilization_fact.average_time_off: false
-      show_sql_query_menu_options: false
-      show_totals: true
-      show_row_totals: true
-      truncate_header: false
-      series_column_widths:
-        grouped-column-contact_utilization_fact.forecast_week: 165
-      series_cell_visualizations:
-        contact_utilization_fact.average_time_off:
-          is_active: false
-        forecast_utilization:
-          is_active: true
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-        actual_utilization:
-          is_active: false
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      truncate_column_names: false
+      join_fields: []
     - model: analytics
       explore: projects_delivered
       type: table
@@ -6607,8 +5773,6 @@
         {category: table_calculation, expression: '0.9', label: Target % of Projects
             Ontime, value_format: !!null '', value_format_name: percent_0, _kind_hint: dimension,
           table_calculation: target_of_projects_ontime, _type_hint: number}]
-      hidden_fields: [projects_delivered_is_ontime.count_ontime_timesheet_projects,
-        projects_delivered.count_timesheet_projects]
       join_fields:
       - field_name: projects_delivered.project_delivery_end_ts_month
         source_field_name: contact_utilization_fact.forecast_month
@@ -7915,6 +7079,7 @@
         is_numeric: true
       pivots: []
     sorts: [customer_perspective desc]
+    column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
@@ -7958,7 +7123,7 @@
     merged_queries:
     - model: analytics
       explore: contact_utilization_fact
-      type: single_value
+      type: table
       fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
         contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
         contact_utilization_fact.forecast_month]
@@ -7979,251 +7144,7 @@
         {category: table_calculation, expression: "${contact_utilization_fact.total_forecast_billable_hours}/${contact_utilization_fact.total_total_capacity}",
           label: Forecast Utilization, value_format: !!null '', value_format_name: percent_0,
           _kind_hint: measure, table_calculation: forecast_utilization, _type_hint: number}]
-      custom_color_enabled: true
-      show_single_value_title: true
-      show_comparison: true
-      comparison_type: progress_percentage
-      comparison_reverse_colors: false
-      show_comparison_label: true
-      enable_conditional_formatting: false
-      conditional_formatting_include_totals: false
-      conditional_formatting_include_nulls: false
-      comparison_label: Target
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      series_types: {}
-      series_colors:
-        target_utilization: "#8C3535"
-        actual_utilization: "#519947"
-        forecast_utilization: "#7AB7F4"
-      series_labels: {}
-      theme: traditional
-      customTheme: ''
-      layout: fixed
-      minWidthForIndexColumns: true
-      headerFontSize: 12
-      bodyFontSize: 12
-      showTooltip: true
-      showHighlight: false
-      columnOrder: {}
-      rowSubtotals: true
-      colSubtotals: false
-      spanRows: true
-      spanCols: true
-      calculateOthers: false
-      sortColumnsBy: pivots
-      useViewName: false
-      useHeadings: false
-      useShortName: false
-      useUnit: false
-      groupVarianceColumns: false
-      genericLabelForSubtotals: false
-      indexColumn: false
-      transposeTable: false
-      label|contact_utilization_fact.forecast_week: Week
-      heading|contact_utilization_fact.forecast_week: ''
-      hide|contact_utilization_fact.forecast_week: false
-      label|staff_dim.contact_name: Name
-      heading|staff_dim.contact_name: ''
-      hide|staff_dim.contact_name: false
-      subtotalDepth: '1'
-      label|contact_utilization_fact.total_time_off: Time Off
-      heading|contact_utilization_fact.total_time_off: ''
-      style|contact_utilization_fact.total_time_off: normal
-      reportIn|contact_utilization_fact.total_time_off: '1'
-      unit|contact_utilization_fact.total_time_off: Hours
-      comparison|contact_utilization_fact.total_time_off: no_variance
-      switch|contact_utilization_fact.total_time_off: false
-      var_num|contact_utilization_fact.total_time_off: false
-      var_pct|contact_utilization_fact.total_time_off: false
-      label|contact_utilization_fact.average_target: Target
-      heading|contact_utilization_fact.average_target: ''
-      style|contact_utilization_fact.average_target: normal
-      reportIn|contact_utilization_fact.average_target: '1'
-      unit|contact_utilization_fact.average_target: ''
-      comparison|contact_utilization_fact.average_target: no_variance
-      switch|contact_utilization_fact.average_target: false
-      var_num|contact_utilization_fact.average_target: true
-      var_pct|contact_utilization_fact.average_target: false
-      label|contact_utilization_fact.total_hours_per_week: Hours Per Week
-      label|contact_utilization_fact.total_total_capacity: Total Capacity
-      label|contact_utilization_fact.total_target_billable_capacity: Target Capacity
-      label|contact_utilization_fact.total_forecast_billable_hours: Forecast Hours
-      label|contact_utilization_fact.total_actual_billable_hours: Actual Hours
-      label|contact_utilization_fact.total_actual_story_points: Story Points
-      heading|contact_utilization_fact.total_actual_story_points: Story Points Delivered
-      label|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      heading|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      switch|contact_utilization_fact.average_forecast_utilization: false
-      label|contact_utilization_fact.average_actual_utilization: Actual Utilization
-      label|contact_utilization_fact.actual_to_forecast_utilization_variance: Variance
-      label|contact_utilization_fact.actual_to_target_utilization_variance: Variance
-      hidden_fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
-        contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
-        forecast_utilization]
-      hidden_points_if_no: []
-      label|actual_utilization: Actual Utilization
-      heading|actual_utilization: ''
-      style|actual_utilization: normal
-      reportIn|actual_utilization: '1'
-      unit|actual_utilization: ''
-      comparison|actual_utilization: contact_utilization_fact.average_target
-      switch|actual_utilization: false
-      var_num|actual_utilization: true
-      var_pct|actual_utilization: false
-      label|actual_utilization_to_forecast_variance: Actual Utilization to Forecast
-        Variance
-      heading|actual_utilization_to_forecast_variance: ''
-      style|actual_utilization_to_forecast_variance: normal
-      reportIn|actual_utilization_to_forecast_variance: '1'
-      unit|actual_utilization_to_forecast_variance: ''
-      comparison|actual_utilization_to_forecast_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_forecast_variance: false
-      var_num|actual_utilization_to_forecast_variance: true
-      var_pct|actual_utilization_to_forecast_variance: true
-      label|actual_utilization_to_target_variance: Actual Utilization to Target Variance
-      heading|actual_utilization_to_target_variance: ''
-      style|actual_utilization_to_target_variance: normal
-      reportIn|actual_utilization_to_target_variance: '1'
-      unit|actual_utilization_to_target_variance: ''
-      comparison|actual_utilization_to_target_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_target_variance: false
-      var_num|actual_utilization_to_target_variance: true
-      var_pct|actual_utilization_to_target_variance: false
-      label|contact_utilization_fact.average_hours_per_week: "             Hours Per\
-        \ Week"
-      heading|contact_utilization_fact.average_hours_per_week: ''
-      style|contact_utilization_fact.average_hours_per_week: normal
-      reportIn|contact_utilization_fact.average_hours_per_week: '1'
-      unit|contact_utilization_fact.average_hours_per_week: ''
-      comparison|contact_utilization_fact.average_hours_per_week: no_variance
-      switch|contact_utilization_fact.average_hours_per_week: false
-      var_num|contact_utilization_fact.average_hours_per_week: true
-      var_pct|contact_utilization_fact.average_hours_per_week: false
-      label|contact_utilization_fact.average_total_capacity: "           Total Capacity"
-      heading|contact_utilization_fact.average_total_capacity: ''
-      style|contact_utilization_fact.average_total_capacity: normal
-      reportIn|contact_utilization_fact.average_total_capacity: '1'
-      unit|contact_utilization_fact.average_total_capacity: ''
-      comparison|contact_utilization_fact.average_total_capacity: no_variance
-      switch|contact_utilization_fact.average_total_capacity: false
-      var_num|contact_utilization_fact.average_total_capacity: true
-      var_pct|contact_utilization_fact.average_total_capacity: false
-      label|contact_utilization_fact.average_target_billable_capacity: "         Target\
-        \ Billable Capacity"
-      heading|contact_utilization_fact.average_target_billable_capacity: ''
-      style|contact_utilization_fact.average_target_billable_capacity: normal
-      reportIn|contact_utilization_fact.average_target_billable_capacity: '1'
-      unit|contact_utilization_fact.average_target_billable_capacity: ''
-      comparison|contact_utilization_fact.average_target_billable_capacity: no_variance
-      switch|contact_utilization_fact.average_target_billable_capacity: false
-      var_num|contact_utilization_fact.average_target_billable_capacity: true
-      var_pct|contact_utilization_fact.average_target_billable_capacity: false
-      label|contact_utilization_fact.average_forecast_billable_hours: "       Forecast\
-        \ Billable Hours"
-      heading|contact_utilization_fact.average_forecast_billable_hours: ''
-      style|contact_utilization_fact.average_forecast_billable_hours: normal
-      reportIn|contact_utilization_fact.average_forecast_billable_hours: '1'
-      unit|contact_utilization_fact.average_forecast_billable_hours: ''
-      comparison|contact_utilization_fact.average_forecast_billable_hours: no_variance
-      switch|contact_utilization_fact.average_forecast_billable_hours: false
-      var_num|contact_utilization_fact.average_forecast_billable_hours: true
-      var_pct|contact_utilization_fact.average_forecast_billable_hours: false
-      label|contact_utilization_fact.average_actual_billable_hours: "    Actual Billable\
-        \ Hours"
-      heading|contact_utilization_fact.average_actual_billable_hours: ''
-      style|contact_utilization_fact.average_actual_billable_hours: normal
-      reportIn|contact_utilization_fact.average_actual_billable_hours: '1'
-      unit|contact_utilization_fact.average_actual_billable_hours: ''
-      comparison|contact_utilization_fact.average_actual_billable_hours: no_variance
-      switch|contact_utilization_fact.average_actual_billable_hours: false
-      var_num|contact_utilization_fact.average_actual_billable_hours: true
-      var_pct|contact_utilization_fact.average_actual_billable_hours: false
-      label|contact_utilization_fact.average_actual_story_points: Actual Story Points
-      heading|contact_utilization_fact.average_actual_story_points: ''
-      style|contact_utilization_fact.average_actual_story_points: normal
-      reportIn|contact_utilization_fact.average_actual_story_points: '1'
-      unit|contact_utilization_fact.average_actual_story_points: ''
-      comparison|contact_utilization_fact.average_actual_story_points: no_variance
-      switch|contact_utilization_fact.average_actual_story_points: false
-      var_num|contact_utilization_fact.average_actual_story_points: true
-      var_pct|contact_utilization_fact.average_actual_story_points: false
-      label|forecast_utilization: Forecast Utilization
-      heading|forecast_utilization: ''
-      style|forecast_utilization: normal
-      reportIn|forecast_utilization: '1'
-      unit|forecast_utilization: ''
-      comparison|forecast_utilization: no_variance
-      switch|forecast_utilization: false
-      var_num|forecast_utilization: true
-      var_pct|forecast_utilization: false
-      show_row_numbers: true
-      transpose: false
-      truncate_text: true
-      hide_totals: false
-      hide_row_totals: false
-      size_to_fit: true
-      table_theme: white
-      header_text_alignment: left
-      header_font_size: '12'
-      rows_font_size: '12'
-      label|contact_utilization_fact.average_time_off: "                  Time-Off"
-      heading|contact_utilization_fact.average_time_off: ''
-      style|contact_utilization_fact.average_time_off: normal
-      reportIn|contact_utilization_fact.average_time_off: '1'
-      unit|contact_utilization_fact.average_time_off: ''
-      comparison|contact_utilization_fact.average_time_off: no_variance
-      switch|contact_utilization_fact.average_time_off: false
-      var_num|contact_utilization_fact.average_time_off: true
-      var_pct|contact_utilization_fact.average_time_off: false
-      show_sql_query_menu_options: false
-      show_totals: true
-      show_row_totals: true
-      truncate_header: false
-      series_column_widths:
-        grouped-column-contact_utilization_fact.forecast_week: 165
-      series_cell_visualizations:
-        contact_utilization_fact.average_time_off:
-          is_active: false
-        forecast_utilization:
-          is_active: true
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-        actual_utilization:
-          is_active: false
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      truncate_column_names: false
+      join_fields: []
     - model: analytics
       explore: projects_delivered
       type: table
@@ -8241,8 +7162,6 @@
         {category: table_calculation, expression: '0.9', label: Target % of Projects
             Ontime, value_format: !!null '', value_format_name: percent_0, _kind_hint: dimension,
           table_calculation: target_of_projects_ontime, _type_hint: number}]
-      hidden_fields: [projects_delivered_is_ontime.count_ontime_timesheet_projects,
-        projects_delivered.count_timesheet_projects]
       join_fields:
       - field_name: projects_delivered.project_delivery_end_ts_month
         source_field_name: contact_utilization_fact.forecast_month
@@ -9549,6 +8468,7 @@
         is_numeric: true
       pivots: []
     sorts: [customer_perspective desc]
+    column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
@@ -9592,7 +8512,7 @@
     merged_queries:
     - model: analytics
       explore: contact_utilization_fact
-      type: looker_line
+      type: table
       fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
         contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
         contact_utilization_fact.forecast_month]
@@ -9613,251 +8533,7 @@
         {category: table_calculation, expression: "${contact_utilization_fact.total_forecast_billable_hours}/${contact_utilization_fact.total_total_capacity}",
           label: Forecast Utilization, value_format: !!null '', value_format_name: percent_0,
           _kind_hint: measure, table_calculation: forecast_utilization, _type_hint: number}]
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      custom_color_enabled: true
-      show_single_value_title: true
-      show_comparison: true
-      comparison_type: progress_percentage
-      comparison_reverse_colors: false
-      show_comparison_label: true
-      enable_conditional_formatting: false
-      conditional_formatting_include_totals: false
-      conditional_formatting_include_nulls: false
-      comparison_label: Target
-      series_types: {}
-      series_colors:
-        target_utilization: "#8C3535"
-        actual_utilization: "#519947"
-        forecast_utilization: "#7AB7F4"
-      series_labels: {}
-      theme: traditional
-      customTheme: ''
-      layout: fixed
-      minWidthForIndexColumns: true
-      headerFontSize: 12
-      bodyFontSize: 12
-      showTooltip: true
-      showHighlight: false
-      columnOrder: {}
-      rowSubtotals: true
-      colSubtotals: false
-      spanRows: true
-      spanCols: true
-      calculateOthers: false
-      sortColumnsBy: pivots
-      useViewName: false
-      useHeadings: false
-      useShortName: false
-      useUnit: false
-      groupVarianceColumns: false
-      genericLabelForSubtotals: false
-      indexColumn: false
-      transposeTable: false
-      label|contact_utilization_fact.forecast_week: Week
-      heading|contact_utilization_fact.forecast_week: ''
-      hide|contact_utilization_fact.forecast_week: false
-      label|staff_dim.contact_name: Name
-      heading|staff_dim.contact_name: ''
-      hide|staff_dim.contact_name: false
-      subtotalDepth: '1'
-      label|contact_utilization_fact.total_time_off: Time Off
-      heading|contact_utilization_fact.total_time_off: ''
-      style|contact_utilization_fact.total_time_off: normal
-      reportIn|contact_utilization_fact.total_time_off: '1'
-      unit|contact_utilization_fact.total_time_off: Hours
-      comparison|contact_utilization_fact.total_time_off: no_variance
-      switch|contact_utilization_fact.total_time_off: false
-      var_num|contact_utilization_fact.total_time_off: false
-      var_pct|contact_utilization_fact.total_time_off: false
-      label|contact_utilization_fact.average_target: Target
-      heading|contact_utilization_fact.average_target: ''
-      style|contact_utilization_fact.average_target: normal
-      reportIn|contact_utilization_fact.average_target: '1'
-      unit|contact_utilization_fact.average_target: ''
-      comparison|contact_utilization_fact.average_target: no_variance
-      switch|contact_utilization_fact.average_target: false
-      var_num|contact_utilization_fact.average_target: true
-      var_pct|contact_utilization_fact.average_target: false
-      label|contact_utilization_fact.total_hours_per_week: Hours Per Week
-      label|contact_utilization_fact.total_total_capacity: Total Capacity
-      label|contact_utilization_fact.total_target_billable_capacity: Target Capacity
-      label|contact_utilization_fact.total_forecast_billable_hours: Forecast Hours
-      label|contact_utilization_fact.total_actual_billable_hours: Actual Hours
-      label|contact_utilization_fact.total_actual_story_points: Story Points
-      heading|contact_utilization_fact.total_actual_story_points: Story Points Delivered
-      label|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      heading|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      switch|contact_utilization_fact.average_forecast_utilization: false
-      label|contact_utilization_fact.average_actual_utilization: Actual Utilization
-      label|contact_utilization_fact.actual_to_forecast_utilization_variance: Variance
-      label|contact_utilization_fact.actual_to_target_utilization_variance: Variance
-      hidden_fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
-        contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
-        forecast_utilization]
-      hidden_points_if_no: []
-      label|actual_utilization: Actual Utilization
-      heading|actual_utilization: ''
-      style|actual_utilization: normal
-      reportIn|actual_utilization: '1'
-      unit|actual_utilization: ''
-      comparison|actual_utilization: contact_utilization_fact.average_target
-      switch|actual_utilization: false
-      var_num|actual_utilization: true
-      var_pct|actual_utilization: false
-      label|actual_utilization_to_forecast_variance: Actual Utilization to Forecast
-        Variance
-      heading|actual_utilization_to_forecast_variance: ''
-      style|actual_utilization_to_forecast_variance: normal
-      reportIn|actual_utilization_to_forecast_variance: '1'
-      unit|actual_utilization_to_forecast_variance: ''
-      comparison|actual_utilization_to_forecast_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_forecast_variance: false
-      var_num|actual_utilization_to_forecast_variance: true
-      var_pct|actual_utilization_to_forecast_variance: true
-      label|actual_utilization_to_target_variance: Actual Utilization to Target Variance
-      heading|actual_utilization_to_target_variance: ''
-      style|actual_utilization_to_target_variance: normal
-      reportIn|actual_utilization_to_target_variance: '1'
-      unit|actual_utilization_to_target_variance: ''
-      comparison|actual_utilization_to_target_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_target_variance: false
-      var_num|actual_utilization_to_target_variance: true
-      var_pct|actual_utilization_to_target_variance: false
-      label|contact_utilization_fact.average_hours_per_week: "             Hours Per\
-        \ Week"
-      heading|contact_utilization_fact.average_hours_per_week: ''
-      style|contact_utilization_fact.average_hours_per_week: normal
-      reportIn|contact_utilization_fact.average_hours_per_week: '1'
-      unit|contact_utilization_fact.average_hours_per_week: ''
-      comparison|contact_utilization_fact.average_hours_per_week: no_variance
-      switch|contact_utilization_fact.average_hours_per_week: false
-      var_num|contact_utilization_fact.average_hours_per_week: true
-      var_pct|contact_utilization_fact.average_hours_per_week: false
-      label|contact_utilization_fact.average_total_capacity: "           Total Capacity"
-      heading|contact_utilization_fact.average_total_capacity: ''
-      style|contact_utilization_fact.average_total_capacity: normal
-      reportIn|contact_utilization_fact.average_total_capacity: '1'
-      unit|contact_utilization_fact.average_total_capacity: ''
-      comparison|contact_utilization_fact.average_total_capacity: no_variance
-      switch|contact_utilization_fact.average_total_capacity: false
-      var_num|contact_utilization_fact.average_total_capacity: true
-      var_pct|contact_utilization_fact.average_total_capacity: false
-      label|contact_utilization_fact.average_target_billable_capacity: "         Target\
-        \ Billable Capacity"
-      heading|contact_utilization_fact.average_target_billable_capacity: ''
-      style|contact_utilization_fact.average_target_billable_capacity: normal
-      reportIn|contact_utilization_fact.average_target_billable_capacity: '1'
-      unit|contact_utilization_fact.average_target_billable_capacity: ''
-      comparison|contact_utilization_fact.average_target_billable_capacity: no_variance
-      switch|contact_utilization_fact.average_target_billable_capacity: false
-      var_num|contact_utilization_fact.average_target_billable_capacity: true
-      var_pct|contact_utilization_fact.average_target_billable_capacity: false
-      label|contact_utilization_fact.average_forecast_billable_hours: "       Forecast\
-        \ Billable Hours"
-      heading|contact_utilization_fact.average_forecast_billable_hours: ''
-      style|contact_utilization_fact.average_forecast_billable_hours: normal
-      reportIn|contact_utilization_fact.average_forecast_billable_hours: '1'
-      unit|contact_utilization_fact.average_forecast_billable_hours: ''
-      comparison|contact_utilization_fact.average_forecast_billable_hours: no_variance
-      switch|contact_utilization_fact.average_forecast_billable_hours: false
-      var_num|contact_utilization_fact.average_forecast_billable_hours: true
-      var_pct|contact_utilization_fact.average_forecast_billable_hours: false
-      label|contact_utilization_fact.average_actual_billable_hours: "    Actual Billable\
-        \ Hours"
-      heading|contact_utilization_fact.average_actual_billable_hours: ''
-      style|contact_utilization_fact.average_actual_billable_hours: normal
-      reportIn|contact_utilization_fact.average_actual_billable_hours: '1'
-      unit|contact_utilization_fact.average_actual_billable_hours: ''
-      comparison|contact_utilization_fact.average_actual_billable_hours: no_variance
-      switch|contact_utilization_fact.average_actual_billable_hours: false
-      var_num|contact_utilization_fact.average_actual_billable_hours: true
-      var_pct|contact_utilization_fact.average_actual_billable_hours: false
-      label|contact_utilization_fact.average_actual_story_points: Actual Story Points
-      heading|contact_utilization_fact.average_actual_story_points: ''
-      style|contact_utilization_fact.average_actual_story_points: normal
-      reportIn|contact_utilization_fact.average_actual_story_points: '1'
-      unit|contact_utilization_fact.average_actual_story_points: ''
-      comparison|contact_utilization_fact.average_actual_story_points: no_variance
-      switch|contact_utilization_fact.average_actual_story_points: false
-      var_num|contact_utilization_fact.average_actual_story_points: true
-      var_pct|contact_utilization_fact.average_actual_story_points: false
-      label|forecast_utilization: Forecast Utilization
-      heading|forecast_utilization: ''
-      style|forecast_utilization: normal
-      reportIn|forecast_utilization: '1'
-      unit|forecast_utilization: ''
-      comparison|forecast_utilization: no_variance
-      switch|forecast_utilization: false
-      var_num|forecast_utilization: true
-      var_pct|forecast_utilization: false
-      show_row_numbers: true
-      transpose: false
-      truncate_text: true
-      hide_totals: false
-      hide_row_totals: false
-      size_to_fit: true
-      table_theme: white
-      header_text_alignment: left
-      header_font_size: '12'
-      rows_font_size: '12'
-      label|contact_utilization_fact.average_time_off: "                  Time-Off"
-      heading|contact_utilization_fact.average_time_off: ''
-      style|contact_utilization_fact.average_time_off: normal
-      reportIn|contact_utilization_fact.average_time_off: '1'
-      unit|contact_utilization_fact.average_time_off: ''
-      comparison|contact_utilization_fact.average_time_off: no_variance
-      switch|contact_utilization_fact.average_time_off: false
-      var_num|contact_utilization_fact.average_time_off: true
-      var_pct|contact_utilization_fact.average_time_off: false
-      show_sql_query_menu_options: false
-      show_totals: true
-      show_row_totals: true
-      truncate_header: false
-      series_column_widths:
-        grouped-column-contact_utilization_fact.forecast_week: 165
-      series_cell_visualizations:
-        contact_utilization_fact.average_time_off:
-          is_active: false
-        forecast_utilization:
-          is_active: true
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-        actual_utilization:
-          is_active: false
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      truncate_column_names: false
+      join_fields: []
     - model: analytics
       explore: projects_delivered
       type: table
@@ -9875,8 +8551,6 @@
         {category: table_calculation, expression: '0.9', label: Target % of Projects
             Ontime, value_format: !!null '', value_format_name: percent_0, _kind_hint: dimension,
           table_calculation: target_of_projects_ontime, _type_hint: number}]
-      hidden_fields: [projects_delivered_is_ontime.count_ontime_timesheet_projects,
-        projects_delivered.count_timesheet_projects]
       join_fields:
       - field_name: projects_delivered.project_delivery_end_ts_month
         source_field_name: contact_utilization_fact.forecast_month
@@ -11189,6 +9863,7 @@
         is_numeric: true
       pivots: []
     sorts: [customer_perspective desc]
+    column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
@@ -11236,7 +9911,7 @@
     merged_queries:
     - model: analytics
       explore: contact_utilization_fact
-      type: looker_line
+      type: table
       fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
         contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
         contact_utilization_fact.forecast_month]
@@ -11257,251 +9932,7 @@
         {category: table_calculation, expression: "${contact_utilization_fact.total_forecast_billable_hours}/${contact_utilization_fact.total_total_capacity}",
           label: Forecast Utilization, value_format: !!null '', value_format_name: percent_0,
           _kind_hint: measure, table_calculation: forecast_utilization, _type_hint: number}]
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      custom_color_enabled: true
-      show_single_value_title: true
-      show_comparison: true
-      comparison_type: progress_percentage
-      comparison_reverse_colors: false
-      show_comparison_label: true
-      enable_conditional_formatting: false
-      conditional_formatting_include_totals: false
-      conditional_formatting_include_nulls: false
-      comparison_label: Target
-      series_types: {}
-      series_colors:
-        target_utilization: "#8C3535"
-        actual_utilization: "#519947"
-        forecast_utilization: "#7AB7F4"
-      series_labels: {}
-      theme: traditional
-      customTheme: ''
-      layout: fixed
-      minWidthForIndexColumns: true
-      headerFontSize: 12
-      bodyFontSize: 12
-      showTooltip: true
-      showHighlight: false
-      columnOrder: {}
-      rowSubtotals: true
-      colSubtotals: false
-      spanRows: true
-      spanCols: true
-      calculateOthers: false
-      sortColumnsBy: pivots
-      useViewName: false
-      useHeadings: false
-      useShortName: false
-      useUnit: false
-      groupVarianceColumns: false
-      genericLabelForSubtotals: false
-      indexColumn: false
-      transposeTable: false
-      label|contact_utilization_fact.forecast_week: Week
-      heading|contact_utilization_fact.forecast_week: ''
-      hide|contact_utilization_fact.forecast_week: false
-      label|staff_dim.contact_name: Name
-      heading|staff_dim.contact_name: ''
-      hide|staff_dim.contact_name: false
-      subtotalDepth: '1'
-      label|contact_utilization_fact.total_time_off: Time Off
-      heading|contact_utilization_fact.total_time_off: ''
-      style|contact_utilization_fact.total_time_off: normal
-      reportIn|contact_utilization_fact.total_time_off: '1'
-      unit|contact_utilization_fact.total_time_off: Hours
-      comparison|contact_utilization_fact.total_time_off: no_variance
-      switch|contact_utilization_fact.total_time_off: false
-      var_num|contact_utilization_fact.total_time_off: false
-      var_pct|contact_utilization_fact.total_time_off: false
-      label|contact_utilization_fact.average_target: Target
-      heading|contact_utilization_fact.average_target: ''
-      style|contact_utilization_fact.average_target: normal
-      reportIn|contact_utilization_fact.average_target: '1'
-      unit|contact_utilization_fact.average_target: ''
-      comparison|contact_utilization_fact.average_target: no_variance
-      switch|contact_utilization_fact.average_target: false
-      var_num|contact_utilization_fact.average_target: true
-      var_pct|contact_utilization_fact.average_target: false
-      label|contact_utilization_fact.total_hours_per_week: Hours Per Week
-      label|contact_utilization_fact.total_total_capacity: Total Capacity
-      label|contact_utilization_fact.total_target_billable_capacity: Target Capacity
-      label|contact_utilization_fact.total_forecast_billable_hours: Forecast Hours
-      label|contact_utilization_fact.total_actual_billable_hours: Actual Hours
-      label|contact_utilization_fact.total_actual_story_points: Story Points
-      heading|contact_utilization_fact.total_actual_story_points: Story Points Delivered
-      label|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      heading|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      switch|contact_utilization_fact.average_forecast_utilization: false
-      label|contact_utilization_fact.average_actual_utilization: Actual Utilization
-      label|contact_utilization_fact.actual_to_forecast_utilization_variance: Variance
-      label|contact_utilization_fact.actual_to_target_utilization_variance: Variance
-      hidden_fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
-        contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
-        forecast_utilization]
-      hidden_points_if_no: []
-      label|actual_utilization: Actual Utilization
-      heading|actual_utilization: ''
-      style|actual_utilization: normal
-      reportIn|actual_utilization: '1'
-      unit|actual_utilization: ''
-      comparison|actual_utilization: contact_utilization_fact.average_target
-      switch|actual_utilization: false
-      var_num|actual_utilization: true
-      var_pct|actual_utilization: false
-      label|actual_utilization_to_forecast_variance: Actual Utilization to Forecast
-        Variance
-      heading|actual_utilization_to_forecast_variance: ''
-      style|actual_utilization_to_forecast_variance: normal
-      reportIn|actual_utilization_to_forecast_variance: '1'
-      unit|actual_utilization_to_forecast_variance: ''
-      comparison|actual_utilization_to_forecast_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_forecast_variance: false
-      var_num|actual_utilization_to_forecast_variance: true
-      var_pct|actual_utilization_to_forecast_variance: true
-      label|actual_utilization_to_target_variance: Actual Utilization to Target Variance
-      heading|actual_utilization_to_target_variance: ''
-      style|actual_utilization_to_target_variance: normal
-      reportIn|actual_utilization_to_target_variance: '1'
-      unit|actual_utilization_to_target_variance: ''
-      comparison|actual_utilization_to_target_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_target_variance: false
-      var_num|actual_utilization_to_target_variance: true
-      var_pct|actual_utilization_to_target_variance: false
-      label|contact_utilization_fact.average_hours_per_week: "             Hours Per\
-        \ Week"
-      heading|contact_utilization_fact.average_hours_per_week: ''
-      style|contact_utilization_fact.average_hours_per_week: normal
-      reportIn|contact_utilization_fact.average_hours_per_week: '1'
-      unit|contact_utilization_fact.average_hours_per_week: ''
-      comparison|contact_utilization_fact.average_hours_per_week: no_variance
-      switch|contact_utilization_fact.average_hours_per_week: false
-      var_num|contact_utilization_fact.average_hours_per_week: true
-      var_pct|contact_utilization_fact.average_hours_per_week: false
-      label|contact_utilization_fact.average_total_capacity: "           Total Capacity"
-      heading|contact_utilization_fact.average_total_capacity: ''
-      style|contact_utilization_fact.average_total_capacity: normal
-      reportIn|contact_utilization_fact.average_total_capacity: '1'
-      unit|contact_utilization_fact.average_total_capacity: ''
-      comparison|contact_utilization_fact.average_total_capacity: no_variance
-      switch|contact_utilization_fact.average_total_capacity: false
-      var_num|contact_utilization_fact.average_total_capacity: true
-      var_pct|contact_utilization_fact.average_total_capacity: false
-      label|contact_utilization_fact.average_target_billable_capacity: "         Target\
-        \ Billable Capacity"
-      heading|contact_utilization_fact.average_target_billable_capacity: ''
-      style|contact_utilization_fact.average_target_billable_capacity: normal
-      reportIn|contact_utilization_fact.average_target_billable_capacity: '1'
-      unit|contact_utilization_fact.average_target_billable_capacity: ''
-      comparison|contact_utilization_fact.average_target_billable_capacity: no_variance
-      switch|contact_utilization_fact.average_target_billable_capacity: false
-      var_num|contact_utilization_fact.average_target_billable_capacity: true
-      var_pct|contact_utilization_fact.average_target_billable_capacity: false
-      label|contact_utilization_fact.average_forecast_billable_hours: "       Forecast\
-        \ Billable Hours"
-      heading|contact_utilization_fact.average_forecast_billable_hours: ''
-      style|contact_utilization_fact.average_forecast_billable_hours: normal
-      reportIn|contact_utilization_fact.average_forecast_billable_hours: '1'
-      unit|contact_utilization_fact.average_forecast_billable_hours: ''
-      comparison|contact_utilization_fact.average_forecast_billable_hours: no_variance
-      switch|contact_utilization_fact.average_forecast_billable_hours: false
-      var_num|contact_utilization_fact.average_forecast_billable_hours: true
-      var_pct|contact_utilization_fact.average_forecast_billable_hours: false
-      label|contact_utilization_fact.average_actual_billable_hours: "    Actual Billable\
-        \ Hours"
-      heading|contact_utilization_fact.average_actual_billable_hours: ''
-      style|contact_utilization_fact.average_actual_billable_hours: normal
-      reportIn|contact_utilization_fact.average_actual_billable_hours: '1'
-      unit|contact_utilization_fact.average_actual_billable_hours: ''
-      comparison|contact_utilization_fact.average_actual_billable_hours: no_variance
-      switch|contact_utilization_fact.average_actual_billable_hours: false
-      var_num|contact_utilization_fact.average_actual_billable_hours: true
-      var_pct|contact_utilization_fact.average_actual_billable_hours: false
-      label|contact_utilization_fact.average_actual_story_points: Actual Story Points
-      heading|contact_utilization_fact.average_actual_story_points: ''
-      style|contact_utilization_fact.average_actual_story_points: normal
-      reportIn|contact_utilization_fact.average_actual_story_points: '1'
-      unit|contact_utilization_fact.average_actual_story_points: ''
-      comparison|contact_utilization_fact.average_actual_story_points: no_variance
-      switch|contact_utilization_fact.average_actual_story_points: false
-      var_num|contact_utilization_fact.average_actual_story_points: true
-      var_pct|contact_utilization_fact.average_actual_story_points: false
-      label|forecast_utilization: Forecast Utilization
-      heading|forecast_utilization: ''
-      style|forecast_utilization: normal
-      reportIn|forecast_utilization: '1'
-      unit|forecast_utilization: ''
-      comparison|forecast_utilization: no_variance
-      switch|forecast_utilization: false
-      var_num|forecast_utilization: true
-      var_pct|forecast_utilization: false
-      show_row_numbers: true
-      transpose: false
-      truncate_text: true
-      hide_totals: false
-      hide_row_totals: false
-      size_to_fit: true
-      table_theme: white
-      header_text_alignment: left
-      header_font_size: '12'
-      rows_font_size: '12'
-      label|contact_utilization_fact.average_time_off: "                  Time-Off"
-      heading|contact_utilization_fact.average_time_off: ''
-      style|contact_utilization_fact.average_time_off: normal
-      reportIn|contact_utilization_fact.average_time_off: '1'
-      unit|contact_utilization_fact.average_time_off: ''
-      comparison|contact_utilization_fact.average_time_off: no_variance
-      switch|contact_utilization_fact.average_time_off: false
-      var_num|contact_utilization_fact.average_time_off: true
-      var_pct|contact_utilization_fact.average_time_off: false
-      show_sql_query_menu_options: false
-      show_totals: true
-      show_row_totals: true
-      truncate_header: false
-      series_column_widths:
-        grouped-column-contact_utilization_fact.forecast_week: 165
-      series_cell_visualizations:
-        contact_utilization_fact.average_time_off:
-          is_active: false
-        forecast_utilization:
-          is_active: true
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-        actual_utilization:
-          is_active: false
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      truncate_column_names: false
+      join_fields: []
     - model: analytics
       explore: projects_delivered
       type: table
@@ -11519,8 +9950,6 @@
         {category: table_calculation, expression: '0.9', label: Target % of Projects
             Ontime, value_format: !!null '', value_format_name: percent_0, _kind_hint: dimension,
           table_calculation: target_of_projects_ontime, _type_hint: number}]
-      hidden_fields: [projects_delivered_is_ontime.count_ontime_timesheet_projects,
-        projects_delivered.count_timesheet_projects]
       join_fields:
       - field_name: projects_delivered.project_delivery_end_ts_month
         source_field_name: contact_utilization_fact.forecast_month
@@ -12840,6 +11269,7 @@
         is_numeric: true
       pivots: []
     sorts: [customer_perspective desc]
+    column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
@@ -12884,7 +11314,7 @@
     merged_queries:
     - model: analytics
       explore: contact_utilization_fact
-      type: looker_line
+      type: table
       fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
         contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
         contact_utilization_fact.forecast_month]
@@ -12905,251 +11335,7 @@
         {category: table_calculation, expression: "${contact_utilization_fact.total_forecast_billable_hours}/${contact_utilization_fact.total_total_capacity}",
           label: Forecast Utilization, value_format: !!null '', value_format_name: percent_0,
           _kind_hint: measure, table_calculation: forecast_utilization, _type_hint: number}]
-      x_axis_gridlines: false
-      y_axis_gridlines: true
-      show_view_names: false
-      show_y_axis_labels: true
-      show_y_axis_ticks: true
-      y_axis_tick_density: default
-      y_axis_tick_density_custom: 5
-      show_x_axis_label: true
-      show_x_axis_ticks: true
-      y_axis_scale_mode: linear
-      x_axis_reversed: false
-      y_axis_reversed: false
-      plot_size_by_field: false
-      trellis: ''
-      stacking: ''
-      limit_displayed_rows: false
-      legend_position: center
-      point_style: none
-      show_value_labels: false
-      label_density: 25
-      x_axis_scale: auto
-      y_axis_combined: true
-      show_null_points: true
-      interpolation: linear
-      custom_color_enabled: true
-      show_single_value_title: true
-      show_comparison: true
-      comparison_type: progress_percentage
-      comparison_reverse_colors: false
-      show_comparison_label: true
-      enable_conditional_formatting: false
-      conditional_formatting_include_totals: false
-      conditional_formatting_include_nulls: false
-      comparison_label: Target
-      series_types: {}
-      series_colors:
-        target_utilization: "#8C3535"
-        actual_utilization: "#519947"
-        forecast_utilization: "#7AB7F4"
-      series_labels: {}
-      theme: traditional
-      customTheme: ''
-      layout: fixed
-      minWidthForIndexColumns: true
-      headerFontSize: 12
-      bodyFontSize: 12
-      showTooltip: true
-      showHighlight: false
-      columnOrder: {}
-      rowSubtotals: true
-      colSubtotals: false
-      spanRows: true
-      spanCols: true
-      calculateOthers: false
-      sortColumnsBy: pivots
-      useViewName: false
-      useHeadings: false
-      useShortName: false
-      useUnit: false
-      groupVarianceColumns: false
-      genericLabelForSubtotals: false
-      indexColumn: false
-      transposeTable: false
-      label|contact_utilization_fact.forecast_week: Week
-      heading|contact_utilization_fact.forecast_week: ''
-      hide|contact_utilization_fact.forecast_week: false
-      label|staff_dim.contact_name: Name
-      heading|staff_dim.contact_name: ''
-      hide|staff_dim.contact_name: false
-      subtotalDepth: '1'
-      label|contact_utilization_fact.total_time_off: Time Off
-      heading|contact_utilization_fact.total_time_off: ''
-      style|contact_utilization_fact.total_time_off: normal
-      reportIn|contact_utilization_fact.total_time_off: '1'
-      unit|contact_utilization_fact.total_time_off: Hours
-      comparison|contact_utilization_fact.total_time_off: no_variance
-      switch|contact_utilization_fact.total_time_off: false
-      var_num|contact_utilization_fact.total_time_off: false
-      var_pct|contact_utilization_fact.total_time_off: false
-      label|contact_utilization_fact.average_target: Target
-      heading|contact_utilization_fact.average_target: ''
-      style|contact_utilization_fact.average_target: normal
-      reportIn|contact_utilization_fact.average_target: '1'
-      unit|contact_utilization_fact.average_target: ''
-      comparison|contact_utilization_fact.average_target: no_variance
-      switch|contact_utilization_fact.average_target: false
-      var_num|contact_utilization_fact.average_target: true
-      var_pct|contact_utilization_fact.average_target: false
-      label|contact_utilization_fact.total_hours_per_week: Hours Per Week
-      label|contact_utilization_fact.total_total_capacity: Total Capacity
-      label|contact_utilization_fact.total_target_billable_capacity: Target Capacity
-      label|contact_utilization_fact.total_forecast_billable_hours: Forecast Hours
-      label|contact_utilization_fact.total_actual_billable_hours: Actual Hours
-      label|contact_utilization_fact.total_actual_story_points: Story Points
-      heading|contact_utilization_fact.total_actual_story_points: Story Points Delivered
-      label|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      heading|contact_utilization_fact.average_forecast_utilization: Forecast Utilization
-      switch|contact_utilization_fact.average_forecast_utilization: false
-      label|contact_utilization_fact.average_actual_utilization: Actual Utilization
-      label|contact_utilization_fact.actual_to_forecast_utilization_variance: Variance
-      label|contact_utilization_fact.actual_to_target_utilization_variance: Variance
-      hidden_fields: [contact_utilization_fact.total_forecast_billable_hours, contact_utilization_fact.total_actual_billable_hours,
-        contact_utilization_fact.total_target_billable_capacity, contact_utilization_fact.total_total_capacity,
-        forecast_utilization]
-      hidden_points_if_no: []
-      label|actual_utilization: Actual Utilization
-      heading|actual_utilization: ''
-      style|actual_utilization: normal
-      reportIn|actual_utilization: '1'
-      unit|actual_utilization: ''
-      comparison|actual_utilization: contact_utilization_fact.average_target
-      switch|actual_utilization: false
-      var_num|actual_utilization: true
-      var_pct|actual_utilization: false
-      label|actual_utilization_to_forecast_variance: Actual Utilization to Forecast
-        Variance
-      heading|actual_utilization_to_forecast_variance: ''
-      style|actual_utilization_to_forecast_variance: normal
-      reportIn|actual_utilization_to_forecast_variance: '1'
-      unit|actual_utilization_to_forecast_variance: ''
-      comparison|actual_utilization_to_forecast_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_forecast_variance: false
-      var_num|actual_utilization_to_forecast_variance: true
-      var_pct|actual_utilization_to_forecast_variance: true
-      label|actual_utilization_to_target_variance: Actual Utilization to Target Variance
-      heading|actual_utilization_to_target_variance: ''
-      style|actual_utilization_to_target_variance: normal
-      reportIn|actual_utilization_to_target_variance: '1'
-      unit|actual_utilization_to_target_variance: ''
-      comparison|actual_utilization_to_target_variance: contact_utilization_fact.average_target
-      switch|actual_utilization_to_target_variance: false
-      var_num|actual_utilization_to_target_variance: true
-      var_pct|actual_utilization_to_target_variance: false
-      label|contact_utilization_fact.average_hours_per_week: "             Hours Per\
-        \ Week"
-      heading|contact_utilization_fact.average_hours_per_week: ''
-      style|contact_utilization_fact.average_hours_per_week: normal
-      reportIn|contact_utilization_fact.average_hours_per_week: '1'
-      unit|contact_utilization_fact.average_hours_per_week: ''
-      comparison|contact_utilization_fact.average_hours_per_week: no_variance
-      switch|contact_utilization_fact.average_hours_per_week: false
-      var_num|contact_utilization_fact.average_hours_per_week: true
-      var_pct|contact_utilization_fact.average_hours_per_week: false
-      label|contact_utilization_fact.average_total_capacity: "           Total Capacity"
-      heading|contact_utilization_fact.average_total_capacity: ''
-      style|contact_utilization_fact.average_total_capacity: normal
-      reportIn|contact_utilization_fact.average_total_capacity: '1'
-      unit|contact_utilization_fact.average_total_capacity: ''
-      comparison|contact_utilization_fact.average_total_capacity: no_variance
-      switch|contact_utilization_fact.average_total_capacity: false
-      var_num|contact_utilization_fact.average_total_capacity: true
-      var_pct|contact_utilization_fact.average_total_capacity: false
-      label|contact_utilization_fact.average_target_billable_capacity: "         Target\
-        \ Billable Capacity"
-      heading|contact_utilization_fact.average_target_billable_capacity: ''
-      style|contact_utilization_fact.average_target_billable_capacity: normal
-      reportIn|contact_utilization_fact.average_target_billable_capacity: '1'
-      unit|contact_utilization_fact.average_target_billable_capacity: ''
-      comparison|contact_utilization_fact.average_target_billable_capacity: no_variance
-      switch|contact_utilization_fact.average_target_billable_capacity: false
-      var_num|contact_utilization_fact.average_target_billable_capacity: true
-      var_pct|contact_utilization_fact.average_target_billable_capacity: false
-      label|contact_utilization_fact.average_forecast_billable_hours: "       Forecast\
-        \ Billable Hours"
-      heading|contact_utilization_fact.average_forecast_billable_hours: ''
-      style|contact_utilization_fact.average_forecast_billable_hours: normal
-      reportIn|contact_utilization_fact.average_forecast_billable_hours: '1'
-      unit|contact_utilization_fact.average_forecast_billable_hours: ''
-      comparison|contact_utilization_fact.average_forecast_billable_hours: no_variance
-      switch|contact_utilization_fact.average_forecast_billable_hours: false
-      var_num|contact_utilization_fact.average_forecast_billable_hours: true
-      var_pct|contact_utilization_fact.average_forecast_billable_hours: false
-      label|contact_utilization_fact.average_actual_billable_hours: "    Actual Billable\
-        \ Hours"
-      heading|contact_utilization_fact.average_actual_billable_hours: ''
-      style|contact_utilization_fact.average_actual_billable_hours: normal
-      reportIn|contact_utilization_fact.average_actual_billable_hours: '1'
-      unit|contact_utilization_fact.average_actual_billable_hours: ''
-      comparison|contact_utilization_fact.average_actual_billable_hours: no_variance
-      switch|contact_utilization_fact.average_actual_billable_hours: false
-      var_num|contact_utilization_fact.average_actual_billable_hours: true
-      var_pct|contact_utilization_fact.average_actual_billable_hours: false
-      label|contact_utilization_fact.average_actual_story_points: Actual Story Points
-      heading|contact_utilization_fact.average_actual_story_points: ''
-      style|contact_utilization_fact.average_actual_story_points: normal
-      reportIn|contact_utilization_fact.average_actual_story_points: '1'
-      unit|contact_utilization_fact.average_actual_story_points: ''
-      comparison|contact_utilization_fact.average_actual_story_points: no_variance
-      switch|contact_utilization_fact.average_actual_story_points: false
-      var_num|contact_utilization_fact.average_actual_story_points: true
-      var_pct|contact_utilization_fact.average_actual_story_points: false
-      label|forecast_utilization: Forecast Utilization
-      heading|forecast_utilization: ''
-      style|forecast_utilization: normal
-      reportIn|forecast_utilization: '1'
-      unit|forecast_utilization: ''
-      comparison|forecast_utilization: no_variance
-      switch|forecast_utilization: false
-      var_num|forecast_utilization: true
-      var_pct|forecast_utilization: false
-      show_row_numbers: true
-      transpose: false
-      truncate_text: true
-      hide_totals: false
-      hide_row_totals: false
-      size_to_fit: true
-      table_theme: white
-      header_text_alignment: left
-      header_font_size: '12'
-      rows_font_size: '12'
-      label|contact_utilization_fact.average_time_off: "                  Time-Off"
-      heading|contact_utilization_fact.average_time_off: ''
-      style|contact_utilization_fact.average_time_off: normal
-      reportIn|contact_utilization_fact.average_time_off: '1'
-      unit|contact_utilization_fact.average_time_off: ''
-      comparison|contact_utilization_fact.average_time_off: no_variance
-      switch|contact_utilization_fact.average_time_off: false
-      var_num|contact_utilization_fact.average_time_off: true
-      var_pct|contact_utilization_fact.average_time_off: false
-      show_sql_query_menu_options: false
-      show_totals: true
-      show_row_totals: true
-      truncate_header: false
-      series_column_widths:
-        grouped-column-contact_utilization_fact.forecast_week: 165
-      series_cell_visualizations:
-        contact_utilization_fact.average_time_off:
-          is_active: false
-        forecast_utilization:
-          is_active: true
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-        actual_utilization:
-          is_active: false
-          palette:
-            palette_id: c8e61ae5-b4ef-4fca-8f2f-92d1bd146bb1
-            collection_id: 427412fe-10ef-4870-bd3d-76cae7a14bde
-      ordering: none
-      show_null_labels: false
-      show_totals_labels: false
-      show_silhouette: false
-      totals_color: "#808080"
-      defaults_version: 1
-      truncate_column_names: false
+      join_fields: []
     - model: analytics
       explore: projects_delivered
       type: table
@@ -13167,8 +11353,6 @@
         {category: table_calculation, expression: '0.9', label: Target % of Projects
             Ontime, value_format: !!null '', value_format_name: percent_0, _kind_hint: dimension,
           table_calculation: target_of_projects_ontime, _type_hint: number}]
-      hidden_fields: [projects_delivered_is_ontime.count_ontime_timesheet_projects,
-        projects_delivered.count_timesheet_projects, target_of_projects_ontime]
       join_fields:
       - field_name: projects_delivered.project_delivery_end_ts_month
         source_field_name: contact_utilization_fact.forecast_month
@@ -14485,6 +12669,7 @@
         is_numeric: true
       pivots: []
     sorts: [customer_perspective desc]
+    column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
@@ -14526,7 +12711,6 @@
   - name: " (5)"
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: |-
       <p align="center">
 
