@@ -82,7 +82,9 @@ explore: web_sessions_fact {
   }
   join: marketing_content_dim {
     view_label: "Content"
-    sql_on: ${web_events_fact.referrer_article_stub} = ${mark.article_stub} ;;
+    sql_on: ${web_events_fact.referrer_article_stub} = ${marketing_content_dim.article_stub} ;;
+    type: left_outer
+    relationship: many_to_one
   }
 
 
