@@ -69,6 +69,12 @@ view: marketing_content_dim {
     sql: ${TABLE}.interaction_content_url ;;
   }
 
+  dimension: article_stub {
+    primary_key: yes
+    type: string
+    sql: case when ${utm_source} = 'medium' then split(${post_url},'/')[safe_offset(4)] end ;;
+  }
+
 
 
   dimension: marketing_content_pk {

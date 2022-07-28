@@ -63,6 +63,7 @@ view: web_events_fact {
     group_label: "Dates"
     type: time
     timeframes: [
+      raw,
       time,
       date
     ]
@@ -349,6 +350,27 @@ view: web_events_fact {
 
     type: string
     sql: split(${TABLE}.referrer, "?")[SAFE_OFFSET(0)] ;;
+  }
+
+  dimension: referrer_source {
+    group_label: "    Acquisition"
+    type: string
+    sql: case when ${referrer} like '%blog.rittmananalytics.com%' or ${referrer} like '%medium.com/mark-rittman%' then 'Medium' end ;;
+  }
+
+  dimension: referrer_article_stub {
+    group_label: "    Acquisition"
+    type: string
+    sql: case when ${referrer_source} = 'Medium' and ${referrer_host} = 'blog.rittmananalytics.com' then split(${referrer},'/')[safe_offset(3)]
+              when ${referrer_source} = 'Medium' and ${referrer_host} = 'medium.com' then split(${referrer},'/')[safe_offset(4)]
+          end ;;
+
+  }
+
+  dimension: referrer_days_since_post {
+    group_label: "    Acquisition"
+    type: number
+    sql: case when ${referrer_article_stub} is not null then timestamp_diff(event_ts_raw,${marketing_content_dim.interaction_posted_ts_raw},DAY) end ;;
   }
 
   dimension: event_details_seq_1 {

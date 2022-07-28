@@ -80,6 +80,10 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
+  join: marketing_content_dim {
+    view_label: "Content"
+    sql_on: ${web_events_fact.referrer_article_stub} = ${mark.article_stub} ;;
+  }
 
 
   }
@@ -172,6 +176,7 @@ explore: ad_campaigns_dim {
     type: left_outer
     relationship: one_to_many
   }
+
 
 }
 
