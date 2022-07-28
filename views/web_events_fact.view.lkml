@@ -137,16 +137,20 @@ view: web_events_fact {
   dimension: page_category {
     group_label: "Behavior"
     type: string
-    sql: case when ${TABLE}.page_url_path like '%blog%' then 'Blog'
-              when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then 'Podcast'
-              when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then 'Home Page'
-              else 'Marketing' end;;
+    sql: case when ${event_type} = 'Page View' then
+              case when ${TABLE}.page_url_path like '%blog%' then 'Blog'
+                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then 'Podcast'
+                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then 'Home Page'
+                  when ${TABLE}.page_url_path is not null then 'Marketing' end
+              end;;
   }
 
   dimension: visit_value {
     type: number
     hidden: yes
-    sql: case when ${page_category} = "Blog" then 1 when ${page_category} = "Home Page" then 2 when ${page_category} = "Marketing" then 4 end ;;
+    sql: case when ${page_category} = "Blog" then 1 when ${page_category} = "Home Page" then 2 when ${page_category} = "Marketing" then 4
+              when (lower(${event_type}) like '%collateral%' or lower(${event_type}) like '%pricing%') then 8
+              when lower(${event_type}) like '%button%' then 16 end;;
   }
 
   measure: total_visitor_value {
@@ -338,6 +342,13 @@ view: web_events_fact {
 
     type: string
     sql: ${TABLE}.referrer_host ;;
+  }
+
+  dimension: referrer {
+    group_label: "    Acquisition"
+
+    type: string
+    sql: split(${TABLE}.referrer, "?")[SAFE_OFFSET(0)] ;;
   }
 
   dimension: event_details_seq_1 {

@@ -58,6 +58,17 @@ view: marketing_content_dim {
     sql: ${TABLE}.interaction_reported_like_count ;;
   }
 
+  measure: total_likes {
+    type: sum
+    sql: ${interaction_reported_like_count} ;;
+    value_format_name: decimal_0
+  }
+
+  dimension: post_url {
+    type: string
+    sql: ${TABLE}.interaction_content_url ;;
+  }
+
 
 
   dimension: marketing_content_pk {
