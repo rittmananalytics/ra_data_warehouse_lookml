@@ -182,11 +182,7 @@ view: web_sessions_fact {
     sql: ${TABLE}.referrer_medium ;;
   }
 
-  dimension: referrer_source {
-    group_label: "    Acquisition"
-    type: string
-    sql: ${TABLE}.referrer_source ;;
-  }
+
 
   dimension: search {
     group_label: "    Acquisition"

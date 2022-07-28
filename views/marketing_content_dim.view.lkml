@@ -52,7 +52,8 @@ view: marketing_content_dim {
 
 
   dimension: interaction_reported_like_count {
-    hidden: yes
+    hidden: no
+    label: "Total Likes"
 
     type: number
     sql: ${TABLE}.interaction_reported_like_count ;;
