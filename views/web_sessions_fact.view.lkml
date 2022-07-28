@@ -66,7 +66,15 @@ view: web_sessions_fact {
   dimension: referrer_source {
     group_label: "    Acquisition"
     type: string
-    sql: case when ${referrer} like '%blog.rittmananalytics.com%' or ${referrer} like '%medium.com/mark-rittman%' then 'Medium' end ;;
+    sql: case when ${referrer} like '%blog.rittmananalytics.com%' or ${referrer} like '%medium.com/mark-rittman%' then 'Medium'
+              when ${referrer_host} like '%github%' then 'Github'
+              when ${referrer_host} like '%linkedin%' then 'LinkedIn'
+              when ${referrer_host} like '%google%' or ${referrer_host} like '%bing%' or  ${referrer_host} like '%yahoo%' or ${referrer_host} like '%yandex%' then 'Organic Search'
+              when ${referrer_host} like '%t.co%' or ${referrer_host} like '%twitter%' then 'Twitter'
+              when ${first_page_url} like '%rittmananalytics.com/blog%'  then 'Blog'
+              when ${first_page_url} like '%https://rittmananalytics.com/drilltodetail%'  then 'Podcast'
+              else 'Direct'
+    end;;
   }
 
   dimension: referrer_article_stub {
@@ -299,6 +307,8 @@ view: web_sessions_fact {
     type: string
     sql: ${TABLE}.web_sessions_pk ;;
   }
+
+
 
 
 

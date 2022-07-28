@@ -154,6 +154,18 @@ view: web_events_fact {
               when lower(${event_type}) like '%button%' then 16 end;;
   }
 
+  dimension: is_conversion_event {
+    type: yesno
+    group_label: "Behavior"
+    sql: ${event_type} like '%Button%' ;;
+  }
+
+  measure: total_conversions {
+    type: count_distinct
+    sql: ${web_event_pk} ;;
+    filters: [is_conversion_event: "Yes"]
+  }
+
   measure: total_visitor_value {
     type: sum
     sql: ${visit_value};;
@@ -301,6 +313,11 @@ view: web_events_fact {
     sql: ${TABLE}.web_event_pk ;;
   }
 
+  measure: total_events {
+    group_label: "Behavior"
+    type: count_distinct
+    sql: ${web_event_pk} ;;
+  }
 
 
 
