@@ -71,7 +71,7 @@ view: web_sessions_fact {
               when ${referrer_host} like '%linkedin%' then 'LinkedIn'
               when ${referrer_host} like '%google%' or ${referrer_host} like '%bing%' or  ${referrer_host} like '%yahoo%' or ${referrer_host} like '%yandex%' then 'Organic Search'
               when ${referrer_host} like '%t.co%' or ${referrer_host} like '%twitter%' then 'Twitter'
-              when ${first_page_url} like '%rittmananalytics.com/blog%'  then 'Blog'
+              when ${first_page_url} like '%rittmananalytics.com/blog%'  then 'Squarespace'
               when ${first_page_url} like '%https://rittmananalytics.com/drilltodetail%'  then 'Podcast'
               else 'Direct'
     end;;
@@ -82,6 +82,7 @@ view: web_sessions_fact {
     type: string
     sql: case when ${referrer_source} = 'Medium' and ${referrer_host} = 'blog.rittmananalytics.com' then split(${referrer},'/')[safe_offset(3)]
               when ${referrer_source} = 'Medium' and ${referrer_host} = 'medium.com' then split(${referrer},'/')[safe_offset(4)]
+              when ${first_page_url} LIKE '%rittmananalytics.com/blog/2%' then SPLIT(first_page_url_path,'/')[safe_OFFSET(5)]
           end ;;
 
   }

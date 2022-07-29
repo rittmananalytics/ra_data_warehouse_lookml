@@ -76,6 +76,16 @@ view: web_events_fact {
     sql: ${TABLE}.event_type ;;
   }
 
+  measure: event {
+    type: string
+    sql: array_agg(${event_type}) ;;
+  }
+
+  measure: event_type_details {
+    type: string
+    sql: array_agg(${event_details}) ;;
+  }
+
 
 
   dimension: map_location {
