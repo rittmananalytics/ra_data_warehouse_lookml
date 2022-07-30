@@ -74,6 +74,12 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
+  join: is_conversion_session {
+    view_label: "  Sessions"
+    type: left_outer
+    sql_on: ${web_sessions_fact.session_id} = ${is_conversion_session.web_events_fact_session_id} ;;
+    relationship: one_to_one
+    }
   join: ad_campaigns_dim {
     view_label: "Campaigns"
     sql_on: ${web_sessions_fact.ad_campaign_pk} = ${ad_campaigns_dim.ad_campaign_pk};;
