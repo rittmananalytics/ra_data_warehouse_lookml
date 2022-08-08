@@ -447,7 +447,7 @@
     filters:
       deals_fact.pipeline_stage_label: Initial Enquiry,Meeting and Sales Qualified,Presentation
         Given & Sprints Scoped,Proposal Sent,PoC Underway,Deal Agreed & Awaiting Sign-off,Awaiting
-        Proposal
+        Proposal,Verbally Won and Working at Risk
       companies_dim.company_name: "-Apex Auctions"
     sorts: [deals_fact.pipeline_stage_label]
     limit: 500
@@ -483,8 +483,82 @@
     color_application:
       collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
       palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-    isStepped: true
+    x_axis_gridlines: false
+    y_axis_gridlines: true
     show_view_names: false
+    y_axes: [{label: '', orientation: bottom, series: [{axisId: BridgeU - Ongoing
+              Support - deals_fact.total_oppportunity_deal_amount, id: BridgeU - Ongoing
+              Support - deals_fact.total_oppportunity_deal_amount, name: BridgeU -
+              Ongoing Support}, {axisId: Drafthouse - GA4 to Snowflake Replication
+              - deals_fact.total_oppportunity_deal_amount, id: Drafthouse - GA4 to
+              Snowflake Replication - deals_fact.total_oppportunity_deal_amount, name: Drafthouse
+              - GA4 to Snowflake Replication}, {axisId: Jobandtalent - Analytics Enablement
+              (Full Project) - deals_fact.total_oppportunity_deal_amount, id: Jobandtalent
+              - Analytics Enablement (Full Project) - deals_fact.total_oppportunity_deal_amount,
+            name: Jobandtalent - Analytics Enablement (Full Project)}, {axisId: Kaplan
+              - Phase 2 - deals_fact.total_oppportunity_deal_amount, id: Kaplan -
+              Phase 2 - deals_fact.total_oppportunity_deal_amount, name: Kaplan -
+              Phase 2}, {axisId: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            id: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            name: Lucanet - Analytics Enablement}, {axisId: PollEverywhere - Analytics
+              Enablement - deals_fact.total_oppportunity_deal_amount, id: PollEverywhere
+              - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            name: PollEverywhere - Analytics Enablement}, {axisId: Rixo - Create Smoke
+              Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+            id: Rixo - Create Smoke Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+            name: Rixo - Create Smoke Test & Upgrade Sandbox Environments}, {axisId: Rixo
+              - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+            id: Rixo - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+            name: Rixo - Follow-On Sprints (Placeholder)}, {axisId: Thrive Commercial
+              Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+            id: Thrive Commercial Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+            name: Thrive Commercial Insights  - May 22 Extension}, {axisId: Thrive
+              Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+            id: Thrive Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+            name: Thrive Investment Performance Part 2}, {axisId: Torticity - Data
+              Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
+            id: Torticity - Data Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
+            name: Torticity - Data Modeling and Analytics Enablement - Discovery},
+          {axisId: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
+            id: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
+            name: 'Translucent - Sprint #2'}], showLabels: true, showValues: true,
+        valueFormat: '"£"0,"K"', unpinAxis: false, tickDensity: custom, tickDensityCustom: 8,
+        type: linear}]
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: normal
+    limit_displayed_rows: false
+    legend_position: center
+    series_types: {}
+    point_style: none
+    series_labels:
+      deals_fact.owner_full_name: Owner
+      deals_fact.deal_type: Type
+      deals_fact.pipeline_stage_label: Stage
+      days_in_pipeline_stage: Days In Stage
+      days_in_pipeline: Days In Pipeline
+      deals_fact.total_oppportunity_deal_amount: Amount
+      deals_fact.total_weighted_opportunity_deal_amount: Weighted
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    x_axis_label_rotation: 0
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    isStepped: true
     show_row_numbers: false
     transpose: false
     truncate_text: true
@@ -492,7 +566,6 @@
     hide_row_totals: false
     size_to_fit: true
     table_theme: white
-    limit_displayed_rows: false
     enable_conditional_formatting: true
     header_text_alignment: left
     header_font_size: '12'
@@ -506,14 +579,6 @@
     show_totals: true
     show_row_totals: true
     truncate_header: true
-    series_labels:
-      deals_fact.owner_full_name: Owner
-      deals_fact.deal_type: Type
-      deals_fact.pipeline_stage_label: Stage
-      days_in_pipeline_stage: Days In Stage
-      days_in_pipeline: Days In Pipeline
-      deals_fact.total_oppportunity_deal_amount: Amount
-      deals_fact.total_weighted_opportunity_deal_amount: Weighted
     series_cell_visualizations:
       deals_fact.total_weighted_opportunity_deal_amount:
         is_active: true
@@ -555,33 +620,7 @@
     title_placement_deals_fact.count_closed_in_delivery_deals: below
     value_format_deals_fact.count_closed_in_delivery_deals: ''
     show_comparison_deals_fact.count_closed_in_delivery_deals: false
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    legend_position: center
-    point_style: none
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
     defaults_version: 1
-    series_types: {}
     hidden_fields: [deals_fact.count_oppportunity_deals, deals_fact.deal_pipeline_stage,
       deals_fact.total_weighted_opportunity_deal_amount]
     hidden_points_if_no: []
@@ -2351,7 +2390,7 @@
     dynamic_fields: [{category: table_calculation, expression: 'if(${certification_progress.total_score}=0,null,${certification_progress.score_target})',
         label: Target, value_format: !!null '', value_format_name: !!null '', _kind_hint: measure,
         table_calculation: target, _type_hint: number}, {category: table_calculation,
-        expression: 'if(${certification_progress.total_score}=0,null,${certification_progress.total_score})',
+        expression: 'if(${certification_progress.total_score}=0,offset(${certification_progress.total_score},-1),${certification_progress.total_score})',
         label: Progress, value_format: !!null '', value_format_name: !!null '', _kind_hint: measure,
         table_calculation: progress, _type_hint: number}, {args: [certification_progress.score_target],
         calculation_type: running_total, category: table_calculation, based_on: certification_progress.score_target,
@@ -2392,7 +2431,7 @@
       palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
       options:
         steps: 5
-    single_value_title: Overall Progress To Date
+    single_value_title: Certification Progress To Date
     comparison_label: Target
     x_axis_gridlines: false
     y_axis_gridlines: true
