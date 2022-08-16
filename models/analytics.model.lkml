@@ -12,7 +12,7 @@ datagroup: analytics_default_datagroup {
 fiscal_month_offset: +3
 
 
-
+explore: consulting_companies {}
 
 explore: certification_progress {}
 

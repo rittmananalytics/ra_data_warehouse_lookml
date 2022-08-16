@@ -349,6 +349,18 @@ view: contacts_dim {
     sql: ${TABLE}.contact_skills ;;
   }
 
+  dimension: dbt_slack_channels {
+    group_label: "Social Media"
+    type: string
+    sql: ${TABLE}.dbt_slack_channels ;;
+  }
+
+  dimension: is_dbt_slack_member {
+    group_label: "Social Media"
+    type: yesno
+    sql: ${TABLE}.is_dbt_slack_member ;;
+  }
+
 
   measure: count {
     hidden: yes
