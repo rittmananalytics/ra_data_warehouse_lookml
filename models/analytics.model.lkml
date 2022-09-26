@@ -25,6 +25,16 @@ explore: hr_survey_results_fact {
 
 }
 
+explore: events{
+  label: "Event History"
+  sql_always_where:
+  {% if events.search._in_query %}
+  SEARCH(events,"{% parameter events.search %}")
+  {% else %}
+  1=1
+  {% endif %} ;;
+}
+
 explore: targets {
   label: "Targets"
   }

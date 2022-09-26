@@ -3,7 +3,7 @@
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
-  preferred_slug: WD2gNHJUvbX8kdoXzUvPwX
+  preferred_slug: Oa6w4Xea0JHbcCdVeGZsDM
   elements:
   - name: Revenue vs Target L12M
     title: Revenue vs Target L12M
@@ -1853,7 +1853,7 @@
     width: 24
     height: 2
   - type: button
-    name: button_1543
+    name: button_1660
     rich_content_json: '{"text":"View Deals in Hubspot","description":"View current
       deal board in Hubspot","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/all/board"}'
     row: 24
@@ -1861,35 +1861,35 @@
     width: 8
     height: 1
   - type: button
-    name: button_1544
+    name: button_1661
     rich_content_json: '{"text":"View Open Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/2560409/board"}'
     row: 24
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1545
+    name: button_1662
     rich_content_json: '{"text":"View Closed Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/8745353/list"}'
     row: 24
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1546
+    name: button_1663
     rich_content_json: '{"text":"View Active Projects in Harvest","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://rittman.harvestapp.com/projects?filter=active"}'
     row: 34
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1547
+    name: button_1664
     rich_content_json: '{"text":"View Revenue by Client YTD in Xero","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://reporting.xero.com/!2r8Ny/v1/Run/1209"}'
     row: 34
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1548
+    name: button_1665
     rich_content_json: '{"text":"View Revenue vs Target and Forecast in Google Sheets","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://docs.google.com/spreadsheets/d/1gAVDTqfxpzGN6OFbYqGTMwoBSckCE0yTC1J4YS65Z_4/edit#gid=0"}'
     row: 34
     col: 0
@@ -5880,16 +5880,16 @@
     comparison_reverse_colors: false
     show_comparison_label: true
     enable_conditional_formatting: true
-    conditional_formatting: [{type: greater than, value: 1, background_color: "#7bc739",
-        font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
-          palette_id: 95584bf9-c29e-41ea-b6e7-79e9c126e177, options: {steps: 5}},
-        bold: false, italic: false, strikethrough: false, fields: []}, {type: between,
-        value: [0.7, 1], background_color: "#E48522", font_color: "#FFFFFF", color_application: {
-          collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c, palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}, {type: less
-          than, value: 0.7, background_color: "#D13452", font_color: "#FFFFFF", color_application: {
-          collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c, palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830},
-        bold: false, italic: false, strikethrough: false, fields: !!null ''}]
+    conditional_formatting: [{type: between, value: [0.7, 1], background_color: "#E48522",
+        font_color: "#FFFFFF", color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+          palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830}, bold: false, italic: false,
+        strikethrough: false, fields: !!null ''}, {type: less than, value: 0.7, background_color: "#D13452",
+        font_color: "#FFFFFF", color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+          palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830}, bold: false, italic: false,
+        strikethrough: false, fields: !!null ''}, {type: greater than, value: 1, background_color: "#7bc739",
+        font_color: "#FFFFFF", color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+          palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830}, bold: false, italic: false,
+        strikethrough: false, fields: !!null ''}]
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     font_size_main: '40'
@@ -6011,7 +6011,8 @@
       targets.total_deals_closed_target, target_of_projects_ontime, new_deals_pct_to_target,
       revenue_pct_to_target, pct_of_projects_ontime_to_target, pct_certification_progression_to_target,
       pct_enps_to_target, financial, process_customer_perspective_weighted_30, projects_delivered_is_ontime.count_ontime_timesheet_projects,
-      of_projects_ontime]
+      of_projects_ontime, innovation_learning_perspective_weighted_20, customer_perspective,
+      pct_of_utilization_to_target]
     type: single_value
     query_fields:
       measures:
@@ -7121,35 +7122,36 @@
     column_limit: 50
     dynamic_fields: [{category: table_calculation, expression: 'coalesce(${deals_fact.total_deal_amount_gbp_converted}/${targets.total_deals_closed_target},0)',
         label: New Deals Pct to Target, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number},
-      {category: table_calculation, expression: "${projects_invoiced.total_net_amount_gbp}/${targets.total_revenue_target}",
+        _kind_hint: measure, table_calculation: new_deals_pct_to_target, _type_hint: number,
+        id: X2KpRQwqsq}, {category: table_calculation, expression: "${projects_invoiced.total_net_amount_gbp}/${targets.total_revenue_target}",
         label: Revenue Pct to Target, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: revenue_pct_to_target, _type_hint: number},
-      {category: table_calculation, expression: "${of_projects_ontime}/${target_of_projects_ontime}",
+        _kind_hint: measure, table_calculation: revenue_pct_to_target, _type_hint: number,
+        id: IdyKZpxFEm}, {category: table_calculation, expression: "${of_projects_ontime}/${target_of_projects_ontime}",
         label: Pct of Projects Ontime to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: pct_of_projects_ontime_to_target,
-        _type_hint: number}, {category: table_calculation, expression: "${actual_utilization}/${target_utilization}",
+        _type_hint: number, id: lCnAEWpBPU}, {category: table_calculation, expression: "${actual_utilization}/${target_utilization}",
         label: Pct of Utilization % to Target, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: pct_of_utilization_to_target, _type_hint: number},
-      {category: table_calculation, expression: "${hr_survey_results_fact.avg_e_nps}/${targets.avg_enps_target}",
+        _kind_hint: measure, table_calculation: pct_of_utilization_to_target, _type_hint: number,
+        id: XELcQ2OZ5u}, {category: table_calculation, expression: "${hr_survey_results_fact.avg_e_nps}/${targets.avg_enps_target}",
         label: Pct eNPS to Target, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: pct_enps_to_target, _type_hint: number},
-      {category: table_calculation, expression: "${certification_progress.total_score}/${certification_progress.score_target}",
+        _kind_hint: measure, table_calculation: pct_enps_to_target, _type_hint: number,
+        id: rx2rE4LxRV}, {category: table_calculation, expression: "${certification_progress.total_score}/${certification_progress.score_target}",
         label: Pct Certification Progression to Target, value_format: !!null '', value_format_name: percent_0,
         _kind_hint: measure, table_calculation: pct_certification_progression_to_target,
-        _type_hint: number}, {category: table_calculation, expression: "((${new_deals_pct_to_target}*0.5)+(${revenue_pct_to_target}*0.5))",
+        _type_hint: number, id: WxTn6A68TW}, {category: table_calculation, expression: "((${new_deals_pct_to_target}*0.5)+(${revenue_pct_to_target}*0.5))",
         label: Financial, value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
-        table_calculation: financial, _type_hint: number}, {category: table_calculation,
+        table_calculation: financial, _type_hint: number, id: KNqzbN4hOG}, {category: table_calculation,
         description: Based on % of Projects Delivered On-Time, expression: "((${pct_of_projects_ontime_to_target}))",
         label: Customer Perspective, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: customer_perspective, _type_hint: number},
-      {category: table_calculation, expression: "((${pct_enps_to_target}*0.5)+(${pct_certification_progression_to_target}*0.5)*1)",
+        _kind_hint: measure, table_calculation: customer_perspective, _type_hint: number,
+        id: 4dUpkZFWmG}, {category: table_calculation, expression: "((${pct_enps_to_target}*0.5)+(${pct_certification_progression_to_target}*0.5)*1)",
         label: Innovation & Learning Perspective (Weighted 20%), value_format: !!null '',
         value_format_name: percent_0, _kind_hint: measure, table_calculation: innovation_learning_perspective_weighted_20,
-        _type_hint: number}, {category: table_calculation, description: Based on actual
-          utilization %, expression: "${pct_of_utilization_to_target}", label: Process
-          Perspective, value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
-        table_calculation: process_perspective, _type_hint: number}]
+        _type_hint: number, id: l3zsmMuTMk}, {category: table_calculation, description: Based
+          on actual utilization %, expression: "${pct_of_utilization_to_target}",
+        label: Process Perspective, value_format: !!null '', value_format_name: percent_0,
+        _kind_hint: measure, table_calculation: process_perspective, _type_hint: number,
+        id: yWP0AvGUH5}]
     row: 6
     col: 0
     width: 4
