@@ -149,7 +149,7 @@ view: web_events_fact {
     group_label: "Behavior"
     type: string
     sql: case when ${event_type} = 'Page View' then
-              case when ${TABLE}.page_url_path like '%blog%' then 'Blog'
+              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then 'Blog'
                   when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then 'Podcast'
                   when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then 'Home Page'
                   when ${TABLE}.page_url_path is not null then 'Marketing' end
@@ -160,14 +160,14 @@ view: web_events_fact {
     type: number
     hidden: yes
     sql: case when ${page_category} = "Blog" then 1 when ${page_category} = "Home Page" then 2 when ${page_category} = "Marketing" then 4
-              when (lower(${event_type}) like '%collateral%' or lower(${event_type}) like '%pricing%') then 8
-              when lower(${event_type}) like '%button%' then 16 end;;
+              when (lower(${event_type}) like '%collateral%' or lower(${event_type}) like '%pricing%' or lower(${event_type}) like '%cta%') then 8
+              when lower(${event_type}) like '%button%' or lower(${event_type}) like '%meeting%' then 16 end;;
   }
 
   dimension: is_conversion_event {
     type: yesno
     group_label: "Behavior"
-    sql: ${event_type} like '%Button%' ;;
+    sql: lower(${event_type}) like '%button%' or lower(${event_type}) like '%meeting%' ;;
   }
 
   measure: total_conversions {
