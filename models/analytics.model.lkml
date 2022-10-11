@@ -10,6 +10,7 @@ datagroup: analytics_default_datagroup {
 }
 
 fiscal_month_offset: +3
+week_start_day: monday
 
 
 explore: consulting_companies {}
@@ -731,6 +732,23 @@ explore: companies_dim {
     join: timesheet_projects_dim {
       view_label: "Projects"
       sql_on: ${project_attribution.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
+      type: inner
+      relationship: many_to_one
+    }
+  }
+
+  explore: timesheets_forecast_fact {
+    label: "Resource Forecast"
+    view_label: "Resource Forecast"
+    join: staff_dim {
+      view_label: "Project Resources"
+      sql_on: ${timesheets_forecast_fact.contact_pk} = ${staff_dim.contact_pk};;
+      type: inner
+      relationship: many_to_one
+    }
+    join: timesheet_projects_dim {
+      view_label: "Projects"
+      sql_on: ${timesheets_forecast_fact.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
       type: inner
       relationship: many_to_one
     }

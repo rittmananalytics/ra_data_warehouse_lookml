@@ -2,8 +2,11 @@
 view: contact_utilization_fact {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `ra-development.analytics.contact_utilization_fact`
-    ;;
+  derived_table: {
+
+    sql: select * from analytics.contact_utilization_fact group by 1,2,3,4,5,6,7,8,9,10,11,12,13 ;;
+
+  }
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
@@ -35,7 +38,7 @@ view: contact_utilization_fact {
     label: "    Total Actual Billable Hours"
     value_format_name: decimal_0
 
-    type: sum
+    type: sum_distinct
     sql: ${actual_billable_hours} ;;
   }
 
@@ -51,7 +54,7 @@ view: contact_utilization_fact {
     label: "Average Actual Story Points"
     value_format_name: decimal_0
 
-    type: average
+    type: average_distinct
     sql: ${actual_story_points} ;;
   }
 
@@ -59,7 +62,7 @@ view: contact_utilization_fact {
     label: "Total Actual Story Points"
     value_format_name: decimal_0
 
-    type: sum
+    type: sum_distinct
     sql: ${actual_story_points} ;;
   }
 
@@ -80,7 +83,7 @@ view: contact_utilization_fact {
 
   measure: average_forecast_billable_hours {
     label: "       Average Forecast Billable Hours"
-    type: average
+    type: average_distinct
     value_format_name: decimal_2
 
     sql: ${forecast_billable_hours} ;;
@@ -88,7 +91,7 @@ view: contact_utilization_fact {
 
   measure: total_forecast_billable_hours {
     label: "       Total Forecast Billable Hours"
-    type: sum
+    type: sum_distinct
     value_format_name: decimal_2
 
     sql: ${forecast_billable_hours} ;;
@@ -118,7 +121,7 @@ view: contact_utilization_fact {
     label: "             Average Hours Per Week"
     value_format_name: decimal_0
 
-    type: average
+    type: average_distinct
     sql: ${hours_per_week} ;;
   }
 
@@ -126,7 +129,7 @@ view: contact_utilization_fact {
     label: "             Total Hours Per Week"
     value_format_name: decimal_0
 
-    type: sum
+    type: sum_distinct
     sql: ${hours_per_week} ;;
   }
 
@@ -147,7 +150,7 @@ view: contact_utilization_fact {
     label: "                 Average Target"
     value_format_name: percent_0
 
-    type: average
+    type: average_distinct
     sql: ${target} ;;
   }
 
@@ -162,7 +165,7 @@ view: contact_utilization_fact {
     label: "         Average Target Billable Capacity"
     value_format_name: decimal_0
 
-    type: average
+    type: average_distinct
     sql: ${target_billable_capacity} ;;
   }
 
@@ -192,19 +195,19 @@ view: contact_utilization_fact {
 
   measure: average_actual_utilization {
     value_format_name: percent_2
-    type: average
+    type: average_distinct
     sql: ${actual_utilization} ;;
   }
 
   measure: actual_to_forecast_utilization_variance {
     value_format_name: percent_2
-    type: average
+    type: average_distinct
     sql: ${actual_utilization}-${forecast_utilization} ;;
   }
 
   measure: actual_to_target_utilization_variance {
     value_format_name: percent_2
-    type: average
+    type: average_distinct
     sql: ${actual_utilization}-${target} ;;
   }
 
@@ -218,7 +221,7 @@ view: contact_utilization_fact {
     label: "                  Average Time-Off"
     value_format_name: decimal_0
 
-    type: average
+    type: average_distinct
     sql: ${time_off} ;;
   }
 
@@ -226,7 +229,7 @@ view: contact_utilization_fact {
     label: "                  Total Time-Off"
     value_format_name: decimal_0
 
-    type: sum
+    type: sum_distinct
     sql: ${time_off} ;;
   }
 
@@ -242,7 +245,7 @@ view: contact_utilization_fact {
     label: "           Average Total Capacity"
     value_format_name: decimal_0
 
-    type: average
+    type: average_distinct
     sql: ${total_capacity} ;;
   }
 
@@ -250,7 +253,7 @@ view: contact_utilization_fact {
     label: "           Total Total Capacity"
     value_format_name: decimal_0
 
-    type: sum
+    type: sum_distinct
     sql: ${total_capacity} ;;
   }
 

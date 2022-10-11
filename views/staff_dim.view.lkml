@@ -37,7 +37,7 @@ view: staff_dim {
 
   dimension: contact_weekly_capacity {
     type: number
-    sql: ${TABLE}.contact_weekly_capacity ;;
+    sql: ${TABLE}.contact_weekly_capacity/60/60 ;;
   }
 
   dimension: contact_default_hourly_rate {
