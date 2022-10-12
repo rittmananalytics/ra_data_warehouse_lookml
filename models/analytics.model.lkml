@@ -69,7 +69,7 @@ explore: contact_utilization_fact {
   join: staff_dim {
     view_label: "   Delivery Team"
     sql_on: ${contact_utilization_fact.contact_pk} = ${staff_dim.contact_pk} ;;
-    type: inner
+    type: left_outer
     relationship: many_to_one
   }
 }
