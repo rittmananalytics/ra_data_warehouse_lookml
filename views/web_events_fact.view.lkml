@@ -65,6 +65,8 @@ view: web_events_fact {
     timeframes: [
       raw,
       time,
+      week,
+      month,
       date
     ]
     sql: ${TABLE}.event_ts ;;
@@ -160,20 +162,49 @@ view: web_events_fact {
     type: number
     hidden: yes
     sql: case when ${page_category} = "Blog" then 1 when ${page_category} = "Home Page" then 2 when ${page_category} = "Marketing" then 4
-              when (lower(${event_type}) like '%collateral%' or lower(${event_type}) like '%pricing%' or lower(${event_type}) like '%cta%') then 8
-              when lower(${event_type}) like '%button%' or lower(${event_type}) like '%meeting%' then 16 end;;
+              when ${is_goal_achieved} then 8
+              when ${is_conversion_event} then 16 end;;
   }
 
   dimension: is_conversion_event {
     type: yesno
     group_label: "Behavior"
-    sql: lower(${event_type}) like '%button%' or lower(${event_type}) like '%meeting%' ;;
+    sql: ${event_type} in ('Meeting Booked','Booked A Meeting') ;;
+  }
+
+  dimension: is_goal_achieved {
+    type: yesno
+    group_label: "Behavior"
+    sql: ${event_type} in ('Cta Pressed','Collateral Downloaded','Contact Button Pressed','Button Pressed','Collateral Viewed','Pricing Viewed') ;;
   }
 
   measure: total_conversions {
     type: count_distinct
     sql: ${web_event_pk} ;;
     filters: [is_conversion_event: "Yes"]
+  }
+
+  measure: total_goal_achieveds {
+    type: count_distinct
+    sql: ${web_event_pk} ;;
+    filters: [is_goal_achieved: "Yes"]
+  }
+
+  measure: total_session_conversions {
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [is_conversion_event: "Yes"]
+  }
+
+  measure: total_session_goal_achieveds {
+    type: count_distinct
+    sql: ${session_id} ;;
+    filters: [is_goal_achieved: "Yes"]
+  }
+
+  measure: total_sessions {
+    type: count_distinct
+    sql: ${session_id} ;;
   }
 
   measure: total_visitor_value {
@@ -196,6 +227,7 @@ view: web_events_fact {
     type: time
     timeframes: [
       time,
+      month,
       date
     ]
     sql: ${TABLE}.prev_event_ts ;;

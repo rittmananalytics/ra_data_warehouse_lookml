@@ -1,5 +1,5 @@
-- dashboard: business_summary_2022_v4
-  title: Business Summary 2022 v4
+- dashboard: business_summary_2022_v5
+  title: Business Summary 2022 v5
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
@@ -78,7 +78,7 @@
     totals_color: "#808080"
     type: looker_area
     column_limit: 50
-    row: 17
+    row: 32
     col: 0
     width: 8
     height: 9
@@ -186,7 +186,7 @@
     rows_font_size: 12
     hidden_points_if_no: [is_first_row, show_in_vis]
     listen: {}
-    row: 56
+    row: 71
     col: 8
     width: 8
     height: 8
@@ -332,7 +332,7 @@
       total_monthly_sprints, total_monthly_on_time, on_time_count, companies_dim.count,
       days_to_invoice, projects_invoiced.invoice_date]
     listen: {}
-    row: 56
+    row: 71
     col: 16
     width: 8
     height: 8
@@ -433,7 +433,7 @@
     defaults_version: 1
     hidden_fields: []
     listen: {}
-    row: 17
+    row: 32
     col: 16
     width: 8
     height: 9
@@ -625,7 +625,7 @@
       deals_fact.total_weighted_opportunity_deal_amount]
     hidden_points_if_no: []
     listen: {}
-    row: 9
+    row: 17
     col: 16
     width: 8
     height: 7
@@ -703,7 +703,7 @@
     dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_target}),150000,${targets.total_deals_target})',
         label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
         table_calculation: target_1, _type_hint: number}]
-    row: 9
+    row: 17
     col: 0
     width: 8
     height: 7
@@ -782,7 +782,7 @@
     dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_closed_target}),80000,${targets.total_deals_closed_target})',
         label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
         table_calculation: target, _type_hint: number}]
-    row: 9
+    row: 17
     col: 8
     width: 8
     height: 7
@@ -896,7 +896,7 @@
       projects_invoiced.total_net_amount_gbp, project_net_margin]
     series_types: {}
     listen: {}
-    row: 39
+    row: 54
     col: 0
     width: 8
     height: 7
@@ -979,7 +979,7 @@
     show_silhouette: false
     totals_color: "#808080"
     listen: {}
-    row: 39
+    row: 54
     col: 8
     width: 8
     height: 7
@@ -992,7 +992,7 @@
       <b><font color="DimGrey" size="5">Operations</font></b>
 
       </p>
-    row: 37
+    row: 52
     col: 0
     width: 24
     height: 2
@@ -1068,7 +1068,7 @@
     defaults_version: 1
     hidden_fields: [of_total, total_revenue, projects_invoiced.invoice_gbp_revenue_amount]
     listen: {}
-    row: 27
+    row: 42
     col: 16
     width: 8
     height: 10
@@ -1081,7 +1081,7 @@
       <b><font color="DimGrey" size="5">Delivery</font></b>
 
       </p>
-    row: 46
+    row: 61
     col: 0
     width: 24
     height: 2
@@ -1144,7 +1144,7 @@
     interpolation: linear
     type: looker_line
     column_limit: 50
-    row: 56
+    row: 71
     col: 0
     width: 8
     height: 8
@@ -1193,7 +1193,7 @@
     defaults_version: 0
     series_types: {}
     listen: {}
-    row: 64
+    row: 79
     col: 0
     width: 8
     height: 8
@@ -1284,7 +1284,7 @@
     value_labels: legend
     label_type: labPer
     listen: {}
-    row: 17
+    row: 32
     col: 8
     width: 8
     height: 9
@@ -1298,7 +1298,7 @@
       <b><font size="5" color="DimGrey">Revenue and Sales</font></b>
 
       </p>
-    row: 7
+    row: 15
     col: 0
     width: 24
     height: 2
@@ -1306,42 +1306,42 @@
     name: button_1543
     rich_content_json: '{"text":"View Deals in Hubspot","description":"View current
       deal board in Hubspot","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/all/board"}'
-    row: 16
+    row: 31
     col: 0
     width: 8
     height: 1
   - type: button
     name: button_1544
     rich_content_json: '{"text":"View Open Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/2560409/board"}'
-    row: 16
+    row: 31
     col: 16
     width: 8
     height: 1
   - type: button
     name: button_1545
     rich_content_json: '{"text":"View Closed Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/8745353/list"}'
-    row: 16
+    row: 31
     col: 8
     width: 8
     height: 1
   - type: button
     name: button_1546
     rich_content_json: '{"text":"View Active Projects in Harvest","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://rittman.harvestapp.com/projects?filter=active"}'
-    row: 26
+    row: 41
     col: 16
     width: 8
     height: 1
   - type: button
     name: button_1547
     rich_content_json: '{"text":"View Revenue by Client YTD in Xero","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://reporting.xero.com/!2r8Ny/v1/Run/1209"}'
-    row: 26
+    row: 41
     col: 8
     width: 8
     height: 1
   - type: button
     name: button_1548
     rich_content_json: '{"text":"View Revenue vs Target and Forecast in Google Sheets","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://docs.google.com/spreadsheets/d/1gAVDTqfxpzGN6OFbYqGTMwoBSckCE0yTC1J4YS65Z_4/edit#gid=0"}'
-    row: 26
+    row: 41
     col: 0
     width: 8
     height: 1
@@ -1419,7 +1419,7 @@
     hidden_fields: [project_attribution.attributed_revenue_gbp]
     type: looker_bar
     column_limit: 50
-    row: 64
+    row: 79
     col: 8
     width: 8
     height: 8
@@ -1500,7 +1500,7 @@
     hidden_fields: [target, certification_progress.total_score, certification_progress.score_target,
       running_total_of_certification_progress_score_target_2, total_points, progress]
     listen: {}
-    row: 64
+    row: 79
     col: 16
     width: 8
     height: 8
@@ -2080,7 +2080,7 @@
     defaults_version: 1
     hidden_fields: [running_total_of_invoices_total_gross_amount_gbp]
     listen: {}
-    row: 27
+    row: 42
     col: 0
     width: 16
     height: 10
@@ -2218,7 +2218,7 @@
       2021-07_general_ledger_fact.net_amount, 2021-08_general_ledger_fact.net_amount,
       2021-09_general_ledger_fact.net_amount]
     listen: {}
-    row: 39
+    row: 54
     col: 16
     width: 8
     height: 7
@@ -2526,7 +2526,7 @@
     defaults_version: 1
     truncate_column_names: false
     listen: {}
-    row: 48
+    row: 63
     col: 0
     width: 8
     height: 8
@@ -2850,7 +2850,7 @@
     defaults_version: 1
     truncate_column_names: false
     listen: {}
-    row: 48
+    row: 63
     col: 16
     width: 8
     height: 8
@@ -3165,7 +3165,7 @@
     defaults_version: 1
     truncate_column_names: false
     listen: {}
-    row: 48
+    row: 63
     col: 8
     width: 4
     height: 4
@@ -3480,7 +3480,7 @@
     defaults_version: 1
     truncate_column_names: false
     listen: {}
-    row: 48
+    row: 63
     col: 12
     width: 4
     height: 4
@@ -3795,7 +3795,7 @@
     defaults_version: 1
     truncate_column_names: false
     listen: {}
-    row: 52
+    row: 67
     col: 12
     width: 4
     height: 4
@@ -4110,7 +4110,7 @@
     defaults_version: 1
     truncate_column_names: false
     listen: {}
-    row: 52
+    row: 67
     col: 8
     width: 4
     height: 4
@@ -4433,3 +4433,410 @@
     col: 8
     width: 4
     height: 5
+  - title: Awareness Raising
+    name: Awareness Raising
+    model: analytics
+    explore: web_sessions_fact
+    type: looker_line
+    fields: [web_events_fact.total_sessions, web_events_fact.total_blended_user_id,
+      web_events_fact.total_session_conversions, web_events_fact.total_session_goal_achieveds,
+      web_events_fact.event_ts_week, web_events_fact.total_page_views]
+    filters:
+      web_events_fact.event_ts_month: 52 weeks
+      web_events_fact.total_sessions: ''
+      web_events_fact.site: rittmananalytics.com
+    sorts: [web_events_fact.event_ts_week desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: "${web_events_fact.total_session_goal_achieveds}/${web_events_fact.total_sessions}",
+        label: Session Conversion Rate, value_format: !!null '', value_format_name: percent_0,
+        _kind_hint: measure, table_calculation: session_conversion_rate, _type_hint: number},
+      {category: table_calculation, expression: "${web_events_fact.total_session_goal_achieveds}/${web_events_fact.total_sessions}",
+        label: Session Goal Achieved Rate, value_format: !!null '', value_format_name: percent_0,
+        _kind_hint: measure, table_calculation: session_goal_achieved_rate, _type_hint: number},
+      {category: table_calculation, expression: "(${web_events_fact.total_sessions}+offset(${web_events_fact.total_sessions},1)+offset(${web_events_fact.total_sessions},2)+offset(${web_events_fact.total_sessions},3))/4",
+        label: Sessions 4Wk Avg., value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, table_calculation: sessions_4wk_avg, _type_hint: number},
+      {category: table_calculation, expression: "(${web_events_fact.total_page_views}+offset(${web_events_fact.total_page_views},1)+offset(${web_events_fact.total_page_views},2)+offset(${web_events_fact.total_page_views},3))/4",
+        label: Page Views 4Wk Avg., value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, table_calculation: page_views_4wk_avg, _type_hint: number},
+      {category: table_calculation, expression: 'coalesce((${web_events_fact.total_blended_user_id}+offset(${web_events_fact.total_blended_user_id},1)+offset(${web_events_fact.total_blended_user_id},2)+offset(${web_events_fact.total_blended_user_id},3))/4,0)',
+        label: Unique Visitors 4 Wk Avg., value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, table_calculation: unique_visitors_4_wk_avg, _type_hint: number}]
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: true
+    interpolation: linear
+    color_application:
+      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+      options:
+        steps: 5
+    y_axes: [{label: '', orientation: left, series: [{axisId: sessions_4wk_avg, id: sessions_4wk_avg,
+            name: Sessions 4Wk Avg.}, {axisId: page_views_4wk_avg, id: page_views_4wk_avg,
+            name: Page Views 4Wk Avg.}], showLabels: true, showValues: true, unpinAxis: false,
+        tickDensity: default, type: linear}, {label: !!null '', orientation: right,
+        series: [{axisId: unique_visitors_4_wk_avg, id: unique_visitors_4_wk_avg,
+            name: Unique Visitors 4 Wk Avg.}], showLabels: true, showValues: true,
+        unpinAxis: false, tickDensity: default, type: linear}]
+    series_types: {}
+    series_colors:
+      unique_visitors_4_wk_avg: "#D13452"
+    show_row_numbers: true
+    truncate_column_names: false
+    hide_totals: false
+    hide_row_totals: false
+    table_theme: editable
+    enable_conditional_formatting: false
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    defaults_version: 1
+    hidden_fields: [web_events_fact.total_session_conversions, web_events_fact.total_session_goal_achieveds,
+      web_events_fact.total_blended_user_id, session_goal_achieved_rate, session_conversion_rate,
+      web_events_fact.total_sessions, web_events_fact.total_page_views]
+    listen: {}
+    row: 9
+    col: 0
+    width: 12
+    height: 6
+  - title: Sales Pipeline
+    name: Sales Pipeline
+    model: analytics
+    explore: companies_dim
+    type: looker_grid
+    fields: [deals_fact.pipeline_stage_label, deals_fact.deal_name, deals_fact.partner_referral,
+      deals_fact.deal_pipeline_stage_date, deals_fact.deal_type, deals_fact.total_oppportunity_deal_amount,
+      deals_fact.total_weighted_opportunity_deal_amount, deals_fact.count_oppportunity_deals,
+      deals_fact.count_deals, deals_fact.deal_currency_code, deals_fact.number_of_sprints,
+      deals_fact.owner_full_name, deals_fact.sprint_type]
+    filters:
+      deals_fact.pipeline_stage_label: Initial Enquiry,Meeting and Sales Qualified,Presentation
+        Given & Sprints Scoped,Proposal Sent,PoC Underway,Deal Agreed & Awaiting Sign-off,Awaiting
+        Proposal,Verbally Won and Working at Risk
+      companies_dim.company_name: "-Apex Auctions"
+    sorts: [deals_fact.total_oppportunity_deal_amount desc]
+    limit: 500
+    total: true
+    dynamic_fields: [{category: table_calculation, expression: 'diff_days(${deals_fact.deal_pipeline_stage_date},now())',
+        label: Days in Deal Stage, value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: dimension, table_calculation: days_in_deal_stage, _type_hint: number},
+      {measure: days_in_pipeline_2, based_on: deals_fact.days_in_pipeline, type: sum,
+        label: Days in Pipeline, expression: !!null '', value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, _type_hint: number}]
+    show_view_names: false
+    show_row_numbers: false
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+    show_sql_query_menu_options: false
+    column_order: [deals_fact.deal_name, deals_fact.owner_full_name, deals_fact.pipeline_stage_label,
+      deals_fact.sprint_type, deals_fact.deal_type, deals_fact.partner_referral, deals_fact.number_of_sprints,
+      deals_fact.deal_currency_code, deals_fact.total_oppportunity_deal_amount, deals_fact.total_weighted_opportunity_deal_amount,
+      deals_fact.deal_pipeline_stage_date, days_in_deal_stage]
+    show_totals: true
+    show_row_totals: true
+    truncate_header: true
+    series_labels:
+      deals_fact.owner_full_name: Owner
+      deals_fact.deal_type: Type
+      deals_fact.pipeline_stage_label: Pipeline Stage
+      days_in_pipeline_stage: Days In Stage
+      days_in_pipeline: Days In Pipeline
+      deals_fact.total_oppportunity_deal_amount: Amount
+      deals_fact.total_weighted_opportunity_deal_amount: Weighted
+      deals_fact.number_of_sprints: Sprints
+      deals_fact.partner_referral: Partner
+    series_cell_visualizations:
+      deals_fact.total_weighted_opportunity_deal_amount:
+        is_active: false
+      deals_fact.total_oppportunity_deal_amount:
+        is_active: true
+    series_text_format:
+      deals_fact.total_weighted_opportunity_deal_amount:
+        italic: true
+    conditional_formatting: [{type: between, value: [0, 7], background_color: "#7bc739",
+        font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+          custom: {id: e3400bbf-ab9f-faec-e711-615f78ba1468, label: Custom, type: continuous,
+            stops: [{color: "#C4DF58", offset: 0}, {color: "#D13452", offset: 100}]},
+          options: {steps: 5, constraints: {min: {type: minimum}, mid: {type: number,
+                value: 30}, max: {type: maximum}}, mirror: true, reverse: false, stepped: false}},
+        bold: false, italic: false, strikethrough: false, fields: [days_in_deal_stage]},
+      {type: between, value: [7, 14], background_color: "#E48522", font_color: !!null '',
+        color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c, palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830},
+        bold: false, italic: false, strikethrough: false, fields: [days_in_deal_stage]},
+      {type: greater than, value: 14, background_color: "#D13452", font_color: !!null '',
+        color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c, palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830},
+        bold: false, italic: false, strikethrough: false, fields: [days_in_deal_stage]}]
+    series_value_format:
+      deals_fact.total_oppportunity_deal_amount:
+        name: gbp_0
+        decimals: '0'
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
+        label_prefix: British Pounds
+      deals_fact.total_weighted_opportunity_deal_amount:
+        name: gbp_0
+        decimals: '0'
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
+        label_prefix: British Pounds
+    leftAxisLabelVisible: false
+    leftAxisLabel: ''
+    rightAxisLabelVisible: false
+    rightAxisLabel: ''
+    smoothedBars: false
+    orientation: automatic
+    labelPosition: left
+    percentType: total
+    percentPosition: hidden
+    valuePosition: inline
+    labelColorEnabled: false
+    labelColor: "#FFF"
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    y_axes: [{label: '', orientation: bottom, series: [{axisId: BridgeU - Ongoing
+              Support - deals_fact.total_oppportunity_deal_amount, id: BridgeU - Ongoing
+              Support - deals_fact.total_oppportunity_deal_amount, name: BridgeU -
+              Ongoing Support}, {axisId: Drafthouse - GA4 to Snowflake Replication
+              - deals_fact.total_oppportunity_deal_amount, id: Drafthouse - GA4 to
+              Snowflake Replication - deals_fact.total_oppportunity_deal_amount, name: Drafthouse
+              - GA4 to Snowflake Replication}, {axisId: Jobandtalent - Analytics Enablement
+              (Full Project) - deals_fact.total_oppportunity_deal_amount, id: Jobandtalent
+              - Analytics Enablement (Full Project) - deals_fact.total_oppportunity_deal_amount,
+            name: Jobandtalent - Analytics Enablement (Full Project)}, {axisId: Kaplan
+              - Phase 2 - deals_fact.total_oppportunity_deal_amount, id: Kaplan -
+              Phase 2 - deals_fact.total_oppportunity_deal_amount, name: Kaplan -
+              Phase 2}, {axisId: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            id: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            name: Lucanet - Analytics Enablement}, {axisId: PollEverywhere - Analytics
+              Enablement - deals_fact.total_oppportunity_deal_amount, id: PollEverywhere
+              - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            name: PollEverywhere - Analytics Enablement}, {axisId: Rixo - Create Smoke
+              Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+            id: Rixo - Create Smoke Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+            name: Rixo - Create Smoke Test & Upgrade Sandbox Environments}, {axisId: Rixo
+              - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+            id: Rixo - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+            name: Rixo - Follow-On Sprints (Placeholder)}, {axisId: Thrive Commercial
+              Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+            id: Thrive Commercial Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+            name: Thrive Commercial Insights  - May 22 Extension}, {axisId: Thrive
+              Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+            id: Thrive Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+            name: Thrive Investment Performance Part 2}, {axisId: Torticity - Data
+              Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
+            id: Torticity - Data Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
+            name: Torticity - Data Modeling and Analytics Enablement - Discovery},
+          {axisId: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
+            id: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
+            name: 'Translucent - Sprint #2'}], showLabels: true, showValues: true,
+        valueFormat: '"£"0,"K"', unpinAxis: false, tickDensity: custom, tickDensityCustom: 8,
+        type: linear}]
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: normal
+    legend_position: center
+    series_types: {}
+    point_style: none
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    x_axis_label_rotation: 0
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    isStepped: true
+    font_size_main: ''
+    style_deals_fact.count_oppportunity_deals: "#3B4245"
+    show_title_deals_fact.count_oppportunity_deals: true
+    title_overrride_deals_fact.count_oppportunity_deals: Open Opportunities
+    title_placement_deals_fact.count_oppportunity_deals: below
+    value_format_deals_fact.count_oppportunity_deals: ''
+    style_deals_fact.total_oppportunity_deal_amount: "#3B4245"
+    show_title_deals_fact.total_oppportunity_deal_amount: true
+    title_overrride_deals_fact.total_oppportunity_deal_amount: Open Opportunity Value
+    title_placement_deals_fact.total_oppportunity_deal_amount: below
+    value_format_deals_fact.total_oppportunity_deal_amount: '"£"0,"K"'
+    show_comparison_deals_fact.total_oppportunity_deal_amount: false
+    style_deals_fact.total_weighted_opportunity_deal_amount: "#3B4245"
+    show_title_deals_fact.total_weighted_opportunity_deal_amount: true
+    title_overrride_deals_fact.total_weighted_opportunity_deal_amount: Weighted Value
+    title_placement_deals_fact.total_weighted_opportunity_deal_amount: below
+    value_format_deals_fact.total_weighted_opportunity_deal_amount: '"£"0,"K"'
+    show_comparison_deals_fact.total_weighted_opportunity_deal_amount: false
+    style_deals_fact.total_closed_in_delivery_deal_amount: "#3B4245"
+    show_title_deals_fact.total_closed_in_delivery_deal_amount: true
+    title_overrride_deals_fact.total_closed_in_delivery_deal_amount: In-Progress value
+    title_placement_deals_fact.total_closed_in_delivery_deal_amount: below
+    value_format_deals_fact.total_closed_in_delivery_deal_amount: '"£"0,"K"'
+    show_comparison_deals_fact.total_closed_in_delivery_deal_amount: false
+    style_deals_fact.count_closed_in_delivery_deals: "#3B4245"
+    show_title_deals_fact.count_closed_in_delivery_deals: true
+    title_overrride_deals_fact.count_closed_in_delivery_deals: Projects In-Progress
+    title_placement_deals_fact.count_closed_in_delivery_deals: below
+    value_format_deals_fact.count_closed_in_delivery_deals: ''
+    show_comparison_deals_fact.count_closed_in_delivery_deals: false
+    defaults_version: 1
+    hidden_fields: [deals_fact.count_oppportunity_deals, deals_fact.deal_pipeline_stage,
+      deals_fact.count_deals, deals_fact.sprint_type, deals_fact.deal_currency_code,
+      deals_fact.deal_pipeline_stage_date]
+    hidden_points_if_no: []
+    listen: {}
+    row: 24
+    col: 0
+    width: 24
+    height: 7
+  - title: Demand Generation
+    name: Demand Generation
+    model: analytics
+    explore: web_sessions_fact
+    type: looker_line
+    fields: [web_events_fact.total_sessions, web_events_fact.total_blended_user_id,
+      web_events_fact.total_session_conversions, web_events_fact.total_session_goal_achieveds,
+      web_events_fact.event_ts_week, web_events_fact.total_page_views, web_events_fact.total_visitor_value]
+    filters:
+      web_events_fact.event_ts_month: 52 weeks
+      web_events_fact.total_sessions: ''
+      web_events_fact.site: rittmananalytics.com
+    sorts: [web_events_fact.event_ts_week desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: "(${web_events_fact.total_session_conversions}/${web_events_fact.total_sessions})",
+        label: Session Conversion Rate, value_format: !!null '', value_format_name: percent_1,
+        _kind_hint: measure, table_calculation: session_conversion_rate, _type_hint: number},
+      {category: table_calculation, expression: "${web_events_fact.total_session_goal_achieveds}/${web_events_fact.total_sessions}",
+        label: Session Goal Achieved Rate, value_format: !!null '', value_format_name: percent_0,
+        _kind_hint: measure, table_calculation: session_goal_achieved_rate, _type_hint: number},
+      {category: table_calculation, expression: "(${web_events_fact.total_visitor_value}+offset(${web_events_fact.total_visitor_value},1)+offset(${web_events_fact.total_visitor_value},2)+offset(${web_events_fact.total_visitor_value},3))/4",
+        label: Visit Value 4Wk Avg., value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, table_calculation: visit_value_4wk_avg, _type_hint: number},
+      {category: table_calculation, expression: "(${session_conversion_rate}+offset(${session_conversion_rate},1)+offset(${session_conversion_rate},2)+offset${session_conversion_rate},3))/4",
+        label: Session Conversion Rate 4Wk Avg., value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: dimension, table_calculation: session_conversion_rate_4wk_avg,
+        _type_hint: !!null '', is_disabled: true}, {category: table_calculation, expression: 'coalesce((${web_events_fact.total_blended_user_id}+offset(${web_events_fact.total_blended_user_id},1)+offset(${web_events_fact.total_blended_user_id},2)+offset(${web_events_fact.total_blended_user_id},3))/4,0)',
+        label: Unique Visitors 4 Wk Avg., value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, table_calculation: unique_visitors_4_wk_avg, _type_hint: number},
+      {category: table_calculation, expression: "(${session_conversion_rate}+(offset(${session_conversion_rate},1)+offset(${session_conversion_rate},2)+offset(${session_conversion_rate},3)))/4",
+        label: Session Conversion Rate 4Wk Avg., value_format: !!null '', value_format_name: percent_1,
+        _kind_hint: measure, table_calculation: session_conversion_rate_4wk_avg_1,
+        _type_hint: number}, {category: table_calculation, expression: "(${session_goal_achieved_rate}+(offset(${session_goal_achieved_rate},1)+offset(${session_goal_achieved_rate},2)+offset(${session_goal_achieved_rate},3)))/4",
+        label: Session Goal Achieved Rate 4Wk Avg., value_format: !!null '', value_format_name: percent_1,
+        _kind_hint: measure, table_calculation: session_goal_achieved_rate_4wk_avg,
+        _type_hint: number}]
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: true
+    interpolation: linear
+    color_application:
+      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+      options:
+        steps: 5
+    y_axes: [{label: '', orientation: left, series: [{axisId: session_goal_achieved_rate_4wk_avg,
+            id: session_goal_achieved_rate_4wk_avg, name: Session Goal Achieved Rate
+              4Wk Avg.}, {axisId: session_conversion_rate_4wk_avg_1, id: session_conversion_rate_4wk_avg_1,
+            name: Session Conversion Rate 4Wk Avg.}], showLabels: false, showValues: true,
+        unpinAxis: false, tickDensity: default, type: linear}, {label: '', orientation: right,
+        series: [{axisId: visit_value_4wk_avg, id: visit_value_4wk_avg, name: Visit
+              Value 4Wk Avg.}], showLabels: false, showValues: true, unpinAxis: false,
+        tickDensity: default, type: linear}]
+    series_types: {}
+    series_colors:
+      unique_visitors_4_wk_avg: "#D13452"
+      session_conversion_rate_4wk_avg_1: "#D13452"
+      visit_value_4wk_avg: "#4A80BC"
+    show_row_numbers: true
+    truncate_column_names: false
+    hide_totals: false
+    hide_row_totals: false
+    table_theme: editable
+    enable_conditional_formatting: false
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    defaults_version: 1
+    hidden_fields: [web_events_fact.total_session_conversions, web_events_fact.total_session_goal_achieveds,
+      web_events_fact.total_blended_user_id, web_events_fact.total_sessions, web_events_fact.total_page_views,
+      sessions_4wk_avg, page_views_4wk_avg, unique_visitors_4_wk_avg, web_events_fact.total_visitor_value,
+      session_goal_achieved_rate, session_conversion_rate]
+    listen: {}
+    row: 9
+    col: 12
+    width: 12
+    height: 6
+  - name: " (5)"
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: |-
+      <p align="center">
+
+      <b><font color="DimGrey" size="5">Marketing</font></b>
+
+      </p>
+    row: 7
+    col: 0
+    width: 24
+    height: 2
