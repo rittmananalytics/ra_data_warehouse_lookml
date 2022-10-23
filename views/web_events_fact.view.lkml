@@ -169,13 +169,13 @@ view: web_events_fact {
   dimension: is_conversion_event {
     type: yesno
     group_label: "Behavior"
-    sql: ${event_type} in ('Meeting Booked','Booked A Meeting') ;;
+    sql: ${TABLE}.is_conversion_event ;;
   }
 
   dimension: is_goal_achieved {
     type: yesno
     group_label: "Behavior"
-    sql: ${event_type} in ('Cta Pressed','Collateral Downloaded','Contact Button Pressed','Button Pressed','Collateral Viewed','Pricing Viewed') ;;
+    sql: ${TABLE}.is_goal_achieved_event ;;
   }
 
   measure: total_conversions {

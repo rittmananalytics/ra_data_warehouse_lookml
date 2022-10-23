@@ -309,6 +309,15 @@ view: web_sessions_fact {
     sql: ${TABLE}.web_sessions_pk ;;
   }
 
+  dimension: is_converted_user {
+    type: yesno
+    sql: ${TABLE}.is_converting_blended_user_id ;;
+  }
+
+  dimension: is_converting_session {
+    type: yesno
+    sql: ${TABLE}.is_converting_session ;;
+  }
 
 
 
