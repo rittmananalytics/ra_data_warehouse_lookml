@@ -1,9 +1,9 @@
-- dashboard: business_summary_2022_v5
-  title: Business Summary 2022 v5
+- dashboard: business_summary_2022_v6
+  title: Business Summary 2022 v6
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
-  preferred_slug: WD2gNHJUvbX8kdoXzUvPwX
+  preferred_slug: Xit9VBjBtA6TNM7Bs8jlfb
   elements:
   - name: Revenue vs Target L12M
     title: Revenue vs Target L12M
@@ -78,7 +78,7 @@
     totals_color: "#808080"
     type: looker_area
     column_limit: 50
-    row: 32
+    row: 31
     col: 0
     width: 8
     height: 9
@@ -433,359 +433,10 @@
     defaults_version: 1
     hidden_fields: []
     listen: {}
-    row: 32
+    row: 31
     col: 16
     width: 8
     height: 9
-  - title: Current Sales Funnel
-    name: Current Sales Funnel
-    model: analytics
-    explore: companies_dim
-    type: looker_funnel
-    fields: [deals_fact.pipeline_stage_label, deals_fact.total_oppportunity_deal_amount,
-      deals_fact.total_weighted_opportunity_deal_amount, deals_fact.count_oppportunity_deals]
-    filters:
-      deals_fact.pipeline_stage_label: Initial Enquiry,Meeting and Sales Qualified,Presentation
-        Given & Sprints Scoped,Proposal Sent,PoC Underway,Deal Agreed & Awaiting Sign-off,Awaiting
-        Proposal,Verbally Won and Working at Risk
-      companies_dim.company_name: "-Apex Auctions"
-    sorts: [deals_fact.pipeline_stage_label]
-    limit: 500
-    total: true
-    dynamic_fields: [{table_calculation: days_in_pipeline, label: Days in Pipeline,
-        expression: 'diff_days(${deals_fact.deal_created_date},now())', value_format: !!null '',
-        value_format_name: !!null '', _kind_hint: dimension, _type_hint: number, is_disabled: true},
-      {category: table_calculation, expression: 'diff_days(${deals_fact.deal_pipeline_stage_date},now())',
-        label: Days in Pipeline Stage, value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: dimension, table_calculation: days_in_pipeline_stage, _type_hint: number,
-        is_disabled: true}, {table_calculation: next_action, label: Next Action, expression: 'if(${days_in_pipeline}>60
-          AND ${days_in_pipeline_stage}>30,"Review for blockers",if(${days_in_pipeline}>60
-          AND ${days_in_pipeline_stage}>60,"Requalify Opportunity",if(${days_in_pipeline}>30
-          AND ${days_in_pipeline_stage}>30,"Review and contact",if(${days_in_pipeline}>30
-          AND ${days_in_pipeline_stage}<30,"Agree Deal and Close Business",if(${days_in_pipeline}<30
-          AND ${days_in_pipeline_stage}<30,"Nurture Opportunity","Monitor")))))',
-        value_format: !!null '', value_format_name: !!null '', _kind_hint: dimension,
-        _type_hint: string, is_disabled: true}, {measure: days_in_pipeline_2, based_on: deals_fact.days_in_pipeline,
-        type: sum, label: Days in Pipeline, expression: !!null '', value_format: !!null '',
-        value_format_name: !!null '', _kind_hint: measure, _type_hint: number}]
-    leftAxisLabelVisible: false
-    leftAxisLabel: ''
-    rightAxisLabelVisible: false
-    rightAxisLabel: ''
-    smoothedBars: false
-    orientation: automatic
-    labelPosition: left
-    percentType: total
-    percentPosition: hidden
-    valuePosition: inline
-    labelColorEnabled: false
-    labelColor: "#FFF"
-    color_application:
-      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    y_axes: [{label: '', orientation: bottom, series: [{axisId: BridgeU - Ongoing
-              Support - deals_fact.total_oppportunity_deal_amount, id: BridgeU - Ongoing
-              Support - deals_fact.total_oppportunity_deal_amount, name: BridgeU -
-              Ongoing Support}, {axisId: Drafthouse - GA4 to Snowflake Replication
-              - deals_fact.total_oppportunity_deal_amount, id: Drafthouse - GA4 to
-              Snowflake Replication - deals_fact.total_oppportunity_deal_amount, name: Drafthouse
-              - GA4 to Snowflake Replication}, {axisId: Jobandtalent - Analytics Enablement
-              (Full Project) - deals_fact.total_oppportunity_deal_amount, id: Jobandtalent
-              - Analytics Enablement (Full Project) - deals_fact.total_oppportunity_deal_amount,
-            name: Jobandtalent - Analytics Enablement (Full Project)}, {axisId: Kaplan
-              - Phase 2 - deals_fact.total_oppportunity_deal_amount, id: Kaplan -
-              Phase 2 - deals_fact.total_oppportunity_deal_amount, name: Kaplan -
-              Phase 2}, {axisId: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
-            id: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
-            name: Lucanet - Analytics Enablement}, {axisId: PollEverywhere - Analytics
-              Enablement - deals_fact.total_oppportunity_deal_amount, id: PollEverywhere
-              - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
-            name: PollEverywhere - Analytics Enablement}, {axisId: Rixo - Create Smoke
-              Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
-            id: Rixo - Create Smoke Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
-            name: Rixo - Create Smoke Test & Upgrade Sandbox Environments}, {axisId: Rixo
-              - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
-            id: Rixo - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
-            name: Rixo - Follow-On Sprints (Placeholder)}, {axisId: Thrive Commercial
-              Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
-            id: Thrive Commercial Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
-            name: Thrive Commercial Insights  - May 22 Extension}, {axisId: Thrive
-              Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
-            id: Thrive Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
-            name: Thrive Investment Performance Part 2}, {axisId: Torticity - Data
-              Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
-            id: Torticity - Data Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
-            name: Torticity - Data Modeling and Analytics Enablement - Discovery},
-          {axisId: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
-            id: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
-            name: 'Translucent - Sprint #2'}], showLabels: true, showValues: true,
-        valueFormat: '"£"0,"K"', unpinAxis: false, tickDensity: custom, tickDensityCustom: 8,
-        type: linear}]
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: normal
-    limit_displayed_rows: false
-    legend_position: center
-    series_types: {}
-    point_style: none
-    series_labels:
-      deals_fact.owner_full_name: Owner
-      deals_fact.deal_type: Type
-      deals_fact.pipeline_stage_label: Stage
-      days_in_pipeline_stage: Days In Stage
-      days_in_pipeline: Days In Pipeline
-      deals_fact.total_oppportunity_deal_amount: Amount
-      deals_fact.total_weighted_opportunity_deal_amount: Weighted
-    show_value_labels: true
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    x_axis_label_rotation: 0
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    isStepped: true
-    show_row_numbers: false
-    transpose: false
-    truncate_text: true
-    hide_totals: false
-    hide_row_totals: false
-    size_to_fit: true
-    table_theme: white
-    enable_conditional_formatting: true
-    header_text_alignment: left
-    header_font_size: '12'
-    rows_font_size: '12'
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    show_sql_query_menu_options: false
-    column_order: [deals_fact.deal_name, deals_fact.pipeline_stage_label, next_action,
-      deals_fact.total_oppportunity_deal_amount, deals_fact.total_weighted_opportunity_deal_amount,
-      days_in_pipeline]
-    show_totals: true
-    show_row_totals: true
-    truncate_header: true
-    series_cell_visualizations:
-      deals_fact.total_weighted_opportunity_deal_amount:
-        is_active: true
-      deals_fact.total_oppportunity_deal_amount:
-        is_active: true
-    conditional_formatting: [{type: along a scale..., value: !!null '', background_color: "#4A80BC",
-        font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
-          palette_id: d9abd293-3cd0-448c-9540-4a55690e4ce1, options: {steps: 5, constraints: {
-              min: {type: minimum}, mid: {type: number, value: 30}, max: {type: maximum}},
-            mirror: true, reverse: false, stepped: false}}, bold: false, italic: false,
-        strikethrough: false, fields: []}]
-    font_size_main: ''
-    style_deals_fact.count_oppportunity_deals: "#3B4245"
-    show_title_deals_fact.count_oppportunity_deals: true
-    title_overrride_deals_fact.count_oppportunity_deals: Open Opportunities
-    title_placement_deals_fact.count_oppportunity_deals: below
-    value_format_deals_fact.count_oppportunity_deals: ''
-    style_deals_fact.total_oppportunity_deal_amount: "#3B4245"
-    show_title_deals_fact.total_oppportunity_deal_amount: true
-    title_overrride_deals_fact.total_oppportunity_deal_amount: Open Opportunity Value
-    title_placement_deals_fact.total_oppportunity_deal_amount: below
-    value_format_deals_fact.total_oppportunity_deal_amount: '"£"0,"K"'
-    show_comparison_deals_fact.total_oppportunity_deal_amount: false
-    style_deals_fact.total_weighted_opportunity_deal_amount: "#3B4245"
-    show_title_deals_fact.total_weighted_opportunity_deal_amount: true
-    title_overrride_deals_fact.total_weighted_opportunity_deal_amount: Weighted Value
-    title_placement_deals_fact.total_weighted_opportunity_deal_amount: below
-    value_format_deals_fact.total_weighted_opportunity_deal_amount: '"£"0,"K"'
-    show_comparison_deals_fact.total_weighted_opportunity_deal_amount: false
-    style_deals_fact.total_closed_in_delivery_deal_amount: "#3B4245"
-    show_title_deals_fact.total_closed_in_delivery_deal_amount: true
-    title_overrride_deals_fact.total_closed_in_delivery_deal_amount: In-Progress value
-    title_placement_deals_fact.total_closed_in_delivery_deal_amount: below
-    value_format_deals_fact.total_closed_in_delivery_deal_amount: '"£"0,"K"'
-    show_comparison_deals_fact.total_closed_in_delivery_deal_amount: false
-    style_deals_fact.count_closed_in_delivery_deals: "#3B4245"
-    show_title_deals_fact.count_closed_in_delivery_deals: true
-    title_overrride_deals_fact.count_closed_in_delivery_deals: Projects In-Progress
-    title_placement_deals_fact.count_closed_in_delivery_deals: below
-    value_format_deals_fact.count_closed_in_delivery_deals: ''
-    show_comparison_deals_fact.count_closed_in_delivery_deals: false
-    defaults_version: 1
-    hidden_fields: [deals_fact.count_oppportunity_deals, deals_fact.deal_pipeline_stage,
-      deals_fact.total_weighted_opportunity_deal_amount]
-    hidden_points_if_no: []
-    listen: {}
-    row: 17
-    col: 16
-    width: 8
-    height: 7
-  - name: New Deals vs Target L12M
-    title: New Deals vs Target L12M
-    merged_queries:
-    - model: analytics
-      explore: companies_dim
-      type: table
-      fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
-      fill_fields: [deals_fact.deal_created_month]
-      sorts: [deals_fact.deal_created_month desc]
-      limit: 500
-      filter_expression: "${deals_fact.deal_created_month}>add_months(-12,now())"
-      join_fields: []
-    - model: analytics
-      explore: targets
-      type: table
-      fields: [targets.period_month, targets.total_deals_target]
-      fill_fields: [targets.period_month]
-      filters:
-        targets.period_month: 12 months
-      sorts: [targets.period_month desc]
-      limit: 500
-      dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_target}),150000,${targets.total_deals_target})',
-          label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
-          table_calculation: target, _type_hint: number}]
-      join_fields:
-      - field_name: targets.period_month
-        source_field_name: deals_fact.deal_created_month
-    color_application:
-      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-      options:
-        steps: 5
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    y_axes: [{label: '', orientation: left, series: [{axisId: deals_fact.total_deal_amount_gbp_converted,
-            id: deals_fact.total_deal_amount_gbp_converted, name: Amount}, {axisId: targets.total_deals_target,
-            id: targets.total_deals_target, name: Target}], showLabels: true, showValues: true,
-        valueFormat: '"£"0,"K"', unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
-        type: linear}]
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    series_types: {}
-    point_style: none
-    series_colors:
-      targets.total_deals_target: "#D13452"
-      target_1: "#D13452"
-    series_labels:
-      deals_fact.total_deal_amount_gbp_converted: Actual New Deals (Forecast)
-      targets.total_deals_target: Target
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
-    type: looker_line
-    hidden_fields: [target, targets.total_deals_target]
-    column_limit: 50
-    dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_target}),150000,${targets.total_deals_target})',
-        label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
-        table_calculation: target_1, _type_hint: number}]
-    row: 17
-    col: 0
-    width: 8
-    height: 7
-  - name: Closed Deals vs Target L12M
-    title: Closed Deals vs Target L12M
-    merged_queries:
-    - model: analytics
-      explore: companies_dim
-      type: table
-      fields: [deals_fact.total_deal_amount_gbp_converted, deals_fact.deal_closed_month]
-      fill_fields: [deals_fact.deal_closed_month]
-      filters:
-        deals_fact.deal_is_deleted: 'No'
-        deals_fact.pipeline_stage_closed_won: 'Yes'
-      sorts: [deals_fact.deal_closed_month desc]
-      limit: 500
-      filter_expression: "${deals_fact.deal_created_month}>add_months(-12,now())"
-      join_fields: []
-    - model: analytics
-      explore: targets
-      type: table
-      fields: [targets.period_month, targets.total_deals_closed_target]
-      fill_fields: [targets.period_month]
-      filters:
-        targets.period_month: 12 months
-      sorts: [targets.period_month desc]
-      limit: 500
-      join_fields:
-      - field_name: targets.period_month
-        source_field_name: deals_fact.deal_closed_month
-    color_application:
-      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-      options:
-        steps: 5
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    y_axes: [{label: '', orientation: left, series: [{axisId: deals_fact.total_deal_amount_gbp_converted,
-            id: deals_fact.total_deal_amount_gbp_converted, name: Amount}, {axisId: targets.total_deals_closed_target,
-            id: targets.total_deals_closed_target, name: Target}], showLabels: true,
-        showValues: true, valueFormat: '"£"0,"K"', unpinAxis: false, tickDensity: default,
-        tickDensityCustom: 5, type: linear}]
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    limit_displayed_rows: false
-    legend_position: center
-    series_types: {}
-    point_style: none
-    series_colors:
-      targets.total_deals_target: "#8C3535"
-      targets.total_deals_closed_target: "#D13452"
-      target: "#D13452"
-    series_labels:
-      deals_fact.total_deal_amount_gbp_converted: Actual Closed Won Deals (Forecast)
-      targets.total_deals_closed_target: Target
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: time
-    y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
-    type: looker_line
-    hidden_fields: [targets.total_deals_closed_target]
-    column_limit: 50
-    dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_closed_target}),80000,${targets.total_deals_closed_target})',
-        label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
-        table_calculation: target, _type_hint: number}]
-    row: 17
-    col: 8
-    width: 8
-    height: 7
   - title: Client Project Margin % Variance from Average L3M
     name: Client Project Margin % Variance from Average L3M
     model: analytics
@@ -896,10 +547,10 @@
       projects_invoiced.total_net_amount_gbp, project_net_margin]
     series_types: {}
     listen: {}
-    row: 54
+    row: 53
     col: 0
     width: 8
-    height: 7
+    height: 8
   - title: Gross and Net Margin vs Target % L12M
     name: Gross and Net Margin vs Target % L12M
     model: analytics
@@ -979,10 +630,10 @@
     show_silhouette: false
     totals_color: "#808080"
     listen: {}
-    row: 54
+    row: 53
     col: 8
     width: 8
-    height: 7
+    height: 8
   - name: ''
     type: text
     title_text: ''
@@ -992,7 +643,7 @@
       <b><font color="DimGrey" size="5">Operations</font></b>
 
       </p>
-    row: 52
+    row: 51
     col: 0
     width: 24
     height: 2
@@ -1068,7 +719,7 @@
     defaults_version: 1
     hidden_fields: [of_total, total_revenue, projects_invoiced.invoice_gbp_revenue_amount]
     listen: {}
-    row: 42
+    row: 41
     col: 16
     width: 8
     height: 10
@@ -1284,7 +935,7 @@
     value_labels: legend
     label_type: labPer
     listen: {}
-    row: 32
+    row: 31
     col: 8
     width: 8
     height: 9
@@ -1295,53 +946,53 @@
     body_text: |-
       <p align="center">
 
-      <b><font size="5" color="DimGrey">Revenue and Sales</font></b>
+      <b><font size="5" color="DimGrey">Sales & Marketing</font></b>
 
       </p>
-    row: 15
+    row: 7
     col: 0
     width: 24
     height: 2
   - type: button
-    name: button_1543
+    name: button_1782
     rich_content_json: '{"text":"View Deals in Hubspot","description":"View current
       deal board in Hubspot","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/all/board"}'
-    row: 31
+    row: 30
     col: 0
     width: 8
     height: 1
   - type: button
-    name: button_1544
+    name: button_1783
     rich_content_json: '{"text":"View Open Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/2560409/board"}'
-    row: 31
+    row: 30
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1545
+    name: button_1784
     rich_content_json: '{"text":"View Closed Deals in Hubspot","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://app.hubspot.com/contacts/4402794/objects/0-3/views/8745353/list"}'
-    row: 31
+    row: 30
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1546
+    name: button_1785
     rich_content_json: '{"text":"View Active Projects in Harvest","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://rittman.harvestapp.com/projects?filter=active"}'
-    row: 41
+    row: 40
     col: 16
     width: 8
     height: 1
   - type: button
-    name: button_1547
+    name: button_1786
     rich_content_json: '{"text":"View Revenue by Client YTD in Xero","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://reporting.xero.com/!2r8Ny/v1/Run/1209"}'
-    row: 41
+    row: 40
     col: 8
     width: 8
     height: 1
   - type: button
-    name: button_1548
+    name: button_1787
     rich_content_json: '{"text":"View Revenue vs Target and Forecast in Google Sheets","description":"","newTab":true,"alignment":"center","size":"small","style":"OUTLINED","color":"#1A73E8","href":"https://docs.google.com/spreadsheets/d/1gAVDTqfxpzGN6OFbYqGTMwoBSckCE0yTC1J4YS65Z_4/edit#gid=0"}'
-    row: 41
+    row: 40
     col: 0
     width: 8
     height: 1
@@ -2080,7 +1731,7 @@
     defaults_version: 1
     hidden_fields: [running_total_of_invoices_total_gross_amount_gbp]
     listen: {}
-    row: 42
+    row: 41
     col: 0
     width: 16
     height: 10
@@ -2097,131 +1748,6 @@
     col: 0
     width: 24
     height: 2
-  - title: Costs vs Revenue L12M
-    name: Costs vs Revenue L12M
-    model: analytics
-    explore: chart_of_accounts_dim
-    type: looker_column
-    fields: [general_ledger_fact.net_amount, general_ledger_fact.journal_month, profit_and_loss_report_fact.account_report_category]
-    pivots: [profit_and_loss_report_fact.account_report_category]
-    fill_fields: [general_ledger_fact.journal_month]
-    filters:
-      general_ledger_fact.journal_month: 12 months
-      chart_of_accounts_dim.account_report_group: "-NULL"
-      profit_and_loss_report_fact.account_report_category: "-NULL"
-    sorts: [profit_and_loss_report_fact.account_report_category, general_ledger_fact.journal_month
-        desc]
-    limit: 500
-    column_limit: 50
-    dynamic_fields: [{category: table_calculation, expression: 'if(${general_ledger_fact.net_amount}<0,${general_ledger_fact.net_amount}*-1,${general_ledger_fact.net_amount})',
-        label: Net Amount, value_format: '"£"0,"K"', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: net_amount, _type_hint: number}, {
-        args: [new_calculation], calculation_type: percent_of_column_sum, category: table_calculation,
-        based_on: new_calculation, label: Percent of  New Calculation, source_field: new_calculation,
-        table_calculation: percent_of_new_calculation, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, _type_hint: number, is_disabled: true}, {args: [new_calculation],
-        calculation_type: percent_of_row, category: table_calculation, based_on: new_calculation,
-        label: Percent of row, source_field: new_calculation, table_calculation: percent_of_row,
-        value_format: !!null '', value_format_name: percent_0, _kind_hint: measure,
-        _type_hint: number}]
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: false
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: normal
-    limit_displayed_rows: false
-    legend_position: center
-    point_style: none
-    show_value_labels: false
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: asc
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    color_application:
-      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
-      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
-      options:
-        steps: 5
-        reverse: false
-    hide_legend: true
-    series_types:
-      Revenue - new_calculation: line
-      Revenue - net_amount: line
-    series_colors:
-      Dividends - new_calculation: "#615894"
-      Overheads - new_calculation: "#F0C733"
-      Taxation - new_calculation: "#E48522"
-      Cost of Delivery - new_calculation: "#4A80BC"
-      Revenue - new_calculation: "#D13452"
-    series_labels: {}
-    show_null_points: true
-    interpolation: linear
-    hidden_fields: [general_ledger_fact.net_amount, percent_of_row]
-    hidden_points_if_no: []
-    theme: traditional
-    layout: auto
-    minWidthForIndexColumns: true
-    headerFontSize: 14
-    bodyFontSize: 12
-    showTooltip: true
-    columnOrder: {}
-    rowSubtotals: true
-    colSubtotals: true
-    spanRows: true
-    spanCols: true
-    sortColumnsBy: pivots
-    useHeadings: false
-    indexColumn: false
-    hide|chart_of_accounts_dim.account_report_category: true
-    hide|chart_of_accounts_dim.account_report_sub_category: true
-    hide|chart_of_accounts_dim.account_report_group: true
-    label|chart_of_accounts_dim.account_name: Account
-    hide|chart_of_accounts_dim.account_name: false
-    label|chart_of_accounts_dim.account_code: Code
-    subtotalDepth: '2'
-    style|general_ledger_fact.net_amount: normal
-    reportIn|general_ledger_fact.net_amount: '1'
-    defaults_version: 1
-    show_row_numbers: true
-    transpose: false
-    truncate_text: true
-    hide_totals: false
-    hide_row_totals: false
-    size_to_fit: true
-    table_theme: white
-    enable_conditional_formatting: false
-    header_text_alignment: left
-    header_font_size: 12
-    rows_font_size: 12
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    column_order: ["$$$_row_numbers_$$$", chart_of_accounts_dim.account_report_category,
-      chart_of_accounts_dim.account_code, chart_of_accounts_dim.account_name, 2020-10_general_ledger_fact.net_amount,
-      2020-11_general_ledger_fact.net_amount, 2020-12_general_ledger_fact.net_amount,
-      2021-01_general_ledger_fact.net_amount, 2021-02_general_ledger_fact.net_amount,
-      2021-03_general_ledger_fact.net_amount, 2021-04_general_ledger_fact.net_amount,
-      2021-05_general_ledger_fact.net_amount, 2021-06_general_ledger_fact.net_amount,
-      2021-07_general_ledger_fact.net_amount, 2021-08_general_ledger_fact.net_amount,
-      2021-09_general_ledger_fact.net_amount]
-    listen: {}
-    row: 54
-    col: 16
-    width: 8
-    height: 7
   - title: Team Utilisation
     name: Team Utilisation
     model: analytics
@@ -4433,8 +3959,8 @@
     col: 8
     width: 4
     height: 5
-  - title: Awareness Raising
-    name: Awareness Raising
+  - title: Website Traffic
+    name: Website Traffic
     model: analytics
     explore: web_sessions_fact
     type: looker_line
@@ -4515,11 +4041,432 @@
       web_events_fact.total_sessions, web_events_fact.total_page_views]
     listen: {}
     row: 9
+    col: 16
+    width: 8
+    height: 8
+  - name: New Deals
+    title: New Deals
+    merged_queries:
+    - model: analytics
+      explore: companies_dim
+      type: looker_column
+      fields: [deals_fact.deal_created_month, deals_fact.total_deal_amount_gbp_converted]
+      fill_fields: [deals_fact.deal_created_month]
+      sorts: [deals_fact.deal_created_month desc]
+      limit: 500
+      filter_expression: "${deals_fact.deal_created_month}>add_months(-12,now())"
+      analysis_config:
+        forecasting:
+        - confidence_interval: 0.95
+          field_name: deals_fact.total_deal_amount_gbp_converted
+          forecast_n: 3
+          forecast_interval: month
+      x_axis_gridlines: false
+      y_axis_gridlines: true
+      show_view_names: false
+      show_y_axis_labels: true
+      show_y_axis_ticks: true
+      y_axis_tick_density: default
+      y_axis_tick_density_custom: 5
+      show_x_axis_label: true
+      show_x_axis_ticks: true
+      y_axis_scale_mode: linear
+      x_axis_reversed: false
+      y_axis_reversed: false
+      plot_size_by_field: false
+      trellis: ''
+      stacking: ''
+      limit_displayed_rows: false
+      legend_position: center
+      point_style: none
+      show_value_labels: false
+      label_density: 25
+      x_axis_scale: auto
+      y_axis_combined: true
+      ordering: none
+      show_null_labels: false
+      show_totals_labels: false
+      show_silhouette: false
+      totals_color: "#808080"
+      show_null_points: true
+      interpolation: linear
+      defaults_version: 1
+      series_types: {}
+      join_fields: []
+    - model: analytics
+      explore: targets
+      type: table
+      fields: [targets.period_month, targets.total_deals_target]
+      fill_fields: [targets.period_month]
+      filters:
+        targets.period_month: 12 months
+      sorts: [targets.period_month desc]
+      limit: 500
+      dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_target}),150000,${targets.total_deals_target})',
+          label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
+          table_calculation: target, _type_hint: number}]
+      join_fields:
+      - field_name: targets.period_month
+        source_field_name: deals_fact.deal_created_month
+    color_application:
+      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+      options:
+        steps: 5
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    y_axes: [{label: '', orientation: left, series: [{axisId: deals_fact.total_deal_amount_gbp_converted,
+            id: deals_fact.total_deal_amount_gbp_converted, name: Actual New Deals
+              (Forecast)}, {axisId: target_1, id: target_1, name: Target}], showLabels: true,
+        showValues: true, maxValue: 500000, valueFormat: '"£"0,"K"', unpinAxis: false,
+        tickDensity: default, tickDensityCustom: 5, type: linear}]
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    series_types:
+      target_1: line
+    point_style: none
+    series_colors:
+      targets.total_deals_target: "#D13452"
+      target_1: "#d6d6d6"
+    series_labels:
+      deals_fact.total_deal_amount_gbp_converted: Actual New Deals (Forecast)
+      targets.total_deals_target: Target
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: time
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    show_null_points: true
+    interpolation: linear
+    type: looker_column
+    hidden_fields: [target, targets.total_deals_target]
+    column_limit: 50
+    dynamic_fields: [{category: table_calculation, expression: 'if(is_null(${targets.total_deals_target}),150000,${targets.total_deals_target})',
+        label: Target, value_format: !!null '', value_format_name: gbp_0, _kind_hint: measure,
+        table_calculation: target_1, _type_hint: number}]
+    row: 9
     col: 0
-    width: 12
-    height: 6
-  - title: Sales Pipeline
-    name: Sales Pipeline
+    width: 8
+    height: 8
+  - name: Won Deals
+    title: Won Deals
+    merged_queries:
+    - model: analytics
+      explore: companies_dim
+      type: single_value
+      fields: [deals_fact.total_oppportunity_deal_amount, deals_fact.deal_closed_month]
+      fill_fields: [deals_fact.deal_closed_month]
+      filters:
+        deals_fact.pipeline_stage_label: Verbally Won & Working at Risk,Won & Scheduled,Won
+          & Delivered
+        companies_dim.company_name: "-Apex Auctions"
+        deals_fact.deal_type: ''
+        deals_fact.owner_full_name: ''
+        deals_fact.partner_referral: ''
+        deals_fact.sprint_type: ''
+        deals_fact.deal_name: ''
+        deals_fact.deal_is_deleted: 'No'
+      sorts: [deals_fact.deal_closed_month desc]
+      column_limit: 50
+      dynamic_fields: [{category: table_calculation, expression: 'diff_days(${deals_fact.deal_pipeline_stage_date},now())',
+          label: Days in Deal Stage, value_format: !!null '', value_format_name: !!null '',
+          _kind_hint: dimension, table_calculation: days_in_deal_stage, _type_hint: number,
+          is_disabled: true}, {measure: days_in_pipeline_2, based_on: deals_fact.days_in_pipeline,
+          type: sum, label: Days in Pipeline, expression: !!null '', value_format: !!null '',
+          value_format_name: !!null '', _kind_hint: measure, _type_hint: number},
+        {category: table_calculation, expression: 'sum(${days_in_deal_stage})/count(${days_in_deal_stage})',
+          label: Avg. Days in Deal Stage, value_format: !!null '', value_format_name: decimal_0,
+          _kind_hint: dimension, table_calculation: avg_days_in_deal_stage, _type_hint: number,
+          is_disabled: true}, {category: table_calculation, expression: "(sum(${deals_fact.total_weighted_opportunity_deal_amount}))/90000",
+          label: Pipeline Coverage, value_format: '0.##":1"', value_format_name: __custom,
+          _kind_hint: measure, table_calculation: pipeline_coverage, _type_hint: number,
+          is_disabled: true}, {category: table_calculation, expression: 'count(${deals_fact.count_deals})',
+          label: Active Deals, value_format: !!null '', value_format_name: !!null '',
+          _kind_hint: measure, table_calculation: active_deals, _type_hint: number,
+          is_disabled: true}, {category: table_calculation, expression: 'sum(${deals_fact.total_oppportunity_deal_amount})',
+          label: Closed Won Deals This Month, value_format: '"£"0,"K"', value_format_name: __custom,
+          _kind_hint: measure, table_calculation: closed_won_deals_this_month, _type_hint: number,
+          is_disabled: true}]
+      analysis_config:
+        forecasting:
+        - confidence_interval: 0.95
+          field_name: deals_fact.total_oppportunity_deal_amount
+          forecast_n: 3
+          forecast_interval: month
+      custom_color_enabled: true
+      show_single_value_title: true
+      show_comparison: false
+      comparison_type: value
+      comparison_reverse_colors: false
+      show_comparison_label: true
+      enable_conditional_formatting: true
+      conditional_formatting_include_totals: false
+      conditional_formatting_include_nulls: false
+      show_view_names: false
+      show_row_numbers: false
+      transpose: false
+      truncate_text: true
+      hide_totals: false
+      hide_row_totals: false
+      size_to_fit: true
+      table_theme: white
+      limit_displayed_rows: false
+      header_text_alignment: left
+      header_font_size: '12'
+      rows_font_size: '12'
+      color_application:
+        collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+        palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+      show_sql_query_menu_options: false
+      column_order: [deals_fact.deal_name, deals_fact.owner_full_name, deals_fact.pipeline_stage_label,
+        deals_fact.sprint_type, deals_fact.deal_type, deals_fact.partner_referral,
+        deals_fact.number_of_sprints, deals_fact.deal_currency_code, deals_fact.total_oppportunity_deal_amount,
+        deals_fact.total_weighted_opportunity_deal_amount, deals_fact.deal_pipeline_stage_date,
+        days_in_deal_stage]
+      show_totals: true
+      show_row_totals: true
+      truncate_header: true
+      series_labels:
+        deals_fact.owner_full_name: Owner
+        deals_fact.deal_type: Type
+        deals_fact.pipeline_stage_label: Pipeline Stage
+        days_in_pipeline_stage: Days In Stage
+        days_in_pipeline: Days In Pipeline
+        deals_fact.total_oppportunity_deal_amount: Amount
+        deals_fact.total_weighted_opportunity_deal_amount: Weighted
+        deals_fact.number_of_sprints: Sprints
+        deals_fact.partner_referral: Partner
+      series_cell_visualizations:
+        deals_fact.total_weighted_opportunity_deal_amount:
+          is_active: false
+        deals_fact.total_oppportunity_deal_amount:
+          is_active: true
+      series_text_format:
+        deals_fact.total_weighted_opportunity_deal_amount:
+          italic: true
+      conditional_formatting: [{type: between, value: [0, 7], background_color: "#7bc739",
+          font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+            custom: {id: e3400bbf-ab9f-faec-e711-615f78ba1468, label: Custom, type: continuous,
+              stops: [{color: "#C4DF58", offset: 0}, {color: "#D13452", offset: 100}]},
+            options: {steps: 5, constraints: {min: {type: minimum}, mid: {type: number,
+                  value: 30}, max: {type: maximum}}, mirror: true, reverse: false,
+              stepped: false}}, bold: false, italic: false, strikethrough: false,
+          fields: []}, {type: between, value: [7, 14], background_color: "#E48522",
+          font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+            palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830}, bold: false, italic: false,
+          strikethrough: false, fields: []}, {type: greater than, value: 14, background_color: "#D13452",
+          font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+            palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830}, bold: false, italic: false,
+          strikethrough: false, fields: []}]
+      series_value_format:
+        deals_fact.total_oppportunity_deal_amount:
+          name: gbp_0
+          decimals: '0'
+          format_string: '"£"#,##0'
+          label: British Pounds (0)
+          label_prefix: British Pounds
+        deals_fact.total_weighted_opportunity_deal_amount:
+          name: gbp_0
+          decimals: '0'
+          format_string: '"£"#,##0'
+          label: British Pounds (0)
+          label_prefix: British Pounds
+      leftAxisLabelVisible: false
+      leftAxisLabel: ''
+      rightAxisLabelVisible: false
+      rightAxisLabel: ''
+      smoothedBars: false
+      orientation: automatic
+      labelPosition: left
+      percentType: total
+      percentPosition: hidden
+      valuePosition: inline
+      labelColorEnabled: false
+      labelColor: "#FFF"
+      x_axis_gridlines: false
+      y_axis_gridlines: true
+      y_axes: [{label: '', orientation: bottom, series: [{axisId: BridgeU - Ongoing
+                Support - deals_fact.total_oppportunity_deal_amount, id: BridgeU -
+                Ongoing Support - deals_fact.total_oppportunity_deal_amount, name: BridgeU
+                - Ongoing Support}, {axisId: Drafthouse - GA4 to Snowflake Replication
+                - deals_fact.total_oppportunity_deal_amount, id: Drafthouse - GA4
+                to Snowflake Replication - deals_fact.total_oppportunity_deal_amount,
+              name: Drafthouse - GA4 to Snowflake Replication}, {axisId: Jobandtalent
+                - Analytics Enablement (Full Project) - deals_fact.total_oppportunity_deal_amount,
+              id: Jobandtalent - Analytics Enablement (Full Project) - deals_fact.total_oppportunity_deal_amount,
+              name: Jobandtalent - Analytics Enablement (Full Project)}, {axisId: Kaplan
+                - Phase 2 - deals_fact.total_oppportunity_deal_amount, id: Kaplan
+                - Phase 2 - deals_fact.total_oppportunity_deal_amount, name: Kaplan
+                - Phase 2}, {axisId: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+              id: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+              name: Lucanet - Analytics Enablement}, {axisId: PollEverywhere - Analytics
+                Enablement - deals_fact.total_oppportunity_deal_amount, id: PollEverywhere
+                - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+              name: PollEverywhere - Analytics Enablement}, {axisId: Rixo - Create
+                Smoke Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+              id: Rixo - Create Smoke Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+              name: Rixo - Create Smoke Test & Upgrade Sandbox Environments}, {axisId: Rixo
+                - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+              id: Rixo - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+              name: Rixo - Follow-On Sprints (Placeholder)}, {axisId: Thrive Commercial
+                Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+              id: Thrive Commercial Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+              name: Thrive Commercial Insights  - May 22 Extension}, {axisId: Thrive
+                Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+              id: Thrive Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+              name: Thrive Investment Performance Part 2}, {axisId: Torticity - Data
+                Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
+              id: Torticity - Data Modeling and Analytics Enablement - Discovery -
+                deals_fact.total_oppportunity_deal_amount, name: Torticity - Data
+                Modeling and Analytics Enablement - Discovery}, {axisId: 'Translucent
+                - Sprint #2 - deals_fact.total_oppportunity_deal_amount', id: 'Translucent
+                - Sprint #2 - deals_fact.total_oppportunity_deal_amount', name: 'Translucent
+                - Sprint #2'}], showLabels: true, showValues: true, valueFormat: '"£"0,"K"',
+          unpinAxis: false, tickDensity: custom, tickDensityCustom: 8, type: linear}]
+      show_y_axis_labels: true
+      show_y_axis_ticks: true
+      y_axis_tick_density: default
+      y_axis_tick_density_custom: 5
+      show_x_axis_label: true
+      show_x_axis_ticks: true
+      y_axis_scale_mode: linear
+      x_axis_reversed: false
+      y_axis_reversed: false
+      plot_size_by_field: false
+      trellis: ''
+      stacking: normal
+      legend_position: center
+      series_types: {}
+      point_style: none
+      show_value_labels: true
+      label_density: 25
+      x_axis_scale: auto
+      y_axis_combined: true
+      x_axis_label_rotation: 0
+      ordering: none
+      show_null_labels: false
+      show_totals_labels: false
+      show_silhouette: false
+      totals_color: "#808080"
+      isStepped: true
+      font_size_main: ''
+      style_deals_fact.count_oppportunity_deals: "#3B4245"
+      show_title_deals_fact.count_oppportunity_deals: true
+      title_overrride_deals_fact.count_oppportunity_deals: Open Opportunities
+      title_placement_deals_fact.count_oppportunity_deals: below
+      value_format_deals_fact.count_oppportunity_deals: ''
+      style_deals_fact.total_oppportunity_deal_amount: "#3B4245"
+      show_title_deals_fact.total_oppportunity_deal_amount: true
+      title_overrride_deals_fact.total_oppportunity_deal_amount: Open Opportunity
+        Value
+      title_placement_deals_fact.total_oppportunity_deal_amount: below
+      value_format_deals_fact.total_oppportunity_deal_amount: '"£"0,"K"'
+      show_comparison_deals_fact.total_oppportunity_deal_amount: false
+      style_deals_fact.total_weighted_opportunity_deal_amount: "#3B4245"
+      show_title_deals_fact.total_weighted_opportunity_deal_amount: true
+      title_overrride_deals_fact.total_weighted_opportunity_deal_amount: Weighted
+        Value
+      title_placement_deals_fact.total_weighted_opportunity_deal_amount: below
+      value_format_deals_fact.total_weighted_opportunity_deal_amount: '"£"0,"K"'
+      show_comparison_deals_fact.total_weighted_opportunity_deal_amount: false
+      style_deals_fact.total_closed_in_delivery_deal_amount: "#3B4245"
+      show_title_deals_fact.total_closed_in_delivery_deal_amount: true
+      title_overrride_deals_fact.total_closed_in_delivery_deal_amount: In-Progress
+        value
+      title_placement_deals_fact.total_closed_in_delivery_deal_amount: below
+      value_format_deals_fact.total_closed_in_delivery_deal_amount: '"£"0,"K"'
+      show_comparison_deals_fact.total_closed_in_delivery_deal_amount: false
+      style_deals_fact.count_closed_in_delivery_deals: "#3B4245"
+      show_title_deals_fact.count_closed_in_delivery_deals: true
+      title_overrride_deals_fact.count_closed_in_delivery_deals: Projects In-Progress
+      title_placement_deals_fact.count_closed_in_delivery_deals: below
+      value_format_deals_fact.count_closed_in_delivery_deals: ''
+      show_comparison_deals_fact.count_closed_in_delivery_deals: false
+      defaults_version: 1
+      hidden_fields: [deals_fact.deal_pipeline_stage, deals_fact.total_oppportunity_deal_amount]
+      hidden_points_if_no: []
+    - model: analytics
+      explore: targets
+      type: table
+      fields: [targets.period_month, targets.total_deals_closed_target]
+      fill_fields: [targets.period_month]
+      sorts: [targets.period_month desc]
+      limit: 500
+      join_fields:
+      - field_name: targets.period_month
+        source_field_name: deals_fact.deal_closed_month
+    color_application:
+      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+      options:
+        steps: 5
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    y_axes: [{label: '', orientation: left, series: [{axisId: deals_fact.total_oppportunity_deal_amount,
+            id: deals_fact.total_oppportunity_deal_amount, name: Closed Amount}, {
+            axisId: targets.total_deals_closed_target, id: targets.total_deals_closed_target,
+            name: Target}], showLabels: false, showValues: true, maxValue: 500000,
+        minValue: 0, valueFormat: '"£"0,"K"', unpinAxis: false, tickDensity: default,
+        tickDensityCustom: 5, type: linear}]
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: false
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: true
+    limit_displayed_rows_values:
+      show_hide: show
+      first_last: first
+      num_rows: '15'
+    legend_position: center
+    label_value_format: '"£"0,"K"'
+    series_types:
+      deals_fact.total_oppportunity_deal_amount: column
+    point_style: none
+    series_colors:
+      deals_fact.total_oppportunity_deal_amount: "#D13452"
+      targets.total_deals_closed_target: "#e0e0e0"
+    series_labels:
+      deals_fact.total_oppportunity_deal_amount: Closed Amount
+      targets.total_deals_closed_target: Target
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: true
+    interpolation: linear
+    type: looker_line
+    row: 9
+    col: 8
+    width: 8
+    height: 8
+  - title: Current Pipeline
+    name: Current Pipeline
     model: analytics
     explore: companies_dim
     type: looker_grid
@@ -4529,12 +4476,18 @@
       deals_fact.count_deals, deals_fact.deal_currency_code, deals_fact.number_of_sprints,
       deals_fact.owner_full_name, deals_fact.sprint_type]
     filters:
-      deals_fact.pipeline_stage_label: Initial Enquiry,Meeting and Sales Qualified,Presentation
-        Given & Sprints Scoped,Proposal Sent,PoC Underway,Deal Agreed & Awaiting Sign-off,Awaiting
-        Proposal,Verbally Won and Working at Risk
+      deals_fact.pipeline_stage_label: Initial Enquiry & Sales Qualification,Project
+        Scoping & Sales Qualified,Sprint Scoping & Delivery Qualification,Proposal
+        Sent & Delivery Qualified
       companies_dim.company_name: "-Apex Auctions"
+      deals_fact.deal_type: ''
+      deals_fact.owner_full_name: ''
+      deals_fact.partner_referral: ''
+      deals_fact.sprint_type: ''
+      deals_fact.deal_name: ''
     sorts: [deals_fact.total_oppportunity_deal_amount desc]
     limit: 500
+    column_limit: 50
     total: true
     dynamic_fields: [{category: table_calculation, expression: 'diff_days(${deals_fact.deal_pipeline_stage_date},now())',
         label: Days in Deal Stage, value_format: !!null '', value_format_name: !!null '',
@@ -4726,46 +4679,247 @@
       deals_fact.deal_pipeline_stage_date]
     hidden_points_if_no: []
     listen: {}
-    row: 24
+    row: 17
     col: 0
     width: 24
-    height: 7
-  - title: Demand Generation
-    name: Demand Generation
+    height: 8
+  - title: Won Deals
+    name: Won Deals (2)
     model: analytics
-    explore: web_sessions_fact
-    type: looker_line
-    fields: [web_events_fact.total_sessions, web_events_fact.total_blended_user_id,
-      web_events_fact.total_session_conversions, web_events_fact.total_session_goal_achieveds,
-      web_events_fact.event_ts_week, web_events_fact.total_page_views, web_events_fact.total_visitor_value]
+    explore: companies_dim
+    type: looker_grid
+    fields: [deals_fact.pipeline_stage_label, deals_fact.deal_name, deals_fact.partner_referral,
+      deals_fact.deal_pipeline_stage_date, deals_fact.deal_type, deals_fact.total_oppportunity_deal_amount,
+      deals_fact.total_weighted_opportunity_deal_amount, deals_fact.count_oppportunity_deals,
+      deals_fact.count_deals, deals_fact.deal_currency_code, deals_fact.number_of_sprints,
+      deals_fact.owner_full_name, deals_fact.sprint_type, deals_fact.deal_closed_date]
     filters:
-      web_events_fact.event_ts_month: 52 weeks
-      web_events_fact.total_sessions: ''
-      web_events_fact.site: rittmananalytics.com
-    sorts: [web_events_fact.event_ts_week desc]
+      deals_fact.pipeline_stage_label: Won & Scheduled,Verbally Won & Working at Risk
+      companies_dim.company_name: "-Apex Auctions"
+      deals_fact.deal_pipeline_stage_date: 1 months
+      deals_fact.deal_type: ''
+      deals_fact.owner_full_name: ''
+      deals_fact.partner_referral: ''
+      deals_fact.sprint_type: ''
+      deals_fact.deal_name: ''
+    sorts: [deals_fact.total_oppportunity_deal_amount desc]
     limit: 500
-    dynamic_fields: [{category: table_calculation, expression: "(${web_events_fact.total_session_conversions}/${web_events_fact.total_sessions})",
-        label: Session Conversion Rate, value_format: !!null '', value_format_name: percent_1,
-        _kind_hint: measure, table_calculation: session_conversion_rate, _type_hint: number},
-      {category: table_calculation, expression: "${web_events_fact.total_session_goal_achieveds}/${web_events_fact.total_sessions}",
-        label: Session Goal Achieved Rate, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: session_goal_achieved_rate, _type_hint: number},
-      {category: table_calculation, expression: "(${web_events_fact.total_visitor_value}+offset(${web_events_fact.total_visitor_value},1)+offset(${web_events_fact.total_visitor_value},2)+offset(${web_events_fact.total_visitor_value},3))/4",
-        label: Visit Value 4Wk Avg., value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: visit_value_4wk_avg, _type_hint: number},
-      {category: table_calculation, expression: "(${session_conversion_rate}+offset(${session_conversion_rate},1)+offset(${session_conversion_rate},2)+offset${session_conversion_rate},3))/4",
-        label: Session Conversion Rate 4Wk Avg., value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: dimension, table_calculation: session_conversion_rate_4wk_avg,
-        _type_hint: !!null '', is_disabled: true}, {category: table_calculation, expression: 'coalesce((${web_events_fact.total_blended_user_id}+offset(${web_events_fact.total_blended_user_id},1)+offset(${web_events_fact.total_blended_user_id},2)+offset(${web_events_fact.total_blended_user_id},3))/4,0)',
-        label: Unique Visitors 4 Wk Avg., value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: unique_visitors_4_wk_avg, _type_hint: number},
-      {category: table_calculation, expression: "(${session_conversion_rate}+(offset(${session_conversion_rate},1)+offset(${session_conversion_rate},2)+offset(${session_conversion_rate},3)))/4",
-        label: Session Conversion Rate 4Wk Avg., value_format: !!null '', value_format_name: percent_1,
-        _kind_hint: measure, table_calculation: session_conversion_rate_4wk_avg_1,
-        _type_hint: number}, {category: table_calculation, expression: "(${session_goal_achieved_rate}+(offset(${session_goal_achieved_rate},1)+offset(${session_goal_achieved_rate},2)+offset(${session_goal_achieved_rate},3)))/4",
-        label: Session Goal Achieved Rate 4Wk Avg., value_format: !!null '', value_format_name: percent_1,
-        _kind_hint: measure, table_calculation: session_goal_achieved_rate_4wk_avg,
-        _type_hint: number}]
+    column_limit: 50
+    total: true
+    dynamic_fields: [{category: table_calculation, expression: 'diff_days(${deals_fact.deal_pipeline_stage_date},now())',
+        label: Days in Deal Stage, value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: dimension, table_calculation: days_in_deal_stage, _type_hint: number},
+      {measure: days_in_pipeline_2, based_on: deals_fact.days_in_pipeline, type: sum,
+        label: Days in Pipeline, expression: !!null '', value_format: !!null '', value_format_name: !!null '',
+        _kind_hint: measure, _type_hint: number}]
+    show_view_names: false
+    show_row_numbers: false
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
+      palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
+    show_sql_query_menu_options: false
+    column_order: [deals_fact.deal_name, deals_fact.owner_full_name, deals_fact.pipeline_stage_label,
+      deals_fact.deal_type, deals_fact.deal_closed_date, deals_fact.partner_referral,
+      deals_fact.number_of_sprints, deals_fact.total_oppportunity_deal_amount, deals_fact.total_weighted_opportunity_deal_amount,
+      days_in_deal_stage]
+    show_totals: true
+    show_row_totals: true
+    truncate_header: true
+    series_labels:
+      deals_fact.owner_full_name: Owner
+      deals_fact.deal_type: Type
+      deals_fact.pipeline_stage_label: Pipeline Stage
+      days_in_pipeline_stage: Days In Stage
+      days_in_pipeline: Days In Pipeline
+      deals_fact.total_oppportunity_deal_amount: Amount
+      deals_fact.total_weighted_opportunity_deal_amount: Weighted
+      deals_fact.number_of_sprints: Sprints
+      deals_fact.partner_referral: Partner
+    series_cell_visualizations:
+      deals_fact.total_weighted_opportunity_deal_amount:
+        is_active: false
+      deals_fact.total_oppportunity_deal_amount:
+        is_active: true
+    series_text_format:
+      deals_fact.total_weighted_opportunity_deal_amount:
+        italic: true
+    conditional_formatting: [{type: between, value: [0, 7], background_color: "#7bc739",
+        font_color: !!null '', color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c,
+          custom: {id: e3400bbf-ab9f-faec-e711-615f78ba1468, label: Custom, type: continuous,
+            stops: [{color: "#C4DF58", offset: 0}, {color: "#D13452", offset: 100}]},
+          options: {steps: 5, constraints: {min: {type: minimum}, mid: {type: number,
+                value: 30}, max: {type: maximum}}, mirror: true, reverse: false, stepped: false}},
+        bold: false, italic: false, strikethrough: false, fields: [days_in_deal_stage]},
+      {type: between, value: [7, 14], background_color: "#E48522", font_color: !!null '',
+        color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c, palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830},
+        bold: false, italic: false, strikethrough: false, fields: [days_in_deal_stage]},
+      {type: greater than, value: 14, background_color: "#D13452", font_color: !!null '',
+        color_application: {collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c, palette_id: 00fb21bc-5a8c-46b1-88bf-2a6a3d102830},
+        bold: false, italic: false, strikethrough: false, fields: [days_in_deal_stage]}]
+    series_value_format:
+      deals_fact.total_oppportunity_deal_amount:
+        name: gbp_0
+        decimals: '0'
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
+        label_prefix: British Pounds
+      deals_fact.total_weighted_opportunity_deal_amount:
+        name: gbp_0
+        decimals: '0'
+        format_string: '"£"#,##0'
+        label: British Pounds (0)
+        label_prefix: British Pounds
+    leftAxisLabelVisible: false
+    leftAxisLabel: ''
+    rightAxisLabelVisible: false
+    rightAxisLabel: ''
+    smoothedBars: false
+    orientation: automatic
+    labelPosition: left
+    percentType: total
+    percentPosition: hidden
+    valuePosition: inline
+    labelColorEnabled: false
+    labelColor: "#FFF"
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    y_axes: [{label: '', orientation: bottom, series: [{axisId: BridgeU - Ongoing
+              Support - deals_fact.total_oppportunity_deal_amount, id: BridgeU - Ongoing
+              Support - deals_fact.total_oppportunity_deal_amount, name: BridgeU -
+              Ongoing Support}, {axisId: Drafthouse - GA4 to Snowflake Replication
+              - deals_fact.total_oppportunity_deal_amount, id: Drafthouse - GA4 to
+              Snowflake Replication - deals_fact.total_oppportunity_deal_amount, name: Drafthouse
+              - GA4 to Snowflake Replication}, {axisId: Jobandtalent - Analytics Enablement
+              (Full Project) - deals_fact.total_oppportunity_deal_amount, id: Jobandtalent
+              - Analytics Enablement (Full Project) - deals_fact.total_oppportunity_deal_amount,
+            name: Jobandtalent - Analytics Enablement (Full Project)}, {axisId: Kaplan
+              - Phase 2 - deals_fact.total_oppportunity_deal_amount, id: Kaplan -
+              Phase 2 - deals_fact.total_oppportunity_deal_amount, name: Kaplan -
+              Phase 2}, {axisId: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            id: Lucanet - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            name: Lucanet - Analytics Enablement}, {axisId: PollEverywhere - Analytics
+              Enablement - deals_fact.total_oppportunity_deal_amount, id: PollEverywhere
+              - Analytics Enablement - deals_fact.total_oppportunity_deal_amount,
+            name: PollEverywhere - Analytics Enablement}, {axisId: Rixo - Create Smoke
+              Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+            id: Rixo - Create Smoke Test & Upgrade Sandbox Environments - deals_fact.total_oppportunity_deal_amount,
+            name: Rixo - Create Smoke Test & Upgrade Sandbox Environments}, {axisId: Rixo
+              - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+            id: Rixo - Follow-On Sprints (Placeholder) - deals_fact.total_oppportunity_deal_amount,
+            name: Rixo - Follow-On Sprints (Placeholder)}, {axisId: Thrive Commercial
+              Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+            id: Thrive Commercial Insights  - May 22 Extension - deals_fact.total_oppportunity_deal_amount,
+            name: Thrive Commercial Insights  - May 22 Extension}, {axisId: Thrive
+              Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+            id: Thrive Investment Performance Part 2 - deals_fact.total_oppportunity_deal_amount,
+            name: Thrive Investment Performance Part 2}, {axisId: Torticity - Data
+              Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
+            id: Torticity - Data Modeling and Analytics Enablement - Discovery - deals_fact.total_oppportunity_deal_amount,
+            name: Torticity - Data Modeling and Analytics Enablement - Discovery},
+          {axisId: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
+            id: 'Translucent - Sprint #2 - deals_fact.total_oppportunity_deal_amount',
+            name: 'Translucent - Sprint #2'}], showLabels: true, showValues: true,
+        valueFormat: '"£"0,"K"', unpinAxis: false, tickDensity: custom, tickDensityCustom: 8,
+        type: linear}]
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: normal
+    legend_position: center
+    series_types: {}
+    point_style: none
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    x_axis_label_rotation: 0
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    isStepped: true
+    font_size_main: ''
+    style_deals_fact.count_oppportunity_deals: "#3B4245"
+    show_title_deals_fact.count_oppportunity_deals: true
+    title_overrride_deals_fact.count_oppportunity_deals: Open Opportunities
+    title_placement_deals_fact.count_oppportunity_deals: below
+    value_format_deals_fact.count_oppportunity_deals: ''
+    style_deals_fact.total_oppportunity_deal_amount: "#3B4245"
+    show_title_deals_fact.total_oppportunity_deal_amount: true
+    title_overrride_deals_fact.total_oppportunity_deal_amount: Open Opportunity Value
+    title_placement_deals_fact.total_oppportunity_deal_amount: below
+    value_format_deals_fact.total_oppportunity_deal_amount: '"£"0,"K"'
+    show_comparison_deals_fact.total_oppportunity_deal_amount: false
+    style_deals_fact.total_weighted_opportunity_deal_amount: "#3B4245"
+    show_title_deals_fact.total_weighted_opportunity_deal_amount: true
+    title_overrride_deals_fact.total_weighted_opportunity_deal_amount: Weighted Value
+    title_placement_deals_fact.total_weighted_opportunity_deal_amount: below
+    value_format_deals_fact.total_weighted_opportunity_deal_amount: '"£"0,"K"'
+    show_comparison_deals_fact.total_weighted_opportunity_deal_amount: false
+    style_deals_fact.total_closed_in_delivery_deal_amount: "#3B4245"
+    show_title_deals_fact.total_closed_in_delivery_deal_amount: true
+    title_overrride_deals_fact.total_closed_in_delivery_deal_amount: In-Progress value
+    title_placement_deals_fact.total_closed_in_delivery_deal_amount: below
+    value_format_deals_fact.total_closed_in_delivery_deal_amount: '"£"0,"K"'
+    show_comparison_deals_fact.total_closed_in_delivery_deal_amount: false
+    style_deals_fact.count_closed_in_delivery_deals: "#3B4245"
+    show_title_deals_fact.count_closed_in_delivery_deals: true
+    title_overrride_deals_fact.count_closed_in_delivery_deals: Projects In-Progress
+    title_placement_deals_fact.count_closed_in_delivery_deals: below
+    value_format_deals_fact.count_closed_in_delivery_deals: ''
+    show_comparison_deals_fact.count_closed_in_delivery_deals: false
+    defaults_version: 1
+    hidden_fields: [deals_fact.count_oppportunity_deals, deals_fact.deal_pipeline_stage,
+      deals_fact.count_deals, deals_fact.sprint_type, deals_fact.deal_currency_code,
+      deals_fact.deal_pipeline_stage_date]
+    hidden_points_if_no: []
+    listen: {}
+    row: 25
+    col: 0
+    width: 24
+    height: 5
+  - title: Retained Profit L12M
+    name: Retained Profit L12M
+    model: analytics
+    explore: chart_of_accounts_dim
+    type: looker_column
+    fields: [profit_and_loss_report_fact.period_month, profit_and_loss_report_fact.amount]
+    fill_fields: [profit_and_loss_report_fact.period_month]
+    filters:
+      profit_and_loss_report_fact.period_month: 12 months
+    sorts: [profit_and_loss_report_fact.period_month desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: 'coalesce(pivot_index(${profit_and_loss_report_fact.amount},1),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},2),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},3),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},4),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},5),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},6),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},7),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},8),0)+coalesce(pivot_index(${profit_and_loss_report_fact.amount},9),0)',
+        label: Retained Income, value_format: !!null '', value_format_name: gbp_0,
+        _kind_hint: supermeasure, table_calculation: retained_income, _type_hint: number,
+        is_disabled: true}, {category: table_calculation, expression: 'sum(pivot_row(${profit_and_loss_report_fact.amount}))',
+        label: 'Total ', value_format: '"£"0,"K"', value_format_name: __custom, _kind_hint: supermeasure,
+        table_calculation: total, _type_hint: number, is_disabled: true}, {category: table_calculation,
+        expression: 'pivot_index(${profit_and_loss_report_fact.amount},1)+pivot_index(${profit_and_loss_report_fact.amount},2)',
+        label: Profit, value_format: !!null '', value_format_name: gbp_0, _kind_hint: supermeasure,
+        table_calculation: profit, _type_hint: number, is_disabled: true}]
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
@@ -4780,7 +4934,7 @@
     y_axis_reversed: false
     plot_size_by_field: false
     trellis: ''
-    stacking: ''
+    stacking: normal
     limit_displayed_rows: false
     legend_position: center
     point_style: none
@@ -4788,26 +4942,39 @@
     label_density: 25
     x_axis_scale: auto
     y_axis_combined: true
-    show_null_points: true
-    interpolation: linear
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
     color_application:
       collection_id: da8306b5-3b46-48aa-9ead-a3b32292f35c
       palette_id: 75905e81-dadc-472c-b9a2-a201f788d55d
       options:
         steps: 5
-    y_axes: [{label: '', orientation: left, series: [{axisId: session_goal_achieved_rate_4wk_avg,
-            id: session_goal_achieved_rate_4wk_avg, name: Session Goal Achieved Rate
-              4Wk Avg.}, {axisId: session_conversion_rate_4wk_avg_1, id: session_conversion_rate_4wk_avg_1,
-            name: Session Conversion Rate 4Wk Avg.}], showLabels: false, showValues: true,
-        unpinAxis: false, tickDensity: default, type: linear}, {label: '', orientation: right,
-        series: [{axisId: visit_value_4wk_avg, id: visit_value_4wk_avg, name: Visit
-              Value 4Wk Avg.}], showLabels: false, showValues: true, unpinAxis: false,
-        tickDensity: default, type: linear}]
+    y_axes: [{label: '', orientation: left, series: [{axisId: profit_and_loss_report_fact.amount,
+            id: profit_and_loss_report_fact.amount, name: Amount}], showLabels: true,
+        showValues: true, maxValue: !!null '', minValue: !!null '', valueFormat: '"£"0,"K"',
+        unpinAxis: false, tickDensity: default, tickDensityCustom: 5, type: linear}]
+    hidden_series: [Revenue - profit_and_loss_report_fact.amount, REVENUE - profit_and_loss_report_fact.amount]
+    label_value_format: '"£"0,"K"'
     series_types: {}
     series_colors:
-      unique_visitors_4_wk_avg: "#D13452"
-      session_conversion_rate_4wk_avg_1: "#D13452"
-      visit_value_4wk_avg: "#4A80BC"
+      total: "#7bc739"
+      Cost of Delivery - profit_and_loss_report_fact.amount: "#D13452"
+      Overheads - profit_and_loss_report_fact.amount: "#E48522"
+      Revenue - profit_and_loss_report_fact.amount: "#69d6de"
+      Taxation - profit_and_loss_report_fact.amount: "#CD9D6B"
+      profit_and_loss_report_fact.account_report_category___null - profit_and_loss_report_fact.amount: "#c76273"
+      Dividends - profit_and_loss_report_fact.amount: "#DFC858"
+      profit: "#7bc739"
+      EXPENSE - profit_and_loss_report_fact.amount: "#D13452"
+    series_labels:
+      total: Retained Earnings / Loss
+      Cost of Delivery - profit_and_loss_report_fact.amount: Delivery Cost
+      Overheads - profit_and_loss_report_fact.amount: Overheads
+      profit_and_loss_report_fact.account_report_category___null - profit_and_loss_report_fact.amount: One-Offs
+      EXPENSE - profit_and_loss_report_fact.amount: Costs
     show_row_numbers: true
     truncate_column_names: false
     hide_totals: false
@@ -4817,26 +4984,8 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     defaults_version: 1
-    hidden_fields: [web_events_fact.total_session_conversions, web_events_fact.total_session_goal_achieveds,
-      web_events_fact.total_blended_user_id, web_events_fact.total_sessions, web_events_fact.total_page_views,
-      sessions_4wk_avg, page_views_4wk_avg, unique_visitors_4_wk_avg, web_events_fact.total_visitor_value,
-      session_goal_achieved_rate, session_conversion_rate]
     listen: {}
-    row: 9
-    col: 12
-    width: 12
-    height: 6
-  - name: " (5)"
-    type: text
-    title_text: ''
-    subtitle_text: ''
-    body_text: |-
-      <p align="center">
-
-      <b><font color="DimGrey" size="5">Marketing</font></b>
-
-      </p>
-    row: 7
-    col: 0
-    width: 24
-    height: 2
+    row: 53
+    col: 16
+    width: 8
+    height: 8
