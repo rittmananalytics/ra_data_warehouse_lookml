@@ -1349,7 +1349,7 @@
     custom_color_enabled: true
     show_single_value_title: true
     single_value_title: eNPS LM
-    value_format: 0"%"
+    value_format: 0
     show_comparison: true
     comparison_type: progress_percentage
     comparison_reverse_colors: false
