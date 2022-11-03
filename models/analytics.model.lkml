@@ -13,15 +13,25 @@ fiscal_month_offset: +3
 week_start_day: monday
 
 
-explore: consulting_companies {}
+explore: consulting_companies {
+  group_label: "Experimental"
+}
 
-explore: certification_progress {}
+explore: certification_progress {
+  group_label: "Experimental"
 
-explore: kpi_scorecard {}
+}
+
+explore: kpi_scorecard {
+  group_label: "Experimental"
+
+}
 
 explore: hr_survey_results_fact {
   label: "Team"
   view_label: "Staff Satisfaction"
+  group_label: "Experimental"
+
   hidden: no
 
 }
@@ -43,6 +53,8 @@ explore: targets {
 explore: social {
   from: marketing_interactions_fact
   label: "Social Media"
+  group_label: "Experimental"
+
   view_label: "      Interactions"
   join: marketing_content_dim {
     view_label: "    Posts"
@@ -65,6 +77,8 @@ explore: social {
 
 explore: contact_utilization_fact {
   label: "Resourcing"
+  group_label: "Experimental"
+
   view_label: "Utilization"
   join: staff_dim {
     view_label: "   Delivery Team"
@@ -78,6 +92,8 @@ explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
   label: "Marketing"
   view_label: "  Sessions"
+  group_label: "   Operations"
+
 
   join: web_events_fact {
     view_label: " Events"
@@ -167,7 +183,9 @@ explore: sales_funnel_xa {
 explore: client_concentration {
   label: "Client Concentration"
   view_label: "Monthly Concentration"
-  hidden: yes
+  group_label: "Experimental"
+
+  hidden: no
 
 }
 
@@ -203,8 +221,10 @@ explore: ad_campaigns_dim {
 
 explore: contacts {
   from: contacts_dim
-  label: "       People"
+  label: "       Contacts"
   view_label: "          Contacts"
+  group_label: "Experimental"
+
   join: timesheets_fact {
     view_label: "Project Timesheets (Harvest)"
     sql_on: ${contacts.contact_pk} = ${timesheets_fact.contact_pk}  ;;
@@ -371,6 +391,8 @@ explore: contacts {
  explore: projects_delivered {
   label: "Projects"
   hidden: no
+  group_label: "   Operations"
+
 
    view_label: "         Projects"
   from: timesheet_projects_dim
@@ -463,6 +485,8 @@ explore: contacts {
 
 
 explore: companies_dim {
+  group_label: "   Operations"
+
   query: FTE_forecast {
     description: "Forecast FTE requirement from scheduled projects"
     dimensions: [company_name, projects_delivered.project_delivery_end_ts_month]
@@ -474,7 +498,7 @@ explore: companies_dim {
     ]
   }
 
-  label: "     Companies"
+  label: "     Sales & Invoicing"
   view_label: "        Companies"
   join: client_prospect_status_dim {
     view_label: "        Companies"
@@ -555,7 +579,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: project_timesheet_users {
-    view_label: "  Project Timesheets (Harvest)"
+    view_label: "  Staff (Harvest)"
 
     from: contacts_dim
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
@@ -590,7 +614,7 @@ explore: companies_dim {
     relationship: one_to_one
   }
   join: payments_fact {
-    view_label: " Payments"
+    view_label: " Payments (Xero)"
     type: left_outer
     sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
     relationship: one_to_many
@@ -616,13 +640,7 @@ explore: companies_dim {
     type: inner
     relationship: many_to_one
   }
-  join: contact_contracts {
-    from: contracts_fact
-    view_label: "Contracts Signed"
-    sql_on: ${contacts.contact_pk} = ${contact_contracts.contact_pk} ;;
-    type: inner
-    relationship: one_to_many
-  }
+
   join: contact_deals_fact {
     view_label: "       Contacts"
     sql_on: ${contacts.contact_pk} = ${contact_deals_fact.contact_pk} ;;
@@ -687,7 +705,7 @@ explore: companies_dim {
     relationship: many_to_one
   }
   join: contracts_fact {
-    view_label: "   Contracts"
+    view_label: "Contracts Signed (Docusign)"
     sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;
     type: inner
     relationship: one_to_many
@@ -723,6 +741,8 @@ explore: companies_dim {
   explore: project_attribution {
     label: "Attribution"
     view_label: "Project Attribution"
+    group_label: "Experimental"
+
     join: staff_dim {
       view_label: "Team"
       sql_on: ${project_attribution.contact_pk} = ${staff_dim.contact_pk} ;;
@@ -739,6 +759,8 @@ explore: companies_dim {
 
   explore: timesheets_forecast_fact {
     label: "Resource Forecast"
+    group_label: "Experimental"
+
     view_label: "Resource Forecast"
     join: staff_dim {
       view_label: "Project Resources"
