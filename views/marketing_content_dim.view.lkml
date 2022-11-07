@@ -65,6 +65,18 @@ view: marketing_content_dim {
     value_format_name: decimal_0
   }
 
+  measure: total_impressions {
+    type: sum
+    sql: ${post_reported_impression_count} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_comments {
+    type: sum
+    sql: ${interaction_reported_comment_count} ;;
+    value_format_name: decimal_0
+  }
+
   dimension: post_url {
     type: string
     sql: ${TABLE}.interaction_content_url ;;
@@ -84,6 +96,12 @@ view: marketing_content_dim {
     primary_key: yes
     type: string
     sql: ${TABLE}.marketing_content_pk ;;
+  }
+
+  dimension: post_reported_impression_count  {
+    hidden: yes
+    type:  number
+    sql: ${TABLE}.post_reported_impression_count   ;;
   }
 
   dimension: post_reported_follower_count {
