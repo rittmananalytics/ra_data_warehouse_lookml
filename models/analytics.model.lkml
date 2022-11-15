@@ -51,20 +51,19 @@ explore: targets {
   }
 
 explore: marketing_content_dim {
-  from: marketing_content_dim
   label: "Social Media"
   group_label: "Experimental"
 
-  view_label: "      Interactions"
+  view_label: "      Posts"
   join: marketing_interactions_fact {
-    view_label: "    Posts"
-    sql_on: ${marketing_content_dim.marketing_content_pk}} = ${marketing_interactions_fact.marketing_content_pk};;
+    view_label: "    Interactions"
+    sql_on: ${marketing_content_dim.marketing_content_pk} = ${marketing_interactions_fact.marketing_content_pk};;
     type: left_outer
     relationship: many_to_one
   }
   join: contacts_dim {
     view_label: "Contacts"
-    sql_on: ${marketing_interactions_fact.contact_pk}.contact_pk} = ${contacts_dim.contact_pk} ;;
+    sql_on: ${marketing_interactions_fact.contact_pk} = ${contacts_dim.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
   }

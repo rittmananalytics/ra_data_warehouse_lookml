@@ -59,23 +59,7 @@ view: marketing_content_dim {
     sql: ${TABLE}.interaction_reported_like_count ;;
   }
 
-  measure: total_likes {
-    type: sum
-    sql: ${interaction_reported_like_count} ;;
-    value_format_name: decimal_0
-  }
 
-  measure: total_impressions {
-    type: sum
-    sql: ${post_reported_impression_count} ;;
-    value_format_name: decimal_0
-  }
-
-  measure: total_comments {
-    type: sum
-    sql: ${interaction_reported_comment_count} ;;
-    value_format_name: decimal_0
-  }
 
   dimension: post_url {
     type: string
@@ -99,7 +83,7 @@ view: marketing_content_dim {
   }
 
   dimension: post_reported_impression_count  {
-    hidden: yes
+    hidden: no
     type:  number
     sql: ${TABLE}.post_reported_impression_count   ;;
   }
@@ -125,7 +109,23 @@ view: marketing_content_dim {
     type: string
     sql: ${TABLE}.utm_source ;;
   }
+  measure: total_likes {
+    type: sum
+    sql: ${interaction_reported_like_count} ;;
+    value_format_name: decimal_0
+  }
 
+  measure: total_impressions {
+    type: sum
+    sql: ${post_reported_impression_count} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_comments {
+    type: sum
+    sql: ${interaction_reported_comment_count} ;;
+    value_format_name: decimal_0
+  }
   measure: count {
     type: count
     drill_fields: []
