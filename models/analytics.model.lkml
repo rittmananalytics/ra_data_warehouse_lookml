@@ -298,6 +298,32 @@ explore: contacts {
     type: left_outer
     relationship: many_to_one
   }
+  join: contact_meetings_fact {
+    view_label: "  Contact Meetings"
+    sql_on: ${contacts.contact_pk} = ${contact_meetings_fact.meeting_host_contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: contact_meetings_fact__all_attendee_contact_pk {
+    view_label: "Contact Meetings Fact: All Attendee Contact Pk"
+    sql: LEFT JOIN UNNEST(${contact_meetings_fact.all_attendee_contact_pk}) as contact_meetings_fact__all_attendee_contact_pk ;;
+    relationship: one_to_many
+  }
+  join: contacts_attended_dim {
+    from: contacts_dim
+    view_label: "  Contact Meeting Attendees"
+    sql_on: ${contact_meetings_fact__all_attendee_contact_pk.contact_meetings_fact__all_attendee_contact_pk} = ${contacts_attended_dim.contact_pk} ;;
+    relationship: many_to_one
+    type: inner
+  }
+  join: contact_meeting_deal {
+    view_label: "  Contact Meeting Deal"
+
+    from: deals_fact
+    sql_on: ${contact_meetings_fact.deal_pk} = ${contact_meeting_deal.deal_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
   join: contacts_engaged_dim {
     from: contacts_dim
     view_label: " Contacts Engaged"

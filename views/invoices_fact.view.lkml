@@ -126,6 +126,7 @@ view: invoices_fact {
     timeframes: [
       date,
       month,
+      month_num,
       quarter,
       year,
       fiscal_month_num,
