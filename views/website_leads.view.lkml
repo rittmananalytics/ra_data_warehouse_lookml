@@ -34,7 +34,7 @@ view: website_leads {
 
   dimension_group: meeting {
     type: time
-    timeframes: [date,month,month_num,quarter,quarter_of_year,year]
+    timeframes: [date,month,month_num,quarter,quarter_of_year,week,year]
     sql: parse_timestamp('%Y-%m-%d',split(${TABLE}.Start_Date___Time,' ')[safe_offset(0)]) ;;
   }
 
