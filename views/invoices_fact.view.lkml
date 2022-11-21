@@ -129,6 +129,7 @@ view: invoices_fact {
       month_num,
       quarter,
       year,
+      week,
       fiscal_month_num,
       fiscal_quarter,
       fiscal_quarter_of_year,
