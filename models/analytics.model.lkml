@@ -36,6 +36,10 @@ explore: hr_survey_results_fact {
 
 }
 
+explore: website_leads {
+  group_label: "Experimental"
+}
+
 explore: events{
   label: "Event History"
   sql_always_where:

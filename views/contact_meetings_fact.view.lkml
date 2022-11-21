@@ -47,6 +47,12 @@ view: contact_meetings_fact {
     sql: ${TABLE}.meeting_pk ;;
   }
 
+  dimension: engagement_id {
+    hidden: no
+    primary_key: no
+    sql: ${TABLE}.engagement_id ;;
+  }
+
   dimension: deal_pk {
     type: string
     sql: ${TABLE}.deal_pk ;;
@@ -101,7 +107,7 @@ view: contact_meetings_fact {
   measure: total_meetings {
     hidden: no
     type: count_distinct
-    sql: ${meeting_pk} ;;
+    sql: ${engagement_id} ;;
     drill_fields: []
   }
 }
