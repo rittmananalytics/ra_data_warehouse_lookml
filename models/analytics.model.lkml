@@ -19,6 +19,11 @@ explore: consulting_companies {
 
 explore: keywords {
   group_label: "Experimental"
+  join: site_report_by_site {
+    sql_on: ${keywords.date_raw} = ${site_report_by_site.date_raw} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
 
 }
 
