@@ -17,6 +17,11 @@ explore: consulting_companies {
   group_label: "Experimental"
 }
 
+explore: keyword_site_report_by_site {
+  group_label: "Experimental"
+
+}
+
 explore: certification_progress {
   group_label: "Experimental"
 
