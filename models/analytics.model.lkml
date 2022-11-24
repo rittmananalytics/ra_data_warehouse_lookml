@@ -17,7 +17,7 @@ explore: consulting_companies {
   group_label: "Experimental"
 }
 
-explore: keyword_site_report_by_site {
+explore: keywords {
   group_label: "Experimental"
 
 }
