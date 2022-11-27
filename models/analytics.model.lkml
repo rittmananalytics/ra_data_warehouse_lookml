@@ -22,6 +22,11 @@ explore: keywords {
 
 }
 
+explore: page_keyword_performance {
+  group_label: "Experimental"
+
+}
+
 explore: site_report_by_site {
   group_label: "Experimental"
 
