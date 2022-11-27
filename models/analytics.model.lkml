@@ -32,6 +32,10 @@ explore: site_report_by_site {
 
 }
 
+explore: content_performance {
+  group_label: "Experimental"
+  }
+
 explore: certification_progress {
   group_label: "Experimental"
 
