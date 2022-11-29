@@ -1,31 +1,69 @@
 view: content_performance {
   derived_table: {
-    sql: with published_pages as (SELECT p.post_title as Post_Title,
-       case when p.post_type = 'case-study' then 'Marketing'  else 'Content' end as post_type,
-       case when p.post_type = 'case-study' then 'case study' else t.name end as Category,
-       p.post_date as Post_Date,
-       p.post_name as Post_Name
-FROM bitnami_wordpress.wp_posts p,
-     bitnami_wordpress.wp_terms t,
-     bitnami_wordpress.wp_term_relationships tr,
-     bitnami_wordpress.wp_term_taxonomy tx
-WHERE ((p.post_type  = 'post'
-AND p.post_status = 'publish'
-AND tx.taxonomy = 'category') or (p.post_type = 'case-study' and tx.taxonomy = 'case-study-category')
-
-      )
-      AND p.ID = tr.object_id
-      AND tr.term_taxonomy_id = t.term_id
-      AND tx.term_id = t.term_id
-      group by 1,2,3,4,5
-      union all
-      select p.post_title,
-      'Marketing' as post_type,
-      post_type as category,
-      p.post_date,
-      p.post_name
-      from bitnami_wordpress.wp_posts p
-      where p.post_type in ('page','technology','industry','offer','service') and p.post_status = 'publish'),
+    sql: WITH
+  published_pages AS (
+  SELECT * FROM
+    (
+  SELECT
+    p.post_title AS Post_Title,
+    'Content' AS post_type,
+    t.name AS Category,
+    p.post_date AS Post_Date,
+    p.post_name AS Post_Name,
+    p.comment_count AS comment_count,
+    p.post_excerpt
+  FROM (
+    SELECT
+      id,
+      post_title,
+      Post_Date,
+      Post_Name,
+      post_type,
+      post_status,
+      post_excerpt,
+      comment_count
+    FROM (
+      SELECT
+        *,
+        post_modified = MAX(post_modified) OVER (PARTITION BY CAST(p.id AS int64) ROWS BETWEEN UNBOUNDED PRECEDING
+          AND UNBOUNDED FOLLOWING) AS is_last_modified_ts
+      FROM
+        bitnami_wordpress.wp_posts p )
+    WHERE
+      is_last_modified_ts
+    GROUP BY
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8) p
+  JOIN
+    bitnami_wordpress.wp_term_relationships tr
+  ON
+    p.ID = tr.object_id
+  JOIN
+    bitnami_wordpress.wp_terms t
+  ON
+    tr.term_taxonomy_id = t.term_id
+  JOIN
+    bitnami_wordpress.wp_term_taxonomy tx
+  ON
+    tx.term_id = t.term_id
+  WHERE
+    p.post_type = 'post'
+    AND p.post_status = 'publish'
+    AND tx.taxonomy = 'category' )
+GROUP BY
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7),
       traffic as (
       SELECT
       case when path = '/' then 'home' else coalesce(lower(array_reverse(
@@ -57,6 +95,9 @@ AND tx.taxonomy = 'category') or (p.post_type = 'case-study' and tx.taxonomy = '
       category,
       post_date,
       traffic_week,
+      date_diff(traffic_week,date(cast(post_date as timestamp)),week) as weeks_since_post_date,
+      post_excerpt,
+      comment_count,
       total_unique_visitors,
       total_page_views,
       referral_page_views,
@@ -71,7 +112,7 @@ AND tx.taxonomy = 'category') or (p.post_type = 'case-study' and tx.taxonomy = '
       on t.page_name = s.page_name
       and t.traffic_week = s.search_week
       where category in ('Blog','Podcast')
-      order by post_type, category, post_title, traffic_week
+
       ;;
   }
 
@@ -91,9 +132,15 @@ AND tx.taxonomy = 'category') or (p.post_type = 'case-study' and tx.taxonomy = '
     sql: ${TABLE}.category ;;
   }
 
-  dimension: post_date {
-    type: string
-    sql: ${TABLE}.post_date ;;
+  dimension_group: post {
+    type: time
+    timeframes: [date,week,month,quarter,year]
+    sql: timestamp(${TABLE}.post_date) ;;
+  }
+
+  dimension: weeks_since_post_date {
+    type: number
+    sql: ${TABLE}.weeks_since_post_date ;;
   }
 
 
