@@ -12,6 +12,22 @@ datagroup: analytics_default_datagroup {
 fiscal_month_offset: +3
 week_start_day: monday
 
+explore: wordpress_posts {
+  view_label: "Pages"
+  join: google_search_console_weekly_stats {
+    view_label: "Keyword Performance"
+    sql_on: ${wordpress_posts.post_name} = ${google_search_console_weekly_stats.page_name} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: rudderstack_weekly_page_stats {
+    view_label: "Site Traffic"
+    sql_on: ${wordpress_posts.post_name} = ${rudderstack_weekly_page_stats.page_name} ;;
+    type: left_outer
+    relationship: one_to_many
+
+  }
+}
 
 explore: consulting_companies {
   group_label: "Experimental"
