@@ -1,6 +1,6 @@
-view: keyword_site_report_by_page {
+view: keyword_page_report {
   derived_table: {
-    sql: SELECT * FROM `ra-development.google_search_console.keyword_page_report` LIMIT 10
+    sql: SELECT * FROM `ra-development.google_search_console.keyword_page_report`
       ;;
   }
 

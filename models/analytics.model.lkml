@@ -29,6 +29,10 @@ explore: wordpress_posts {
   }
 }
 
+explore: keyword_page_report {
+  group_label: "Experimental"
+}
+
 explore: consulting_companies {
   group_label: "Experimental"
 }
