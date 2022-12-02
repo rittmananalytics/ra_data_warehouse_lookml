@@ -42,7 +42,7 @@ view: rudderstack_weekly_page_stats {
   dimension_group: traffic {
     type: time
     timeframes: [raw,week,quarter,year]
-    datatype: date
+    datatype: timestamp
     sql: timestamp(${TABLE}.traffic_week) ;;
   }
 
