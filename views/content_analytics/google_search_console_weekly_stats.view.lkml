@@ -1,23 +1,31 @@
 view: google_search_console_weekly_stats {
   derived_table: {
-    sql: with page_keyword_performance as (
-      SELECT
-      case when page = 'https://rittmananalytics.com/' then 'home' else coalesce(lower(array_reverse(
-      split(rtrim(page,'/'),'/'))[safe_offset(0)]),'home') end as page_name,
-      query as search_keywords,
-      date_trunc(date, WEEK) as search_week,
-      sum(clicks) as total_clicks,
-      sum(impressions) as total_impressions,
-      avg(ctr) as avg_ctr,
-      avg(position) as avg_position
-      FROM
-      `ra-development.fivetran_google_search_console.keyword_page_report`
-      GROUP BY
-      1,2,3)
-select *,
-       row_number() over (partition by search_week order by total_clicks desc) as weekly_query_clicks_rank
-from page_keyword_performance
- ;;
+    sql: WITH
+          page_keyword_performance AS (
+          SELECT
+            CASE
+              WHEN page = 'https://rittmananalytics.com/' THEN 'home'
+            ELSE
+            COALESCE(LOWER(ARRAY_REVERSE( SPLIT(RTRIM(page,'/'),'/'))[SAFE_OFFSET(0)]),'home')
+          END
+            AS page_name,
+            query AS search_keywords,
+            DATE_TRUNC(date, WEEK) AS search_week,
+            SUM(clicks) AS total_clicks,
+            SUM(impressions) AS total_impressions,
+            AVG(ctr) AS avg_ctr,
+            AVG(position) AS avg_position
+          FROM
+            `ra-development.fivetran_google_search_console.keyword_page_report`
+          GROUP BY
+            1,
+            2,
+            3)
+        SELECT
+          *,
+          ROW_NUMBER() OVER (PARTITION BY search_week ORDER BY total_clicks DESC) AS weekly_query_clicks_rank
+        FROM
+          page_keyword_performance;;
   }
 
   measure: count {

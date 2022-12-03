@@ -1,6 +1,6 @@
 view: keyword_page_report {
   derived_table: {
-    sql: SELECT * FROM `ra-development.google_search_console.keyword_page_report`
+    sql: SELECT * FROM `ra-development.fivetran_google_search_console.keyword_page_report`
       ;;
   }
 
@@ -14,7 +14,7 @@ view: keyword_page_report {
   dimension_group: search {
     type: time
     timeframes: [date,month,quarter,year]
-    sql: ${TABLE}.date ;;
+    sql: timestamp(${TABLE}.date) ;;
   }
 
   dimension: device {
@@ -22,9 +22,9 @@ view: keyword_page_report {
     sql: ${TABLE}.device ;;
   }
 
-  dimension: keyword {
+  dimension: query {
     type: string
-    sql: ${TABLE}.keyword ;;
+    sql: ${TABLE}.query ;;
   }
 
   dimension: page {

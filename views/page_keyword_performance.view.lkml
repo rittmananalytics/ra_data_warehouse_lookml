@@ -1,72 +1,79 @@
 view: page_keyword_performance {
   derived_table: {
     persist_for: "24 hours"
-    sql: with published_pages as (WITH
-  posts AS (
-  SELECT
-    p.post_title AS Post_Title,
-    'Content' AS post_type,
-    t.name AS Category,
-    p.post_date AS Post_Date,
-    p.post_name AS Post_Name,
-    p.comment_count AS post_comments,
-    p.post_excerpt
-  FROM (
-    SELECT
-      id,
-      post_title,
-      Post_Date,
-      Post_Name,
-      post_type,
-      post_status,
-      post_excerpt,
-      comment_count
-    FROM (
-      SELECT
-        *,
-        post_modified = MAX(post_modified) OVER (PARTITION BY CAST(p.id AS int64) ROWS BETWEEN UNBOUNDED PRECEDING
-          AND UNBOUNDED FOLLOWING) AS is_last_modified_ts
-      FROM
-        bitnami_wordpress.wp_posts p )
-    WHERE
-      is_last_modified_ts
-    GROUP BY
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8) p
-  JOIN
-    bitnami_wordpress.wp_term_relationships tr
-  ON
-    p.ID = tr.object_id
-  JOIN
-    bitnami_wordpress.wp_terms t
-  ON
-    tr.term_taxonomy_id = t.term_id
-  JOIN
-    bitnami_wordpress.wp_term_taxonomy tx
-  ON
-    tx.term_id = t.term_id
-  WHERE
-    p.post_type = 'post'
-    AND p.post_status = 'publish'
-    AND tx.taxonomy = 'category' )
-SELECT
-  *
-FROM
-  posts
-GROUP BY
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7),
+    sql: with published_pages as (SELECT * FROM
+          (
+        SELECT
+          p.post_title AS Post_Title,
+          'Content' AS post_type,
+          t.name AS Category,
+          p.post_date AS Post_Date,
+          p.post_name AS Post_Name,
+          p.comment_count AS comment_count,
+          p.post_excerpt
+        FROM (
+          SELECT
+            id,
+            post_title,
+            Post_Date,
+            Post_Name,
+            post_type,
+            post_status,
+            post_excerpt,
+            comment_count
+          FROM (
+            SELECT
+              *,
+              post_modified = MAX(post_modified) OVER (PARTITION BY CAST(p.id AS int64) ROWS BETWEEN UNBOUNDED PRECEDING
+                AND UNBOUNDED FOLLOWING) AS is_last_modified_ts
+            FROM
+              bitnami_wordpress.wp_posts p )
+          WHERE
+            is_last_modified_ts
+          GROUP BY
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8) p
+        JOIN
+          bitnami_wordpress.wp_term_relationships tr
+        ON
+          p.ID = tr.object_id
+        JOIN
+          bitnami_wordpress.wp_terms t
+        ON
+          tr.term_taxonomy_id = t.term_id
+        JOIN
+          bitnami_wordpress.wp_term_taxonomy tx
+        ON
+          tx.term_id = t.term_id
+        WHERE
+          p.post_type = 'post'
+          AND p.post_status = 'publish'
+          AND tx.taxonomy = 'category' )
+      GROUP BY
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      UNION ALL
+      select p.post_title,
+             'Marketing' as post_type,
+             initcap(post_type) as category,
+             p.post_date,
+             p.post_name,
+             p.comment_count,
+             p.post_excerpt
+      from bitnami_wordpress.wp_posts p
+      where p.post_type in ('page','technology','industry','offer','service') and p.post_status = 'publish'
+      group by 1,2,3,4,5,6,7),
 daily_performance as (
 select p.post_title,
        p.post_date,
