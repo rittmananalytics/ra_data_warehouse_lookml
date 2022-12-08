@@ -154,14 +154,21 @@ view: web_events_fact {
               case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then 'Blog'
                   when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then 'Podcast'
                   when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then 'Home Page'
-                  when ${TABLE}.page_url_path is not null then 'Marketing' end
-              end;;
+                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then 'Service'
+                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact/%' or ${TABLE}.page_url_path like '%/faqs/%' then 'Contact'
+                  when ${TABLE}.page_url_path is not null then 'Marketing'
+              end
+         end;;
   }
 
   dimension: visit_value {
     type: number
     hidden: yes
-    sql: case when ${page_category} = "Blog" then 1 when ${page_category} = "Home Page" then 2 when ${page_category} = "Marketing" then 4
+    sql: case when ${page_category} in ("Blog","Podcast") then 1
+              when ${page_category} = "Home Page" then 1
+              when ${page_category} = "Marketing" then 2
+              when ${page_category} = "Service" then 4
+              when ${page_category} = "Contact" then 8
               when ${is_goal_achieved} then 8
               when ${is_conversion_event} then 16 end;;
   }

@@ -22,6 +22,31 @@ view: contacts_dim {
     sql: (SELECT contact_id FROM UNNEST(all_contact_ids) contact_id WHERE contact_id like "%hubspot%" limit 1) ;;
    }
 
+  dimension: contact_conversion_event {
+    group_label: "      Contact Details"
+    type: string
+    sql: ${TABLE}.contact_conversion_event ;;
+  }
+
+  dimension: contact_source_type {
+    group_label: "      Contact Details"
+    type: string
+    sql: ${TABLE}.contact_source_type ;;
+  }
+
+  dimension: is_contact_in_crm_workflow {
+    group_label: "      Contact Details"
+    type: yesno
+    sql: ${TABLE}.contact_in_crm_workflow ;;
+  }
+
+  dimension: contact_crm_lifecycle_stage {
+    group_label: "      Contact Details"
+    type: string
+    sql: ${TABLE}.contact_crm_lifecycle_stage ;;
+  }
+
+
 
 
   dimension: contact_cost_rate {
