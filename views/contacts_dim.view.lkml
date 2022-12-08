@@ -25,7 +25,7 @@ view: contacts_dim {
   dimension: contact_conversion_event {
     group_label: "      Contact Details"
     type: string
-    sql: ${TABLE}.contact_conversion_event ;;
+    sql: ${TABLE}.contact_conversion_event_source ;;
   }
 
   dimension: contact_source_type {
