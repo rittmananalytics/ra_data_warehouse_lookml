@@ -860,7 +860,7 @@ explore: companies_dim {
     }
     join: profit_and_loss_report_fact {
       view_label: "Profit & Loss Report"
-      sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id} ;;
+      sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id};;
       type: left_outer
       relationship: one_to_many
     }

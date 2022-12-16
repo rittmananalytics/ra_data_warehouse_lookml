@@ -80,6 +80,7 @@ view: profit_and_loss_report_fact {
       raw,
       month,
       month_num,
+      quarter,
       year,
       fiscal_month_num,
       fiscal_quarter_of_year,
@@ -101,6 +102,7 @@ view: profit_and_loss_report_fact {
 
   dimension: profit_and_loss_pk {
     hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.profit_and_loss_pk ;;
   }
