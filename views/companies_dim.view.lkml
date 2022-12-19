@@ -114,7 +114,7 @@ view: companies_dim {
 
     label: "Company"
     type: string
-    sql: case when ${TABLE}.company_name = 'indexlabs.co.uk' then 'Football Index' else ${TABLE}.company_name end;;
+    sql: ${TABLE}.company_name;;
   }
 
 
@@ -129,7 +129,8 @@ view: companies_dim {
   }
 
   dimension: company_pk {
-    hidden: yes
+    group_label: "     Company"
+    hidden: no
     primary_key: yes
     type: string
     sql: ${TABLE}.company_pk ;;

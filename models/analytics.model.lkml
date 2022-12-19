@@ -575,6 +575,12 @@ explore: companies_dim {
     relationship: one_to_one
   }
 
+  join: customer_first_order_segments {
+    view_label: "        Companies"
+    sql_on: ${companies_dim.company_pk} = ${customer_first_order_segments.companies_dim_company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
 
   join: rfm_model {
     view_label: "        Companies"
@@ -660,6 +666,13 @@ explore: companies_dim {
     type: full_outer
     relationship: one_to_many
   }
+
+  join: customer_first_deal_cohorts {
+    view_label: "     Sales (Hubspot)"
+    sql_on: ${deals_fact.deal_pk} = ${customer_first_deal_cohorts.deal_pk};;
+    type: inner
+    relationship: one_to_one
+  }
   join: projects_managed {
     view_label: " Project Management (Jira)"
 
@@ -706,6 +719,26 @@ explore: companies_dim {
     view_label: "       Contacts"
     sql_on: ${contact_companies_fact.contact_pk} = ${contacts.contact_pk} ;;
     type: inner
+    relationship: many_to_one
+  }
+
+  join: contact_meetings_fact {
+    view_label: "  Contact Meetings"
+    sql_on: ${contacts.contact_pk} = ${contact_meetings_fact.meeting_host_contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: marketing_interactions_fact {
+    view_label: "Content Marketing"
+    sql_on: ${contacts.contact_pk} = ${marketing_interactions_fact.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: marketing_content_dim{
+
+    view_label: "Content Marketing"
+    sql_on: ${marketing_interactions_fact.marketing_content_pk} = ${marketing_content_dim.marketing_content_pk} ;;
+    type: left_outer
     relationship: many_to_one
   }
 

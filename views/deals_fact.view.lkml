@@ -590,7 +590,7 @@ measure: total_deal_amount_gbp_converted  {
 
   dimension: deal_source {
     group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.deal_source ;;
@@ -598,7 +598,7 @@ measure: total_deal_amount_gbp_converted  {
 
   dimension: hs_analytics_source {
     group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.hs_analytics_source ;;
@@ -606,7 +606,7 @@ measure: total_deal_amount_gbp_converted  {
 
   dimension: hs_analytics_source_data_1 {
     group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.hs_analytics_source_data_1 ;;
@@ -614,7 +614,7 @@ measure: total_deal_amount_gbp_converted  {
 
   dimension: hs_analytics_source_data_2 {
     group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.hs_analytics_source_data_2 ;;
