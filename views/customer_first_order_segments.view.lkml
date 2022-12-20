@@ -11,6 +11,7 @@ view: customer_first_order_segments {
                            when deal_sprint_type is null then 'Data Analytics'
                            else deal_sprint_type end) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts)  AS first_sprint_type,
           first_value(deals_fact.deal_number_of_sprints) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts)  AS first_number_of_sprints,
+          last_value(deals_fact.deal_number_of_sprints) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts)  AS last_number_of_sprints,
           first_value(deals_fact.deal_currency_code) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts)  AS first_currency_code,
           first_value(CASE WHEN deals_fact.is_license_referral_deal  THEN 'Yes' ELSE 'No' END) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts)   AS is_first_deal_license_referral,
           first_value(CASE WHEN deals_fact.is_services_deal  THEN 'Yes' ELSE 'No' END) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts) AS is_first_deal_services,
@@ -27,7 +28,14 @@ view: customer_first_order_segments {
                            WHEN deals_fact.deal_amount between 10000 and 25000 then '10000 - 25000 GBP'
                            WHEN deals_fact.deal_amount between 25000 and 50000 then '25000 - 50000 GBP'
                            WHEN deals_fact.deal_amount between 50000 and 100000 then '50000 - 100000 GBP'
-                           else '100000+ GBP' end) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts)as first_deal_amount
+                           else '100000+ GBP' end) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts) as first_deal_amount,
+          last_value(CASE WHEN deals_fact.deal_amount < 4000 then '< 4000 GBP'
+                           WHEN deals_fact.deal_amount between 4000 and 6000 then '4000 - 6000 GBP'
+                           WHEN deals_fact.deal_amount between 6000 and 10000 then '6000 - 10000 GBP'
+                           WHEN deals_fact.deal_amount between 10000 and 25000 then '10000 - 25000 GBP'
+                           WHEN deals_fact.deal_amount between 25000 and 50000 then '25000 - 50000 GBP'
+                           WHEN deals_fact.deal_amount between 50000 and 100000 then '50000 - 100000 GBP'
+                           else '100000+ GBP' end) over (partition by companies_dim.company_pk order by deals_fact.deal_closed_ts) as last_deal_amount
       FROM
         `analytics.deals_fact` AS deals_fact
       JOIN
@@ -40,7 +48,7 @@ view: customer_first_order_segments {
       FROM
         deals
       group by
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
        ;;
   }
 
@@ -94,6 +102,13 @@ view: customer_first_order_segments {
 
     type: number
     sql: ${TABLE}.first_number_of_sprints ;;
+  }
+
+  dimension: last_number_of_sprints {
+    group_label: "Last Order Segments"
+
+    type: number
+    sql: ${TABLE}.last_number_of_sprints ;;
   }
 
   dimension: first_currency_code {
@@ -171,6 +186,13 @@ view: customer_first_order_segments {
 
     type: string
     sql: ${TABLE}.first_deal_amount ;;
+  }
+
+  dimension: last_deal_amount {
+    group_label: "Last Order Segments"
+
+    type: string
+    sql: ${TABLE}.last_deal_amount ;;
   }
 
   set: detail {
