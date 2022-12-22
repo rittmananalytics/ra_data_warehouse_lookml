@@ -118,7 +118,7 @@ explore: marketing_content_dim {
 
 
 explore: contact_utilization_fact {
-  label: "Resourcing"
+  label: "Utilization"
   group_label: "Experimental"
 
   view_label: "Utilization"
@@ -132,7 +132,7 @@ explore: contact_utilization_fact {
 
 explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
-  label: "Marketing"
+  label: "Web Analytics"
   view_label: "  Sessions"
   group_label: "   Operations"
 
@@ -164,57 +164,6 @@ explore: web_sessions_fact {
 
 
   }
-
-explore: sales_funnel_xa {
-  label: "Sales Funnel"
-  hidden: yes
-  view_label: "        Sales Funnel"
-  join: companies_dim{
-    view_label: "    Companies"
-    sql_on: ${sales_funnel_xa.blended_id} = ${companies_dim.company_pk} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: contacts_dim {
-    view_label: "   Contacts"
-    sql_on: ${sales_funnel_xa.contact_pk} = ${contacts_dim.contact_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: contacts_influencer_list_xa {
-    view_label: "   Contacts"
-    sql_on: ${contacts_dim.hubspot_contact_id} = ${contacts_influencer_list_xa.hubspot_contact_id} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-  join: contacts_web_interests_xa {
-    view_label: "   Contacts"
-    sql_on: ${contacts_dim.contact_pk} = ${contacts_web_interests_xa.contact_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-
-  join: rfm_model {
-    view_label: "    Companies"
-    sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-  join: client_prospect_status_dim {
-    view_label: "    Companies"
-    sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-}
-
-
-
-
-
-
-
-
 
 
 
@@ -565,6 +514,15 @@ explore: companies_dim {
       projects_delivered.project_delivery_start_ts_date: "after this month"
     ]
   }
+
+  join: client_concentration{
+    view_label: "Monthly Concentration"
+    sql_on: ${projects_invoiced.invoice_sent_at_ts_month} = ${client_concentration.invoice_month_month} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+
+
 
   label: "     Sales & Invoicing"
   view_label: "        Companies"
