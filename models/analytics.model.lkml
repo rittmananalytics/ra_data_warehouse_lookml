@@ -737,32 +737,8 @@ explore: companies_dim {
     relationship: one_to_many
   }
 
-  join: customer_events_xa {
-    view_label: "        Companies"
-    sql_on: ${companies_dim.company_pk} = ${customer_events_xa.company_pk} ;;
-    type: inner
-    relationship: one_to_many
-  }
-  join: product_usage_fact {
-    view_label: "Products"
-    sql_on: ${companies_dim.company_pk} = ${product_usage_fact.company_pk} ;;
-    type: inner
-    relationship: one_to_many
-  }
-  join: product_usage_contacts {
-    from: contacts_dim
-    view_label: "Products"
-    sql_on: ${product_usage_fact.contact_pk} = ${product_usage_contacts.contact_pk};;
 
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: products_dim {
-    view_label: "Products"
-    sql_on: ${product_usage_fact.product_pk} = ${products_dim.product_pk} ;;
-    type: inner
-    relationship: many_to_one
-  }
+
   join: contracts_fact {
     view_label: "Contracts Signed (Docusign)"
     sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;

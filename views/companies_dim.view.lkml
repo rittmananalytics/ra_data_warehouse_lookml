@@ -233,6 +233,13 @@ view: companies_dim__all_company_addresses {
     sql: ${TABLE}.company_zip ;;
   }
 
+  dimension: source_company_ids {
+    group_label: "     Company"
+
+    type: string
+    sql: ARRAY_AGG(UNNEST(all_company_ids)) ;;
+  }
+
 
 
 }
