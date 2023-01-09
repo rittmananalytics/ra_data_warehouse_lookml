@@ -30,15 +30,20 @@ view: client_concentration {
 
   measure: count {
     type: count
+    hidden: yes
     drill_fields: [detail*]
   }
 
   dimension_group: invoice_month {
+    hidden: yes
+
     type: time
     sql: ${TABLE}.invoice_month ;;
   }
 
   dimension: customer_concentration {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.customer_concentration ;;
   }

@@ -26,7 +26,7 @@ view: invoices_fact {
       quarter,
       year,
       quarter_of_year,
-       fiscal_month_num,
+      fiscal_month_num,
       fiscal_quarter_of_year,
       fiscal_year,
       fiscal_quarter
@@ -52,6 +52,7 @@ view: invoices_fact {
 
   dimension_group: invoice {
     label: "      Invoice"
+    hidden: yes
     type: time
     timeframes: [
       date,
@@ -77,6 +78,7 @@ view: invoices_fact {
 
   measure: customer_total_active_months {
     group_label: "RFM"
+    hidden: yes
 
     type: count_distinct
     sql: ${invoice_issued_month} ;;
@@ -96,6 +98,7 @@ view: invoices_fact {
 
   dimension_group: invoice_due {
     group_label: "        Invoice Details"
+    hidden: yes
 
     type: time
     timeframes: [
@@ -108,6 +111,8 @@ view: invoices_fact {
     group_label: "        Invoice Details"
     description: "Either the date that payment is expected OR the date that payment has been received - note that if expected payment date is populated that should supercede payment date for unpaid invoices"
     type: time
+    hidden: yes
+
     timeframes: [
       date
     ]
@@ -120,8 +125,9 @@ view: invoices_fact {
       }
 
   dimension_group: invoice_issued {
-    hidden: no
-
+    hidden: yes
+    label: "Revenue"
+    group_label: "Revenue Dates"
     type: time
     timeframes: [
       date,
@@ -141,7 +147,7 @@ view: invoices_fact {
   dimension_group: expected_payment {
     group_label: "        Invoice Details"
 
-    hidden: no
+    hidden: yes
     type: time
     timeframes: [
       date
@@ -225,6 +231,7 @@ view: invoices_fact {
 
   dimension: invoice_number {
     group_label: "        Invoice Details"
+    hidden: yes
 
     type: string
     sql: ${TABLE}.invoice_number ;;
@@ -232,6 +239,7 @@ view: invoices_fact {
 
   dimension_group: invoice_paid {
     group_label: "        Invoice Details"
+    hidden: yes
 
     type: time
     timeframes: [
@@ -242,6 +250,7 @@ view: invoices_fact {
 
   dimension: invoice_payment_term {
     group_label: "        Invoice Details"
+    hidden: yes
 
     type: string
     sql: ${TABLE}.invoice_payment_term ;;
@@ -288,7 +297,7 @@ view: invoices_fact {
 
   dimension_group: invoice_sent_at_ts {
     hidden: yes
-
+    label: "Invoice"
     type: time
     timeframes: [
       raw,
@@ -329,7 +338,7 @@ view: invoices_fact {
 
   dimension: invoice_tax_rate_pct {
     group_label: "        Invoice Details"
-
+    hidden: yes
     type: number
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
@@ -394,6 +403,7 @@ view: invoices_fact {
 
   measure: invoice_months_recency {
     group_label: "RFM"
+    hidden: yes
 
     type: max
     sql: ${TABLE}.invoice_months_before_now ;;
@@ -410,6 +420,7 @@ view: invoices_fact {
 
   measure: min_invoice_months_before_now {
     group_label: "RFM"
+    hidden: yes
 
     type: min
     sql: ${invoice_months_before_now} ;;
@@ -418,6 +429,7 @@ view: invoices_fact {
   measure: total_invoice_gbp_amount_in_clients_last_12m {
     value_format_name: gbp
     group_label: "RFM"
+    hidden: yes
 
     type: sum
     sql: case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * 0.75
@@ -431,6 +443,7 @@ view: invoices_fact {
 
   measure: total_months_customer {
     group_label: "RFM"
+    hidden: yes
 
     type: max
     sql: ${months_since_first_invoice} ;;
@@ -486,7 +499,8 @@ view: invoices_fact {
   }
 
   dimension: invoice_currency_rate {
-    hidden: no
+    hidden: yes
+
     type: number
     sql: case when ${TABLE}.invoice_currency_rate is null or ${TABLE}.invoice_currency_rate = 0 then ${exchange_rates.currency_rate} else ${TABLE}.invoice_currency_rate end ;;
   }
@@ -516,7 +530,7 @@ view: invoices_fact {
   measure: total_gross_amount_local {
     group_label: "Reporting"
 
-    hidden: no
+    hidden: yes
     type: sum
     sql: ${TABLE}.total_local_amount ;;
   }
@@ -524,7 +538,7 @@ view: invoices_fact {
   measure: total_tax_local {
     group_label: "Reporting"
 
-    hidden: no
+    hidden: yes
     type: sum
     sql: ${invoice_local_total_tax_amount};;
   }
@@ -532,7 +546,7 @@ view: invoices_fact {
   measure: total_net_amount_local {
     group_label: "Reporting"
 
-    hidden: no
+    hidden: yes
     type: sum
     sql: ${total_local_amount} - coalesce(${invoice_local_total_tax_amount},0);;
   }
@@ -540,7 +554,7 @@ view: invoices_fact {
   measure: total_gross_amount_gbp {
     group_label: "Reporting"
 
-    hidden: no
+    hidden: yes
     type: sum
     value_format_name: gbp_0
     sql: ${invoice_gbp_amount} ;;
@@ -548,14 +562,14 @@ view: invoices_fact {
 
   measure: total_tax_gbp {
     group_label: "Reporting"
-    hidden: no
+    hidden: yes
     type: sum
     value_format_name: gbp_0
     sql: ${invoice_gbp_tax_amount} ;;
   }
 
   measure: total_net_amount_gbp {
-    group_label: "Reporting"
+    label: "Total Revenue GBP"
 
     hidden: no
     type: sum
@@ -564,6 +578,8 @@ view: invoices_fact {
   }
 
   measure: count_invoices {
+    hidden: yes
+
     type: count_distinct
     sql: ${TABLE}.invoice_pk ;;
 

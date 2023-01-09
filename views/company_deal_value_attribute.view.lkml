@@ -25,28 +25,28 @@ view: company_deal_value_attribute {
   }
 
   dimension: initial_deal_amount {
-    group_label: "     Company"
+    group_label: "     Organization"
 
     type: number
     sql: ${TABLE}.initial_deal_amount ;;
   }
 
   dimension: expansion_deal_amount {
-    group_label: "     Company"
+    group_label: "     Organization"
 
     type: number
     sql: ${TABLE}.expansion_deal_amount ;;
   }
 
   measure:total_initial_deal_amount {
-    group_label: "     Company"
+    group_label: "     Organization"
 
     type: sum
     sql: ${TABLE}.initial_deal_amount ;;
   }
 
   measure: total_expansion_deal_amount {
-    group_label: "     Company"
+    group_label: "     Organization"
 
     type: sum
     sql: ${TABLE}.expansion_deal_amount ;;

@@ -2,7 +2,9 @@ view: companies_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.companies_dim`;;
 
   dimension_group: company_created {
-    group_label: "     Company"
+    group_label: "     Organization"
+    label: "Organization Created"
+    hidden: yes
 
     timeframes: [date,month,quarter,year]
     type: time
@@ -14,22 +16,7 @@ view: companies_dim {
 
 
 
-  dimension: rfm_segment {
-    group_label: "Ideal Customer Attributes"
-    hidden: yes
-    type: string
-    sql: ${rfm_model.rfm_segment} ;;
 
-  }
-
-  dimension: client_current_status {
-    group_label: "Ideal Customer Attributes"
-    hidden: yes
-
-    type: string
-    sql: ${client_prospect_status_dim.client_status} ;;
-
-  }
 
 
 
@@ -50,7 +37,9 @@ view: companies_dim {
   }
 
   dimension: company_description {
-    group_label: "     Company"
+    group_label: "     Organization"
+    label: "Organizion Description"
+    description: "Company Bio, sourced from LinkedIn via Hubspot"
 
     type: string
     sql: ${TABLE}.company_description ;;
@@ -71,7 +60,8 @@ view: companies_dim {
 
   dimension: company_industry {
     hidden: no
-    group_label: "     Company"
+    group_label: "     Organization"
+    label: "Organization Industry"
 
     type: string
     sql: ${TABLE}.company_industry ;;
@@ -93,26 +83,22 @@ view: companies_dim {
     sql: ${TABLE}.company_last_modified_date ;;
   }
 
-  dimension: company_linkedin_bio {
-    hidden: no
-    group_label: "     Company"
 
-    type: string
-    sql: ${TABLE}.company_linkedin_bio ;;
-  }
 
   dimension: company_linkedin_company_page {
-    hidden: no
-    group_label: "     Company"
+    hidden: yes
+    group_label: "     Organization"
+    label: "Organization LinkedIn Page"
+
 
     type: string
     sql: ${TABLE}.company_linkedin_company_page ;;
   }
 
   dimension: company_name {
-    group_label: "     Company"
+    group_label: "     Organization"
 
-    label: "Company"
+    label: "Organization Name"
     type: string
     sql: ${TABLE}.company_name;;
   }
@@ -129,15 +115,16 @@ view: companies_dim {
   }
 
   dimension: company_pk {
-    group_label: "     Company"
-    hidden: no
+    group_label: "     Organization"
+    hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.company_pk ;;
   }
 
   dimension: company_twitterhandle {
-    group_label: "     Company"
+    group_label: "     Organization"
+    label: "Organization Twitter Handle"
 
     hidden: no
 
@@ -146,7 +133,8 @@ view: companies_dim {
   }
 
   dimension: company_website {
-    group_label: "     Company"
+    group_label: "     Organization"
+    label: "Organization Website"
 
     hidden: no
 
@@ -155,7 +143,7 @@ view: companies_dim {
   }
 
   measure: count {
-    group_label: "     Company"
+    group_label: "Total Organizations"
 
     type: count
     drill_fields: [detail*]
@@ -233,12 +221,7 @@ view: companies_dim__all_company_addresses {
     sql: ${TABLE}.company_zip ;;
   }
 
-  dimension: source_company_ids {
-    group_label: "     Company"
 
-    type: string
-    sql: ARRAY_AGG(UNNEST(all_company_ids)) ;;
-  }
 
 
 

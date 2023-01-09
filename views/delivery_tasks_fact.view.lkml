@@ -392,14 +392,20 @@ view: delivery_tasks_fact {
   }
 
   measure: total_task_hours_to_complete {
+    group_label: "Project Tasks"
+
     type: sum
     sql: ${TABLE}.total_task_hours_to_complete ;;
   }
 
   measure: avg_task_hours_to_complete {
+    group_label: "Project Tasks"
+
     type: average
     sql: ${TABLE}.total_task_hours_to_complete ;;
   }
+
+
 
   measure: count {
     type: count

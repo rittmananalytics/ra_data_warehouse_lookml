@@ -37,21 +37,21 @@ view: client_prospect_status_dim {
   }
 
   dimension: client_status {
-    group_label: "     Company"
+    group_label: "     Organization"
 
     type: string
     sql: ${TABLE}.client_status ;;
   }
 
   dimension: is_client {
-    group_label: "     Company"
+    group_label: "     Organization"
 
     type: yesno
     sql: ${client_status} like '%Client%' ;;
   }
 
   dimension: is_prospect {
-    group_label: "     Company"
+    group_label: "     Organization"
 
     type: yesno
     sql: ${client_status} like '%Prospect%' ;;

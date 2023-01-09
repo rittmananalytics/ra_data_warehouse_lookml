@@ -10,6 +10,8 @@ view: timesheet_projects_dim {
 
   dimension: project_budget_amount {
     group_label: "Project Commercials"
+    hidden: yes
+
     type: number
     sql: ${TABLE}.project_budget_amount ;;
   }
@@ -31,6 +33,7 @@ view: timesheet_projects_dim {
 
   dimension: project_budget_by {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: string
     sql: ${TABLE}.project_budget_by ;;
@@ -45,6 +48,7 @@ view: timesheet_projects_dim {
 
   dimension: project_cost_budget {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.project_cost_budget ;;
@@ -60,6 +64,7 @@ view: timesheet_projects_dim {
 
   dimension_group: project_revenue_expected_ts {
     group_label: "   Project Details"
+    hidden: yes
 
     type: time
     timeframes: [date,week,month]
@@ -82,6 +87,7 @@ view: timesheet_projects_dim {
 
   dimension: project_fee_amount {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.project_fee_amount ;;
@@ -91,6 +97,7 @@ view: timesheet_projects_dim {
 
   dimension: project_fee_amount_pro_rata {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.total_project_fee_recognized_revenue ;;
@@ -103,12 +110,15 @@ view: timesheet_projects_dim {
   dimension: total_business_days_pct_elapsed {
     group_label: "Project Commercials"
     type: number
+    hidden: yes
+
     value_format_name: percent_0
     sql: 1- ${TABLE}.total_business_days_pct_left ;;
   }
 
   dimension: project_hourly_rate {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.project_hourly_rate ;;
@@ -130,6 +140,7 @@ view: timesheet_projects_dim {
 
   dimension: project_is_expenses_included_in_cost_budget {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.project_is_expenses_included_in_cost_budget ;;
@@ -137,6 +148,7 @@ view: timesheet_projects_dim {
 
   dimension: project_is_fixed_fee {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.project_is_fixed_fee ;;
@@ -157,6 +169,7 @@ view: timesheet_projects_dim {
 
   dimension: project_over_budget_notification_pct {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.project_over_budget_notification_pct ;;
@@ -169,6 +182,7 @@ view: timesheet_projects_dim {
   }
 
   dimension: timesheet_project_pk {
+
     hidden: no
     primary_key: yes
     type: string
@@ -176,6 +190,8 @@ view: timesheet_projects_dim {
   }
 
   measure: count_timesheet_projects {
+    hidden: yes
+
     type: count_distinct
     sql:  ${TABLE}.timesheet_project_pk ;;
     drill_fields: [project_name]
