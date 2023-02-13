@@ -29,6 +29,16 @@ explore: wordpress_posts {
   }
 }
 
+explore: revenue_and_forecast {
+  group_label: "Experimental"
+
+}
+
+explore: sprint_pricing {
+  group_label: "Experimental"
+
+}
+
 explore: keyword_page_report {
   group_label: "Experimental"
 }
