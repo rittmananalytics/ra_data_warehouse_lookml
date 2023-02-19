@@ -125,7 +125,7 @@ view: invoices_fact {
       }
 
   dimension_group: invoice_issued {
-    hidden: yes
+    hidden: no
     label: "Revenue"
     group_label: "Revenue Dates"
     type: time
