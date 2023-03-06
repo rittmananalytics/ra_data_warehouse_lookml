@@ -41,7 +41,7 @@ view: targets {
   }
 
   dimension: revenue_target {
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${TABLE}.revenue_target ;;
