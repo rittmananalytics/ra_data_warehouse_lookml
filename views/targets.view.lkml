@@ -47,6 +47,12 @@ view: targets {
     sql: ${TABLE}.revenue_target ;;
   }
 
+  measure: total_revenue_target {
+    type: sum
+    sql: ${revenue_target} ;;
+    value_format_name: gbp_0
+  }
+
   dimension: pk {
     type: string
     primary_key: yes

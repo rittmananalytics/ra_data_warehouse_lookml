@@ -164,7 +164,7 @@ view: sales_targets {
 
     measure: total_target_revenue {
       type: sum
-
+      hidden: yes
       sql: ${target_revenue};;
     }
 
