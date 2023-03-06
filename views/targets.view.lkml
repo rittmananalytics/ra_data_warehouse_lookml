@@ -12,11 +12,14 @@ view: targets {
   # This dimension will be called "Deals Closed Target" in Explore.
 
   dimension: deals_closed_target {
+    hidden: yes
     type: number
     sql: ${TABLE}.deals_closed_target ;;
   }
 
   dimension: deals_target {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.deals_target ;;
   }
@@ -38,6 +41,8 @@ view: targets {
   }
 
   dimension: revenue_target {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.revenue_target ;;
   }
@@ -54,6 +59,8 @@ view: targets {
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
   measure: total_revenue_target {
+    hidden: yes
+
     type: sum
     value_format_name: gbp
 
@@ -61,6 +68,8 @@ view: targets {
   }
 
   measure: total_deals_closed_target {
+    hidden: yes
+
     type: sum
     value_format_name: gbp
 
@@ -68,6 +77,8 @@ view: targets {
   }
 
   measure: total_deals_target {
+    hidden: yes
+
     type: sum
     value_format_name: gbp
     sql: ${deals_target} ;;

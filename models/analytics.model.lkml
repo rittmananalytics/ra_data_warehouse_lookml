@@ -101,7 +101,16 @@ explore: events{
 
 explore: targets {
   label: "Targets"
+  view_label: "Targets"
+  join: sales_targets {
+    view_label: "Targets"
+
+    sql_on: ${targets.period_month} = ${sales_targets.period_month} ;;
+    type: left_outer
+    relationship: one_to_one
   }
+  }
+
 
 explore: marketing_content_dim {
   label: "Social Media"
@@ -619,6 +628,8 @@ explore: companies_dim {
     type: full_outer
     relationship: one_to_many
   }
+
+
 
   join: customer_first_deal_cohorts {
     view_label: "     Sales"

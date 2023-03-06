@@ -146,11 +146,14 @@ view: invoices_fact {
 
   dimension_group: expected_payment {
     group_label: "        Invoice Details"
+    label: "Payment Due"
+    group_label: "Payment Due Dates"
 
-    hidden: yes
+    hidden: no
     type: time
     timeframes: [
-      date
+      date,
+      month
     ]
     sql: ${TABLE}.expected_payment_at_ts ;;
   }

@@ -80,12 +80,12 @@ view: web_events_fact {
 
   measure: event {
     type: string
-    sql: array_agg(${event_type}) ;;
+    sql: array_agg(${event_type})[safe_offset(0)] ;;
   }
 
   measure: event_type_details {
     type: string
-    sql: array_agg(${event_details}) ;;
+    sql: array_agg(coalesce(${event_details},"None"))[safe_offset(0)];;
   }
 
 
