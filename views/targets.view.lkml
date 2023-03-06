@@ -47,11 +47,18 @@ view: targets {
     sql: ${TABLE}.revenue_target ;;
   }
 
-  measure: total_revenue_target {
-    type: sum
-    sql: ${revenue_target} ;;
-    value_format_name: gbp_0
+  dimension: retained_earnings_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.retained_earnings ;;
   }
+
+  measure: total_retained_earnings_target {
+    type: sum
+    sql: ${retained_earnings_target} ;;
+  }
+
 
   dimension: pk {
     type: string
@@ -65,7 +72,7 @@ view: targets {
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
   measure: total_revenue_target {
-    hidden: yes
+    hidden: no
 
     type: sum
     value_format_name: gbp
