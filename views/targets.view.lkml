@@ -12,7 +12,7 @@ view: targets {
   # This dimension will be called "Deals Closed Target" in Explore.
 
   dimension: deals_closed_target {
-    hidden: yes
+    hidden: no
     type: number
     sql: ${TABLE}.deals_closed_target ;;
   }
@@ -81,7 +81,7 @@ view: targets {
   }
 
   measure: total_deals_closed_target {
-    hidden: yes
+    hidden: no
 
     type: sum
     value_format_name: gbp
