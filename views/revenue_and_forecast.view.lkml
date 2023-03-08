@@ -8,8 +8,8 @@ view: revenue_and_forecast {
 
   dimension_group: period {
     timeframes: [month,quarter,year]
-type:time
-sql: ${TABLE}.month ;;
+    type:time
+sql: timestamp(${TABLE}.month) ;;
   }
 
   dimension: target_revenue {
