@@ -14,6 +14,7 @@ week_start_day: monday
 
 explore: wordpress_posts {
   view_label: "Pages"
+  hidden: yes
   join: google_search_console_weekly_stats {
     view_label: "Keyword Performance"
     sql_on: ${wordpress_posts.page_name} = ${google_search_console_weekly_stats.page_name} ;;
@@ -30,53 +31,75 @@ explore: wordpress_posts {
 }
 
 explore: revenue_and_forecast {
+  hidden: yes
+
   group_label: "Experimental"
 
 }
 
 explore: sprint_pricing {
+  hidden: yes
+
   group_label: "Experimental"
 
 }
 
 explore: keyword_page_report {
+  hidden: yes
+
   group_label: "Experimental"
 }
 
 explore: consulting_companies {
+  hidden: yes
+
   group_label: "Experimental"
 }
 
 explore: keywords {
+  hidden: yes
+
   group_label: "Experimental"
 
 }
 
 explore: page_keyword_performance {
+  hidden: yes
+
   group_label: "Experimental"
 
 }
 
 explore: site_report_by_site {
+  hidden: yes
+
   group_label: "Experimental"
 
 }
 
 explore: content_performance {
+  hidden: yes
+
   group_label: "Experimental"
   }
 
 explore: certification_progress {
+  hidden: yes
+
   group_label: "Experimental"
 
 }
 
 explore: kpi_scorecard {
+  hidden: yes
+
   group_label: "Experimental"
 
 }
 
 explore: hr_survey_results_fact {
+  hidden: yes
+
   label: "Team"
   view_label: "Staff Satisfaction"
   group_label: "Experimental"
@@ -86,11 +109,15 @@ explore: hr_survey_results_fact {
 }
 
 explore: website_leads {
+  hidden: yes
+
   group_label: "Experimental"
 }
 
 explore: events{
   label: "Event History"
+  hidden: yes
+
   sql_always_where:
   {% if events.search._in_query %}
   SEARCH(events,"{% parameter events.search %}")
@@ -101,6 +128,8 @@ explore: events{
 
 explore: targets {
   label: "Targets"
+  hidden: yes
+
   view_label: "Targets"
   join: sales_targets {
     view_label: "Targets"
@@ -113,6 +142,8 @@ explore: targets {
 
 
 explore: marketing_content_dim {
+  hidden: yes
+
   label: "Social Media"
   group_label: "Experimental"
 
@@ -137,6 +168,8 @@ explore: marketing_content_dim {
 
 
 explore: contact_utilization_fact {
+  hidden: yes
+
   label: "Utilization"
   group_label: "Experimental"
 
@@ -191,6 +224,8 @@ explore: web_sessions_fact {
 
 
 explore: client_concentration {
+  hidden: yes
+
   label: "Client Concentration"
   view_label: "Monthly Concentration"
   group_label: "Experimental"
@@ -230,6 +265,8 @@ explore: ad_campaigns_dim {
 
 
 explore: contacts {
+  hidden: yes
+
   from: contacts_dim
   label: "       Contacts"
   view_label: "          Contacts"
@@ -425,6 +462,8 @@ explore: contacts {
 
 }
  explore: projects_delivered {
+  hidden: yes
+
   label: "Projects"
   hidden: no
   group_label: "   Operations"
@@ -522,6 +561,8 @@ explore: contacts {
 
 explore: companies_dim {
   group_label: "   Operations"
+  hidden: yes
+
 
 
   join: client_concentration{
@@ -743,6 +784,8 @@ explore: companies_dim {
   }
 
   explore: project_attribution {
+    hidden: yes
+
     label: "Attribution"
     view_label: "Project Attribution"
     group_label: "Experimental"
@@ -762,6 +805,8 @@ explore: companies_dim {
   }
 
   explore: timesheets_forecast_fact {
+    hidden: yes
+
     label: "Resource Forecast"
     group_label: "Experimental"
 
