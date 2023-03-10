@@ -104,7 +104,6 @@ explore: hr_survey_results_fact {
   view_label: "Staff Satisfaction"
   group_label: "Experimental"
 
-  hidden: no
 
 }
 
@@ -114,17 +113,7 @@ explore: website_leads {
   group_label: "Experimental"
 }
 
-explore: events{
-  label: "Event History"
-  hidden: yes
 
-  sql_always_where:
-  {% if events.search._in_query %}
-  SEARCH(events,"{% parameter events.search %}")
-  {% else %}
-  1=1
-  {% endif %} ;;
-}
 
 explore: targets {
   label: "Targets"
@@ -230,7 +219,6 @@ explore: client_concentration {
   view_label: "Monthly Concentration"
   group_label: "Experimental"
 
-  hidden: no
 
 }
 
@@ -265,7 +253,7 @@ explore: ad_campaigns_dim {
 
 
 explore: contacts {
-  hidden: yes
+  hidden: no
 
   from: contacts_dim
   label: "       Contacts"
@@ -465,7 +453,6 @@ explore: contacts {
   hidden: yes
 
   label: "Projects"
-  hidden: no
   group_label: "   Operations"
 
 
@@ -575,6 +562,7 @@ explore: companies_dim {
 
 
   label: "Rittman Analytics"
+
   view_label: "        Organizations"
   join: client_prospect_status_dim {
     view_label: "        Organizations"

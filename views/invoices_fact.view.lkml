@@ -147,7 +147,6 @@ view: invoices_fact {
   dimension_group: expected_payment {
     group_label: "        Invoice Details"
     label: "Payment Due"
-    group_label: "Payment Due Dates"
 
     hidden: no
     type: time
