@@ -548,7 +548,7 @@ explore: contacts {
 
 explore: companies_dim {
   group_label: "   Operations"
-  hidden: yes
+  hidden: no
 
 
 
