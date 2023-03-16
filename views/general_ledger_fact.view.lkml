@@ -133,7 +133,7 @@ view: general_ledger_fact {
   }
 
   dimension: journal_id {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.journal_id ;;
@@ -154,7 +154,7 @@ view: general_ledger_fact {
   }
 
   dimension: journal_pk {
-    hidden: yes
+    hidden: no
     primary_key: yes
     type: string
     sql: ${TABLE}.journal_pk ;;

@@ -98,11 +98,14 @@ view: invoices_fact {
 
   dimension_group: invoice_due {
     group_label: "        Invoice Details"
-    hidden: yes
+    hidden: no
 
     type: time
     timeframes: [
-      date
+      date,
+      month,
+      year,
+      quarter
     ]
     sql: ${TABLE}.invoice_due_at_ts ;;
   }

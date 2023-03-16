@@ -450,7 +450,7 @@ explore: contacts {
 
 }
  explore: projects_delivered {
-  hidden: yes
+  hidden: no
 
   label: "Projects"
   group_label: "   Operations"

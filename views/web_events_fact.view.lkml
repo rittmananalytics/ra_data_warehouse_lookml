@@ -151,25 +151,29 @@ view: web_events_fact {
     group_label: "Behavior"
     type: string
     sql: case when ${event_type} = 'Page View' then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then 'Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then 'Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then 'Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then 'Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact/%' or ${TABLE}.page_url_path like '%/faqs/%' then 'Contact'
-                  when ${TABLE}.page_url_path is not null then 'Marketing'
+              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '1: Blog'
+                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '1: Podcast'
+                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '1: Home Page'
+                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '4: Service'
+                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact/%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '8: Contact'
+                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
+                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '8: Goal Achieved'
+                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '2: Landing Page'
+                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '4: Gated Content'
+                  when ${TABLE}.page_url_path is not null then '2: Marketing'
               end
          end;;
   }
 
   dimension: visit_value {
     type: number
-    hidden: yes
-    sql: case when ${page_category} in ("Blog","Podcast") then 1
-              when ${page_category} = "Home Page" then 1
-              when ${page_category} = "Marketing" then 2
-              when ${page_category} = "Service" then 4
-              when ${page_category} = "Contact" then 8
-              when ${is_goal_achieved} then 8
+    hidden: no
+    sql: case when ${page_category} in ("1: Blog","1: Podcast") then 1
+              when ${page_category} = "1: Home Page" then 1
+              when ${page_category} in ("2: Marketing","2: Landing Page") then 2
+              when ${page_category} in ("4: Service","4: Gated Content") then 4
+              when ${page_category} = "8: Contact" then 8
+              when ${is_goal_achieved} or ${page_category} = "8: Goal Achieved" then 8
               when ${is_conversion_event} then 16 end;;
   }
 
