@@ -184,6 +184,12 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
+  join: visitor_journey {
+    view_label: "Visitor Journey"
+    sql_on: ${web_sessions_fact.web_sessions_pk} = ${visitor_journey.web_sessions_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
   join: is_conversion_session {
     view_label: "  Sessions"
     type: left_outer
