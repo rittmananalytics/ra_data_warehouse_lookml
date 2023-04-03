@@ -1,6 +1,6 @@
 view: website_leads {
   derived_table: {
-    sql: select invitee_email, invitee_name, Start_Date___Time, enquiry, category, Sales_Qualified_, Closed_Won_, Canceled, Event_Type_Name, Response_1
+    sql: select invitee_email, invitee_name, Start_Date___Time, enquiry, category, Sales_Qualified_, Closed_Won_,Event_Created_Date___Time, Canceled, Event_Type_Name, Response_1
       from analytics_seed.website_leads
        ;;
   }
@@ -30,6 +30,17 @@ view: website_leads {
     type: string
     hidden: yes
     sql: ${TABLE}.Start_Date___Time ;;
+  }
+
+  dimension: event_type {
+    type: string
+    sql: "Meeting Booked" ;;
+  }
+
+  dimension_group: booking {
+    type: time
+    timeframes: [date,month,month_num,quarter,quarter_of_year,week,year,hour,hour3]
+    sql: parse_timestamp('%Y-%m-%d',split(${TABLE}.Event_Created_Date___Time,' ')[safe_offset(0)]) ;;
   }
 
   dimension_group: meeting {

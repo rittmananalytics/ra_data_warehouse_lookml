@@ -67,7 +67,9 @@ view: web_events_fact {
       time,
       week,
       month,
-      date
+      date,
+      hour,
+      hour3
     ]
     sql: ${TABLE}.event_ts ;;
   }
@@ -150,17 +152,19 @@ view: web_events_fact {
   dimension: page_category {
     group_label: "Behavior"
     type: string
-    sql: case when ${event_type} = 'Page View' then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '1: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '1: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '1: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '4: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact/%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '8: Contact'
+    sql: case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
+              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
+                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
+                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
+                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
+                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact/%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
                   when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '8: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '2: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '4: Gated Content'
-                  when ${TABLE}.page_url_path is not null then '2: Marketing'
+                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
+                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
+                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
+                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
+                  when ${TABLE}.page_url_path is not null then '02: Marketing'
+                  when ${event_type} = "Meeting Booked" then '16: Conversion'
               end
          end;;
   }
@@ -168,12 +172,13 @@ view: web_events_fact {
   dimension: visit_value {
     type: number
     hidden: no
-    sql: case when ${page_category} in ("1: Blog","1: Podcast") then 1
-              when ${page_category} = "1: Home Page" then 1
-              when ${page_category} in ("2: Marketing","2: Landing Page") then 2
-              when ${page_category} in ("4: Service","4: Gated Content") then 4
-              when ${page_category} = "8: Contact" then 8
-              when ${is_goal_achieved} or ${page_category} = "8: Goal Achieved" then 8
+    sql: case when ${page_category} in ("01: Blog","01: Podcast") then 1
+              when ${page_category} = "01: Home Page" then 1
+              when ${page_category} in ("02: Marketing","02: Landing Page") then 2
+              when ${page_category} in ("04: Service","04: Gated Content") then 4
+              when ${page_category} in ("06: Assistant") then 6
+              when ${page_category} = "08: Contact" then 8
+              when ${is_goal_achieved} or ${page_category} = "08: Goal Achieved" then 8
               when ${is_conversion_event} then 16 end;;
   }
 

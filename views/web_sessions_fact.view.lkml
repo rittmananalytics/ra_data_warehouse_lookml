@@ -270,13 +270,7 @@ view: web_sessions_fact {
     sql: SAFE_DIVIDE(COUNT(DISTINCT(case when ${is_bounced_session} = TRUE then ${web_sessions_pk} end)),${total_web_sessions_pk})  ;;
   }
 
-  dimension: user_id {
-    group_label: "  Audience"
 
-    hidden: no
-    type: string
-    sql: ${TABLE}.user_id ;;
-  }
 
   dimension: user_session_number {
     group_label: "  Audience"
@@ -294,13 +288,7 @@ view: web_sessions_fact {
 
 
 
-  dimension: anonymous_id {
-    group_label: "  Audience"
 
-    hidden: no
-    type: string
-    sql: ${TABLE}.visitor_id ;;
-  }
 
   dimension: web_sessions_pk {
     hidden: yes

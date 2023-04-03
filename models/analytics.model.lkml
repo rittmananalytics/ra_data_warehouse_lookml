@@ -108,7 +108,7 @@ explore: hr_survey_results_fact {
 }
 
 explore: website_leads {
-  hidden: yes
+  hidden: no
 
   group_label: "Experimental"
 }
@@ -184,6 +184,29 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
+  join: visitor_details {
+    from: email_contacts_dim
+    sql_on: ${web_sessions_fact.blended_user_id} = ${visitor_details.contact_email};;
+    type: left_outer
+    relationship: one_to_one
+
+
+  }
+  join: visitor_companies {
+    from: contact_companies_fact
+      sql_on: ${visitor_details.contact_pk} = ${visitor_companies.contact_pk};;
+      type: inner
+      relationship: one_to_many
+    }
+  join: visitor_organisations {
+    from: companies_dim
+    sql_on: ${visitor_companies.company_pk} = ${visitor_organisations.company_pk};;
+    type: inner
+    relationship: many_to_one
+  }
+
+
+
   join: visitor_journey {
     view_label: "Visitor Journey"
     sql_on: ${web_sessions_fact.web_sessions_pk} = ${visitor_journey.web_sessions_pk} ;;
