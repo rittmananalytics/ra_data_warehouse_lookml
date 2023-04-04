@@ -621,14 +621,14 @@ explore: companies_dim {
 
   }
   join: projects_delivered {
-    view_label: "    Projects"
+    view_label: "    Invoicing"
     from: timesheet_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
   join: projects_invoiced {
-    view_label: "    Revenue"
+    view_label: "    Invoicing"
 
     from: invoices_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
@@ -641,7 +641,7 @@ explore: companies_dim {
     relationship: many_to_one
   }
   join: project_invoice_timesheets {
-    view_label: "    Revenue"
+    view_label: "    Invoicing"
 
     from: timesheets_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${project_invoice_timesheets.timesheet_project_pk} ;;
@@ -649,7 +649,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: project_invoice_timesheet_users {
-    view_label: "    Delivery"
+    view_label: "    Invoicing"
 
     from: contacts_dim
     sql_on: ${project_invoice_timesheets.contact_pk} = ${project_invoice_timesheet_users.contact_pk} ;;
@@ -658,14 +658,14 @@ explore: companies_dim {
   }
 
   join: project_timesheets {
-    view_label: "    Projects"
+    view_label: "      Timesheets"
     from: timesheets_fact
     sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
     type: left_outer
     relationship: one_to_many
   }
   join: project_timesheet_projects {
-    view_label: "    Projects"
+    view_label: "      Timesheets"
 
     from: timesheet_projects_dim
     sql_on: ${project_timesheets.timesheet_project_pk} = ${project_timesheet_projects.timesheet_project_pk} ;;
@@ -673,7 +673,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: project_timesheet_users {
-    view_label: "    Projects"
+    view_label: "      Timesheets"
 
     from: contacts_dim
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
@@ -681,7 +681,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: deals_fact {
-    view_label: "     Sales"
+    view_label: "        Sales"
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
     type: full_outer
     relationship: one_to_many
@@ -690,13 +690,13 @@ explore: companies_dim {
 
 
   join: customer_first_deal_cohorts {
-    view_label: "     Sales"
+    view_label: "        Sales"
     sql_on: ${deals_fact.deal_pk} = ${customer_first_deal_cohorts.deal_pk};;
     type: inner
     relationship: one_to_one
   }
   join: projects_managed {
-    view_label: " Project Management"
+    view_label: "    Project Management"
 
     from: delivery_projects_dim
     sql_on: ${companies_dim.company_pk} = ${projects_managed.company_pk} ;;
@@ -704,14 +704,14 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: delivery_tasks_fact {
-    view_label: " Project Management"
+    view_label: "    Project Management"
 
     sql_on: ${projects_managed.delivery_project_pk} = ${delivery_tasks_fact.delivery_project_pk};;
     type: left_outer
     relationship: one_to_many
   }
   join: delivery_task_history {
-    view_label: " Project Management"
+    view_label: "    Project Management"
     sql_on: ${delivery_tasks_fact.task_id} = ${delivery_task_history.task_id} ;;
     type: left_outer
     relationship: one_to_one
@@ -725,7 +725,7 @@ explore: companies_dim {
 
   join: team_dim {
     from: contacts_dim
-    view_label: " Project Management"
+    view_label: "    Project Management"
     sql_on: ${delivery_tasks_fact.contact_pk} = ${team_dim.contact_pk};;
     type: left_outer
     relationship: many_to_one
@@ -745,23 +745,10 @@ explore: companies_dim {
   }
 
   join: contact_meetings_fact {
-    view_label: "  Meetings"
+    view_label: "       Meetings"
     sql_on: ${contacts.contact_pk} = ${contact_meetings_fact.meeting_host_contact_pk};;
     type: left_outer
     relationship: one_to_many
-  }
-  join: marketing_interactions_fact {
-    view_label: "Marketing"
-    sql_on: ${contacts.contact_pk} = ${marketing_interactions_fact.contact_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: marketing_content_dim{
-
-    view_label: "Marketing"
-    sql_on: ${marketing_interactions_fact.marketing_content_pk} = ${marketing_content_dim.marketing_content_pk} ;;
-    type: left_outer
-    relationship: many_to_one
   }
 
 
