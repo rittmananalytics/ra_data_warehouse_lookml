@@ -163,7 +163,7 @@ view: web_events_fact {
                   when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
                   when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
                   when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path is not null then '02: Marketing'
+                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' then '02: Marketing'
                   when ${event_type} = "Meeting Booked" then '16: Conversion'
               end
          end;;
