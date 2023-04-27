@@ -192,6 +192,12 @@ explore: web_sessions_fact {
 
 
   }
+  join: has_viewed_pricing {
+    view_label: "  Sessions"
+    sql_on: ${web_sessions_fact.blended_user_id} = ${has_viewed_pricing.web_sessions_fact_blended_user_id} ;;
+    type: inner
+    relationship: one_to_one
+  }
   join: visitor_companies {
     from: contact_companies_fact
       sql_on: ${visitor_details.contact_pk} = ${visitor_companies.contact_pk};;
