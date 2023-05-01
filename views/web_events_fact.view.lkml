@@ -1,15 +1,11 @@
 view: web_events_fact {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.web_events_fact`
-    ;;
-
-
-
-
-
-
-
-
-
+  derived_table: {
+    sql: select *,
+              min(event_ts) over (partition by page_title order by event_ts) as page_title_published_at_ts,
+              date_diff(date(min(event_ts) over (partition by page_title order by event_ts)), current_date,month) as months_since_page_title_published_at_ts,
+              date_diff(date(min(event_ts) over (partition by page_title order by event_ts)), current_date,day) as days_since_page_title_published_at_ts
+       from web_events_fact;;
+  }
 
   dimension: customer_pk {
     hidden: yes
