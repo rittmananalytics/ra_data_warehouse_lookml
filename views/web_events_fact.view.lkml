@@ -1,9 +1,12 @@
 view: web_events_fact {
   derived_table: {
-    sql: select *,
-              min(event_ts) over (partition by page_title order by event_ts) as page_title_published_at_ts,
-              date_diff(date(min(event_ts) over (partition by page_title order by event_ts)), current_date,month) as months_since_page_title_published_at_ts,
-              date_diff(date(min(event_ts) over (partition by page_title order by event_ts)), current_date,day) as days_since_page_title_published_at_ts
+    sql: select * except(page_title),
+              replace(page_title,'—','-') as page_title,
+              min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts) as page_title_published_at_ts,
+              date_diff(date(event_ts),date(min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts)), month) as months_since_page_title_published_at_ts,
+              date_diff(date(event_ts),date(min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts)), day) as days_since_page_title_published_at_ts,
+              count(distinct web_event_pk) over (partition by replace(page_title,'—','-')) as total_page_views,
+              count(distinct blended_user_id) over (partition by replace(page_title,'—','-')) as total_unique_viewers
        from web_events_fact;;
   }
 
@@ -126,6 +129,32 @@ view: web_events_fact {
     type: string
     sql: ${TABLE}.page_title ;;
   }
+
+  dimension_group: page_published {
+    group_label: "Behavior"
+    type: time
+    timeframes: [date,month,quarter,year]
+    sql: ${TABLE}.page_title_published_at_ts ;;
+  }
+
+  dimension: months_since_page_published {
+    group_label: "Behavior"
+    type: number
+    sql: ${TABLE}.months_since_page_title_published_at_ts ;;
+  }
+
+  dimension: page_total_page_views {
+    group_label: "Behavior"
+    type: number
+    sql: ${TABLE}.total_page_views ;;
+  }
+
+  dimension: page_total_unique_viewers {
+  group_label: "Behavior"
+  type: number
+  sql: ${TABLE}.total_unique_viewers ;;
+  }
+
 
   dimension: page_url {
     group_label: "Behavior"
