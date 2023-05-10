@@ -12,23 +12,8 @@ datagroup: analytics_default_datagroup {
 fiscal_month_offset: +3
 week_start_day: monday
 
-explore: wordpress_posts {
-  view_label: "Pages"
-  hidden: yes
-  join: google_search_console_weekly_stats {
-    view_label: "Keyword Performance"
-    sql_on: ${wordpress_posts.page_name} = ${google_search_console_weekly_stats.page_name} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: rudderstack_weekly_page_stats {
-    view_label: "Site Traffic"
-    sql_on: ${wordpress_posts.page_name} = ${rudderstack_weekly_page_stats.page_name} ;;
-    type: left_outer
-    relationship: one_to_many
 
-  }
-}
+
 
 explore: revenue_and_forecast {
   hidden: no
@@ -37,12 +22,7 @@ explore: revenue_and_forecast {
 
 }
 
-explore: sprint_pricing {
-  hidden: yes
 
-  group_label: "Experimental"
-
-}
 
 explore: keyword_page_report {
   hidden: yes
@@ -50,11 +30,7 @@ explore: keyword_page_report {
   group_label: "Experimental"
 }
 
-explore: consulting_companies {
-  hidden: yes
 
-  group_label: "Experimental"
-}
 
 explore: keywords {
   hidden: yes
@@ -77,11 +53,7 @@ explore: site_report_by_site {
 
 }
 
-explore: content_performance {
-  hidden: yes
 
-  group_label: "Experimental"
-  }
 
 explore: certification_progress {
   hidden: yes
@@ -90,12 +62,7 @@ explore: certification_progress {
 
 }
 
-explore: kpi_scorecard {
-  hidden: yes
 
-  group_label: "Experimental"
-
-}
 
 explore: hr_survey_results_fact {
   hidden: yes
@@ -130,28 +97,7 @@ explore: targets {
   }
 
 
-explore: marketing_content_dim {
-  hidden: yes
 
-  label: "Social Media"
-  group_label: "Experimental"
-
-  view_label: "      Posts"
-  join: marketing_interactions_fact {
-    view_label: "    Interactions"
-    sql_on: ${marketing_content_dim.marketing_content_pk} = ${marketing_interactions_fact.marketing_content_pk};;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: contacts_dim {
-    view_label: "Contacts"
-    sql_on: ${marketing_interactions_fact.contact_pk} = ${contacts_dim.contact_pk} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-
-
-}
 
 
 
@@ -247,15 +193,7 @@ explore: web_sessions_fact {
 
 
 
-explore: client_concentration {
-  hidden: yes
 
-  label: "Client Concentration"
-  view_label: "Monthly Concentration"
-  group_label: "Experimental"
-
-
-}
 
 explore: ad_campaigns_dim {
   hidden: yes
@@ -582,6 +520,7 @@ explore: contacts {
 
 
 explore: companies_dim {
+  label: "Client Operations"
   group_label: "   Operations"
   hidden: no
 
@@ -596,7 +535,6 @@ explore: companies_dim {
 
 
 
-  label: "Rittman Analytics"
 
   view_label: "        Organizations"
   join: client_prospect_status_dim {
