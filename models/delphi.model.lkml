@@ -16,7 +16,7 @@ explore: clients {
   from: companies_dim
   label: "Client Operations"
   group_label: "   Operations"
-  hidden: no
+  hidden: yes
 
 
 
