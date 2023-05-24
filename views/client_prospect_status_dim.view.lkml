@@ -18,10 +18,9 @@ view: client_prospect_status_dim {
       GROUP BY
           1,2)
       select company_pk, company_name,
-             case when count_timesheet_projects between 0 and 2 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'New Client'
-                  when count_timesheet_projects > 2 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'Repeat Client'
-                  when count_timesheet_projects = 0 and count_deals > closed_lost_deals then 'Prospect'
-                  when count_timesheet_projects = 0 and count_deals > 0 and count_deals <= closed_lost_deals then 'Lost Prospect'
+             case when count_timesheet_projects between 1 and 2 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'New Client'
+                  when count_timesheet_projects >= 2 and company_name not like '%Looker%' and company_name not like '%Segment%' then 'Repeat Client'
+                  when count_timesheet_projects = 0 and count_deals > 0 then 'Prospect'
                   else 'None'
              end as client_status
       from company_metrics
@@ -37,20 +36,20 @@ view: client_prospect_status_dim {
   }
 
   dimension: client_status {
-    group_label: "     Organization"
+    group_label: "     Companies"
     type: string
     sql: ${TABLE}.client_status ;;
   }
 
   dimension: is_client {
-    group_label: "     Organization"
+    group_label: "     Companies"
 
     type: yesno
     sql: ${client_status} like '%Client%' ;;
   }
 
   dimension: is_prospect {
-    group_label: "     Organization"
+    group_label: "     Companies"
 
     type: yesno
     sql: ${client_status} like '%Prospect%' ;;

@@ -25,9 +25,9 @@ explore: clients {
 
 
 
-  view_label: "        Organizations"
+  view_label: "        Companies"
   join: client_prospect_status_dim {
-    view_label: "        Organizations"
+    view_label: "        Companies"
     sql_on: ${clients.company_pk} = ${client_prospect_status_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_one

@@ -2,8 +2,8 @@ view: companies_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.companies_dim`;;
 
   dimension_group: company_created {
-    group_label: "     Organization"
-    label: "Organization Created"
+    group_label: "     Companies"
+    label: "Company Created"
     hidden: yes
 
     timeframes: [date,month,quarter,year]
@@ -37,8 +37,8 @@ view: companies_dim {
   }
 
   dimension: company_description {
-    group_label: "     Organization"
-    label: "Organizion Description"
+    group_label: "     Companies"
+    label: "     Company Description"
     description: "Company Bio, sourced from LinkedIn via Hubspot"
 
     type: string
@@ -60,8 +60,8 @@ view: companies_dim {
 
   dimension: company_industry {
     hidden: no
-    group_label: "     Organization"
-    label: "Organization Industry"
+    group_label: "     Companies"
+    label: "    Company Industry"
 
     type: string
     sql: ${TABLE}.company_industry ;;
@@ -87,8 +87,8 @@ view: companies_dim {
 
   dimension: company_linkedin_company_page {
     hidden: yes
-    group_label: "     Organization"
-    label: "Organization LinkedIn Page"
+    group_label: "     Companies"
+    label: "   Company LinkedIn Page"
 
 
     type: string
@@ -96,9 +96,9 @@ view: companies_dim {
   }
 
   dimension: company_name {
-    group_label: "     Organization"
+    group_label: "     Companies"
 
-    label: "Organization Name"
+    label: "         Company Name"
     type: string
     sql: ${TABLE}.company_name;;
   }
@@ -115,7 +115,7 @@ view: companies_dim {
   }
 
   dimension: company_pk {
-    group_label: "     Organization"
+    group_label: "     Companies"
     hidden: yes
     primary_key: yes
     type: string
@@ -123,8 +123,8 @@ view: companies_dim {
   }
 
   dimension: company_twitterhandle {
-    group_label: "     Organization"
-    label: "Organization Twitter Handle"
+    group_label: "     Companies"
+    label: "  Company Twitter Handle"
 
     hidden: no
 
@@ -133,8 +133,8 @@ view: companies_dim {
   }
 
   dimension: company_website {
-    group_label: "     Organization"
-    label: "Organization Website"
+    group_label: "     Companies"
+    label: " Company Website"
 
     hidden: no
 
@@ -143,7 +143,6 @@ view: companies_dim {
   }
 
   measure: count {
-    group_label: "Total Organizations"
 
     type: count
     drill_fields: [detail*]

@@ -17,6 +17,7 @@ explore: looker_usage_stats {}
 
 explore: revenue_and_forecast {
   hidden: no
+  description: "Explore that provides booked and forecast (high probability) revenue for past and upcoming months"
 
   group_label: "Experimental"
 
@@ -25,7 +26,7 @@ explore: revenue_and_forecast {
 
 
 explore: keyword_page_report {
-  hidden: yes
+  hidden: no
 
   group_label: "Experimental"
 }
@@ -520,9 +521,9 @@ explore: contacts {
 
 
 explore: companies_dim {
-  label: "Client Operations"
-  group_label: "   Operations"
-  hidden: no
+  label: "Companies"
+  group_label: "   Companies"
+hidden: no
 
 
 
@@ -536,29 +537,29 @@ explore: companies_dim {
 
 
 
-  view_label: "        Organizations"
+  view_label: "        Companies"
   join: client_prospect_status_dim {
-    view_label: "        Organizations"
+    view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
 
   join: customer_first_order_segments {
-    view_label: "        Organizations"
+    view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${customer_first_order_segments.companies_dim_company_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
 
   join: rfm_model {
-    view_label: "        Organizations"
+    view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
   join: company_deal_value_attribute {
-    view_label: "        Organizations"
+    view_label: "        Companies"
     sql_on: ${companies_dim.company_pk} = ${company_deal_value_attribute.company_pk} ;;
     type: left_outer
     relationship: one_to_one
@@ -753,7 +754,7 @@ explore: companies_dim {
   }
 
   explore: timesheets_forecast_fact {
-    hidden: yes
+    hidden: no
 
     label: "Resource Forecast"
     group_label: "Experimental"
