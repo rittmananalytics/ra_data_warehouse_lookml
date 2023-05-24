@@ -13,7 +13,7 @@ fiscal_month_offset: +3
 week_start_day: monday
 
 
-
+explore: looker_usage_stats {}
 
 explore: revenue_and_forecast {
   hidden: no

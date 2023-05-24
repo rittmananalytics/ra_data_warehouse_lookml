@@ -182,13 +182,14 @@ view: web_events_fact {
                   when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
                   when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
                   when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact/%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
+                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
                   when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
                   when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
+                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
                   when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
                   when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
                   when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' then '02: Marketing'
+                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
                   when ${event_type} = "Meeting Booked" then '16: Conversion'
               end
          end;;
@@ -204,6 +205,7 @@ view: web_events_fact {
               when ${page_category} in ("06: Assistant") then 6
               when ${page_category} = "08: Contact" then 8
               when ${is_goal_achieved} or ${page_category} = "08: Goal Achieved" then 8
+              when ${page_category} = "12: Commercials" then 12
               when ${is_conversion_event} then 16 end;;
   }
 
