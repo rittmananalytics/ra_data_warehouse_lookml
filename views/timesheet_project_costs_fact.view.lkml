@@ -42,12 +42,14 @@ view: timesheet_project_costs_fact {
   }
 
   measure: total_cost_gbp {
+    group_label: "Contractor and Other Costs"
     type: sum
     value_format_name: gbp_0
     sql: coalesce(${expense_amount_gbp},0) ;;
   }
 
   measure: total_cost_local {
+    group_label: "Contractor and Other Costs"
     type: sum
     value_format_name: decimal_0
     sql: coalesce(${expense_amount_local},0) ;;
@@ -64,6 +66,8 @@ view: timesheet_project_costs_fact {
 
 
   dimension: expense_category_name {
+    group_label: "Contractor and Other Costs"
+
     type: string
     sql: ${TABLE}.expense_category_name ;;
   }
@@ -72,6 +76,8 @@ view: timesheet_project_costs_fact {
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: expense_created_at {
+    group_label: "Contractor and Other Costs"
+
     type: time
     timeframes: [
 
@@ -82,6 +88,8 @@ view: timesheet_project_costs_fact {
   }
 
   dimension: expense_currency_code {
+    group_label: "Contractor and Other Costs"
+
     type: string
     sql: ${TABLE}.expense_currency_code ;;
   }
@@ -89,21 +97,29 @@ view: timesheet_project_costs_fact {
 
 
   dimension: expense_is_billable {
+    group_label: "Contractor and Other Costs"
+
     type: yesno
     sql: ${TABLE}.expense_is_billable ;;
   }
 
   dimension: expense_is_billed {
+    group_label: "Contractor and Other Costs"
+
     type: yesno
     sql: ${TABLE}.expense_is_billed ;;
   }
 
   dimension: expense_is_locked {
+    group_label: "Contractor and Other Costs"
+
     type: yesno
     sql: ${TABLE}.expense_is_locked ;;
   }
 
   dimension: expense_notes {
+    group_label: "Contractor and Other Costs"
+
     type: string
     sql: ${TABLE}.expense_notes ;;
   }
@@ -132,16 +148,22 @@ view: timesheet_project_costs_fact {
   }
 
   dimension: expense_unit_name {
+    group_label: "Contractor and Other Costs"
+
     type: string
     sql: ${TABLE}.expense_unit_name ;;
   }
 
   dimension: expense_unit_price {
+    group_label: "Contractor and Other Costs"
+
     type: number
     sql: ${TABLE}.expense_unit_price ;;
   }
 
   dimension: expense_units {
+    group_label: "Contractor and Other Costs"
+
     type: number
     sql: ${TABLE}.expense_units ;;
   }

@@ -10,14 +10,14 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_billable_hourly_cost_amount_gbp {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_cost_amount;;
   }
 
   measure: avg_timesheet_billable_hourly_cost_amount_gbp {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
     type: average
     value_format_name: gbp
     sql: ${timesheet_billable_hourly_cost_amount_gbp} ;;
@@ -27,7 +27,7 @@ view: timesheets_fact {
 
 
   dimension: timesheet_billable_hourly_rate_amount_gbp {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_rate_amount ;;
@@ -36,7 +36,7 @@ view: timesheets_fact {
 
 
   dimension_group: timesheet_billing {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: time
     timeframes: [
@@ -62,7 +62,7 @@ view: timesheets_fact {
   }
 
   measure: last_timesheet_billing_date {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: date
     sql: max(${timesheet_billing_raw}) ;;
@@ -70,14 +70,14 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_has_been_billed {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: yesno
     sql: ${TABLE}.timesheet_has_been_billed ;;
   }
 
   dimension_group: first_client_timesheet {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: time
     timeframes: [
@@ -87,7 +87,7 @@ view: timesheets_fact {
   }
 
   dimension_group: last_client_timesheet  {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: time
     timeframes: [
@@ -97,14 +97,14 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_has_been_locked {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: yesno
     sql: ${TABLE}.timesheet_has_been_locked ;;
   }
 
   dimension: timesheet_hours_billed {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
     value_format_name: decimal_1
     hidden: no
     type: number
@@ -112,7 +112,7 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_hours_billed {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
     value_format_name: decimal_0
 
     type: sum
@@ -127,7 +127,7 @@ view: timesheets_fact {
   }
 
   dimension: timesheet_is_billable {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: yesno
     sql: ${TABLE}.timesheet_is_billable ;;
@@ -174,7 +174,7 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_cost_amount_gbp {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
 
     type: sum
     value_format_name: gbp_0

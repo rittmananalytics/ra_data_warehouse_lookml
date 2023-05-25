@@ -48,7 +48,7 @@ view: timesheet_tasks_dim {
 
 
   dimension: task_name {
-    group_label: "Timesheet Details"
+    group_label: "    Timesheet Details"
     type: string
     sql: ${TABLE}.task_name ;;
   }

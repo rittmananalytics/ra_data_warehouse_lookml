@@ -40,7 +40,7 @@ view: timesheet_projects_dim {
   }
 
   dimension: project_code {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
 
     type: string
     sql: ${TABLE}.project_code ;;
@@ -55,7 +55,7 @@ view: timesheet_projects_dim {
   }
 
   dimension_group: project_delivery_end_ts {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
 
     type: time
     timeframes: [date,week,month,month_num,quarter]
@@ -63,7 +63,7 @@ view: timesheet_projects_dim {
   }
 
   dimension_group: project_revenue_expected_ts {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
     hidden: yes
 
     type: time
@@ -72,13 +72,13 @@ view: timesheet_projects_dim {
   }
 
   dimension: is_project_active {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
     type: yesno
     sql: case when timestamp_add(timestamp(${TABLE}.project_delivery_end_ts),interval 30 day) > current_timestamp then true else false end ;;
   }
 
   dimension_group : project_delivery_start_ts {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
 
     type: time
     timeframes: [date,week,month,month_num,quarter, year]
@@ -125,7 +125,7 @@ view: timesheet_projects_dim {
   }
 
   dimension: project_is_active {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
 
     type: yesno
     sql: ${TABLE}.project_is_active ;;
@@ -155,7 +155,7 @@ view: timesheet_projects_dim {
   }
 
   dimension: project_name {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
 
     type: string
     sql: ${TABLE}.project_name ;;

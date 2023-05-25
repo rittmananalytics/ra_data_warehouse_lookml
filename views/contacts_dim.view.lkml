@@ -237,24 +237,31 @@ view: contacts_dim {
 
 
   dimension: contact_friends_count {
+    hidden: yes
     group_label: "Social Media"
     type: number
     sql: ${TABLE}.contact_friends_count ;;
   }
 
   dimension: contact_posts_count {
+    hidden: yes
+
     group_label: "Social Media"
     type: number
     sql: ${TABLE}.contact_posts_count ;;
   }
 
   dimension: contact_is_following {
+    hidden: yes
+
     group_label: "Social Media"
     type: yesno
     sql: ${TABLE}.contact_is_following ;;
   }
 
   dimension: contact_is_followed_by_us {
+    hidden: yes
+
     group_label: "Social Media"
     type: yesno
     sql: ${TABLE}.contact_is_followed_by_us ;;
@@ -279,24 +286,32 @@ view: contacts_dim {
   }
 
   dimension: contact_subscribers {
+    hidden: yes
+
     group_label: "Social Media"
     type: string
     sql: ${TABLE}.contact_subscribers ;;
   }
 
   dimension: contact_connection_degree {
+    hidden: yes
+
     group_label: "Social Media"
     type: string
     sql: ${TABLE}.contact_connection_degree ;;
   }
 
   dimension: contact_connections_count {
+    hidden: yes
+
     group_label: "Social Media"
     type: number
     sql: ${TABLE}.contact_connections_count ;;
   }
 
   dimension: contact_mutual_connections {
+    hidden: yes
+
     group_label: "Social Media"
 
     type: string
@@ -332,12 +347,16 @@ view: contacts_dim {
   }
 
   dimension: dbt_slack_channels {
+    hidden: yes
+
     group_label: "Social Media"
     type: string
     sql: ${TABLE}.dbt_slack_channels ;;
   }
 
   dimension: is_dbt_slack_member {
+    hidden: yes
+
     group_label: "Social Media"
     type: yesno
     sql: ${TABLE}.is_dbt_slack_member ;;

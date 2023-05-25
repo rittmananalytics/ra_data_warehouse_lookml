@@ -424,7 +424,7 @@ explore: contacts {
 
 }
  explore: projects_delivered {
-  hidden: no
+  hidden: yes
 
   label: "Projects"
   group_label: "   Operations"
@@ -728,6 +728,19 @@ hidden: no
     sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;
     type: inner
     relationship: one_to_many
+  }
+
+  join: timesheet_project_costs_fact {
+    view_label: "      Timesheets"
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${timesheet_project_costs_fact.timesheet_project_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: expenses_exchange_rates {
+    from: exchange_rates
+    sql_on: ${timesheet_project_costs_fact.expense_currency_code} = ${expenses_exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
   }
 
   }

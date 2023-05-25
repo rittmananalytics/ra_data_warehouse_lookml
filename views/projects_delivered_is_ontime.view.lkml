@@ -52,7 +52,7 @@ view: projects_delivered_is_ontime {
   }
 
   dimension: is_ontime_project {
-    group_label: "   Project Details"
+    group_label: "        Project Details"
 
     type: yesno
     sql: ${TABLE}.is_ontime_project ;;
