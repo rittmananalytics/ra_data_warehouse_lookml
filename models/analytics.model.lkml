@@ -13,13 +13,13 @@ fiscal_month_offset: +3
 week_start_day: monday
 
 
-explore: looker_usage_stats {}
 
 explore: revenue_and_forecast {
+  group_label: "   Production"
+
   hidden: no
   description: "Explore that provides booked and forecast (high probability) revenue for past and upcoming months"
 
-  group_label: "Experimental"
 
 }
 
@@ -85,7 +85,7 @@ explore: website_leads {
 
 explore: targets {
   label: "Targets"
-  hidden: no
+  hidden: yes
 
   view_label: "Targets"
   join: sales_targets {
@@ -122,7 +122,7 @@ explore: web_sessions_fact {
   #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
   label: "Web Analytics"
   view_label: "  Sessions"
-  group_label: "   Operations"
+  group_label: "   Production"
 
 
   join: web_events_fact {
@@ -196,33 +196,6 @@ explore: web_sessions_fact {
 
 
 
-explore: ad_campaigns_dim {
-  hidden: yes
-
-  label: "Marketing Campaigns"
-  view_label: "Campaigns"
-  join: ad_campaign_performance_fact {
-    view_label: "Campaign Performance"
-    sql_on: ${ad_campaigns_dim.ad_campaign_pk} = ${ad_campaign_performance_fact.ad_campaign_pk};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: web_sessions_fact {
-    view_label: "Sessions"
-    sql_on: ${ad_campaign_performance_fact.ad_campaign_pk} = ${web_sessions_fact.ad_campaign_pk}
-       and. ${ad_campaign_performance_fact.campaign_date} = ${web_sessions_fact.session_start_ts_date};;
-      type: left_outer
-      relationship: one_to_many
-  }
-  join: web_events_fact {
-    view_label: " Events"
-    sql_on: ${web_sessions_fact.session_id} = ${web_events_fact.session_id} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-
-
-}
 
 
 
@@ -232,7 +205,7 @@ explore: contacts {
   from: contacts_dim
   label: "       Contacts"
   view_label: "          Contacts"
-  group_label: "Experimental"
+  group_label: "   Production"
 
   join: timesheets_fact {
     view_label: "Project Timesheets (Harvest)"
@@ -427,7 +400,7 @@ explore: contacts {
   hidden: yes
 
   label: "Projects"
-  group_label: "   Operations"
+  group_label: "   Production"
 
 
    view_label: "         Projects"
@@ -522,8 +495,8 @@ explore: contacts {
 
 explore: companies_dim {
   label: "Companies"
-  group_label: "   Companies"
-hidden: no
+  group_label: "   Production"
+  hidden: no
 
 
 
@@ -792,6 +765,8 @@ hidden: no
 
 
   explore: chart_of_accounts_dim {
+    group_label: "   Production"
+
     label: "Finance"
     hidden: no
     view_label: "Accounts"

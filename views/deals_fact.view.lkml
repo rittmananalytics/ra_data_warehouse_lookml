@@ -2,25 +2,27 @@ view: deals_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.deals_fact`;;
   view_label: "Sales Pipeline"
 
-  dimension: company_pk {
+
+ dimension: company_pk {
     type: string
     hidden: yes
     sql: ${TABLE}.company_pk ;;
+    description: "The primary key for the company associated with a deal"
   }
 
   dimension: deal_amount {
     hidden: yes
     type: number
     sql: ${TABLE}.deal_amount ;;
+    description: "The amount associated with a deal"
   }
 
   measure: total_deal_amount {
     group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
     value_format_name: gbp
-
     type: sum
     sql: ${TABLE}.deal_amount ;;
+    description: "Total sum of all deal amounts"
   }
 
 measure: total_deal_amount_gbp_converted  {
@@ -33,63 +35,54 @@ measure: total_deal_amount_gbp_converted  {
          when ${TABLE}.deal_currency_code = 'CAD' then ${TABLE}.deal_amount * .58
          when ${TABLE}.deal_currency_code = 'EUR' then ${TABLE}.deal_amount * 0.90
          else ${TABLE}.deal_amount end ;;
+  description: "Total sum of deal amounts converted to GBP based on the deal currency code"
 }
+
   measure: total_oppportunity_deal_amount {
     group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
     value_format_name: gbp
-
     type: sum
     sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_amount end;;
+    description: "Total sum of opportunity deal amounts where pipeline stage order is less than 8"
   }
 
   measure: total_closed_won_deal_amount {
     group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
     value_format_name: gbp
-
     type: sum
     sql: case when ${TABLE}.pipeline_stage_closed_won   then  ${TABLE}.deal_amount end;;
+    description: "Total sum of deal amounts where the deal stage is closed-won"
   }
-
-
 
   measure: total_closed_lost_deal_amount {
     group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
     value_format_name: gbp
-
     type: sum
     sql: case when ${TABLE}.pipeline_stage_display_order = 10  then  ${TABLE}.deal_amount end;;
+    description: "Total sum of deal amounts where the deal stage is closed-lost"
   }
 
   measure: total_closed_lost_deals {
     group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
-
     type: count_distinct
     sql: case when ${TABLE}.pipeline_stage_display_order = 10  then  ${TABLE}.deal_pk end;;
+    description: "Count of deals where the deal stage is closed-lost"
   }
-
-
-
-
-
 
   dimension_group: deal_closed {
     type: time
     timeframes: [date,week,week_of_year,month, month_num, quarter,quarter_of_year,year]
-
-
-
     sql: ${TABLE}.deal_closed_ts;;
+    description: "Time group for when deals were closed"
   }
+
+
 
   dimension: deal_closed_lost_reason {
     group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Sales Activity"
-
     type: string
     sql: ${TABLE}.deal_closed_lost_reason ;;
+    description: "Reason for why a deal was closed and lost"
   }
 
   dimension_group: deal_created {
@@ -104,114 +97,210 @@ measure: total_deal_amount_gbp_converted  {
       year
     ]
     sql: ${TABLE}.deal_created_ts ;;
+    description: "Time group for when deals were created"
   }
 
   dimension: deal_description {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    label: "     Deal Description"
-
+    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "Deal Description"
     type: string
     sql: ${TABLE}.deal_description ;;
+    description: "Description of the deal"
   }
 
-  dimension: deal_id {
-    hidden: yes
 
+
+
+dimension: deal_id {
+  description: "The unique identifier for the deal in Hubspot."
+  hidden: yes
+  type: number
+  sql: ${TABLE}.deal_id ;;
+}
+
+dimension: deal_is_deleted {
+  description: "Indicates whether the deal was deleted."
+  group_label: "Details"
+  type: yesno
+  sql: ${TABLE}.deal_is_deleted ;;
+}
+
+dimension_group: deal_last_modified {
+  description: "The time the deal was last modified."
+  type: time
+  hidden: yes
+  timeframes: [
+    time
+  ]
+  sql: ${TABLE}.deal_last_modified_ts ;;
+}
+
+dimension: deal_name {
+  description: "The name of the deal."
+  group_label: "Details"
+  label: "Deal Name"
+  type: string
+  sql: ${TABLE}.deal_name ;;
+}
+
+dimension: deal_owner_id {
+  description: "The unique identifier for the owner of the deal."
+  hidden: yes
+  type: string
+  sql: ${TABLE}.deal_owner_id ;;
+}
+
+dimension: deal_pipeline_id {
+  description: "The unique identifier for the pipeline the deal is in."
+  hidden: yes
+  type: string
+  sql: ${TABLE}.deal_pipeline_id ;;
+}
+
+dimension: deal_pipeline_stage_id {
+  description: "The unique identifier for the stage of the pipeline the deal is in."
+  hidden: yes
+  type: string
+  sql: ${TABLE}.deal_pipeline_stage_id ;;
+}
+
+dimension_group: deal_pipeline_stage {
+  description: "The time the deal reached a particular stage in the pipeline."
+  group_label: "Pipeline"
+  type: time
+  timeframes: [date,month,week,year]
+  sql: ${TABLE}.deal_pipeline_stage_ts ;;
+}
+
+dimension: deal_pk {
+  description: "The primary key for the deal."
+  hidden: yes
+  primary_key: yes
+  type: string
+  sql: ${TABLE}.deal_pk ;;
+}
+
+measure: count_deals {
+  description: "The total number of deals."
+  group_label: "Measures"
+  type: count_distinct
+  sql: ${TABLE}.deal_pk ;;
+}
+
+measure: count_oppportunity_deals {
+  description: "The total number of opportunity deals (deals in a stage with a display order less than 8)."
+  group_label: "Measures"
+  type: count_distinct
+  sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_pk end;;
+}
+
+measure: count_closed_in_delivery_deals {
+  description: "The total number of deals in the 'in delivery' stage (stage display order equals 8)."
+  group_label: "Measures"
+  type: count_distinct
+  sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_pk end;;
+}
+
+measure: count_closed_won_deals {
+  description: "The total number of deals in the 'closed won' stage."
+  group_label: "Measures"
+  type: count_distinct
+  sql: case when ${TABLE}.pipeline_stage_closed_won then ${TABLE}.deal_pk end;;
+}
+
+dimension: deal_type {
+  description: "The type of the deal, 'Existing Business' if not specified."
+  group_label: "Details"
+  label: "Deal Type"
+  sql: case when ${TABLE}.deal_type is null then 'Existing Business' else ${TABLE}.deal_type end ;;
+}
+
+  dimension: deal_value {
+    description: "The monetary value of the deal."
+    group_label: "Details"
     type: number
-    sql: ${TABLE}.deal_id ;;
+    sql: ${TABLE}.deal_value ;;
   }
 
-  dimension: deal_is_deleted {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+  dimension: opportunity_deal_value {
+    description: "The monetary value of opportunity deals (deals in a stage with a display order less than 8)."
+    group_label: "Details"
+    type: number
+    sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_value end ;;
+  }
+
+  dimension: in_delivery_deal_value {
+    description: "The monetary value of deals in the 'in delivery' stage (stage display order equals 8)."
+    group_label: "Details"
+    type: number
+    sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_value end ;;
+  }
+
+  dimension: closed_won_deal_value {
+    description: "The monetary value of deals in the 'closed won' stage."
+    group_label: "Details"
+    type: number
+    sql: case when ${TABLE}.pipeline_stage_closed_won then ${TABLE}.deal_value end ;;
+  }
+
+  measure: total_deal_value {
+    description: "The total monetary value of all deals."
+    group_label: "Measures"
+    type: sum
+    sql: ${TABLE}.deal_value ;;
+  }
+
+  measure: total_opportunity_deal_value {
+    description: "The total monetary value of all opportunity deals (deals in a stage with a display order less than 8)."
+    group_label: "Measures"
+    type: sum
+    sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_value end ;;
+  }
+
+  measure: total_in_delivery_deal_value {
+    description: "The total monetary value of all deals in the 'in delivery' stage (stage display order equals 8)."
+    group_label: "Measures"
+    type: sum
+    sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_value end ;;
+  }
+
+  measure: total_closed_won_deal_value {
+    description: "The total monetary value of all deals in the 'closed won' stage."
+    group_label: "Measures"
+    type: sum
+    sql: case when ${TABLE}.pipeline_stage_closed_won then ${TABLE}.deal_value end ;;
+  }
+
+  dimension: deal_stage_display_order {
+    description: "The order in which the deal stage is displayed in the pipeline."
+    group_label: "Details"
+    hidden: yes
+    type: number
+    sql: ${TABLE}.deal_stage_display_order ;;
+  }
+
+  dimension: deal_stage_probability {
+    description: "The probability associated with the stage of the deal in the pipeline."
+    group_label: "Details"
+    type: number
+    sql: ${TABLE}.deal_stage_probability ;;
+  }
+
+  dimension: deal_stage_closed_won {
+    description: "Indicates if the deal stage is considered 'closed won'."
+    group_label: "Details"
     type: yesno
-    sql: ${TABLE}.deal_is_deleted ;;
+    sql: ${TABLE}.deal_stage_closed_won ;;
   }
 
-  dimension_group: deal_last_modified {
-    type: time
-    hidden: yes
-    timeframes: [
-      time
-    ]
-    sql: ${TABLE}.deal_last_modified_ts ;;
-  }
-
-  dimension: deal_name {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    label: "      Deal Name"
-    type: string
-    sql: ${TABLE}.deal_name ;;
-  }
-
-  dimension: deal_owner_id {
-    hidden: yes
-
-    type: string
-    sql: ${TABLE}.deal_owner_id ;;
-  }
-
-  dimension: deal_pipeline_id {
-    hidden: yes
-
-    type: string
-    sql: ${TABLE}.deal_pipeline_id ;;
-  }
-
-  dimension: deal_pipeline_stage_id {
-    hidden: yes
-
-    type: string
-    sql: ${TABLE}.deal_pipeline_stage_id ;;
-  }
-
-  dimension_group: deal_pipeline_stage {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Pipeline"
-
-    type: time
-    timeframes: [date,month,week,year]
-
-    sql: ${TABLE}.deal_pipeline_stage_ts ;;
-  }
-
-  dimension: deal_pk {
-    hidden: yes
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.deal_pk ;;
-  }
-
-  measure: count_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
-    type: count_distinct
-    sql: ${TABLE}.deal_pk ;;
-  }
-
-  measure: count_oppportunity_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
-    type: count_distinct
-    sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_pk end;;
-  }
-
-  measure: count_closed_in_delivery_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
-    type: count_distinct
-    sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_pk end;;
+  dimension: deal_stage_closed_lost {
+    description: "Indicates if the deal stage is considered 'closed lost'."
+    group_label: "Details"
+    type: yesno
+    sql: ${TABLE}.deal_stage_closed_lost ;;
   }
 
 
-
-  measure: count_closed_won_deals {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Measures"
-    type: count_distinct
-    sql: case when ${TABLE}.pipeline_stage_closed_won  then ${TABLE}.deal_pk end;;
-  }
-
-  dimension: deal_type {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    label: "    Deal Type"
-
-    sql: case when ${TABLE}.deal_type is null then 'Existing Business' else ${TABLE}.deal_type end ;;
-  }
 
   dimension: owner_email {
     group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"

@@ -1,132 +1,48 @@
 view: visitor_journey {
   derived_table: {
     persist_for: "4 hours"
-    sql: with sessions as (SELECT
+    sql: -- generate derived web_events_fact.visitor_journey
+-- running the following sql through the bigquery API to create web_events_fact.as select:
+-- Building persistent derived web_events_fact.analytics::visitor_journey in dev mode on instance b1a79dea911405a41d5964c04536c884
+with sessions as (SELECT
           web_sessions_fact.web_sessions_pk,
           row_number() over (partition by web_sessions_fact.web_sessions_pk order by event_ts) event_seq,
           web_events_fact.event_type  AS event_type,
-          case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
+          case when event_type = 'Page View' or event_type = "Meeting Booked" then
+              case when web_events_fact.page_url_path like '%blog%' or web_events_fact.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
+                  when web_events_fact.page_url_path like '%drilltodetail%' or web_events_fact.page_url_path like '%podcast%' then '01: Podcast'
+                  when web_events_fact.page_url_path = '/' or web_events_fact.page_url_path like '%home-index%' then '01: Home Page'
+                  when web_events_fact.page_url_path like '%/services/%' or web_events_fact.page_url_path like '%/offers/%' then '04: Service'
+                  when web_events_fact.page_url_path like '%/about/%' or web_events_fact.page_url_path like '%/contact%' or web_events_fact.page_url_path like '%/faqs/%' or web_events_fact.page_url_path like '%scv-contact-us-form%' then '08: Contact'
+                  when web_events_fact.page_url_path like '%sidebar%' then 'Misc'
+                  when web_events_fact.page_url_path like '%/assistant%' then '06: Assistant'
+                  when web_events_fact.page_url_path like '%/pricing%' or web_events_fact.page_url_path like '%/engagement-model%' or web_events_fact.page_url_path like '%/how-we-work%' then '12: Commercials'
+                  when web_events_fact.page_url_path like '%scv-thank-you%' or web_events_fact.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
+                  when web_events_fact.page_url_path like '%causal-analytics%' or web_events_fact.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
+                  when web_events_fact.page_url_path like '%causal-analytics-video%' or web_events_fact.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or web_events_fact.page_url_path like '%download-page%' then '04: Gated Content'
+                  when web_events_fact.page_url_path like '%case-studies%' or web_events_fact.page_url_path like '%industries%' or web_events_fact.page_url_path like '%about%' or web_events_fact.page_url_path like '%partners%' then '02: Marketing'
+                  when event_type = "Meeting Booked" then '16: Conversion'
               end
          end AS page_category,
 
       web_events_fact.page_title  AS page_title,
       web_events_fact.event_details  AS event_details,
       web_events_fact.event_ts AS event_ts,
-
-
-
-
-
-      (case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
+      case when event_type = 'Page View' or event_type = "Meeting Booked" then
+              case when web_events_fact.page_url_path like '%blog%' or web_events_fact.page_url_path like '%rittmananalytics.com/202%' then 1
+                  when web_events_fact.page_url_path like '%drilltodetail%' or web_events_fact.page_url_path like '%podcast%' then 1
+                  when web_events_fact.page_url_path = '/' or web_events_fact.page_url_path like '%home-index%' then 1
+                  when web_events_fact.page_url_path like '%/services/%' or web_events_fact.page_url_path like '%/offers/%' then 4
+                  when web_events_fact.page_url_path like '%/about/%' or web_events_fact.page_url_path like '%/contact%' or web_events_fact.page_url_path like '%/faqs/%' or web_events_fact.page_url_path like '%scv-contact-us-form%' then 8
+                  when web_events_fact.page_url_path like '%/assistant%' then 6
+                  when web_events_fact.page_url_path like '%/pricing%' or web_events_fact.page_url_path like '%/engagement-model%' or web_events_fact.page_url_path like '%/how-we-work%' then 12
+                  when web_events_fact.page_url_path like '%scv-thank-you%' or web_events_fact.page_url_path like '%/modern-data-stack-thank-you%' then 8
+                  when web_events_fact.page_url_path like '%causal-analytics%' or web_events_fact.page_url_path like '/scv-download-hubspot-form' then 2
+                  when web_events_fact.page_url_path like '%causal-analytics-video%' or web_events_fact.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or web_events_fact.page_url_path like '%download-page%' then 4
+                  when web_events_fact.page_url_path like '%case-studies%' or web_events_fact.page_url_path like '%industries%' or web_events_fact.page_url_path like '%about%' or web_events_fact.page_url_path like '%partners%' then 2
+                  when event_type = "Meeting Booked" then 16
               end
-         end) in ("1: Blog","1: Podcast") then 1
-      when (case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
-              end
-         end) = "1: Home Page" then 1
-      when (case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
-              end
-         end) in ("2: Marketing","2: Landing Page") then 2
-      when (case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
-              end
-         end) in ("4: Service","4: Gated Content") then 4
-      when (case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
-              end
-         end) = "8: Contact" then 8
-      when web_events_fact.is_goal_achieved_event or (case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
-              end
-         end) = "8: Goal Achieved" then 8
-      when web_events_fact.is_conversion_event then 16 end) AS event_visit_value
+         end AS event_visit_value
       FROM `analytics.web_sessions_fact`
       AS web_sessions_fact
       LEFT JOIN `analytics.web_events_fact`
@@ -257,6 +173,8 @@ view: visitor_journey {
       max(if(event_seq = 20,event_ts,null)) as event_ts_20
       from sessions ss
       group by 1
+
+
       ;;
   }
 
