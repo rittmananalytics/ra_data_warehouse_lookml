@@ -67,11 +67,17 @@ sql: timestamp(${TABLE}.month) ;;
     sql: ${TABLE}.target_net_profit ;;
   }
 
+  dimension: forecast_taxation {
+    value_format_name: gbp_0
+    type: number
+    sql: ${TABLE}.taxation ;;
+  }
+
   dimension: forecast_net_profit {
     value_format_name: gbp_0
 
     type: number
-    sql: ${TABLE}.forecast_net_profit ;;
+    sql: safe_cast(replace(${TABLE}.forecast_net_profit,",","") as decimal) ;;
   }
 
   dimension: target_net_margin {
