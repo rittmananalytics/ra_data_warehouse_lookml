@@ -29,7 +29,7 @@ view: contact_meetings_fact {
 
   dimension: all_attendee_contact_pk {
     hidden: yes
-    sql: ${TABLE}.all_attendee_contact_pk ;;
+    sql: ${TABLE}.all_attendee_contact_fk ;;
   }
 
   # Here's what a typical dimension looks like in LookML.
@@ -38,7 +38,7 @@ view: contact_meetings_fact {
 
   dimension: all_company_pk {
     hidden: yes
-    sql: ${TABLE}.all_company_pk ;;
+    sql: ${TABLE}.all_company_fk ;;
   }
 
   dimension: meeting_pk {
@@ -67,7 +67,7 @@ view: contact_meetings_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.meeting_host_contact_pk ;;
+    sql: ${TABLE}.meeting_host_contact_fk ;;
   }
 
   dimension: meeting_owner_id {
@@ -123,7 +123,7 @@ view: contact_meetings_fact__all_company_pk {
 
   dimension: contact_meetings_fact__all_company_pk {
     type: string
-    sql: contact_meetings_fact__all_company_pk ;;
+    sql: contact_meetings_fact__all_company_fk ;;
   }
 }
 
@@ -139,6 +139,6 @@ view: contact_meetings_fact__all_attendee_contact_pk {
   dimension: contact_meetings_fact__all_attendee_contact_pk {
     hidden: yes
     type: string
-    sql: contact_meetings_fact__all_attendee_contact_pk ;;
+    sql: contact_meetings_fact__all_attendee_contact_fk ;;
   }
 }

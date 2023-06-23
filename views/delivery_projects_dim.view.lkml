@@ -6,7 +6,7 @@ view: delivery_projects_dim {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.company_pk ;;
+    sql: ${TABLE}.company_fk ;;
   }
 
   dimension: delivery_project_pk {
@@ -17,7 +17,7 @@ view: delivery_projects_dim {
 
   measure: count_delivery_projects {
     type: count_distinct
-    sql: ${TABLE}.delivery_project_pk ;;
+    sql: ${TABLE}.delivery_project_fk ;;
   }
 
   dimension: project_category_description {

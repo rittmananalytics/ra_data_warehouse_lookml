@@ -5,7 +5,7 @@ view: delivery_tasks_fact {
   dimension: delivery_project_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.delivery_project_pk ;;
+    sql: ${TABLE}.delivery_project_fk ;;
   }
 
   dimension: delivery_task_pk {
@@ -13,7 +13,7 @@ view: delivery_tasks_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.delivery_task_pk ;;
+    sql: ${TABLE}.delivery_task_fk ;;
   }
 
   dimension: task_is_latest_sprint_version {
@@ -51,7 +51,7 @@ view: delivery_tasks_fact {
   dimension: contact_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.contact_pk ;;
+    sql: ${TABLE}.contact_fk ;;
   }
 
   dimension_group: task_completed_ts {
@@ -134,7 +134,7 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_end_ts ;;
   }
 
-  dimension: user_pk {
+  dimension: user_fk {
     hidden: yes
   }
 
