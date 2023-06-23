@@ -645,6 +645,38 @@ dimension: deal_type {
     sql: ${TABLE}.deal_last_meeting_booked_date ;;
   }
 
+  dimension: manual_forecast_category {
+    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
+
+    type: string
+    sql: ${TABLE}.manual_forecast_category ;;
+  }
+
+  dimension: forecast_probability {
+    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
+
+    type: number
+    sql: ${TABLE}.forecast_probability ;;
+  }
+
+
+
+  dimension: predicted_amount {
+    group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
+
+    type: string
+    sql: ${TABLE}.predicted_amount ;;
+  }
+
+  dimension: days_in_pipeline {
+    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+
+    type: number
+    sql: ${TABLE}.days_in_pipeline ;;
+  }
+
+
+
 
 
 
