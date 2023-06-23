@@ -6,7 +6,7 @@ view: timesheets_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.company_pk ;;
+    sql: ${TABLE}.company_fk ;;
   }
 
   dimension: timesheet_billable_hourly_cost_amount_gbp {
@@ -151,14 +151,14 @@ view: timesheets_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.timesheet_project_pk ;;
+    sql: ${TABLE}.timesheet_project_fk ;;
   }
 
   dimension: timesheet_task_pk {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.timesheet_task_pk ;;
+    sql: ${TABLE}.timesheet_task_fk ;;
   }
 
   dimension: timesheet_total_amount_billed {
@@ -184,7 +184,7 @@ view: timesheets_fact {
   dimension: contact_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.contact_pk ;;
+    sql: ${TABLE}.contact_fk ;;
   }
 
 

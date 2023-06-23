@@ -6,7 +6,7 @@ view: deals_fact {
  dimension: company_pk {
     type: string
     hidden: yes
-    sql: ${TABLE}.company_pk ;;
+    sql: ${TABLE}.company_fk ;;
     description: "The primary key for the company associated with a deal"
   }
 
@@ -393,11 +393,7 @@ dimension: deal_type {
     sql: ${TABLE}.pipeline_stage_label ;;
   }
 
-  dimension: harvest_project_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.deal_harvest_project_id ;;
-  }
+
 
   dimension: number_of_sprints {
     group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
@@ -592,27 +588,9 @@ dimension: deal_type {
     sql: ${TABLE}.deal_sprint_type ;;
   }
 
-  dimension: license_referral_harvest_project_code {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
-    type: string
-    sql: ${TABLE}.deal_license_referral_harvest_project_code ;;
-  }
 
-  dimension: jira_project_code {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
 
-    type: string
-    sql: ${TABLE}.deal_jira_project_code ;;
-  }
 
-  dimension: assigned_consultant {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-
-    type: string
-    sql: ${TABLE}.deal_assigned_consultant ;;
-  }
 
   dimension: products_in_solution {
     group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
@@ -624,51 +602,7 @@ dimension: deal_type {
 
 
 
-  dimension: deal_total_contract_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.deal_total_contract_amount ;;
-  }
 
-  measure: total_contract_amount {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
-    value_format_name: gbp
-    type: sum
-    sql: ${deal_total_contract_amount} ;;
-
-  }
-
-  dimension: deal_annual_contract_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.deal_annual_contract_amount ;;
-  }
-
-  measure: total_annual_contract_amount {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
-    value_format_name: gbp
-    type: sum
-    sql: ${deal_annual_contract_amount} ;;
-
-  }
-
-
-  dimension: deal_annual_recurring_revenue_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.deal_annual_recurring_revenue_amount ;;
-  }
-
-  measure: total_ARR_amount {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Measures"
-
-    value_format_name: gbp
-    type: sum
-    sql: ${deal_annual_recurring_revenue_amount} ;;
-
-  }
 
   dimension: deal_currency_code {
     group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
@@ -685,29 +619,7 @@ dimension: deal_type {
     sql: ${TABLE}.deal_source ;;
   }
 
-  dimension: hs_analytics_source {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
-    hidden: no
 
-    type: string
-    sql: ${TABLE}.hs_analytics_source ;;
-  }
-
-  dimension: hs_analytics_source_data_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
-    hidden: no
-
-    type: string
-    sql: ${TABLE}.hs_analytics_source_data_1 ;;
-  }
-
-  dimension: hs_analytics_source_data_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
-    hidden: no
-
-    type: string
-    sql: ${TABLE}.hs_analytics_source_data_2 ;;
-  }
 
   dimension: deal_end_ts {
      type: date_time
@@ -733,352 +645,8 @@ dimension: deal_type {
     sql: ${TABLE}.deal_last_meeting_booked_date ;;
   }
 
-  dimension: delivery_schedule_ts {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
 
-     type: date_time
-    sql: ${TABLE}.delivery_schedule_ts ;;
-  }
 
-  dimension: delivery_start_date_ts {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
-
-     type: date_time
-
-    sql: ${TABLE}.delivery_start_date_ts ;;
-  }
-
-  dimension_group: date_entered_deal_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_0 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_0 ;;
-  }
-
-  dimension: days_in_deal_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_0 ;;
-  }
-
-  measure: count_deals_stage_0 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_0} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_1} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_2} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_3 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_3} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_4} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_5} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_6} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_7} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_8 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_8} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_9 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_9} is not null then ${deal_id} end;;
-  }
-
-  measure: count_deals_stage_10 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-    type: count_distinct
-    sql: case when ${days_in_deal_stage_10} is not null then ${deal_id} end;;
-  }
-
-  dimension_group: date_entered_deal_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_1 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_1 ;;
-  }
-
-  dimension: days_in_deal_stage_1 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_1 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_2 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_2 ;;
-  }
-
-  dimension: days_in_deal_stage_2 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_2 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_3 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_3 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_3 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_3 ;;
-  }
-
-  dimension: days_in_deal_stage_3 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_3 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_4 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_4 ;;
-  }
-
-  dimension: days_in_deal_stage_4 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_4 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_5 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_5 ;;
-  }
-
-  dimension: days_in_deal_stage_5 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_5 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_6 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_6 ;;
-  }
-
-  dimension: days_in_deal_stage_6 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_6 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_7 ;;
-  }
-
-  dimension_group: date_exited_deal_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_exited_deal_stage_7 ;;
-  }
-
-  dimension: days_in_deal_stage_7 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_7 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_8 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_8 ;;
-  }
-
-  dimension: days_in_deal_stage_8 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-
-    sql: ${TABLE}.days_in_deal_stage_8 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_9 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_9 ;;
-  }
-
-  dimension: days_in_deal_stage_9 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_9 ;;
-  }
-
-  dimension_group: date_entered_deal_stage_10 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: time
-    timeframes: [date]
-    sql: ${TABLE}.date_entered_deal_stage_10 ;;
-  }
-
-  dimension: days_in_deal_stage_10 {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Stage Durations"
-
-    type: number
-    sql: ${TABLE}.days_in_deal_stage_10 ;;
-  }
-
-  dimension: manual_forecast_category {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
-
-    type: string
-    sql: ${TABLE}.manual_forecast_category ;;
-  }
-
-  dimension: forecast_probability {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
-
-    type: number
-    sql: ${TABLE}.forecast_probability ;;
-  }
-
-
-
-  dimension: predicted_amount {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
-    type: string
-    sql: ${TABLE}.predicted_amount ;;
-  }
-
-  dimension: days_in_pipeline {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    hidden: yes
-
-    type: number
-    sql: ${TABLE}.days_in_pipeline ;;
-  }
 
 
 }

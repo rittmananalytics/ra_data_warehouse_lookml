@@ -13,7 +13,7 @@ view: invoices_fact {
   dimension: company_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.company_pk ;;
+    sql: ${TABLE}.company_fk ;;
   }
 
 
@@ -473,7 +473,7 @@ view: invoices_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.timesheet_project_pk ;;
+    sql: ${TABLE}.timesheet_project_fk ;;
   }
 
   dimension: total_local_amount {
@@ -582,18 +582,34 @@ view: invoices_fact {
     sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
   }
 
+  measure: total_invoiced_net_amount_gbp {
+    label: "Total Invoiced Revenue GBP"
+    type: sum
+    value_format_name: gbp_0
+    sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
+    filters: [invoice_status : "Paid, Open"]
+  }
+
+  measure: total_uninvoiced_net_amount_gbp {
+    label: "Total Uninvoiced Revenue GBP"
+    type: sum
+    value_format_name: gbp_0
+    sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
+    filters: [invoice_status : "Draft"]
+  }
+
   measure: count_invoices {
     hidden: yes
 
     type: count_distinct
-    sql: ${TABLE}.invoice_pk ;;
+    sql: ${TABLE}.invoice_fk ;;
 
   }
 
   measure: total_invoice_count_in_clients_last_12m {
     hidden: yes
     type: count_distinct
-    sql: ${TABLE}.invoice_pk ;;
+    sql: ${TABLE}.invoice_fk ;;
     filters: [is_invoice_in_clients_last_12m: "Yes"]
   }
 }

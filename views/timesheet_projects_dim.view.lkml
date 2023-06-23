@@ -5,7 +5,7 @@ view: timesheet_projects_dim {
   dimension: company_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.company_pk ;;
+    sql: ${TABLE}.company_fk ;;
   }
 
   dimension: project_budget_amount {

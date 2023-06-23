@@ -38,7 +38,7 @@ view: bank_transactions_fact {
     hidden: yes
     primary_key: yes
     type: string
-    sql: concat(${TABLE}.bank_transaction_pk,${TABLE}.line_item_id) ;;
+    sql: concat(${TABLE}.bank_transaction_fk,${TABLE}.line_item_id) ;;
   }
 
   dimension: contact_id {

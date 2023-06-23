@@ -87,7 +87,7 @@ view: chart_of_accounts_dim {
   dimension: account_pk {
     type: string
     primary_key: yes
-    sql: ${TABLE}.account_pk ;;
+    sql: ${TABLE}.account_fk ;;
   }
 
   dimension: account_report_category {

@@ -9,12 +9,12 @@ view: client_prospect_status_dim {
           COUNT(DISTINCT case when deals_fact.pipeline_stage_closed_won  then deals_fact.deal_pk end) AS closed_won_deals
       FROM `analytics.companies_dim` AS companies_dim
       LEFT JOIN `analytics.timesheet_projects_dim`
-           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_pk
+           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_fk
       LEFT JOIN `analytics.timesheets_fact`
-           AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_pk
+           AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_fk
       LEFT JOIN `analytics.timesheet_projects_dim`
-           AS project_timesheet_projects ON project_timesheets.timesheet_project_pk = project_timesheet_projects.timesheet_project_pk
-      FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_pk
+           AS project_timesheet_projects ON project_timesheets.timesheet_project_pk = project_timesheet_projects.timesheet_project_fk
+      FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_fk
       GROUP BY
           1,2)
       select company_pk, company_name,

@@ -24,7 +24,7 @@ view: ad_performance_snapshot_fact {
 
   dimension: ad_pk {
     type: string
-    sql: ${TABLE}.ad_pk ;;
+    sql: ${TABLE}.ad_fk ;;
   }
 
   dimension_group: ad_snapshot_ts {
@@ -58,12 +58,12 @@ view: ad_performance_snapshot_fact {
 
   dimension: adset_pk {
     type: string
-    sql: ${TABLE}.adset_pk ;;
+    sql: ${TABLE}.adset_fk ;;
   }
 
   dimension: campaign_pk {
     type: string
-    sql: ${TABLE}.campaign_pk ;;
+    sql: ${TABLE}.campaign_fk ;;
   }
 
   measure: count {

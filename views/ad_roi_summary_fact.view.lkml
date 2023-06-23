@@ -324,7 +324,7 @@ view: ad_roi_summary_fact {
   dimension: ad_campaign_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.ad_campaign_pk ;;
+    sql: ${TABLE}.ad_campaign_fk ;;
   }
 
   dimension: dim_avg_reported_bounce_rate {
