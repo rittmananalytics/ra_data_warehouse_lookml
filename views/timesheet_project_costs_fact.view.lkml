@@ -24,7 +24,7 @@ view: timesheet_project_costs_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.contact_pk ;;
+    sql: ${TABLE}.contact_fk ;;
   }
 
   dimension: expense_amount_local {
@@ -209,7 +209,7 @@ view: timesheet_project_costs_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.timesheet_project_pk ;;
+    sql: ${TABLE}.timesheet_project_fk ;;
   }
 
   dimension: timesheet_users_id {

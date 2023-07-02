@@ -602,7 +602,7 @@ view: invoices_fact {
     hidden: yes
 
     type: count_distinct
-    sql: ${TABLE}.invoice_fk ;;
+    sql: ${TABLE}.invoice_pk ;;
 
   }
 
