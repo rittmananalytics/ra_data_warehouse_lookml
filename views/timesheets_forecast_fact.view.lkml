@@ -13,7 +13,7 @@ view: timesheets_forecast_fact {
 
   dimension: contact_pk {
     type: string
-    sql: ${TABLE}.contact_pk ;;
+    sql: ${TABLE}.contact_fk ;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
@@ -69,7 +69,7 @@ view: timesheets_forecast_fact {
 
   dimension: timesheet_project_pk {
     type: string
-    sql: ${TABLE}.timesheet_project_pk ;;
+    sql: ${TABLE}.timesheet_project_fk ;;
   }
 
   measure: count {
