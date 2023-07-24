@@ -5,7 +5,7 @@ view: company_deal_value_attribute {
           COALESCE(SUM(case when deals_fact.deal_type = 'New Business' then deals_fact.deal_amount end ), 0) AS initial_deal_amount,
           COALESCE(SUM(case when deals_fact.deal_type = 'Existing Client' then deals_fact.deal_amount end), 0) AS expansion_deal_amount
       FROM `analytics.companies_dim` AS companies_dim
-      FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_pk
+      FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_fk
       WHERE (deals_fact.pipeline_stage_closed_won )
       GROUP BY
           1

@@ -39,7 +39,7 @@ view: customer_first_order_segments {
       FROM
         `analytics.deals_fact` AS deals_fact
       JOIN
-        `analytics.companies_dim` AS companies_dim  ON deals_fact.company_pk = companies_dim.company_pk
+        `analytics.companies_dim` AS companies_dim  ON deals_fact.company_fk = companies_dim.company_pk
       WHERE
         deals_fact.pipeline_stage_closed_won
       )

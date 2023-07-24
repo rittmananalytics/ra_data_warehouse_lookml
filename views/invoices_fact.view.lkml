@@ -609,7 +609,7 @@ view: invoices_fact {
   measure: total_invoice_count_in_clients_last_12m {
     hidden: yes
     type: count_distinct
-    sql: ${TABLE}.invoice_fk ;;
+    sql: ${TABLE}.invoice_pk ;;
     filters: [is_invoice_in_clients_last_12m: "Yes"]
   }
 }
