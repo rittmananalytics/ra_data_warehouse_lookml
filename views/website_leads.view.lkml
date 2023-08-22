@@ -86,6 +86,11 @@ view: website_leads {
     sql: ${enquiry} ;;
   }
 
+  measure: total_closed_won {
+    type: sum
+    sql: ${closed_won_} ;;
+  }
+
 
 
   dimension: canceled {

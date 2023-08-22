@@ -23,6 +23,8 @@ explore: revenue_and_forecast {
 
 }
 
+explore: looker_usage_stats {}
+
 
 
 explore: keyword_page_report {
@@ -104,7 +106,7 @@ explore: targets {
 
 
 explore: contact_utilization_fact {
-  hidden: yes
+  hidden: no
 
   label: "Utilization"
   group_label: "Experimental"
@@ -397,7 +399,7 @@ explore: contacts {
 
 }
  explore: projects_delivered {
-  hidden: yes
+  hidden: no
 
   label: "Projects"
   group_label: "   Production"

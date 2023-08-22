@@ -30,19 +30,19 @@ view: rfm_model {
                  end;;
         }
         derived_column: rfm_recency_score {
-          sql:  case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+          sql:  case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end;;
         }
         derived_column: order_recency {
-          sql:  case when invoice_months_recency between 0 and 5 then '0-5 months'
-                     when invoice_months_recency between 5 and 10 then '5-10 months'
-                     when invoice_months_recency between 10 and 15 then '10-15 months'
-                     when invoice_months_recency between 15 and 20 then '15-20 months'
-                     when invoice_months_recency > 20 then '20+'
+          sql:  case when invoice_months_recency between 0 and 1 then '0-1 months'
+                     when invoice_months_recency between 2 and 4 then '2-4 months'
+                     when invoice_months_recency between 5 and 12 then '5-12 months'
+                     when invoice_months_recency between 13 and 24 then '13-24 months'
+                     when invoice_months_recency > 24 then '24+'
                  end;;
         }
         derived_column: rfm_monetary_value_score {
@@ -63,11 +63,11 @@ view: rfm_model {
         }
         derived_column: rfm_cell {
           sql: concat(
-                  case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                  case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end,
                   case when total_invoice_count_in_clients_last_12m between 0 and 1 then 1
                      when total_invoice_count_in_clients_last_12m between 1 and 2 then 2
@@ -85,11 +85,11 @@ view: rfm_model {
                   }
         derived_column: rfm_segment {
           sql: case when (
-                  case when invoice_months_recency between 0 and 5 then 1
-                     when invoice_months_recency between 5 and 10 then 2
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 4
-                     when invoice_months_recency > 20 then 5
+                  case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) = 5
                 and (
                   case when total_invoice_count_in_clients_last_12m between 0 and 1 then 1
@@ -107,11 +107,11 @@ view: rfm_model {
                  end) = 5 then '01: Best Clients'
 
                when
-                (case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                (case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) = 5
                 and
                  (
@@ -129,11 +129,11 @@ view: rfm_model {
                  end ) < 4
                  then '05: New Client'
                 when
-                (case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                (case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) = 5
                 and
                  (
@@ -151,11 +151,11 @@ view: rfm_model {
                  end ) >= 4
                  then '04: New Big-Spending Client'
                 when
-                 (case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                 (case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) = 1
                 and
                  (
@@ -175,11 +175,11 @@ view: rfm_model {
                  end ) >= 4
                 then '10: Lost Big-Spending Client'
                 when
-                 (case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                 (case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) = 1
                 and
                  (
@@ -199,11 +199,11 @@ view: rfm_model {
                  end ) < 3
                 then '12: Lost Cheap Client'
                 when
-                 (case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                 (case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) = 1
                 and
                  (
@@ -223,11 +223,11 @@ view: rfm_model {
                  end ) < 2
                 then '11: Lost Client'
                 when
-                 (case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                 (case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) <= 3
                 and
                  (
@@ -247,12 +247,12 @@ view: rfm_model {
                  end ) >= 4
                 then '08: Almost-Lost Big-Spending Client'
                 when
-                 (case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
-                 end) < 3
+                 (case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
+                 end) < 4
                 and
                  (
                   case when total_invoice_count_in_clients_last_12m between 0 and 1 then 1
@@ -271,11 +271,11 @@ view: rfm_model {
                  end ) < 2
                 then '09: Almost Lost Client'
                 when (
-                  case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                  case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) > 3
                 and (
                   case when total_invoice_count_in_clients_last_12m between 0 and 1 then 1
@@ -283,7 +283,7 @@ view: rfm_model {
                      when total_invoice_count_in_clients_last_12m between 2 and 5 then 3
                      when total_invoice_count_in_clients_last_12m between 5 and 10 then 4
                      when total_invoice_count_in_clients_last_12m > 10 then 5
-                 end) >= 3
+                 end) >= 4
                   then '02: Loyal Client'
                 when (
                   case when total_invoice_count_in_clients_last_12m between 0 and 1 then 1
@@ -293,11 +293,11 @@ view: rfm_model {
                      when total_invoice_count_in_clients_last_12m > 10 then 5
                  end) between 2 and 3
                 and (
-                  case when invoice_months_recency between 0 and 5 then 5
-                     when invoice_months_recency between 5 and 10 then 4
-                     when invoice_months_recency between 10 and 15 then 3
-                     when invoice_months_recency between 15 and 20 then 2
-                     when invoice_months_recency > 20 then 1
+                  case when invoice_months_recency between 0 and 1 then 5
+                     when invoice_months_recency between 2 and 4 then 4
+                     when invoice_months_recency between 4 and 12 then 3
+                     when invoice_months_recency between 12 and 24 then 2
+                     when invoice_months_recency > 24 then 1
                  end) between 2 and 3 then '07: Occasional Client'
                 when
                  ( case when total_invoice_gbp_amount_in_clients_last_12m between 0 and 10000 then 1
