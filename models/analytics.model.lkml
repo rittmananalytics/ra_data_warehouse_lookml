@@ -87,7 +87,7 @@ explore: website_leads {
 
 explore: targets {
   label: "Targets"
-  hidden: yes
+  hidden: no
 
   view_label: "Targets"
   join: sales_targets {

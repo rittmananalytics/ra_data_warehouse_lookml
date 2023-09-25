@@ -119,6 +119,26 @@ view: timesheets_fact {
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
 
+  measure: total_timesheet_billable_hours_billed {
+    group_label: "    Timesheet Details"
+    value_format_name: decimal_0
+
+    type: sum
+    sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
+    filters: [timesheet_is_billable: "Yes"]
+  }
+
+  measure: total_timesheet_nonbillable_hours_billed {
+    group_label: "    Timesheet Details"
+    value_format_name: decimal_0
+
+    type: sum
+    sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
+    filters: [timesheet_is_billable: "No"]
+  }
+
+
+
   dimension: timesheet_invoice_id {
     hidden: yes
 
@@ -132,6 +152,8 @@ view: timesheets_fact {
     type: yesno
     sql: ${TABLE}.timesheet_is_billable ;;
   }
+
+
 
   dimension: timesheet_notes {
     hidden: yes
