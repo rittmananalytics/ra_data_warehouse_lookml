@@ -609,6 +609,9 @@ explore: companies_dim {
 
 
 
+
+
+
   join: customer_first_deal_cohorts {
     view_label: "        Sales"
     sql_on: ${deals_fact.deal_pk} = ${customer_first_deal_cohorts.deal_pk};;

@@ -46,6 +46,12 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.project_code ;;
   }
 
+  dimension: hubspot_deal_id {
+    group_label: "        Project Details"
+    type: number
+    sql: safe_cast(SPLIT(${TABLE}.project_code,'-')[SAFE_OFFSET(1)] as int64) ;;
+  }
+
   dimension: project_cost_budget {
     group_label: "Project Commercials"
     hidden: yes
@@ -176,9 +182,11 @@ view: timesheet_projects_dim {
   }
 
   dimension: timesheet_project_id {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.timesheet_project_id ;;
+    group_label: "        Project Details"
+
   }
 
   dimension: timesheet_project_pk {

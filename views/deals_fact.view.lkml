@@ -101,7 +101,7 @@ measure: total_deal_amount_gbp_converted  {
   }
 
   dimension: deal_description {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     label: "Deal Description"
     type: string
     sql: ${TABLE}.deal_description ;;
@@ -113,14 +113,16 @@ measure: total_deal_amount_gbp_converted  {
 
 dimension: deal_id {
   description: "The unique identifier for the deal in Hubspot."
-  hidden: yes
+  group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+
+  hidden: no
   type: number
   sql: ${TABLE}.deal_id ;;
 }
 
 dimension: deal_is_deleted {
   description: "Indicates whether the deal was deleted."
-  group_label: "Details"
+  group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
   type: yesno
   sql: ${TABLE}.deal_is_deleted ;;
 }
@@ -137,7 +139,7 @@ dimension_group: deal_last_modified {
 
 dimension: deal_name {
   description: "The name of the deal."
-  group_label: "Details"
+  group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
   label: "Deal Name"
   type: string
   sql: ${TABLE}.deal_name ;;
@@ -210,35 +212,35 @@ measure: count_closed_won_deals {
 
 dimension: deal_type {
   description: "The type of the deal, 'Existing Business' if not specified."
-  group_label: "Details"
+  group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
   label: "Deal Type"
   sql: case when ${TABLE}.deal_type is null then 'Existing Business' else ${TABLE}.deal_type end ;;
 }
 
   dimension: deal_value {
     description: "The monetary value of the deal."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: number
     sql: ${TABLE}.deal_value ;;
   }
 
   dimension: opportunity_deal_value {
     description: "The monetary value of opportunity deals (deals in a stage with a display order less than 8)."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: number
     sql: case when ${TABLE}.pipeline_stage_display_order <8 then ${TABLE}.deal_value end ;;
   }
 
   dimension: in_delivery_deal_value {
     description: "The monetary value of deals in the 'in delivery' stage (stage display order equals 8)."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: number
     sql: case when ${TABLE}.pipeline_stage_display_order =8 then ${TABLE}.deal_value end ;;
   }
 
   dimension: closed_won_deal_value {
     description: "The monetary value of deals in the 'closed won' stage."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: number
     sql: case when ${TABLE}.pipeline_stage_closed_won then ${TABLE}.deal_value end ;;
   }
@@ -273,7 +275,7 @@ dimension: deal_type {
 
   dimension: deal_stage_display_order {
     description: "The order in which the deal stage is displayed in the pipeline."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     hidden: yes
     type: number
     sql: ${TABLE}.deal_stage_display_order ;;
@@ -281,21 +283,21 @@ dimension: deal_type {
 
   dimension: deal_stage_probability {
     description: "The probability associated with the stage of the deal in the pipeline."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: number
     sql: ${TABLE}.deal_stage_probability ;;
   }
 
   dimension: deal_stage_closed_won {
     description: "Indicates if the deal stage is considered 'closed won'."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: yesno
     sql: ${TABLE}.deal_stage_closed_won ;;
   }
 
   dimension: deal_stage_closed_lost {
     description: "Indicates if the deal stage is considered 'closed lost'."
-    group_label: "Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: yesno
     sql: ${TABLE}.deal_stage_closed_lost ;;
   }
