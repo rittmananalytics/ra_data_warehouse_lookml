@@ -267,7 +267,7 @@ view: delivery_tasks_fact {
   }
 
   dimension: task_story_points {
-    hidden: yes
+    hidden: no
     group_label: "Project Tasks"
 
     type: number
