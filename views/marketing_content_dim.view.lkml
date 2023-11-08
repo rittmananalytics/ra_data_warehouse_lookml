@@ -67,7 +67,6 @@ view: marketing_content_dim {
   }
 
   dimension: article_stub {
-    primary_key: yes
     type: string
     sql: case when ${utm_source} = 'medium' then split(${post_url},'/')[safe_offset(4)]
               when ${utm_source} = 'squarespace' then ${post_url} end ;;
