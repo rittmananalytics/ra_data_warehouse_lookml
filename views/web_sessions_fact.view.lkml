@@ -10,11 +10,7 @@ view: web_sessions_fact {
     sql: ${TABLE}.blended_user_id ;;
   }
 
-  dimension: channel {
-    group_label: " Acquisition"
-    type: string
-    sql: ${TABLE}.channel ;;
-  }
+
 
   dimension: ad_campaign_pk {
     hidden: yes
@@ -307,7 +303,18 @@ view: web_sessions_fact {
     sql: ${TABLE}.is_converting_session ;;
   }
 
-
+  dimension: channel {
+    group_label: " Acquisition"
+    type: string
+    sql: case when ${session_utm_source} in ('linkedin','facebook') and ${session_utm_medium} = 'paid' then 'Paid Social'
+              when ${session_utm_source} = 'linkedin' and ${session_utm_medium} != 'paid' then 'Organic Social'
+              when ${TABLE}.channel = 'Social' then 'Organic Social'
+              when ${TABLE}.channel in ('facebook','linkedin') and ${session_utm_medium} = 'social' then 'Organic Social'
+              when ${session_utm_medium} = 'social' and ${TABLE}.channel = 'Direct' then 'Organic Social'
+              when ${session_utm_source} = 'substack' and ${session_utm_medium} != 'email' then 'Organic Social'
+              when ${session_utm_source} like 'pocket_%' then 'Referral'
+              else ${TABLE}.channel end;;
+  }
 
 
 
@@ -328,7 +335,7 @@ view: web_sessions_fact {
 
     type: string
     label: "Session UTM Campaign"
-    sql: ${TABLE}.utm_campaign ;;
+    sql: lower(${TABLE}.utm_campaign) ;;
   }
 
   dimension: session_utm_content {
@@ -346,7 +353,7 @@ view: web_sessions_fact {
     label: "Session UTM Medium"
 
     type: string
-    sql: ${TABLE}.utm_medium ;;
+    sql: lower(${TABLE}.utm_medium) ;;
   }
 
   dimension: session_utm_source {
@@ -355,7 +362,7 @@ view: web_sessions_fact {
     label: "Session UTM Source"
 
     type: string
-    sql: ${TABLE}.utm_source ;;
+    sql: replace(replace(lower(${TABLE}.utm_source),'/',''),'.com','') ;;
   }
 
   dimension: session_utm_term {

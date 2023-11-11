@@ -212,13 +212,13 @@ view: web_events_fact {
   dimension: is_conversion_event {
     type: yesno
     group_label: "Behavior"
-    sql: ${TABLE}.is_conversion_event ;;
+    sql: ${TABLE}.event_type = 'Meeting Booked' ;;
   }
 
   dimension: is_goal_achieved {
     type: yesno
     group_label: "Behavior"
-    sql: ${TABLE}.is_goal_achieved_event ;;
+    sql: ${TABLE}.event_type = 'Pressed Button' ;;
   }
 
   measure: total_conversions {
