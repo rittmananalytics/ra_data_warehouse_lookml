@@ -71,7 +71,10 @@ view: web_events_fact {
       day_of_month,
       hour_of_day,
       hour,
-      hour3
+      hour3,
+      quarter_of_year,
+      quarter,
+      year
     ]
     sql: ${TABLE}.event_ts ;;
   }
