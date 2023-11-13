@@ -67,6 +67,9 @@ view: web_events_fact {
       week,
       month,
       date,
+      day_of_week,
+      day_of_month,
+      hour_of_day,
       hour,
       hour3
     ]

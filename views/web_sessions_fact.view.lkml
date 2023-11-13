@@ -316,6 +316,14 @@ view: web_sessions_fact {
               else ${TABLE}.channel end;;
   }
 
+  dimension: channel_category {
+    group_label: " Acquisition"
+    type: string
+    sql: case when ${channel} in ('Paid Social','Paid Search') then 'Paid'
+              when ${channel} in ('Organic Social','Organic Video','Organic Search','Email','Referral') then 'Organic'
+              else ${channel} end;;
+  }
+
 
 
 
