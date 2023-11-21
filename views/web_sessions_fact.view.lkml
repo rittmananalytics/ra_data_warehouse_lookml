@@ -102,10 +102,34 @@ view: web_sessions_fact {
   }
 
   dimension: first_page_title {
-    label: "Entrance Page Path"
+    label: "Entrance Page Title"
     group_label: "Behavior"
     type: string
     sql: ${TABLE}.first_page_title ;;
+  }
+
+  dimension: first_page_category {
+    label: "Entrance Page Category"
+
+    group_label: "Behavior"
+    type: string
+    sql:
+              case when ${TABLE}.first_page_url like '%blog%' or ${TABLE}.first_page_url like '%rittmananalytics.com/202%' then '01: Blog'
+                  when ${TABLE}.first_page_url like '%drilltodetail%' or ${TABLE}.first_page_url like '%podcast%' then '01: Podcast'
+                  when ${TABLE}.first_page_url = '/' or ${TABLE}.first_page_url like '%home-index%' then '01: Home Page'
+                  when ${TABLE}.first_page_url like '%/services/%' or ${TABLE}.first_page_url like '%/offers/%' then '04: Service'
+                  when ${TABLE}.first_page_url like '%/about/%' or ${TABLE}.first_page_url like '%/contact%' or ${TABLE}.first_page_url like '%/faqs/%' or ${TABLE}.first_page_url like '%scv-contact-us-form%' then '08: Contact'
+                  when ${TABLE}.first_page_url like '%sidebar%' then 'Misc'
+                  when ${TABLE}.first_page_url like '%/assistant%' then '06: Assistant'
+                  when ${TABLE}.first_page_url like '%/pricing%' or ${TABLE}.first_page_url like '%/engagement-model%' or ${TABLE}.first_page_url like '%/how-we-work%' then '12: Commercials'
+                  when ${TABLE}.first_page_url like '%scv-thank-you%' or ${TABLE}.first_page_url like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
+                  when ${TABLE}.first_page_url like '%causal-analytics%' or ${TABLE}.first_page_url like '/scv-download-hubspot-form' then '02: Landing Page'
+                  when ${TABLE}.first_page_url like '%causal-analytics-video%' or ${TABLE}.first_page_url like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.first_page_url like '%download-page%' then '04: Gated Content'
+                  when ${TABLE}.first_page_url like '%industries%' or ${TABLE}.first_page_url like '%about%' or ${TABLE}.first_page_url like '%partners%'then '02: Marketing'
+                  when ${TABLE}.first_page_url like '%case-studies%' then '03: Case Study'
+                  when ${TABLE}.first_page_url like '%calendly%' then '06: Conversion'
+              end
+         ;;
   }
 
   dimension: first_page_url {
@@ -142,6 +166,7 @@ view: web_sessions_fact {
 
   dimension: last_page_title {
     group_label: "Behavior"
+    label: "Exit Page Title"
 
     type: string
     sql: ${TABLE}.last_page_title ;;
@@ -149,18 +174,49 @@ view: web_sessions_fact {
 
   dimension: last_page_url {
     group_label: "Behavior"
+    label: "Exit Page URL"
+
 
     type: string
     sql: ${TABLE}.last_page_url ;;
   }
 
+  dimension: last_page_category {
+    label: "Exit Page Category"
+
+    group_label: "Behavior"
+    type: string
+    sql:
+              case when ${TABLE}.last_page_url like '%blog%' or ${TABLE}.last_page_url like '%rittmananalytics.com/202%' then '01: Blog'
+                  when ${TABLE}.last_page_url like '%drilltodetail%' or ${TABLE}.last_page_url like '%podcast%' then '01: Podcast'
+                  when ${TABLE}.last_page_url = '/' or ${TABLE}.last_page_url like '%home-index%' then '01: Home Page'
+                  when ${TABLE}.last_page_url like '%/services/%' or ${TABLE}.last_page_url like '%/offers/%' then '04: Service'
+                  when ${TABLE}.last_page_url like '%/about/%' or ${TABLE}.last_page_url like '%/contact%' or ${TABLE}.last_page_url like '%/faqs/%' or ${TABLE}.last_page_url like '%scv-contact-us-form%' then '08: Contact'
+                  when ${TABLE}.last_page_url like '%sidebar%' then 'Misc'
+                  when ${TABLE}.last_page_url like '%/assistant%' then '06: Assistant'
+                  when ${TABLE}.last_page_url like '%/pricing%' or ${TABLE}.last_page_url like '%/engagement-model%' or ${TABLE}.last_page_url like '%/how-we-work%' then '12: Commercials'
+                  when ${TABLE}.last_page_url like '%scv-thank-you%' or ${TABLE}.last_page_url like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
+                  when ${TABLE}.last_page_url like '%causal-analytics%' or ${TABLE}.last_page_url like '/scv-download-hubspot-form' then '02: Landing Page'
+                  when ${TABLE}.last_page_url like '%causal-analytics-video%' or ${TABLE}.last_page_url like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.last_page_url like '%download-page%' then '04: Gated Content'
+                  when ${TABLE}.last_page_url like '%industries%' or ${TABLE}.last_page_url like '%about%' or ${TABLE}.last_page_url like '%partners%'then '02: Marketing'
+                  when ${TABLE}.last_page_url like '%case-studies%' then '03: Case Study'
+                  when ${TABLE}.last_page_url like '%calendly%' then '06: Conversion'
+              end
+         ;;
+  }
+
+
   dimension: last_page_url_host {
+    label: "Exit Page URL Host"
+
     group_label: "Behavior"
     type: string
     sql: ${TABLE}.last_page_url_host ;;
   }
 
   dimension: last_page_url_path {
+    label: "Exit Page URL Path"
+
     group_label: "Behavior"
     type: string
     sql: ${TABLE}.last_page_url_path ;;

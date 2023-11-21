@@ -229,7 +229,7 @@ view: web_events_fact {
   dimension: is_goal_achieved {
     type: yesno
     group_label: "Behavior"
-    sql: ${TABLE}.event_type = 'Pressed Button' ;;
+    sql: ${TABLE}.event_type = 'Pressed Button' and (lower(${TABLE}.event_details) like '%#contact' or lower(${TABLE}.event_details) like '%calendly%');;
   }
 
   measure: total_conversions {
