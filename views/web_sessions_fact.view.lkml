@@ -91,6 +91,7 @@ view: web_sessions_fact {
 
   dimension: events {
     group_label: "Behavior"
+    label: "Session Events"
     type: number
     sql: ${TABLE}.events ;;
   }
@@ -98,6 +99,13 @@ view: web_sessions_fact {
   measure: count_of_events {
     type: sum #?
     sql: ${events} ;;
+  }
+
+  dimension: first_page_title {
+    label: "Entrance Page Path"
+    group_label: "Behavior"
+    type: string
+    sql: ${TABLE}.first_page_title ;;
   }
 
   dimension: first_page_url {
@@ -132,6 +140,13 @@ view: web_sessions_fact {
     sql: ${TABLE}.is_bounced_session ;;
   }
 
+  dimension: last_page_title {
+    group_label: "Behavior"
+
+    type: string
+    sql: ${TABLE}.last_page_title ;;
+  }
+
   dimension: last_page_url {
     group_label: "Behavior"
 
@@ -157,23 +172,7 @@ view: web_sessions_fact {
     sql: ${TABLE}.mins_between_sessions ;;
   }
 
-  dimension: prev_session_channel {
-    group_label: "Behavior"
-    type: string
-    sql: ${TABLE}.prev_session_channel ;;
-  }
 
-  dimension: prev_utm_medium {
-    group_label: "Behavior"
-    type: string
-    sql: ${TABLE}.prev_utm_medium ;;
-  }
-
-  dimension: prev_utm_source {
-    group_label: "Behavior"
-    type: string
-    sql: ${TABLE}.prev_utm_source ;;
-  }
 
   dimension: referrer_host {
     group_label: "    Acquisition"
@@ -200,12 +199,16 @@ view: web_sessions_fact {
     label: "Session End"
     type: time
     timeframes: [
-      raw,
+       raw,
       time,
+      hour4,
+      day_of_week,
       date,
+      day_of_year,
       week,
       month,
-      quarter,
+      month_num,
+      week_of_year,
       year
     ]
     sql: ${TABLE}.session_end_ts ;;
@@ -237,11 +240,7 @@ view: web_sessions_fact {
     sql: ${TABLE}.session_start_ts ;;
   }
 
-  dimension: session_site {
-    group_label: "Behavior"
-    type: string
-    sql: ${TABLE}.site ;;
-  }
+
 
   measure: total_duration_in_s {
     description: "The time spanned from the beginning to the end of a session in Seconds."
@@ -294,11 +293,15 @@ view: web_sessions_fact {
   }
 
   dimension: is_converted_user {
+    group_label: "Behavior"
+
     type: yesno
     sql: ${TABLE}.is_converting_blended_user_id ;;
   }
 
   dimension: is_converting_session {
+    group_label: "Behavior"
+
     type: yesno
     sql: ${TABLE}.is_converting_session ;;
   }
@@ -307,12 +310,13 @@ view: web_sessions_fact {
     group_label: " Acquisition"
     type: string
     sql: case when ${session_utm_source} in ('linkedin','facebook') and ${session_utm_medium} = 'paid' then 'Paid Social'
-              when ${session_utm_source} = 'linkedin' and ${session_utm_medium} != 'paid' then 'Organic Social'
+              when (${session_utm_source} = 'linkedin' or ${referrer_host} like '%linkedin%') and ${session_utm_medium} != 'paid' then 'Organic Social'
               when ${TABLE}.channel = 'Social' then 'Organic Social'
               when ${TABLE}.channel in ('facebook','linkedin') and ${session_utm_medium} = 'social' then 'Organic Social'
               when ${session_utm_medium} = 'social' and ${TABLE}.channel = 'Direct' then 'Organic Social'
               when ${session_utm_source} = 'substack' and ${session_utm_medium} != 'email' then 'Organic Social'
               when ${session_utm_source} like 'pocket_%' then 'Referral'
+              when ${referrer_host} like '%rittmananalytics.com%' or ${referrer_host} like 'calendly.com' then 'Direct'
               else ${TABLE}.channel end;;
   }
 

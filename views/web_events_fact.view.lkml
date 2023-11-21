@@ -155,6 +155,8 @@ view: web_events_fact {
     sql: ${TABLE}.total_page_views ;;
   }
 
+
+
   dimension: page_total_unique_viewers {
   group_label: "Behavior"
   type: number
@@ -195,7 +197,8 @@ view: web_events_fact {
                   when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
                   when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
                   when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%case-studies%' or ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
+                  when ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
+                  when ${TABLE}.page_url_path like '%case-studies%' then '03: Case Study'
                   when ${event_type} = "Meeting Booked" then '16: Conversion'
               end
          end;;
@@ -208,7 +211,7 @@ view: web_events_fact {
               when ${page_category} = "01: Home Page" then 1
               when ${page_category} in ("02: Marketing","02: Landing Page") then 2
               when ${page_category} in ("04: Service","04: Gated Content") then 4
-              when ${page_category} in ("06: Assistant") then 6
+              when ${page_category} in ("03: Case Study") then 3
               when ${page_category} = "08: Contact" then 8
               when ${is_goal_achieved} or ${page_category} = "08: Goal Achieved" then 8
               when ${page_category} = "12: Commercials" then 12
@@ -220,6 +223,8 @@ view: web_events_fact {
     group_label: "Behavior"
     sql: ${TABLE}.event_type = 'Meeting Booked' ;;
   }
+
+
 
   dimension: is_goal_achieved {
     type: yesno
@@ -262,8 +267,7 @@ view: web_events_fact {
   }
 
   dimension: postal_code {
-    group_label: "  Audience"
-    map_layer_name: us_zipcode_tabulation_areas
+   map_layer_name: us_zipcode_tabulation_areas
     type: string
     sql: ${TABLE}.postal_code ;;
   }
@@ -336,6 +340,34 @@ view: web_events_fact {
     sql: ${TABLE}.web_event_pk ;;
   }
 
+  measure: total_marketing_page_views {
+    hidden: no
+    type: count_distinct
+    sql: ${TABLE}.web_event_pk ;;
+    filters: [page_category: "02: Marketing"]
+  }
+
+  measure: total_case_study_page_views {
+    hidden: no
+    type: count_distinct
+    sql: ${TABLE}.web_event_pk ;;
+    filters: [page_category: "03: Case Study"]
+  }
+
+  measure: total_services_page_views {
+    hidden: no
+    type: count_distinct
+    sql: ${TABLE}.web_event_pk ;;
+    filters: [page_category: "04: Service"]
+  }
+
+  measure: total_blog_page_views {
+    hidden: no
+    type: count_distinct
+    sql: ${TABLE}.web_event_pk ;;
+    filters: [page_category: "01: Blog"]
+  }
+
   dimension: time_on_page_secs {
     hidden: yes
     type: number
@@ -349,7 +381,7 @@ view: web_events_fact {
   }
 
   dimension: user_id {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.user_id ;;
   }
@@ -390,7 +422,8 @@ view: web_events_fact {
   }
 
   dimension: visitor_id {
-    hidden: yes
+    label: "Anonymous (Device) ID "
+    hidden: no
     type: string
     sql: ${TABLE}.visitor_id ;;
   }
