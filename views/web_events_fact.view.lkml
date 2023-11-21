@@ -229,39 +229,59 @@ view: web_events_fact {
   dimension: is_goal_achieved {
     type: yesno
     group_label: "Behavior"
-    sql: ${TABLE}.event_type = 'Pressed Button' and (lower(${TABLE}.event_details) like '%#contact' or lower(${TABLE}.event_details) like '%calendly%');;
+    sql: ${TABLE}.event_type = 'Pressed Button' and (lower(${TABLE}.event_details) like '%#contact%' or ${TABLE}.event_details = '#'  or lower(${TABLE}.event_details) like '%calendly%');;
   }
 
   measure: total_conversions {
     type: count_distinct
+    value_format_name: decimal_0
     sql: ${web_event_pk} ;;
     filters: [is_conversion_event: "Yes"]
   }
 
   measure: total_goal_achieveds {
+    value_format_name: decimal_0
     type: count_distinct
     sql: ${web_event_pk} ;;
     filters: [is_goal_achieved: "Yes"]
   }
 
   measure: total_session_conversions {
+    value_format_name: decimal_0
     type: count_distinct
     sql: ${session_id} ;;
     filters: [is_conversion_event: "Yes"]
   }
 
+  measure: total_user_conversions {
+    value_format_name: decimal_0
+    type: count_distinct
+    sql: ${blended_user_id} ;;
+    filters: [is_conversion_event: "Yes"]
+  }
+
   measure: total_session_goal_achieveds {
+    value_format_name: decimal_0
     type: count_distinct
     sql: ${session_id} ;;
     filters: [is_goal_achieved: "Yes"]
   }
 
+  measure: total_user_goal_achieveds {
+    value_format_name: decimal_0
+    type: count_distinct
+    sql: ${blended_user_id} ;;
+    filters: [is_goal_achieved: "Yes"]
+  }
+
   measure: total_sessions {
     type: count_distinct
+    value_format_name: decimal_0
     sql: ${session_id} ;;
   }
 
   measure: total_visitor_value {
+    value_format_name: decimal_0
     type: sum
     sql: ${visit_value};;
   }
@@ -321,6 +341,7 @@ view: web_events_fact {
   measure: total_blended_user_id {
     label: "Total Unique Users"
     description: "The total number of unique people viewing the site."
+    value_format_name: decimal_0
     type: count_distinct
     sql: ${TABLE}.blended_user_id ;;
     drill_fields: [device, blended_user_id, device_category, subscription_fact.channel]
@@ -335,12 +356,14 @@ view: web_events_fact {
 
 
   measure: total_page_views {
+    value_format_name: decimal_0
     hidden: no
     type: count_distinct
     sql: ${TABLE}.web_event_pk ;;
   }
 
   measure: total_marketing_page_views {
+    value_format_name: decimal_0
     hidden: no
     type: count_distinct
     sql: ${TABLE}.web_event_pk ;;
@@ -348,6 +371,7 @@ view: web_events_fact {
   }
 
   measure: total_case_study_page_views {
+    value_format_name: decimal_0
     hidden: no
     type: count_distinct
     sql: ${TABLE}.web_event_pk ;;
@@ -355,6 +379,7 @@ view: web_events_fact {
   }
 
   measure: total_services_page_views {
+    value_format_name: decimal_0
     hidden: no
     type: count_distinct
     sql: ${TABLE}.web_event_pk ;;
@@ -362,6 +387,7 @@ view: web_events_fact {
   }
 
   measure: total_blog_page_views {
+    value_format_name: decimal_0
     hidden: no
     type: count_distinct
     sql: ${TABLE}.web_event_pk ;;
