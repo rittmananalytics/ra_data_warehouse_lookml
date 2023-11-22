@@ -126,6 +126,13 @@ explore: web_sessions_fact {
   view_label: "  Sessions"
   group_label: "   Production"
 
+  join: wh_sessions_attribution {
+    view_label: "  Sessions"
+    sql_on: ${web_sessions_fact.web_sessions_pk} = ${wh_sessions_attribution.web_session_fk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+
 
   join: web_events_fact {
     view_label: " Events"
