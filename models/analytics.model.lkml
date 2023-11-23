@@ -133,6 +133,13 @@ explore: web_sessions_fact {
     relationship: one_to_one
   }
 
+  join: page_first_published {
+    view_label: "  Sessions"
+    sql_on: ${web_sessions_fact.first_page_title} = ${page_first_published.web_sessions_fact_first_page_title} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+
 
   join: web_events_fact {
     view_label: " Events"

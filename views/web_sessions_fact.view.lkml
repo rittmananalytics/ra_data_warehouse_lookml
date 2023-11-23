@@ -86,7 +86,16 @@ view: web_sessions_fact {
   dimension: referrer_days_since_post {
     group_label: "    Acquisition"
     type: number
-    sql: case when ${referrer_article_stub} is not null then timestamp_diff(${session_start_ts_raw},${marketing_content_dim.interaction_posted_ts_raw},DAY) end ;;
+    sql: timestamp_diff(${session_start_ts_raw},${page_first_published.page_first_session_start_ts_raw},DAY)  ;;
+  }
+
+  dimension: referrer_days_since_post_tier {
+    type: tier
+    group_label: "    Acquisition"
+    tiers: [1,2,3,4,5,6,7,14,28,90,180,365,730]
+    sql: ${referrer_days_since_post} ;;
+    style: interval
+
   }
 
   dimension: events {
