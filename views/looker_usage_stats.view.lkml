@@ -6,7 +6,7 @@ view: looker_usage_stats {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+
   }
 
 
@@ -18,22 +18,27 @@ view: looker_usage_stats {
 
   measure: approximate_web_usage_in_minutes {
     type: sum
-    sql: ${TABLE}.approximate_web_usage_in_minutes ;;
+    sql: coalesce(${TABLE}.approximate_web_usage_in_minutes,${TABLE}.history_approximate_web_usage_in_minutes) ;;
   }
 
   measure: average_runtime_in_seconds {
     type: average_distinct
-    sql: cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64) ;;
+    value_format_name: decimal_0
+    sql: coalesce(cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64),${TABLE}.history_average_runtime_in_seconds) ;;
   }
 
   measure: median_runtime_in_seconds {
+    value_format_name: decimal_0
+
     type: median_distinct
-    sql: cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64) ;;
+    sql: coalesce(cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64),${TABLE}.history_average_runtime_in_seconds) ;;
   }
 
   measure: max_runtime_in_seconds {
+    value_format_name: decimal_0
+
     type: max
-    sql: cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64) ;;
+    sql: coalesce(cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64),${TABLE}.history_average_runtime_in_seconds) ;;
   }
 
   dimension: client {
@@ -44,32 +49,32 @@ view: looker_usage_stats {
   dimension_group: created_time {
     type: time
     datatype: datetime
-    sql: ${TABLE}.created_time ;;
+    sql: coalesce(${TABLE}.created_time,${TABLE}.history_created_time) ;;
   }
 
   dimension: dialect {
     type: string
-    sql: ${TABLE}.dialect ;;
+    sql: coalesce(${TABLE}.dialect,${TABLE}.history_dialect) ;;
   }
 
   dimension: explore {
     type: string
-    sql: ${TABLE}.explore ;;
+    sql: coalesce(${TABLE}.explore,${TABLE}.query_explore) ;;
   }
 
   dimension: id {
     type: number
-    sql: ${TABLE}.id ;;
+    sql: coalesce(${TABLE}.id,${TABLE}.history_id ) ;;
   }
 
   dimension: issuer_source {
     type: string
-    sql: ${TABLE}.issuer_source ;;
+    sql: coalesce(${TABLE}.issuer_source,sql: ${TABLE}.history_issuer_source) ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.name ;;
+    sql: coalesce(${TABLE}.name,${TABLE}.user_name) ;;
   }
 
   dimension: pk {
@@ -80,22 +85,22 @@ view: looker_usage_stats {
 
   dimension: rebuild_pdts_yes_no_ {
     type: string
-    sql: ${TABLE}.rebuild_pdts_yes_no_ ;;
+    sql: coalesce(${TABLE}.rebuild_pdts_yes_no_,${TABLE}.history_rebuild_pdts_yes_no_) ;;
   }
 
   dimension: source {
     type: string
-    sql: ${TABLE}.source ;;
+    sql: coalesce(${TABLE}.source,${TABLE}.history_source) ;;
   }
 
   dimension: status {
     type: string
-    sql: ${TABLE}.status ;;
+    sql: coalesce(${TABLE}.status,${TABLE}.history_status) ;;
   }
 
   dimension: title {
     type: string
-    sql: ${TABLE}.title ;;
+    sql: coalesce(${TABLE}.title,${TABLE}.look_title) ;;
   }
 
   dimension: dashboard_title {
@@ -103,77 +108,14 @@ view: looker_usage_stats {
     sql: ${TABLE}.dashboard_title ;;
   }
 
-  measure: history_approximate_web_usage_in_minutes {
-    type: sum
-    sql: ${TABLE}.history_approximate_web_usage_in_minutes ;;
-  }
 
-  measure: history_average_runtime_in_seconds {
-    type: average
-    sql: ${TABLE}.history_average_runtime_in_seconds ;;
-  }
 
-  measure: median_average_runtime_in_seconds {
-    type: median_distinct
-    sql: ${TABLE}.history_average_runtime_in_seconds ;;
-  }
 
-  measure: max_average_runtime_in_seconds {
-    type: max
-    sql: ${TABLE}.history_average_runtime_in_seconds ;;
-  }
 
-  dimension_group: history_created_time {
-    type: time
-    datatype: datetime
-    sql: ${TABLE}.history_created_time ;;
-  }
 
-  dimension: history_dialect {
-    type: string
-    sql: ${TABLE}.history_dialect ;;
-  }
 
-  dimension: history_id {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.history_id ;;
-  }
 
-  dimension: history_issuer_source {
-    type: string
-    sql: ${TABLE}.history_issuer_source ;;
-  }
 
-  dimension: history_rebuild_pdts_yes_no_ {
-    type: string
-    sql: ${TABLE}.history_rebuild_pdts_yes_no_ ;;
-  }
-
-  dimension: history_source {
-    type: string
-    sql: ${TABLE}.history_source ;;
-  }
-
-  dimension: history_status {
-    type: string
-    sql: ${TABLE}.history_status ;;
-  }
-
-  dimension: look_title {
-    type: string
-    sql: ${TABLE}.look_title ;;
-  }
-
-  dimension: query_explore {
-    type: string
-    sql: ${TABLE}.query_explore ;;
-  }
-
-  dimension: user_name {
-    type: string
-    sql: ${TABLE}.user_name ;;
-  }
 
 
 }
