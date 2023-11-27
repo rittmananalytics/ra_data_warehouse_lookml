@@ -23,6 +23,17 @@ explore: revenue_and_forecast {
 
 }
 
+explore: ad_campaign_performance_fact {
+  label: "Campaign Performance"
+  view_label: "     Campaign Performance"
+  join: ad_campaigns_dim {
+    view_label: "      Campaigns"
+    sql_on: ${ad_campaign_performance_fact.ad_campaign_fk} = ${ad_campaigns_dim.ad_campaign_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+}
+
 explore: looker_usage_stats {}
 
 

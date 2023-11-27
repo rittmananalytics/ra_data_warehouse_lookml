@@ -5,16 +5,11 @@ view: web_events_fact {
               min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts) as page_title_published_at_ts,
               date_diff(date(event_ts),date(min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts)), month) as months_since_page_title_published_at_ts,
               date_diff(date(event_ts),date(min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts)), day) as days_since_page_title_published_at_ts,
-              count(distinct web_event_pk) over (partition by replace(page_title,'—','-')) as total_page_views,
+              count(distinct case when event_type = 'Page View' then web_events_pk end) over (partition by replace(page_title,'—','-')) as total_page_views,
               count(distinct blended_user_id) over (partition by replace(page_title,'—','-')) as total_unique_viewers
        from web_events_fact;;
   }
 
-  dimension: customer_pk {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.customer_pk ;;
-  }
 
   dimension: device {
     group_label: "  Audience"
@@ -185,23 +180,7 @@ view: web_events_fact {
   dimension: page_category {
     group_label: "Behavior"
     type: string
-    sql: case when ${event_type} = 'Page View' or ${event_type} = "Meeting Booked" then
-              case when ${TABLE}.page_url_path like '%blog%' or ${TABLE}.page_url_path like '%rittmananalytics.com/202%' then '01: Blog'
-                  when ${TABLE}.page_url_path like '%drilltodetail%' or ${TABLE}.page_url_path like '%podcast%' then '01: Podcast'
-                  when ${TABLE}.page_url_path = '/' or ${TABLE}.page_url_path like '%home-index%' then '01: Home Page'
-                  when ${TABLE}.page_url_path like '%/services/%' or ${TABLE}.page_url_path like '%/offers/%' then '04: Service'
-                  when ${TABLE}.page_url_path like '%/about/%' or ${TABLE}.page_url_path like '%/contact%' or ${TABLE}.page_url_path like '%/faqs/%' or ${TABLE}.page_url_path like '%scv-contact-us-form%' then '08: Contact'
-                  when ${TABLE}.page_url_path like '%sidebar%' then 'Misc'
-                  when ${TABLE}.page_url_path like '%/assistant%' then '06: Assistant'
-                  when ${TABLE}.page_url_path like '%/pricing%' or ${TABLE}.page_url_path like '%/engagement-model%' or ${TABLE}.page_url_path like '%/how-we-work%' then '12: Commercials'
-                  when ${TABLE}.page_url_path like '%scv-thank-you%' or ${TABLE}.page_url_path like '%/modern-data-stack-thank-you%' then '08: Goal Achieved'
-                  when ${TABLE}.page_url_path like '%causal-analytics%' or ${TABLE}.page_url_path like '/scv-download-hubspot-form' then '02: Landing Page'
-                  when ${TABLE}.page_url_path like '%causal-analytics-video%' or ${TABLE}.page_url_path like '%download-10-ways-your-modern-data-stack-can-fail%' or ${TABLE}.page_url_path like '%download-page%' then '04: Gated Content'
-                  when ${TABLE}.page_url_path like '%industries%' or ${TABLE}.page_url_path like '%about%' or ${TABLE}.page_url_path like '%partners%'then '02: Marketing'
-                  when ${TABLE}.page_url_path like '%case-studies%' then '03: Case Study'
-                  when ${event_type} = "Meeting Booked" then '16: Conversion'
-              end
-         end;;
+    sql: ${TABLE}.page_category;;
   }
 
   dimension: visit_value {
@@ -235,14 +214,14 @@ view: web_events_fact {
   measure: total_conversions {
     type: count_distinct
     value_format_name: decimal_0
-    sql: ${web_event_pk} ;;
+    sql: ${web_events_pk} ;;
     filters: [is_conversion_event: "Yes"]
   }
 
   measure: total_goal_achieveds {
     value_format_name: decimal_0
     type: count_distinct
-    sql: ${web_event_pk} ;;
+    sql: ${web_events_pk} ;;
     filters: [is_goal_achieved: "Yes"]
   }
 
@@ -359,14 +338,14 @@ view: web_events_fact {
     value_format_name: decimal_0
     hidden: no
     type: count_distinct
-    sql: ${TABLE}.web_event_pk ;;
+    sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end;;
   }
 
   measure: total_marketing_page_views {
     value_format_name: decimal_0
     hidden: no
     type: count_distinct
-    sql: ${TABLE}.web_event_pk ;;
+    sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
     filters: [page_category: "02: Marketing"]
   }
 
@@ -374,7 +353,7 @@ view: web_events_fact {
     value_format_name: decimal_0
     hidden: no
     type: count_distinct
-    sql: ${TABLE}.web_event_pk ;;
+    sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
     filters: [page_category: "03: Case Study"]
   }
 
@@ -382,7 +361,7 @@ view: web_events_fact {
     value_format_name: decimal_0
     hidden: no
     type: count_distinct
-    sql: ${TABLE}.web_event_pk ;;
+    sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
     filters: [page_category: "04: Service"]
   }
 
@@ -390,7 +369,7 @@ view: web_events_fact {
     value_format_name: decimal_0
     hidden: no
     type: count_distinct
-    sql: ${TABLE}.web_event_pk ;;
+    sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
     filters: [page_category: "01: Blog"]
   }
 
@@ -454,19 +433,19 @@ view: web_events_fact {
     sql: ${TABLE}.visitor_id ;;
   }
 
-  dimension: web_event_pk {
+  dimension: web_events_pk {
     group_label: "Behavior"
 
     hidden: no
     primary_key:  yes
     type: string
-    sql: ${TABLE}.web_event_pk ;;
+    sql: ${TABLE}.web_events_pk ;;
   }
 
   measure: total_events {
     group_label: "Behavior"
     type: count_distinct
-    sql: ${web_event_pk} ;;
+    sql: ${web_events_pk} ;;
   }
 
 
