@@ -34,6 +34,17 @@ explore: ad_campaign_performance_fact {
   }
 }
 
+explore: organic_posts_dim {
+  label: "Organic Marketing"
+  view_label: "    Organic Posts"
+  join: organic_post_performance_fact {
+    view_label: " Organic Post Performance"
+    sql_on: ${organic_posts_dim.organic_post_pk} = ${organic_post_performance_fact.organic_post_fk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+}
+
 explore: looker_usage_stats {}
 
 
