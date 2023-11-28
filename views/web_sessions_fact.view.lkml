@@ -381,7 +381,8 @@ view: web_sessions_fact {
               when ${session_utm_medium} = 'social' and ${TABLE}.channel = 'Direct' then 'Organic Social'
               when ${session_utm_source} = 'substack' and ${session_utm_medium} != 'email' then 'Organic Social'
               when ${session_utm_source} like 'pocket_%' then 'Referral'
-              when ${referrer_host} like '%rittmananalytics.com%' or ${referrer_host} like 'calendly.com' then 'Direct'
+              when (${referrer_host} like '%rittmananalytics.com%' and ${referrer_host} not like '%blog.rittmananalytics.com%') or ${referrer_host} like 'calendly.com' then 'Direct'
+              when ${referrer_host} like '%medium.com%' or ${referrer_host} like '%blog.rittmananalytics.com%'  then 'Organic Social'
               else ${TABLE}.channel end;;
   }
 
