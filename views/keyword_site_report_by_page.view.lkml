@@ -13,7 +13,7 @@ view: keyword_page_report {
 
   dimension_group: search {
     type: time
-    timeframes: [date,month,quarter,year]
+    timeframes: [date,month,quarter,year,week]
     sql: timestamp(${TABLE}.date) ;;
   }
 
@@ -29,7 +29,7 @@ view: keyword_page_report {
 
   dimension: page {
     type: string
-    sql: ${TABLE}.page ;;
+    sql: rtrim(${TABLE}.page,"/") ;;
   }
 
   dimension: search_type {
@@ -51,6 +51,7 @@ view: keyword_page_report {
 
   measure: ctr {
     type: average
+    value_format_name: percent_2
     sql: ${TABLE}.ctr ;;
   }
 

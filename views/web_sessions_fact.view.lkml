@@ -2,6 +2,33 @@ view: web_sessions_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.web_sessions_fact`
     ;;
 
+
+
+  parameter: time_range {
+    type: string
+    allowed_value: {
+      label: "Last 7 Days"
+      value: "7"
+    }
+    allowed_value: {
+      label: "Last 30 Days"
+      value: "30"
+    }
+    allowed_value: {
+      label: "Last 90 Days"
+      value: "90"
+    }
+    allowed_value: {
+      label: "Last 180 days"
+      value: "180"
+    }
+    allowed_value: {
+      label: "Last 365 days"
+      value: "365"
+    }
+
+    }
+
   dimension: blended_user_id {
     group_label: "  Audience"
 
@@ -142,10 +169,10 @@ view: web_sessions_fact {
   }
 
   dimension: first_page_url {
-    label: "Entrance Page Path"
+    label: "Entrance Page URL"
     group_label: "Behavior"
     type: string
-    sql: ${TABLE}.first_page_url ;;
+    sql: rtrim(${TABLE}.first_page_url,"/") ;;
   }
 
   dimension: first_page_url_host {
@@ -158,7 +185,7 @@ view: web_sessions_fact {
   dimension: first_page_url_path {
     hidden: yes
     type: string
-    sql: ${TABLE}.first_page_url_path ;;
+    sql: rtrim(${TABLE}.first_page_url_path,"/") ;;
   }
 
   dimension: gclid {
@@ -187,7 +214,7 @@ view: web_sessions_fact {
 
 
     type: string
-    sql: ${TABLE}.last_page_url ;;
+    sql: rtrim(${TABLE}.last_page_url,"/") ;;
   }
 
   dimension: last_page_category {
@@ -228,7 +255,7 @@ view: web_sessions_fact {
 
     group_label: "Behavior"
     type: string
-    sql: ${TABLE}.last_page_url_path ;;
+    sql: rtrim(${TABLE}.last_page_url_path,"/") ;;
   }
 
   dimension: mins_between_sessions {
