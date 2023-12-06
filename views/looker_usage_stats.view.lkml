@@ -41,10 +41,27 @@ view: looker_usage_stats {
     sql: coalesce(cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64),${TABLE}.history_average_runtime_in_seconds) ;;
   }
 
+
+
   dimension: client {
     type: string
-    sql: ${TABLE}.client ;;
-  }
+    sql: case when ${TABLE}.client = "colourpop" then "SMB eCommerce, Redshift"
+     when ${TABLE}.client = "popsa" then "SMB Mobile App, AWS Athena"
+     when ${TABLE}.client= "parcel2go" then "SMB Logistics, BigQuery"
+     when ${TABLE}.client = "lick" then "SMB Retail, Redshift"
+     when ${TABLE}.client = "qubit-livetap" then "SMB Martech, BigQuery"
+     when ${TABLE}.client = "dandelion" then "SMB eCommerce, BigQuery"
+     when ${TABLE}.client = "rixo" then "SMB Retail, BigQuery"
+     when ${TABLE}.client = "switcher_studio" then "SMB Mobile App, BigQuery"
+     when ${TABLE}.client = "11fs" then "SMB Professional Svcs, BigQuery"
+     when ${TABLE}.client = "conversion_internal" then "SMB Internal BI, BigQuery"
+     when ${TABLE}.client = "conversion_external" then "SMB Martech, BigQuery"
+     when ${TABLE}.client = "florence" then "SMB Healthcare, BigQuery"
+     when ${TABLE}.client = "ncf" then "SMB Charity, BigQuery"
+     when ${TABLE}.client = "qubit-bi" then "MM Internal BI, BigQuery"
+     else ${TABLE}.client
+end;;
+}
 
   dimension_group: created_time {
     type: time
