@@ -1,194 +1,245 @@
+
 view: consultant_revenue_attribution {
   derived_table: {
-    sql: WITH
-  contacts_dim AS (
-  SELECT
-    ct.*,
-    hb.contact_id AS hubspot_contact_id,
-    ce.contact_email AS contact_email,
-    c.company_pk
-  FROM (
-    SELECT
-      *
-    FROM
-      `analytics.contacts_dim`,
-      UNNEST( all_contact_company_ids) AS company_id ) ct
-  JOIN (
-    SELECT
-      *
-    FROM
-      `analytics.companies_dim` c,
-      UNNEST (all_company_ids) AS company_id ) c
-  ON
-    ct.company_id = c.company_id
-  LEFT JOIN (
-    SELECT
-      contact_pk,
-      contact_id
-    FROM
-      `analytics.contacts_dim`,
-      UNNEST( all_contact_ids) AS contact_id
-    WHERE
-      contact_id LIKE '%hubspot%' ) hb
-  ON
-    ct.contact_pk = hb.contact_pk
-  LEFT JOIN (
-    SELECT
-      contact_pk,
-      contact_email
-    FROM
-      `analytics.contacts_dim`,
-      UNNEST( all_contact_emails ) AS contact_email ) ce
-  ON
-    ct.contact_pk = ce.contact_pk
-  WHERE
-    ct.company_id = c.company_id ),
-timesheet_hours as (
-SELECT
-  (FORMAT_TIMESTAMP('%Y-%m', TIMESTAMP(project_timesheet_projects.project_delivery_start_ts) )) AS project_timesheet_projects_project_delivery_start_ts_month,
-  project_timesheet_projects.project_code AS project_timesheet_projects_project_code,
-  project_timesheet_users.contact_name AS project_timesheet_users_contact_name,
-  ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE( project_timesheets.timesheet_hours_billed,
-                    0)*(1/1000*1.0), 9) AS NUMERIC) + (CAST(CAST(CONCAT('0x', SUBSTR(to_hex(md5(CAST( project_timesheets.timesheet_pk AS STRING))), 1, 15)) AS int64) AS numeric) * 4294967296 + CAST(CAST(CONCAT('0x', SUBSTR(to_hex(md5(CAST( project_timesheets.timesheet_pk AS STRING))), 16, 8)) AS int64) AS numeric)) * 0.000000001 )) - SUM(DISTINCT (CAST(CAST(CONCAT('0x', SUBSTR(to_hex(md5(CAST( project_timesheets.timesheet_pk AS STRING))), 1, 15)) AS int64) AS numeric) * 4294967296 + CAST(CAST(CONCAT('0x', SUBSTR(to_hex(md5(CAST( project_timesheets.timesheet_pk AS STRING))), 16, 8)) AS int64) AS numeric)) * 0.000000001) ) / (1/1000*1.0) AS FLOAT64),
-      0), 6) AS project_timesheets_total_timesheet_hours_billed
-FROM
-  `analytics.companies_dim` AS companies_dim
-LEFT JOIN
-  `analytics.timesheet_projects_dim` AS projects_delivered
-ON
-  companies_dim.company_pk = projects_delivered.company_pk
-LEFT JOIN
-  `analytics.timesheets_fact` AS project_timesheets
-ON
-  projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_pk
-LEFT JOIN
-  `analytics.timesheet_projects_dim` AS project_timesheet_projects
-ON
-  project_timesheets.timesheet_project_pk = project_timesheet_projects.timesheet_project_pk
-LEFT JOIN
-  contacts_dim AS project_timesheet_users
-ON
-  project_timesheets.contact_pk = project_timesheet_users.contact_pk
-GROUP BY
-  1,
-  2,
-  3),
-revenue as (
-SELECT
-    (FORMAT_TIMESTAMP('%Y-%m', projects_invoiced.invoice_created_at_ts )) AS projects_invoiced_invoice_month,
-    project_timesheet_projects.project_code  AS project_timesheet_projects_project_code,
-    ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE( case when projects_invoiced.invoice_currency = 'USD' then projects_invoiced.invoice_local_total_revenue_amount * .75
-              when projects_invoiced.invoice_currency = 'CAD' then projects_invoiced.invoice_local_total_revenue_amount * .58
-              when projects_invoiced.invoice_currency = 'EUR' then projects_invoiced.invoice_local_total_revenue_amount * .90
-              else projects_invoiced.invoice_local_total_revenue_amount end ,0)*(1/1000*1.0), 9) AS NUMERIC) + (cast(cast(concat('0x', substr(to_hex(md5(CAST( projects_invoiced.invoice_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( projects_invoiced.invoice_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001 )) - SUM(DISTINCT (cast(cast(concat('0x', substr(to_hex(md5(CAST( projects_invoiced.invoice_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( projects_invoiced.invoice_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001) )  / (1/1000*1.0) AS FLOAT64), 0), 6) AS projects_invoiced_invoice_gbp_revenue_amount,
-    ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE( project_invoice_timesheets.timesheet_hours_billed  ,0)*(1/1000*1.0), 9) AS NUMERIC) + (cast(cast(concat('0x', substr(to_hex(md5(CAST( project_invoice_timesheets.timesheet_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( project_invoice_timesheets.timesheet_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001 )) - SUM(DISTINCT (cast(cast(concat('0x', substr(to_hex(md5(CAST( project_invoice_timesheets.timesheet_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( project_invoice_timesheets.timesheet_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001) )  / (1/1000*1.0) AS FLOAT64), 0), 6) AS project_invoice_timesheets_total_timesheet_hours_billed
-FROM `analytics.companies_dim` AS companies_dim
-LEFT JOIN `analytics.timesheet_projects_dim`
-     AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_pk
-LEFT JOIN `analytics.invoices_fact`
-     AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_pk
-LEFT JOIN `analytics.timesheets_fact`
-     AS project_invoice_timesheets ON projects_delivered.timesheet_project_pk = project_invoice_timesheets.timesheet_project_pk
-LEFT JOIN `analytics.timesheets_fact`
-     AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_pk
-LEFT JOIN `analytics.timesheet_projects_dim`
-     AS project_timesheet_projects ON project_timesheets.timesheet_project_pk = project_timesheet_projects.timesheet_project_pk
-WHERE (project_timesheet_projects.project_is_billable )
-GROUP BY
-    1,
-    2
-),
-attributed_revenue_detail as (
-select t.project_timesheet_projects_project_delivery_start_ts_month,
-t.project_timesheet_projects_project_code,
-t.project_timesheet_users_contact_name,
-t.project_timesheets_total_timesheet_hours_billed,
-r.project_invoice_timesheets_total_timesheet_hours_billed,
-r.projects_invoiced_invoice_gbp_revenue_amount,
-r.projects_invoiced_invoice_gbp_revenue_amount * (t.project_timesheets_total_timesheet_hours_billed / r.project_invoice_timesheets_total_timesheet_hours_billed ) as attributed_invoice_gbp_revenue
-from timesheet_hours t
-left join revenue r
-on t.project_timesheet_projects_project_code = r.project_timesheet_projects_project_code
-and t.project_timesheet_projects_project_delivery_start_ts_month = r.projects_invoiced_invoice_month),
-consultant_attributed_revenue as (
-select project_timesheet_users_contact_name as consultant_name,
-       project_timesheet_projects_project_delivery_start_ts_month as billing_month,
-       sum(attributed_invoice_gbp_revenue) as total_attributed_revenue
-from attributed_revenue_detail
-group by 1,2),
-consultant_fully_loaded_cost as (
-SELECT
-    (FORMAT_TIMESTAMP('%Y-%m', CAST(scv.date  AS TIMESTAMP))) AS billing_month,
-    scv.description  AS consultant_name,
-    COALESCE(SUM(case when scv.account_code = '478' then scv.amount+3500
-         when scv.account_code = '320' and scv.amount > 800 then (scv.amount * 1.11) + 109
-         else scv.amount end ), 0) AS total_fully_loaded_cost
-FROM `ra-development.xero_reports.scv`
-     AS scv
-GROUP BY
-    1,
-    2
-)
-select c.billing_month,
-       c.consultant_name,
-        coalesce(total_attributed_revenue,0) as total_attributed_revenue,
-        coalesce(total_fully_loaded_cost,0) as total_fully_loaded_cost,
-        coalesce(total_attributed_revenue,0) - coalesce(
-            total_fully_loaded_cost,0)  as total_gross_margin_contribution,
-safe_divide(coalesce(total_attributed_revenue,0),coalesce(
-            total_fully_loaded_cost,0)) as consultant_margin
-from consultant_fully_loaded_cost c
-left join consultant_attributed_revenue r
-on r.consultant_name = c.consultant_name
-and r.billing_month = c.billing_month ;;
+    sql: WITH staff_dim AS (SELECT contact_pk, contact_name, contact_is_contractor, contact_is_staff, contact_weekly_capacity, contact_default_hourly_rate, contact_cost_rate, contact_is_active, contact_created_date FROM `ra-development.analytics.contacts_dim`
+            where contact_is_staff or contact_name = 'Rob Bramwell'
+             ),
+      staff_level as (
+      SELECT
+          t7.`__f1` AS timesheet_project_pk,
+          t7.`__f7` AS timesheet_billing_ts,
+          t7.`__f13` AS contact_pk,
+          t7.`__f99` as contact_name,
+          COALESCE(SUM(CASE WHEN CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 128 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 64 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 32 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 16 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 8 END + CASE WHEN t7.groupingVal = 0 THEN 0 ELSE 4 END + CASE WHEN t7.groupingVal = 1 THEN 0 ELSE 2 END + CASE WHEN t7.groupingVal = 2 THEN 0 ELSE 1 END = 3 AND t7.`__f10` > 0 THEN t7.`__f9` ELSE NULL END), 0) AS projects_delivered_total_project_fee_amount,
+          COALESCE(SUM(CASE WHEN CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 128 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 64 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 32 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 16 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 8 END + CASE WHEN t7.groupingVal = 0 THEN 0 ELSE 4 END + CASE WHEN t7.groupingVal = 1 THEN 0 ELSE 2 END + CASE WHEN t7.groupingVal = 2 THEN 0 ELSE 1 END = 5 AND t7.`__f12` > 0 THEN t7.`__f11` ELSE NULL END), 0) AS project_timesheets_total_timesheet_billable_hours_billed,
+          COALESCE(SUM(CASE WHEN CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 128 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 64 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 32 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 16 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 8 END + CASE WHEN t7.groupingVal = 0 THEN 0 ELSE 4 END + CASE WHEN t7.groupingVal = 1 THEN 0 ELSE 2 END + CASE WHEN t7.groupingVal = 2 THEN 0 ELSE 1 END = 5 AND t7.`__f14` > 0 THEN t7.`__f13_0` ELSE NULL END), 0) AS project_timesheets_total_timesheet_nonbillable_hours_billed,
+          COALESCE(SUM(CASE WHEN CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 128 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 64 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 32 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 16 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 8 END + CASE WHEN t7.groupingVal = 0 THEN 0 ELSE 4 END + CASE WHEN t7.groupingVal = 1 THEN 0 ELSE 2 END + CASE WHEN t7.groupingVal = 2 THEN 0 ELSE 1 END = 5 AND t7.`__f16` > 0 THEN t7.`__f15` ELSE NULL END), 0) AS project_timesheets_total_timesheet_cost_amount_gbp,
+          COALESCE(SUM(CASE WHEN CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 128 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 64 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 32 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 16 END + CASE WHEN t7.groupingVal IN (0, 1, 2) THEN 0 ELSE 8 END + CASE WHEN t7.groupingVal = 0 THEN 0 ELSE 4 END + CASE WHEN t7.groupingVal = 1 THEN 0 ELSE 2 END + CASE WHEN t7.groupingVal = 2 THEN 0 ELSE 1 END = 6 AND t7.`__f18` > 0 THEN t7.`__f17` ELSE NULL END), 0) AS timesheet_project_costs_fact_total_cost_gbp
+      FROM
+          (SELECT
+                  CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.projects_delivered_project_pk ELSE NULL END AS `__f1`,
+                      CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.projects_delivered_project_delivery_start_ts_month ELSE NULL END AS `__f3`,
+                      CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.projects_delivered_project_name ELSE NULL END AS `__f5`,
+                      CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.project_timesheets_timesheet_billing_month ELSE NULL END AS `__f7`,
+                      CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.project_timesheet_users_contact_pk ELSE NULL END AS `__f13`,
+                      CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.project_timesheet_users_contact_name ELSE NULL END AS `__f99`,
+                      CASE WHEN t5.groupingVal = 0 THEN t1.`__f24` ELSE NULL END AS `__f24`,
+                      CASE WHEN t5.groupingVal = 1 THEN t1.`__f27` ELSE NULL END AS `__f27`,
+                      CASE WHEN t5.groupingVal = 2 THEN t1.`__f33` ELSE NULL END AS `__f33`,
+                  t5.groupingVal,
+                  MIN(CASE WHEN t1.`__f23` THEN t1.projects_delivered_project_fee_amount ELSE NULL END) AS `__f9`,
+                  COUNT(CASE WHEN t1.`__f23` THEN 1 ELSE NULL END) AS `__f10`,
+                  MIN(CASE WHEN t1.`__f26` THEN t1.`__f25` ELSE NULL END) AS `__f11`,
+                  COUNT(CASE WHEN t1.`__f26` THEN 1 ELSE NULL END) AS `__f12`,
+                  MIN(CASE WHEN t1.`__f28` THEN t1.`__f25` ELSE NULL END) AS `__f13_0`,
+                  COUNT(CASE WHEN t1.`__f28` THEN 1 ELSE NULL END) AS `__f14`,
+                  MIN(CASE WHEN t1.`__f30` THEN t1.`__f29` ELSE NULL END) AS `__f15`,
+                  COUNT(CASE WHEN t1.`__f30` THEN 1 ELSE NULL END) AS `__f16`,
+                  MIN(CASE WHEN t1.`__f32` THEN t1.`__f31` ELSE NULL END) AS `__f17`,
+                  COUNT(CASE WHEN t1.`__f32` THEN 1 ELSE NULL END) AS `__f18`
+              FROM
+                  (SELECT
+                          projects_delivered.timesheet_project_pk  AS projects_delivered_project_pk,
+                              timestamp(date_trunc(date(projects_delivered.project_delivery_start_ts),MONTH)) AS projects_delivered_project_delivery_start_ts_month,
+                          projects_delivered.project_fee_amount  AS projects_delivered_project_fee_amount,
+                          projects_delivered.project_name  AS projects_delivered_project_name,
+                              (FORMAT_TIMESTAMP('%Y-%m', project_timesheets.timesheet_billing_date )) AS project_timesheets_timesheet_billing_month,
+                          project_timesheets.contact_fk  AS project_timesheet_users_contact_pk,
+                          contacts_dim.contact_name  AS project_timesheet_users_contact_name,
+                              (projects_delivered.timesheet_project_pk ) IS NOT NULL AS `__f23`,
+                          projects_delivered.timesheet_project_pk  AS `__f24`,
+                          coalesce(project_timesheets.timesheet_hours_billed,0)  AS `__f25`,
+                              CASE WHEN project_timesheets.timesheet_is_billable  THEN TRUE ELSE FALSE END AS `__f26`,
+                          project_timesheets.timesheet_pk  AS `__f27`,
+                              CASE WHEN NOT COALESCE( project_timesheets.timesheet_is_billable, FALSE) THEN TRUE ELSE FALSE END AS `__f28`,
+                          coalesce(project_timesheets.timesheet_hours_billed * project_timesheets.timesheet_billable_hourly_cost_amount,0)  AS `__f29`,
+                              (project_timesheets.timesheet_pk ) IS NOT NULL AS `__f30`,
+                          coalesce(( timesheet_project_costs_fact.expense_amount_local / expenses_exchange_rates.CURRENCY_RATE ),0)  AS `__f31`,
+                              (timesheet_project_costs_fact.expense_pk ) IS NOT NULL AS `__f32`,
+                          timesheet_project_costs_fact.expense_pk  AS `__f33`
+                      FROM `analytics.timesheet_projects_dim`
+           AS projects_delivered
+      LEFT JOIN `analytics.timesheets_fact`
+           AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_fk
+      LEFT JOIN  `analytics.contacts_dim`
+           AS contacts_dim ON project_timesheets.contact_fk = contacts_dim.contact_pk
+      LEFT JOIN `ra-development.analytics.timesheet_project_costs_fact`
+           AS timesheet_project_costs_fact ON projects_delivered.timesheet_project_pk = timesheet_project_costs_fact.timesheet_project_fk
+      LEFT JOIN `ra-development.analytics_seed.exchange_rates`
+           AS expenses_exchange_rates ON timesheet_project_costs_fact.expense_currency_code = expenses_exchange_rates.CURRENCY_CODE
+                      ) AS t1,
+                      (SELECT
+                              0 AS groupingVal
+                          UNION ALL
+                          SELECT
+                              1 AS groupingVal
+                          UNION ALL
+                          SELECT
+                              2 AS groupingVal) AS t5
+              GROUP BY
+                  CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.projects_delivered_project_pk ELSE NULL END,
+                  CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.projects_delivered_project_delivery_start_ts_month ELSE NULL END,
+                  CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.projects_delivered_project_name ELSE NULL END,
+                  CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.project_timesheets_timesheet_billing_month ELSE NULL END,
+                  CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.project_timesheet_users_contact_pk ELSE NULL END,
+                  CASE WHEN t5.groupingVal IN (0, 1, 2) THEN t1.project_timesheet_users_contact_name ELSE NULL END,
+                  CASE WHEN t5.groupingVal = 0 THEN t1.`__f24` ELSE NULL END,
+                  CASE WHEN t5.groupingVal = 1 THEN t1.`__f27` ELSE NULL END,
+                  CASE WHEN t5.groupingVal = 2 THEN t1.`__f33` ELSE NULL END,
+                  t5.groupingVal) AS t7
+      GROUP BY
+          1,
+          2,
+          3,
+          4)
+      SELECT * ,
+        sum(case when contact_name like '%Lydia%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Jordan%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Amir%' then project_timesheets_total_timesheet_billable_hours_billed * .89
+                 when contact_name like '%Abanoub%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 when contact_name like '%Jack%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 else project_timesheets_total_timesheet_billable_hours_billed end)
+        over (partition by timesheet_project_pk) as total_project_timesheet_billable_hours_billed,
+        case when contact_name like '%Lydia%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Jordan%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Amir%' then project_timesheets_total_timesheet_billable_hours_billed * .89
+                when contact_name like '%Abanoub%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 when contact_name like '%Jack%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 else project_timesheets_total_timesheet_billable_hours_billed end/if(sum(case when contact_name like '%Lydia%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Jordan%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Amir%' then project_timesheets_total_timesheet_billable_hours_billed * .89
+                when contact_name like '%Abanoub%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 when contact_name like '%Jack%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 else project_timesheets_total_timesheet_billable_hours_billed end) over (partition by timesheet_project_pk)=0,null,sum(case when contact_name like '%Lydia%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Jordan%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Amir%' then project_timesheets_total_timesheet_billable_hours_billed * .89
+                when contact_name like '%Abanoub%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 when contact_name like '%Jack%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 else project_timesheets_total_timesheet_billable_hours_billed end) over (partition by timesheet_project_pk)) as pct_of_total_project_timesheet_billable_hours_billed,
+        round(projects_delivered_total_project_fee_amount*(case when contact_name like '%Lydia%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Jordan%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Amir%' then project_timesheets_total_timesheet_billable_hours_billed * .89
+                when contact_name like '%Abanoub%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 when contact_name like '%Jack%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 else project_timesheets_total_timesheet_billable_hours_billed end)/if(sum(case when contact_name like '%Lydia%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Jordan%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Amir%' then project_timesheets_total_timesheet_billable_hours_billed * .89
+                when contact_name like '%Abanoub%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 when contact_name like '%Jack%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 else project_timesheets_total_timesheet_billable_hours_billed end) over (partition by timesheet_project_pk)=0,null,sum(case when contact_name like '%Lydia%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Jordan%' then project_timesheets_total_timesheet_billable_hours_billed * .56
+                 when contact_name like '%Amir%' then project_timesheets_total_timesheet_billable_hours_billed * .89
+                when contact_name like '%Abanoub%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 when contact_name like '%Jack%' then project_timesheets_total_timesheet_billable_hours_billed * .25
+                 else project_timesheets_total_timesheet_billable_hours_billed end) over (partition by timesheet_project_pk)),2) as total_project_revenue_attribution_gbp,
+        round(case when project_timesheets_total_timesheet_cost_amount_gbp = 0 then timesheet_project_costs_fact_total_cost_gbp else project_timesheets_total_timesheet_cost_amount_gbp end,2)  as total_project_timesheet_billable_cost_gbp
+      FROM
+      staff_level
+      WHERE
+      project_timesheets_total_timesheet_billable_hours_billed > 0 ;;
   }
 
 
 
-  dimension: consultant_name {
+  dimension: timesheet_project_pk {
+    hidden: yes
     type: string
-    sql: ${TABLE}.consultant_name ;;
+    sql: ${TABLE}.timesheet_project_pk ;;
   }
 
-  dimension_group: billing_month {
-    timeframes: [month,quarter]
+  dimension_group: timesheet {
     type: time
-    sql: parse_timestamp('%Y-%m',${TABLE}.billing_month) ;;
+    timeframes: [month,week,week_of_year,month_num,quarter,quarter_of_year,year]
+    sql: parse_timestamp('%Y-%m',(${TABLE}.timesheet_billing_ts)) ;;
   }
 
-  measure: total_attributed_revenue {
-    value_format_name: gbp
+  dimension: pk {
+    type: string
+    sql: concat(${TABLE}.timesheet_project_pk,${TABLE}.contact_pk,${TABLE}.timesheet_billing_ts) ;;
+    primary_key: yes
+    hidden: yes
+  }
+
+  dimension: contact_pk {
+    type: string
+    hidden: yes
+
+    sql: ${TABLE}.contact_pk ;;
+  }
+
+  dimension: total_project_fee_amount {
+    hidden: yes
+
+    type: number
+    sql: ${TABLE}.projects_delivered_total_project_fee_amount ;;
+  }
+
+  dimension: total_timesheet_billable_hours_billed {
+    hidden: yes
+
+    type: number
+    sql: ${TABLE}.project_timesheets_total_timesheet_billable_hours_billed ;;
+  }
+
+  dimension: total_timesheet_nonbillable_hours_billed {
+    hidden: yes
+
+    type: number
+    sql: ${TABLE}.project_timesheets_total_timesheet_nonbillable_hours_billed ;;
+  }
+
+  dimension: total_timesheet_cost_amount_gbp {
+    hidden: yes
+
+    type: number
+    sql: ${TABLE}.project_timesheets_total_timesheet_cost_amount_gbp ;;
+  }
+
+  dimension: total_other_project_costs {
+    hidden: yes
+
+    type: number
+    sql: ${TABLE}.timesheet_project_costs_fact_total_cost_gbp ;;
+  }
+
+  dimension: total_project_timesheet_billable_hours_billed {
+    hidden: yes
+
+    type: number
+    sql: ${TABLE}.total_project_timesheet_billable_hours_billed ;;
+  }
+
+  dimension: pct_of__billable_hours_billed {
+    type: number
+    value_format_name: percent_2
+    sql: ${TABLE}.pct_of_total_project_timesheet_billable_hours_billed ;;
+  }
+
+  dimension: total_project_revenue_attribution_gbp {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_project_revenue_attribution_gbp ;;
+  }
+
+  measure: attributed_project_revenue_gbp {
     type: sum
-    sql: ${TABLE}.total_attributed_revenue ;;
-  }
-
-  measure: total_fully_loaded_cost {
     value_format_name: gbp
 
-    type: sum
-    sql: ${TABLE}.total_fully_loaded_cost ;;
+    sql: ${total_project_revenue_attribution_gbp};;
   }
 
-  measure: total_gross_margin_contribution {
+  measure: attributed_project_cost_gbp {
+    type: sum
     value_format_name: gbp
-
-    type: average
-    sql: ${TABLE}.total_gross_margin_contribution ;;
+    sql: ${total_project_timesheet_billable_cost_gbp} ;;
   }
 
-  measure: consultant_margin {
-    value_format_name: percent_0
-    type: sum
-    sql: ${TABLE}.consultant_margin ;;
+  dimension: total_project_timesheet_billable_cost_gbp {
+    type: number
+    hidden: yes
+
+    sql: ${TABLE}.total_project_timesheet_billable_cost_gbp ;;
   }
 
-  set: detail {
-    fields: [
-      consultant_name,
-      total_attributed_revenue,
-      total_fully_loaded_cost,
-      total_gross_margin_contribution,
-      consultant_margin
-    ]
-  }
+
 }

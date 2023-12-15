@@ -458,6 +458,7 @@ explore: contacts {
     }
 
 
+
   join: project_timesheet_users {
     view_label: "     Timesheets"
 
@@ -465,6 +466,11 @@ explore: contacts {
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
     type: left_outer
     relationship: one_to_many
+  }
+  join: consultant_revenue_attribution {
+    view_label: "    Consultant Contribution"
+    sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
+       and ${project_timesheets.timesheet_project_pk} = ${consultant_revenue_attribution.timesheet_project_pk};;
   }
 
   join: companies_dim {
@@ -636,6 +642,11 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: consultant_revenue_attribution {
+    view_label: "    Consultant Contribution"
+    sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
+      and ${project_timesheets.timesheet_project_pk} = ${consultant_revenue_attribution.timesheet_project_pk};;
+  }
   join: deals_fact {
     view_label: "        Sales"
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
@@ -760,7 +771,7 @@ explore: companies_dim {
   }
 
   explore: project_attribution {
-    hidden: yes
+    hidden: no
 
     label: "Attribution"
     view_label: "Project Attribution"
