@@ -551,6 +551,13 @@ explore: companies_dim {
     relationship: one_to_one
   }
 
+  join: companies_dim__all_company_ids {
+    view_label: "        Companies"
+    sql: LEFT JOIN UNNEST(${companies_dim__all_company_ids.companies_dim__all_company_ids}) as  companies_dim__all_company_ids;;
+    relationship: one_to_many
+
+  }
+
 
 
 

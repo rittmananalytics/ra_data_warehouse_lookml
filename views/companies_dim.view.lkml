@@ -12,24 +12,6 @@ view: companies_dim {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   dimension: company_currency_code {
     hidden: yes
     type: string
@@ -101,8 +83,8 @@ view: companies_dim {
     label: "         Company Name"
     type: string
     sql: ${TABLE}.company_name;;
-  }
 
+}
 
 
 
@@ -146,6 +128,293 @@ view: companies_dim {
 
     type: count
     drill_fields: [detail*]
+  }
+
+  # ---- Ideal Customer Columns
+
+  dimension: ideal_customer_group {
+    group_label: "     Ideal Customer"
+    type: string
+    sql: ${TABLE}.ideal_customer_group ;;
+  }
+
+  dimension: ideal_customer_group_natural_key {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ideal_customer_group_natural_key ;;
+  }
+
+  measure: ideal_customer_ranking {
+    group_label: "     Ideal Customer"
+
+    type: average
+    value_format_name: decimal_2
+
+    sql: ${TABLE}.ideal_customer_ranking ;;
+  }
+
+  dimension: original_buyer_role {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_buyer_role ;;
+  }
+
+  dimension: original_buyer_department {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_buyer_department ;;
+  }
+
+  dimension: original_lead_pathway {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_lead_pathway ;;
+  }
+
+  dimension: original_lead_customer_source {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_lead_customer_source ;;
+  }
+
+  dimension: company_size {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.company_size ;;
+  }
+
+  dimension: ideal_customer_vertical {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.ideal_customer_vertical ;;
+  }
+
+  dimension: original_buyer_requirement {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_buyer_requirement ;;
+  }
+
+  dimension: original_buyer_challenge {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_buyer_challenge ;;
+  }
+
+  dimension: original_appeal_of_ra_to_buyer {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_appeal_of_ra_to_buyer ;;
+  }
+
+  dimension: original_buyer_data_maturity {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_buyer_data_maturity ;;
+  }
+
+  dimension: original_org_data_maturity {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_org_data_maturity ;;
+  }
+
+  dimension: ideal_customer_cohort {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.ideal_customer_cohort ;;
+  }
+
+  dimension: ideal_customer_churned_year {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.ideal_customer_churned_year ;;
+  }
+
+  dimension: ideal_customer_months_billed {
+    group_label: "     Ideal Customer"
+
+    type: number
+    sql: ${TABLE}.ideal_customer_months_billed ;;
+  }
+
+  dimension: ideal_customer_churn_reason {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.ideal_customer_churn_reason ;;
+  }
+
+  dimension: ideal_customer_testimonial_url {
+    group_label: "     Ideal Customer"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.ideal_customer_testimonial_url ;;
+  }
+
+  dimension: original_market {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_market ;;
+  }
+
+  dimension: original_service {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_service ;;
+  }
+
+  dimension: original_work_delivered {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_work_delivered ;;
+  }
+
+  dimension: original_fee_structure {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_fee_structure ;;
+  }
+
+  dimension: original_lead_technology {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_lead_technology ;;
+  }
+
+  dimension: original_database {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_database ;;
+  }
+
+  dimension: original_bi_tool {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_bi_tool ;;
+  }
+
+  dimension: original_is_data_analyst_available {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_is_data_analyst_available ;;
+  }
+
+  dimension: original_expectations_alignment {
+    group_label: "     Ideal Customer"
+
+    type: yesno
+    sql: ${TABLE}.original_expectations_alignment = "Y" ;;
+  }
+
+  dimension: original_is_handover_planned {
+    group_label: "     Ideal Customer"
+
+    type: yesno
+    sql: ${TABLE}.original_is_handover_planned = "Y" ;;
+  }
+
+  dimension: original_license_referral {
+    group_label: "     Ideal Customer"
+
+    type: yesno
+    sql: ${TABLE}.original_is_license_referral = "Y";;
+  }
+
+  dimension: original_ra_lead {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.original_ra_lead ;;
+  }
+
+  dimension: orignal_delivery_team {
+    group_label: "     Ideal Customer"
+
+    type: string
+    sql: ${TABLE}.oriignal_delivery_team ;;
+  }
+
+  measure: original_size_of_ra_team {
+    group_label: "     Ideal Customer"
+
+    type: average
+    value_format_name: decimal_2
+
+    sql: ${TABLE}.original_size_of_ra_team ;;
+  }
+
+  measure: ideal_customer_loyalty_score {
+    group_label: "     Ideal Customer"
+
+    type: average
+    value_format_name: decimal_2
+
+    sql: ${TABLE}.ideal_customer_loyalty_score ;;
+  }
+
+  measure: ideal_customer_revenue_score {
+    group_label: "     Ideal Customer"
+
+    type: average
+    value_format_name: decimal_2
+
+    sql: ${TABLE}.ideal_customer_revenue_score ;;
+  }
+
+  measure: ideal_customer_satisfaction_score {
+    group_label: "     Ideal Customer"
+
+    type: average
+    value_format_name: decimal_2
+
+    sql: ${TABLE}.ideal_customer_satisfaction_score ;;
+  }
+
+  measure: ideal_customer_ip_score {
+    group_label: "     Ideal Customer"
+
+    type: average
+    value_format_name: decimal_2
+
+    sql: ${TABLE}.ideal_customer_ip_score ;;
+  }
+
+  measure: ideal_customer_total_score {
+    group_label: "     Ideal Customer"
+
+    type: average
+    value_format_name: decimal_2
+    sql: ${TABLE}.ideal_customer_total_score ;;
+  }
+
+  dimension: hubspot_company_id {
+    sql: (SELECT max(hubspot_company_id) FROM UNNEST(all_company_ids) AS hubspot_company_id WHERE hubspot_company_id like '%hubspot%') ;;
+  }
+
+  dimension: all_company_ids {
+    sql: (SELECT string_agg(company_id) FROM UNNEST(all_company_ids) AS company_id) ;;
   }
 
   # ----- Sets of fields for drilling ------
