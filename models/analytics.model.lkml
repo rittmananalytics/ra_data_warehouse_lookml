@@ -55,6 +55,25 @@ explore: keyword_page_report {
   group_label: "Experimental"
 }
 
+explore: nps_survey_results_fact {
+  label: "NPS Surveys"
+  group_label: "   Production"
+  view_label: "NPS Surveys"
+  join: contacts_dim {
+    view_label: "Survey Respondents"
+    sql_on: ${nps_survey_results_fact.contact_fk} = ${contacts_dim.contact_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: companies_dim {
+    view_label: "Companies Surveyed"
+    sql_on: ${nps_survey_results.company_fk} = ${companies_dim.company_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+
+  }
+}
+
 
 
 explore: keywords {
