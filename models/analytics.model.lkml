@@ -38,10 +38,7 @@ explore: site_report_by_site {
   group_label: "Experimental"
 }
 
-explore: keywords {
-  hidden: yes
-  group_label: "Experimental"
-}
+
 
 explore: organic_posts_dim {
   label: "Organic Marketing"
