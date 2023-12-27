@@ -33,6 +33,16 @@ explore: ad_campaign_performance_fact {
   }
 }
 
+explore: site_report_by_site {
+  hidden: yes
+  group_label: "Experimental"
+}
+
+explore: keywords {
+  hidden: yes
+  group_label: "Experimental"
+}
+
 explore: organic_posts_dim {
   label: "Organic Marketing"
   view_label: "    Organic Posts"
@@ -46,7 +56,92 @@ explore: organic_posts_dim {
 
 explore: looker_usage_stats {}
 
-
+explore: projects_delivered {
+  hidden: yes
+  label: "Projects"
+  group_label: "   Production"
+  view_label: "         Projects"
+  from: timesheet_projects_dim
+  join: project_timesheets {
+    view_label: "     Timesheets"
+    from: timesheets_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_delivered_is_ontime {
+    view_label: "         Projects"
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_delivered_is_ontime.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: project_timesheet_users {
+    view_label: "     Timesheets"
+    from: staff_dim
+    sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: consultant_revenue_attribution {
+    view_label: "    Consultant Contribution"
+    sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
+      and ${project_timesheets.timesheet_project_pk} = ${consultant_revenue_attribution.timesheet_project_pk};;
+  }
+  join: companies_dim {
+    view_label: "         Projects"
+    sql_on: ${projects_delivered.company_pk} = ${companies_dim.company_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_invoiced {
+    view_label: "   Invoices"
+    from: invoices_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: payments_fact {
+    view_label: " Payments"
+    type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+    relationship: one_to_many
+  }
+  join: rfm_model {
+    view_label: "    Companies"
+    sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: client_prospect_status_dim {
+    view_label: "    Companies"
+    sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: timesheet_project_costs_fact {
+    view_label: "  Other Costs"
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${timesheet_project_costs_fact.timesheet_project_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: expenses_exchange_rates {
+    from: exchange_rates
+    sql_on: ${timesheet_project_costs_fact.expense_currency_code} = ${expenses_exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: deals_fact {
+    view_label: "Sales Deals"
+    sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
+    type: full_outer
+    relationship: one_to_many
+  }
+}
 
 
 
