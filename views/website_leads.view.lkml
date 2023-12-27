@@ -1,6 +1,6 @@
 view: website_leads {
   derived_table: {
-    sql: select invitee_email, invitee_name, Start_Date___Time, enquiry, category, Sales_Qualified_, Closed_Won_,Event_Created_Date___Time, Canceled, Event_Type_Name, Response_1
+    sql: select invitee_email, invitee_name, Start_Date___Time, enquiry, category, Sales_Qualified_, Closed_Won_, Canceled, Response_1, Proposal_Sent_, Company_Domain, Company_Name, Vertical, Company_Size
       from analytics_seed.website_leads
        ;;
   }
@@ -40,7 +40,7 @@ view: website_leads {
   dimension_group: booking {
     type: time
     timeframes: [date,month,month_num,quarter,quarter_of_year,week,year,hour,hour3]
-    sql: parse_timestamp('%Y-%m-%d',split(${TABLE}.Event_Created_Date___Time,' ')[safe_offset(0)]) ;;
+    sql: parse_timestamp('%Y-%m-%d',split(${TABLE}.Start_Date___Time,' ')[safe_offset(0)]) ;;
   }
 
   dimension_group: meeting {
@@ -98,14 +98,38 @@ view: website_leads {
     sql: ${TABLE}.Canceled ;;
   }
 
-  dimension: event_type_name {
-    type: string
-    sql: ${TABLE}.Event_Type_Name ;;
-  }
+
 
   dimension: meeting_purpose {
     type: string
     sql: ${TABLE}.Response_1 ;;
+  }
+
+  dimension: Company_Name {
+  type: string
+  sql: ${TABLE}.Company_Name ;;
+  }
+
+  dimension: Vertical {
+    type: string
+    sql: ${TABLE}.Vertical ;;
+  }
+
+  dimension: Company_Size {
+    type: string
+    sql: ${TABLE}.Company_Size ;;
+  }
+
+
+  dimension: proposal_sent {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.Proposal_Sent_;;
+  }
+
+  measure: total_proposals_sent {
+    type: sum
+    sql: ${proposal_sent} ;;
   }
 
   set: detail {
@@ -116,8 +140,6 @@ view: website_leads {
       enquiry,
       category,
       closed_won_,
-      canceled,
-      event_type_name,
-    ]
+      canceled    ]
   }
 }

@@ -53,6 +53,191 @@ explore: organic_posts_dim {
 
 explore: looker_usage_stats {}
 
+explore: contacts {
+  hidden: no
+  from: contacts_dim
+  label: "       Contacts"
+  view_label: "          Contacts"
+  group_label: "   Production"
+  join: timesheets_fact {
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${contacts.contact_pk} = ${timesheets_fact.contact_pk}  ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_delivered {
+    view_label: "Project Timesheets (Harvest)"
+    from: timesheet_projects_dim
+    sql_on: ${timesheets_fact.timesheet_project_pk} = ${projects_delivered.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_delivered_clients {
+    from: companies_dim
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${timesheets_fact.company_pk} = ${projects_delivered_clients.company_pk}
+      and ${projects_delivered.company_pk} = ${projects_delivered_clients.company_pk};;
+    type: inner
+    relationship: one_to_many
+  }
+  join: timesheet_tasks_dim {
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${timesheets_fact.timesheet_task_pk} = ${timesheet_tasks_dim.timesheet_task_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  join: projects_invoiced {
+    view_label: "Project Invoicing (Harvest)"
+    from: invoices_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: delivery_tasks_fact {
+    view_label: " Project Management (Jira)"
+    sql_on: ${contacts.contact_pk} = ${delivery_tasks_fact.contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_managed {
+    view_label: " Project Management (Jira)"
+    from: delivery_projects_dim
+    sql_on: ${delivery_tasks_fact.delivery_project_pk} = ${projects_managed.delivery_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: delivery_team_fact_xa {
+    view_label: "Project Stats"
+    sql_on: ${contacts.contact_pk} = ${delivery_team_fact_xa.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: contact_engagements_fact {
+    view_label: "      Engagements"
+    sql_on: ${contacts.contact_pk} = ${contact_engagements_fact.from_contact_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: contact_engagement_deal_fact {
+    from: deals_fact
+    view_label: "  Engagement Deals"
+    sql_on: ${contact_engagements_fact.deal_pk} = ${contact_engagement_deal_fact.deal_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: contact_meetings_fact {
+    view_label: "  Contact Meetings"
+    sql_on: ${contacts.contact_pk} = ${contact_meetings_fact.meeting_host_contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: contact_meetings_fact__all_attendee_contact_pk {
+    view_label: "Contact Meetings Fact: All Attendee Contact Pk"
+    sql: LEFT JOIN UNNEST(${contact_meetings_fact.all_attendee_contact_pk}) as contact_meetings_fact__all_attendee_contact_pk ;;
+    relationship: one_to_many
+  }
+  join: contacts_attended_dim {
+    from: contacts_dim
+    view_label: "  Contact Meeting Attendees"
+    sql_on: ${contact_meetings_fact__all_attendee_contact_pk.contact_meetings_fact__all_attendee_contact_pk} = ${contacts_attended_dim.contact_pk} ;;
+    relationship: many_to_one
+    type: inner
+  }
+  join: contact_meeting_deal {
+    view_label: "  Contact Meeting Deal"
+    from: deals_fact
+    sql_on: ${contact_meetings_fact.deal_pk} = ${contact_meeting_deal.deal_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: contacts_engaged_dim {
+    from: contacts_dim
+    view_label: " Contacts Engaged"
+    sql_on: ${contact_engagements_fact.to_contact_pk} = ${contacts_engaged_dim.contact_pk} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
+  join: delivered_companies_dim {
+    from: companies_dim
+    view_label: "       Companies"
+    sql_on: ${projects_delivered.company_pk} = ${delivered_companies_dim.company_pk}
+      and ${timesheets_fact.company_pk} = ${delivered_companies_dim.company_pk};;
+    type: inner
+    relationship: one_to_many
+  }
+  join: looker_usage_fact {
+    view_label: "Looker Usage"
+    sql_on: ${looker_usage_fact.contact_pk} = ${contacts.contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: contact_deals_fact {
+    sql_on: ${contacts.contact_pk} = ${contact_deals_fact.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: deals_fact {
+    view_label: "   Sales (Hubspot)"
+    sql_on: ${contact_deals_fact.deal_pk} = ${deals_fact.deal_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: contacts_influencer_list_xa {
+    view_label: "          Contacts"
+    sql_on: ${contacts.hubspot_contact_id} = ${contacts_influencer_list_xa.hubspot_contact_id} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: contacts_web_event_history_xa {
+    view_label: "Web History"
+    sql_on: ${contacts.contact_pk} = ${contacts_web_event_history_xa.contact_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: contacts_web_interests_xa {
+    view_label: "          Contacts"
+    sql_on: ${contacts.contact_pk} = ${contacts_web_interests_xa.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: marketing_interactions_fact {
+    view_label: "Content Marketing"
+    sql_on: ${contacts.contact_pk} = ${marketing_interactions_fact.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: marketing_content_dim{
+    view_label: "Content Marketing"
+    sql_on: ${marketing_interactions_fact.marketing_content_pk} = ${marketing_content_dim.marketing_content_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: contact_contracts {
+    from: contracts_fact
+    view_label: "Contracts Signed"
+    sql_on: ${contacts.contact_pk} = ${contact_contracts.contact_pk} ;;
+    type: inner
+    relationship: one_to_many
+  }
+  join: contact_nps_survey_fact {
+    sql_on: ${contacts.contact_pk} = ${contact_nps_survey_fact.contact_pk} ;;
+    view_label: "NPS Scores"
+    type: inner
+    relationship: one_to_many
+  }
+  join: payments_fact {
+    view_label: " Payments"
+    type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+    relationship: one_to_many
+  }
+  }
+
 explore: projects_delivered {
   hidden: yes
   label: "Projects"
@@ -83,6 +268,8 @@ explore: projects_delivered {
     view_label: "    Consultant Contribution"
     sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
       and ${project_timesheets.timesheet_project_pk} = ${consultant_revenue_attribution.timesheet_project_pk};;
+      relationship: one_to_one
+      type: left_outer
   }
   join: companies_dim {
     view_label: "         Projects"
