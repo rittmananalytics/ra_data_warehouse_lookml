@@ -900,7 +900,7 @@ view: ga_multi_cycle_multi_touch_attribution {
     sql: ${TABLE}.first_order_revenue ;;
   }
 
-  dimension: total_repeat_order_revenue {
+  measure: total_repeat_order_revenue {
     type: sum
     sql: ${TABLE}.repeat_order_revenue ;;
   }
