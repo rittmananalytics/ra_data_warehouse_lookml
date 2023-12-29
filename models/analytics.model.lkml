@@ -468,6 +468,8 @@ explore: web_sessions_fact {
 
 explore: companies_dim {
   label: "Companies"
+  view_label: "        Companies"
+
   group_label: "   Production"
   hidden: no
   join: client_concentration {
