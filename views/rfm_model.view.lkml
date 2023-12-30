@@ -333,15 +333,20 @@ view: rfm_model {
 
     }
   dimension: order_frequency {
+    hidden: yes
+
     group_label: "RFM Model"
     order_by_field: rfm_frequency_score
   }
   dimension: order_recency {
+    hidden: yes
     group_label: "RFM Model"
     order_by_field: rfm_recency_score
 
   }
   dimension: monetary_value {
+    hidden: yes
+
     group_label: "RFM Model"
     order_by_field: rfm_monetary_value_score
 

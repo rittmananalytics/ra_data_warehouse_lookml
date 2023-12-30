@@ -17,7 +17,6 @@ view: timesheets_fact {
   }
 
   measure: avg_timesheet_billable_hourly_cost_amount_gbp {
-    group_label: "    Timesheet Details"
     type: average
     value_format_name: gbp
     sql: ${timesheet_billable_hourly_cost_amount_gbp} ;;
@@ -112,16 +111,15 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_hours_billed {
-    group_label: "    Timesheet Details"
     value_format_name: decimal_0
-
+    label: "Total Hours"
     type: sum
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
 
   measure: total_timesheet_billable_hours_billed {
-    group_label: "    Timesheet Details"
     value_format_name: decimal_0
+    label: "Total Billable Hours"
 
     type: sum
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
@@ -129,8 +127,9 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_nonbillable_hours_billed {
-    group_label: "    Timesheet Details"
     value_format_name: decimal_0
+    label: "Total Non-Billable Hours"
+
 
     type: sum
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
@@ -196,7 +195,7 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_cost_amount_gbp {
-    group_label: "    Timesheet Details"
+    label: "Total Timesheet Hours Cost"
 
     type: sum
     value_format_name: gbp_0

@@ -64,132 +64,150 @@ view: customer_first_order_segments {
 
 
   dimension: first_deal_source {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
     type: string
     sql: ${TABLE}.first_deal_source ;;
   }
 
   dimension: first_deal_type {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.first_deal_type ;;
   }
 
   dimension: first_partner_referral {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.first_partner_referral ;;
   }
 
   dimension: first_pricing_model {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.first_pricing_model ;;
   }
 
   dimension: first_sprint_type {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.first_sprint_type ;;
   }
 
   dimension: first_number_of_sprints {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: number
     sql: ${TABLE}.first_number_of_sprints ;;
   }
 
   dimension: last_number_of_sprints {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: number
     sql: ${TABLE}.last_number_of_sprints ;;
   }
 
   dimension: first_currency_code {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.first_currency_code ;;
   }
 
   dimension: is_first_deal_license_referral {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_license_referral ;;
   }
 
   dimension: is_first_deal_services {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_services ;;
   }
 
   dimension: is_first_deal_dbt {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_dbt ;;
   }
 
   dimension: is_first_deal_fivetran {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_fivetran ;;
   }
 
   dimension: is_first_deal_gcp {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_gcp ;;
   }
 
   dimension: is_first_deal_looker {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_looker ;;
   }
 
   dimension: is_first_deal_segment {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_segment ;;
   }
 
   dimension: is_first_deal_snowflake {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_snowflake ;;
   }
 
   dimension: is_first_deal_stitch {
-    group_label: "Segmentation"
+    hidden: yes
+
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.is_first_deal_stitch ;;
   }
 
   dimension: first_deal_amount {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.first_deal_amount ;;
   }
 
   dimension: last_deal_amount {
-    group_label: "Segmentation"
+    group_label: "First Order Segmentation"
 
     type: string
     sql: ${TABLE}.last_deal_amount ;;

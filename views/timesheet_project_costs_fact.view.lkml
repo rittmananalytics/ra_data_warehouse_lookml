@@ -42,7 +42,7 @@ view: timesheet_project_costs_fact {
   }
 
   measure: total_cost_gbp {
-    group_label: "Contractor and Other Costs"
+    label: "Total Contractor Cost GBP"
     type: sum
     value_format_name: gbp_0
     sql: coalesce(${expense_amount_gbp},0) ;;

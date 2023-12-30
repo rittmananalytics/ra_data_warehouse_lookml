@@ -36,7 +36,7 @@ view: targets {
 
   dimension_group: period {
     type: time
-    timeframes : [month]
+    timeframes : [month,quarter,year]
     sql: parse_timestamp('%d-%m-%Y', ${TABLE}.month) ;;
   }
 

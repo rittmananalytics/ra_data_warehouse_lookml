@@ -59,6 +59,7 @@ view: projects_delivered_is_ontime {
   }
 
   measure: count_ontime_timesheet_projects {
+    label: "Total Ontime Project Deliveries"
     type: count_distinct
     sql: ${timesheet_project_pk} ;;
     filters: [is_ontime_project: "Yes"]

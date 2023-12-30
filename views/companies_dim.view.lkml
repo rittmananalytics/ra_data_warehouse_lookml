@@ -125,7 +125,7 @@ view: companies_dim {
   }
 
   measure: count {
-
+    hidden: yes
     type: count
     drill_fields: [detail*]
   }
@@ -269,7 +269,7 @@ view: companies_dim {
   }
 
   dimension: ideal_customer_group_natural_key {
-    hidden: no
+    hidden: yes
     type: number
     sql: ${TABLE}.ideal_customer_group_natural_key ;;
   }

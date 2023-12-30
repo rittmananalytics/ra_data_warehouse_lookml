@@ -562,14 +562,13 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: projects_delivered_is_ontime {
-    view_label: "         Projects"
+    view_label: "      Timesheets"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_delivered_is_ontime.timesheet_project_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
   join: project_timesheet_users {
     view_label: "      Timesheets"
-
     from: contacts_dim
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
     type: left_outer

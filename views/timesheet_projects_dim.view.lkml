@@ -198,7 +198,8 @@ view: timesheet_projects_dim {
   }
 
   measure: count_timesheet_projects {
-    hidden: yes
+    hidden: no
+    label: "Total Project Deliveries"
 
     type: count_distinct
     sql:  ${TABLE}.timesheet_project_pk ;;
