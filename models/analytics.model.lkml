@@ -472,6 +472,12 @@ explore: companies_dim {
 
   group_label: "   Production"
   hidden: no
+  join: companies_dim_ideal_customer {
+   view_label: "        Companies"
+   sql_on: ${companies_dim.company_pk} = ${companies_dim_ideal_customer.company_pk};;
+   type: left_outer
+   relationship: one_to_one
+  }
   join: client_concentration {
     view_label: "Monthly Concentration"
     sql_on: ${projects_invoiced.invoice_sent_at_ts_month} = ${client_concentration.invoice_month_month} ;;
@@ -570,6 +576,7 @@ explore: companies_dim {
   join: project_timesheet_users {
     view_label: "      Timesheets"
     from: contacts_dim
+    fields: [project_timesheet_users.contact_name]
     sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
     type: left_outer
     relationship: one_to_many
@@ -671,6 +678,7 @@ explore: companies_dim {
   }
   join: timesheet_project_costs_fact {
     view_label: "      Timesheets"
+    fields: [timesheet_project_costs_fact.expense_amount_gbp,timesheet_project_costs_fact.expense_category_name]
     sql_on: ${projects_delivered.timesheet_project_pk} = ${timesheet_project_costs_fact.timesheet_project_pk};;
     type: left_outer
     relationship: many_to_one

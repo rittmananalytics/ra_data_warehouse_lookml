@@ -17,6 +17,7 @@ view: delivery_projects_dim {
 
   measure: count_delivery_projects {
     type: count_distinct
+    label: "Total Projects"
     sql: ${TABLE}.delivery_project_fk ;;
   }
 

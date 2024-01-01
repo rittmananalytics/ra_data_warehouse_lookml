@@ -41,6 +41,7 @@ view: timesheet_projects_dim {
 
   dimension: project_code {
     group_label: "        Project Details"
+    label: "         Project Code"
 
     type: string
     sql: ${TABLE}.project_code ;;
@@ -48,6 +49,8 @@ view: timesheet_projects_dim {
 
   dimension: hubspot_deal_id {
     group_label: "        Project Details"
+    hidden: yes
+
     type: number
     sql: safe_cast(SPLIT(${TABLE}.project_code,'-')[SAFE_OFFSET(1)] as int64) ;;
   }
@@ -62,9 +65,10 @@ view: timesheet_projects_dim {
 
   dimension_group: project_delivery_end_ts {
     group_label: "        Project Details"
-
+    hidden: no
+    label: "  Project End"
     type: time
-    timeframes: [date,week,month,month_num,quarter]
+    timeframes: [date]
     sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
 
@@ -79,15 +83,18 @@ view: timesheet_projects_dim {
 
   dimension: is_project_active {
     group_label: "        Project Details"
+    hidden: yes
+
     type: yesno
     sql: case when timestamp_add(timestamp(${TABLE}.project_delivery_end_ts),interval 30 day) > current_timestamp then true else false end ;;
   }
 
   dimension_group : project_delivery_start_ts {
     group_label: "        Project Details"
+    label: "    Project Start"
 
     type: time
-    timeframes: [date,week,month,month_num,quarter, year]
+    timeframes: [date]
     sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
   }
 
@@ -132,6 +139,7 @@ view: timesheet_projects_dim {
 
   dimension: project_is_active {
     group_label: "        Project Details"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.project_is_active ;;
@@ -139,6 +147,7 @@ view: timesheet_projects_dim {
 
   dimension: project_is_billable {
     group_label: "Project Commercials"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.project_is_billable ;;
@@ -162,13 +171,13 @@ view: timesheet_projects_dim {
 
   dimension: project_name {
     group_label: "        Project Details"
-
+    label: "            Project Name"
     type: string
     sql: ${TABLE}.project_name ;;
   }
 
   measure: total_project_fee_amount {
-    group_label: "Project Commercials"
+    label: "Total Project Fee Amount GBP"
     type: sum
     sql: ${project_fee_amount} ;;
   }
@@ -182,7 +191,7 @@ view: timesheet_projects_dim {
   }
 
   dimension: timesheet_project_id {
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.timesheet_project_id ;;
     group_label: "        Project Details"
@@ -191,7 +200,7 @@ view: timesheet_projects_dim {
 
   dimension: timesheet_project_pk {
 
-    hidden: no
+    hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.timesheet_project_pk ;;

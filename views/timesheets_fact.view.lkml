@@ -11,12 +11,15 @@ view: timesheets_fact {
 
   dimension: timesheet_billable_hourly_cost_amount_gbp {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_cost_amount;;
   }
 
   measure: avg_timesheet_billable_hourly_cost_amount_gbp {
+    hidden: yes
+
     type: average
     value_format_name: gbp
     sql: ${timesheet_billable_hourly_cost_amount_gbp} ;;
@@ -27,6 +30,7 @@ view: timesheets_fact {
 
   dimension: timesheet_billable_hourly_rate_amount_gbp {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_rate_amount ;;
@@ -62,6 +66,7 @@ view: timesheets_fact {
 
   measure: last_timesheet_billing_date {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: date
     sql: max(${timesheet_billing_raw}) ;;
@@ -70,6 +75,7 @@ view: timesheets_fact {
 
   dimension: timesheet_has_been_billed {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.timesheet_has_been_billed ;;
@@ -77,6 +83,7 @@ view: timesheets_fact {
 
   dimension_group: first_client_timesheet {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: time
     timeframes: [
@@ -87,6 +94,7 @@ view: timesheets_fact {
 
   dimension_group: last_client_timesheet  {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: time
     timeframes: [
@@ -97,6 +105,7 @@ view: timesheets_fact {
 
   dimension: timesheet_has_been_locked {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.timesheet_has_been_locked ;;
@@ -105,7 +114,7 @@ view: timesheets_fact {
   dimension: timesheet_hours_billed {
     group_label: "    Timesheet Details"
     value_format_name: decimal_1
-    hidden: no
+    hidden: yes
     type: number
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
@@ -147,6 +156,7 @@ view: timesheets_fact {
 
   dimension: timesheet_is_billable {
     group_label: "    Timesheet Details"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.timesheet_is_billable ;;

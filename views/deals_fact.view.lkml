@@ -33,8 +33,11 @@ view: deals_fact {
 
 
   dimension_group: deal_closed {
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal Won"
     type: time
-    timeframes: [date,week,week_of_year,month, month_num, quarter,quarter_of_year,year]
+    timeframes: [date,week,week_of_year,month, quarter,year]
     sql: ${TABLE}.deal_closed_ts;;
     description: "Time group for when deals were closed"
   }
@@ -42,20 +45,23 @@ view: deals_fact {
 
 
   dimension: deal_closed_lost_reason {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Sales Activity"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "Deal Lost Reason"
     type: string
     sql: ${TABLE}.deal_closed_lost_reason ;;
     description: "Reason for why a deal was closed and lost"
   }
 
   dimension_group: deal_created {
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+    label: "Deal Created"
     type: time
     timeframes: [
       date,
       week,
       month,
-      month_num,
-      quarter_of_year,
+
+
       quarter,
       year
     ]
@@ -64,8 +70,8 @@ view: deals_fact {
   }
 
   dimension: deal_description {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    label: "Deal Description"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "              Deal Description"
     type: string
     sql: ${TABLE}.deal_description ;;
     description: "Description of the deal"
@@ -76,16 +82,17 @@ view: deals_fact {
 
 dimension: deal_id {
   description: "The unique identifier for the deal in Hubspot."
-  group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+  group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
-  hidden: no
+  hidden: yes
   type: number
   sql: ${TABLE}.deal_id ;;
 }
 
 dimension: deal_is_deleted {
   description: "Indicates whether the deal was deleted."
-  group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+  group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+  label: "Is Deal Deleted"
   type: yesno
   sql: ${TABLE}.deal_is_deleted ;;
 }
@@ -102,8 +109,8 @@ dimension: deal_is_deleted {
 
   dimension: deal_name {
     description: "The name of the deal."
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    label: "Deal Name"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "                Deal Name"
     type: string
     sql: ${TABLE}.deal_name ;;
   }
@@ -124,14 +131,15 @@ dimension: deal_is_deleted {
 
   dimension: deal_pipeline_stage_id {
     description: "The unique identifier for the stage of the pipeline the deal is in."
-    hidden: no
+    hidden: yes
     type: string
     sql: ${TABLE}.deal_pipeline_stage_id ;;
   }
 
   dimension_group: deal_pipeline_stage {
     description: "The time the deal reached a particular stage in the pipeline."
-    group_label: "Pipeline"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+    label: "            Deal Pipeline Stage"
     type: time
     timeframes: [date,month,week,year]
     sql: ${TABLE}.deal_pipeline_stage_ts ;;
@@ -187,6 +195,8 @@ dimension: deal_is_deleted {
     description: "Total sum of deal amounts converted to GBP based on the deal currency code"
   }
 
+
+
   measure: total_open_deal_amount_gbp {
     label: "        Total Open Deal Amount GBP"
     value_format_name: gbp
@@ -229,7 +239,7 @@ dimension: deal_is_deleted {
   }
 
   measure: total_closed_lost_deal_amount {
-    label: "    Total Closed Lost Deal Amount Local"
+    label: "    Total Lost Deal Amount Local"
     hidden: yes
     value_format_name: decimal_2
     type: sum
@@ -238,7 +248,7 @@ dimension: deal_is_deleted {
   }
 
   measure: total_closed_lost_deal_amount_gbp {
-    label: "  Total Closed Lost Deal Amount GBP"
+    label: "  Total Lost Deal Amount GBP"
 
     value_format_name: gbp_0
     type: sum
@@ -254,8 +264,8 @@ dimension: deal_is_deleted {
 
   dimension: deal_type {
     description: "The type of the deal, 'Existing Business' if not specified."
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-    label: "Deal Type"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "            Deal Type"
     sql: case when ${TABLE}.deal_type is null then 'Existing Business' else ${TABLE}.deal_type end ;;
   }
 
@@ -269,7 +279,7 @@ dimension: deal_is_deleted {
 
   dimension: deal_stage_display_order {
     description: "The order in which the deal stage is displayed in the pipeline."
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     hidden: yes
     type: number
     sql: ${TABLE}.deal_stage_display_order ;;
@@ -277,7 +287,8 @@ dimension: deal_is_deleted {
 
   dimension: deal_stage_probability {
     description: "The probability associated with the stage of the deal in the pipeline."
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    hidden: yes
     type: number
     sql: ${TABLE}.deal_stage_probability ;;
   }
@@ -285,7 +296,7 @@ dimension: deal_is_deleted {
   dimension: deal_stage_closed_won {
     description: "Indicates if the deal stage is considered 'closed won'."
     label: "Is Won Deal"
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: yesno
     sql: ${TABLE}.deal_pipeline_stage_id in ('1031924','1031923')  ;;
   }
@@ -293,7 +304,7 @@ dimension: deal_is_deleted {
   dimension: deal_stage_closed_lost {
     description: "Indicates if the deal stage is considered 'closed lost'."
     label: "Is Lost Deal"
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: yesno
     sql: ${TABLE}.deal_pipeline_stage_id = 'closedlost' ;;
   }
@@ -301,14 +312,14 @@ dimension: deal_is_deleted {
 
 
   dimension: owner_email {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
 
     type: string
     sql: ${TABLE}.owner_email ;;
   }
 
   dimension: owner_full_name {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
 
     type: string
     sql: ${TABLE}.owner_full_name ;;
@@ -337,9 +348,24 @@ dimension: deal_is_deleted {
 
   measure: total_weighted_opportunity_deal_amount {
     label: "Total Weighted Open Deal Amount Local"
+    hidden: yes
     type: sum
     value_format_name: gbp
     sql: case when ${TABLE}.deal_pipeline_stage_id not in ('closedlost','1031924','1031923') then ${TABLE}.deal_amount * ${TABLE}.pipeline_stage_close_probability_pct else 0 end ;;
+  }
+
+  measure: total_weighted_open_deal_amount_gbp {
+    label: "Total Weighted Open Deal Amount GBP"
+    type: sum
+    value_format_name: gbp
+    sql: case when ${TABLE}.deal_pipeline_stage_id not in ('1031924','1031923','closedlost') then
+            CASE
+             when ${TABLE}.deal_currency_code = 'USD' then (${TABLE}.deal_amount * .78) * ${TABLE}.pipeline_stage_close_probability_pct
+             when ${TABLE}.deal_currency_code = 'CAD' then (${TABLE}.deal_amount * .59) * ${TABLE}.pipeline_stage_close_probability_pct
+             when ${TABLE}.deal_currency_code = 'EUR' then (${TABLE}.deal_amount * 0.87) * ${TABLE}.pipeline_stage_close_probability_pct
+              else ${TABLE}.deal_amount * ${TABLE}.pipeline_stage_close_probability_pct end
+          else 0 end;;
+
   }
 
 
@@ -348,14 +374,14 @@ dimension: deal_is_deleted {
 
 
   dimension: pipeline_stage_closed_won {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Pipeline"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     label: "Is Closed Won"
     type: yesno
     sql: ${TABLE}.pipeline_stage_closed_won ;;
   }
 
   dimension: pipeline_stage_display_order {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     hidden: yes
     type: number
@@ -363,7 +389,7 @@ dimension: deal_is_deleted {
   }
 
   dimension: pipeline_stage_label {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Pipeline"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: string
     label: "  Deal Pipeline Stage"
 
@@ -375,14 +401,14 @@ dimension: deal_is_deleted {
 
 
   dimension: number_of_sprints {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "          Deal Number of Sprints"
     type: number
     sql: ${TABLE}.deal_number_of_sprints ;;
   }
 
   dimension: deal_components {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     hidden: yes
     type: string
     sql: ${TABLE}.deal_components ;;
@@ -390,7 +416,7 @@ dimension: deal_is_deleted {
 
   dimension: services {
     group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
-
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.is_services_deal ;;
@@ -398,6 +424,7 @@ dimension: deal_is_deleted {
 
   dimension: managed_services {
     group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.is_managed_services_deal ;;
@@ -405,6 +432,7 @@ dimension: deal_is_deleted {
 
   dimension: license_referral {
     group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.is_license_referral_deal ;;
@@ -412,27 +440,31 @@ dimension: deal_is_deleted {
 
   dimension: training {
     group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Components"
+    hidden: yes
+
     type: yesno
     sql: ${TABLE}.is_training_deal ;;
   }
 
 
   dimension: pricing_model {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     type: string
+    label: " Deal Pricing Model"
+
     sql: ${TABLE}.deal_pricing_model ;;
   }
 
   dimension: partner_referral {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
+    label: "Deal Referring Partner"
     type: string
     sql: ${TABLE}.deal_partner_referral ;;
   }
 
   dimension: sprint_type {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
-
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "  Deal Sprint Type"
     type: string
     sql: ${TABLE}.deal_sprint_type ;;
   }
@@ -442,7 +474,7 @@ dimension: deal_is_deleted {
 
 
   dimension: products_in_solution {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     hidden: yes
 
     type: string
@@ -454,14 +486,14 @@ dimension: deal_is_deleted {
 
 
   dimension: deal_currency_code {
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     description: "This is the purpose the field"
     type: string
     sql: ${TABLE}.deal_currency_code ;;
   }
 
   dimension: deal_source {
-    group_label: " {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Source"
     hidden: no
 
     type: string
@@ -473,21 +505,21 @@ dimension: deal_is_deleted {
   dimension: deal_end_ts {
     type: date_time
     hidden: yes
-    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     sql: ${TABLE}.deal_end_ts ;;
   }
 
   dimension: deal_sales_email_last_replied {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Sales Activity"
     hidden: yes
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
 
     type: date_time
     sql: ${TABLE}.deal_sales_email_last_replied ;;
   }
 
   dimension: deal_last_meeting_booked_date {
-    group_label: "{{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Sales Activity"
+    group_label: "      {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
 
     type: date_time
 
@@ -496,14 +528,14 @@ dimension: deal_is_deleted {
 
   dimension: manual_forecast_category {
     group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
-
+    hidden: yes
     type: string
     sql: ${TABLE}.manual_forecast_category ;;
   }
 
   dimension: forecast_probability {
     group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
-
+    hidden: yes
     type: number
     sql: ${TABLE}.forecast_probability ;;
   }
@@ -512,13 +544,13 @@ dimension: deal_is_deleted {
 
   dimension: predicted_amount {
     group_label: "   {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}} Forecast"
-
+    hidden: yes
     type: string
     sql: ${TABLE}.predicted_amount ;;
   }
 
   dimension: days_in_pipeline {
-    group_label: "     {{ _view._name| replace: '_', ' ' | replace: 'dim', '' | capitalize}}  Stage Durations"
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     type: number
     sql: ${TABLE}.days_in_pipeline ;;
