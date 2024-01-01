@@ -113,6 +113,12 @@ view: contacts_dim {
     sql: ${TABLE}.contact_staff_job_title ;;
   }
 
+  dimension: is_delivery_team_member {
+    hidden: yes
+    type: yesno
+    sql: case when (${contact_is_staff} or ${contact_is_contractor} then true else false end ;;
+  }
+
   dimension_group: contact_last_modified {
     hidden: yes
 
