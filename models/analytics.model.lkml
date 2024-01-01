@@ -377,7 +377,9 @@ explore: hr_survey_results_fact {
 }
 
 explore: website_leads {
-  hidden: yes
+  group_label: "        Core Analytics"
+
+  hidden: no
 }
 
 explore: targets {
