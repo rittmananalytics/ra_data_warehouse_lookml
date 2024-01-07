@@ -204,7 +204,7 @@ order by
 
   measure: attributed_contribution_gbp {
     type: sum
-    hidden: yes
+    hidden: no
 
     sql: ${TABLE}.total_contribution ;;
   }
