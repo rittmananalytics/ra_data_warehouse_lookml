@@ -32,21 +32,21 @@ FROM
                     projects_delivered.project_fee_amount  AS projects_delivered_project_fee_amount,
                     1- projects_delivered.total_business_days_pct_left  AS projects_delivered_total_business_days_pct_elapsed,
                     projects_delivered.timesheet_project_pk  AS projects_delivered_timesheet_project_pk,
-                    project_timesheet_users.contact_pk  AS project_timesheet_users_contact_pk,
+                    project_timesheet_users.contact_fk  AS project_timesheet_users_contact_pk,
                     project_timesheet_users.contact_cost_rate  AS project_timesheet_users_contact_default_hourly_rate,
                         (FORMAT_TIMESTAMP('%Y-%m', projects_invoiced.invoice_sent_at_ts )) AS projects_invoiced_invoice_month,
                     ( case when projects_invoiced.total_gbp_amount is null then projects_invoiced.total_local_amount / exchange_rates.CURRENCY_RATE else projects_invoiced.total_gbp_amount end ) - coalesce(( (case when projects_invoiced.total_gbp_amount is null then projects_invoiced.total_local_amount / exchange_rates.CURRENCY_RATE else projects_invoiced.total_gbp_amount end) * (safe_cast(projects_invoiced.invoice_tax_rate_pct as float64) / 100)  ),0) AS `__f17`,
                     projects_invoiced.invoice_pk  AS `__f18`,
                     coalesce(project_timesheets.timesheet_hours_billed,0)  AS `__f19`,
                     project_timesheets.timesheet_pk  AS `__f20`,
-                    projects_delivered.timesheet_project_pk  AS `__f21`
+                    projects_delivered.timesheet_project_fk  AS `__f21`
                 FROM `analytics.timesheet_projects_dim`
      AS projects_delivered
 LEFT JOIN `analytics.timesheets_fact`
-     AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_pk
-LEFT JOIN staff_dim AS project_timesheet_users ON project_timesheets.contact_pk  = project_timesheet_users.contact_pk
+     AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_fk
+LEFT JOIN staff_dim AS project_timesheet_users ON project_timesheets.contact_fk  = project_timesheet_users.contact_pk
 LEFT JOIN `analytics.invoices_fact`
-     AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_pk
+     AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_fk
 LEFT JOIN `ra-development.analytics_seed.exchange_rates`
      AS exchange_rates ON projects_invoiced.invoice_currency = exchange_rates.CURRENCY_CODE ) AS t0,
                 (SELECT
