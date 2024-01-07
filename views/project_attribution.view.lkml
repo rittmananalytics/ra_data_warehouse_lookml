@@ -39,7 +39,7 @@ FROM
                     projects_invoiced.invoice_pk  AS `__f18`,
                     coalesce(project_timesheets.timesheet_hours_billed,0)  AS `__f19`,
                     project_timesheets.timesheet_pk  AS `__f20`,
-                    projects_delivered.timesheet_project_fk  AS `__f21`
+                    projects_delivered.timesheet_project_pk  AS `__f21`
                 FROM `analytics.timesheet_projects_dim`
      AS projects_delivered
 LEFT JOIN `analytics.timesheets_fact`
