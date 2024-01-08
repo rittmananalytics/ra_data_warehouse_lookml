@@ -401,7 +401,7 @@ explore: targets {
 
 
 explore: contact_utilization_fact {
-  hidden: no
+  hidden: yes
 
   label: "    Utilization"
   description: "Team Member utilisation reporting"
