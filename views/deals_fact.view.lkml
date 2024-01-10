@@ -301,6 +301,21 @@ dimension: deal_is_deleted {
     sql: ${TABLE}.deal_pipeline_stage_id in ('1031924','1031923')  ;;
   }
 
+  dimension: days_to_close_won {
+    group_label: "       {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "Days to Close Won Deal"
+    type: number
+    sql: case when ${TABLE}.deal_pipeline_stage_id in ('1031924','1031923') then date_diff(date(${TABLE}.deal_closed_ts),date(${TABLE}.deal_created_ts),DAY) end ;;
+  }
+
+  measure: avg_days_to_close_won {
+    label: "Avg Days Required to Close Deal"
+    hidden: no
+    type: average
+    value_format_name: decimal_0
+    sql: ${days_to_close_won} ;;
+  }
+
   dimension: deal_stage_closed_lost {
     description: "Indicates if the deal stage is considered 'closed lost'."
     label: "Is Lost Deal"

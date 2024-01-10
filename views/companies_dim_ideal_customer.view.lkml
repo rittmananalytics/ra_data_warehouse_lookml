@@ -238,7 +238,7 @@ view: companies_dim_ideal_customer {
     group_label: "     Ideal Customer"
 
     type: string
-    sql: ${TABLE}.ideal_customer_cohort ;;
+    sql: cast(${TABLE}.ideal_customer_cohort as string) ;;
   }
 
   dimension: ideal_customer_churned_year {
