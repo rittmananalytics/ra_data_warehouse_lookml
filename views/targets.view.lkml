@@ -54,6 +54,55 @@ view: targets {
     sql: ${TABLE}.retained_earnings ;;
   }
 
+  dimension: mqls_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.mql ;;
+  }
+
+  dimension: sqls_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.sql ;;
+  }
+
+  dimension: new_deals_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.new_deals ;;
+  }
+
+  dimension: won_deals_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.won_deals ;;
+  }
+
+  dimension: sae_revenue_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.sae_tgt ;;
+  }
+
+  dimension: prn_revenue_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.prn_tgt ;;
+  }
+
+  dimension: ae_revenue_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.ae_tgt ;;
+  }
+
   measure: total_retained_earnings_target {
     type: sum
     sql: ${retained_earnings_target} ;;
@@ -80,7 +129,7 @@ view: targets {
     sql: ${revenue_target} ;;
   }
 
-  measure: total_deals_closed_target {
+  measure: total_deals_closed_revenue_target {
     hidden: no
 
     type: sum
@@ -89,7 +138,7 @@ view: targets {
     sql: ${deals_closed_target} ;;
   }
 
-  measure: total_deals_target {
+  measure: total_deals_revenue_target {
     hidden: yes
 
     type: sum
@@ -107,6 +156,48 @@ view: targets {
     type: average
     value_format_name: decimal_2
     sql: ${hr_survey_target} ;;
+  }
+
+  measure: total_mql_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${mqls_target} ;;
+  }
+
+  measure: total_sql_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${sqls_target} ;;
+  }
+
+  measure: total_deals_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${new_deals_target} ;;
+  }
+
+  measure: total_won_deals_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${won_deals_target} ;;
+  }
+
+  measure: total_sae_revenue_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${sae_revenue_target} ;;
+  }
+
+  measure: total_ae_revenue_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${ae_revenue_target} ;;
+  }
+
+  measure: total_prn_revenue_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${prn_revenue_target} ;;
   }
 
   measure: count {

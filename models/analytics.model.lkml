@@ -73,6 +73,7 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+
   join: projects_delivered {
     view_label: "Project Timesheets (Harvest)"
     from: timesheet_projects_dim
@@ -143,7 +144,7 @@ explore: contacts {
   }
 
 explore: people {
-  hidden: yes
+  hidden: no
   from: contacts_dim
   label: "     Contacts"
   view_label: "Client and Marketing Contacts"
@@ -161,6 +162,12 @@ explore: people {
     sql_on: ${contact_engagements_fact.deal_pk} = ${contact_engagement_deal_fact.deal_pk};;
     type: left_outer
     relationship: many_to_one
+  }
+  join: contact_bio {
+    view_label: "     Contacts"
+    sql_on: ${people.contact_pk} = ${contact_bio.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_one
   }
   join: contact_meetings_fact {
     view_label: "Meetings"
