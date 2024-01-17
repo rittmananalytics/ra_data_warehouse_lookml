@@ -9,7 +9,7 @@ view: actuals_v_targets {
                     else projects_invoiced.invoice_local_total_revenue_amount end), 0) AS revenue_actual
       FROM `analytics.companies_dim` AS companies_dim
       LEFT JOIN `analytics.timesheet_projects_dim`
-           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_pk
+           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_fk
       LEFT JOIN `analytics.invoices_fact`
            AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_pk
       --WHERE ((( projects_invoiced.invoice_created_at_ts  ) >= ((TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR))) AND ( projects_invoiced.invoice_created_at_ts  ) < ((TIMESTAMP(CONCAT(CAST(DATE_ADD(CAST(TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR) AS DATE), INTERVAL 1 YEAR) AS STRING), ' ', CAST(TIME(CAST(TIMESTAMP_TRUNC(CAST(TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), DAY) AS TIMESTAMP), YEAR) AS TIMESTAMP)) AS STRING)))))))

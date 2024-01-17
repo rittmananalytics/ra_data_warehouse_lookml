@@ -77,15 +77,15 @@ explore: contacts {
   join: projects_delivered {
     view_label: "Project Timesheets (Harvest)"
     from: timesheet_projects_dim
-    sql_on: ${timesheets_fact.timesheet_project_pk} = ${projects_delivered.timesheet_project_pk} ;;
+    sql_on: ${timesheets_fact.timesheet_project_fk} = ${projects_delivered.timesheet_project_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
   join: projects_delivered_clients {
     from: companies_dim
     view_label: "Project Timesheets (Harvest)"
-    sql_on: ${timesheets_fact.company_pk} = ${projects_delivered_clients.company_pk}
-      and ${projects_delivered.company_pk} = ${projects_delivered_clients.company_pk};;
+    sql_on: ${timesheets_fact.company_fk} = ${projects_delivered_clients.company_pk}
+      and ${projects_delivered.company_fk} = ${projects_delivered_clients.company_pk};;
     type: inner
     relationship: one_to_many
   }
@@ -129,7 +129,7 @@ explore: contacts {
   join: delivered_companies_dim {
     from: companies_dim
     view_label: "       Clients"
-    sql_on: ${projects_delivered.company_pk} = ${delivered_companies_dim.company_pk}
+    sql_on: ${projects_delivered.company_fk} = ${delivered_companies_dim.company_pk}
       and ${timesheets_fact.company_pk} = ${delivered_companies_dim.company_pk};;
     type: inner
     relationship: one_to_many
@@ -274,7 +274,7 @@ explore: projects_delivered {
   join: project_timesheets {
     view_label: "     Timesheets"
     from: timesheets_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_fk};;
     type: left_outer
     relationship: one_to_many
   }
@@ -294,13 +294,13 @@ explore: projects_delivered {
   join: consultant_revenue_attribution {
     view_label: "    Consultant Contribution"
     sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
-      and ${project_timesheets.timesheet_project_pk} = ${consultant_revenue_attribution.timesheet_project_pk};;
+      and ${project_timesheets.timesheet_project_fk} = ${consultant_revenue_attribution.timesheet_project_pk};;
       relationship: one_to_one
       type: left_outer
   }
   join: companies_dim {
     view_label: "         Projects"
-    sql_on: ${projects_delivered.company_pk} = ${companies_dim.company_pk} ;;
+    sql_on: ${projects_delivered.company_fk} = ${companies_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -555,14 +555,14 @@ explore: companies_dim {
   join: projects_invoiced {
     view_label: "    Invoicing"
     from: invoices_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_pk};;
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
     type: left_outer
     relationship: one_to_many
   }
   join: projects_delivered {
     view_label: "    Invoicing"
     from: timesheet_projects_dim
-    sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_pk} ;;
+    sql_on: ${companies_dim.company_pk} = ${projects_delivered.company_fk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -574,7 +574,7 @@ explore: companies_dim {
   join: project_invoice_timesheets {
     view_label: "    Invoicing"
     from: timesheets_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_invoice_timesheets.timesheet_project_pk} ;;
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_invoice_timesheets.timesheet_project_fk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -588,14 +588,14 @@ explore: companies_dim {
   join: project_timesheets {
     view_label: "      Timesheets"
     from: timesheets_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_pk};;
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_fk};;
     type: left_outer
     relationship: one_to_many
   }
   join: project_timesheet_projects {
     view_label: "      Timesheets"
     from: timesheet_projects_dim
-    sql_on: ${project_timesheets.timesheet_project_pk} = ${project_timesheet_projects.timesheet_project_pk} ;;
+    sql_on: ${project_timesheets.timesheet_project_fk} = ${project_timesheet_projects.timesheet_project_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -616,7 +616,7 @@ explore: companies_dim {
   join: consultant_revenue_attribution {
     view_label: "    Consultant Contribution"
     sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
-      and ${project_timesheets.timesheet_project_pk} = ${consultant_revenue_attribution.timesheet_project_pk};;
+      and ${project_timesheets.timesheet_project_fk} = ${consultant_revenue_attribution.timesheet_project_pk};;
       type: left_outer
       relationship: one_to_one
   }

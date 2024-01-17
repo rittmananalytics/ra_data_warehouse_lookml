@@ -2,7 +2,7 @@ view: timesheets_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.timesheets_fact`
     ;;
 
-  dimension: company_pk {
+  dimension: company_fk {
     hidden: yes
 
     type: string
@@ -178,7 +178,7 @@ view: timesheets_fact {
     sql: ${TABLE}.timesheet_pk ;;
   }
 
-  dimension: timesheet_project_pk {
+  dimension: timesheet_project_fk {
     hidden: yes
 
     type: string

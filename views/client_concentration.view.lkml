@@ -18,7 +18,7 @@ view: client_concentration {
 
       FROM `analytics.companies_dim` AS companies_dim
       LEFT JOIN `analytics.timesheet_projects_dim`
-           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_pk
+           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_fk
       LEFT JOIN `analytics.invoices_fact`
            AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_pk
       GROUP BY

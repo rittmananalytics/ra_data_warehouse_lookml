@@ -75,14 +75,14 @@ FROM
                ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE( project_timesheets.timesheet_hours_billed * coalesce(case when project_timesheets.timesheet_billable_hourly_cost_amount > 60 then 32 else project_timesheets.timesheet_billable_hourly_cost_amount end,25)  ,0)*(1/1000*1.0), 9) AS NUMERIC) + (cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheets.timesheet_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheets.timesheet_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001 )) - SUM(DISTINCT (cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheets.timesheet_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheets.timesheet_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001) )  / (1/1000*1.0) AS FLOAT64), 0), 6) AS project_timesheets_total_timesheet_cost_amount
         FROM `analytics.companies_dim` AS companies_dim
 LEFT JOIN `analytics.timesheet_projects_dim`
-     AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_pk
+     AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_fk
 LEFT JOIN `analytics.invoices_fact`
      AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_pk
 LEFT JOIN `analytics.timesheets_fact`
-     AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_pk
+     AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_fk
                            AND date_trunc(projects_invoiced.invoice_created_at_ts,MONTH) = date_trunc(project_timesheets.timesheet_billing_date,MONTH)
 LEFT JOIN `analytics.timesheet_projects_dim`
-     AS project_timesheet_projects ON project_timesheets.timesheet_project_pk = project_timesheet_projects.timesheet_project_pk
+     AS project_timesheet_projects ON project_timesheets.timesheet_project_fk = project_timesheet_projects.timesheet_project_pk
 LEFT JOIN contacts_dim AS project_timesheet_users ON project_timesheets.contact_pk  = project_timesheet_users.contact_pk
         where projects_delivered.project_code is not null
         GROUP BY

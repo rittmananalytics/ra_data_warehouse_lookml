@@ -23,11 +23,11 @@ view: project_metrics {
           ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE( project_timesheet_projects.project_budget_amount  ,0)*(1/1000*1.0), 9) AS NUMERIC) + (cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheet_projects.timesheet_project_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheet_projects.timesheet_project_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001 )) - SUM(DISTINCT (cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheet_projects.timesheet_project_pk   AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST( project_timesheet_projects.timesheet_project_pk   AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001) )  / (1/1000*1.0) AS FLOAT64), 0), 6) AS project_hours_budget
       FROM `analytics.companies_dim` AS companies_dim
       LEFT JOIN `analytics.timesheet_projects_dim`
-           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_pk
+           AS projects_delivered ON companies_dim.company_pk = projects_delivered.company_fk
       LEFT JOIN `analytics.timesheets_fact`
-           AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_pk
+           AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_fk
       LEFT JOIN `analytics.timesheet_projects_dim`
-           AS project_timesheet_projects ON project_timesheets.timesheet_project_pk = project_timesheet_projects.timesheet_project_pk
+           AS project_timesheet_projects ON project_timesheets.timesheet_project_fk = project_timesheet_projects.timesheet_project_pk
       LEFT JOIN contacts_dim AS project_timesheet_users ON project_timesheets.contact_pk  = project_timesheet_users.contact_pk
       where (project_timesheet_projects.project_fee_amount ) > 0
       GROUP BY

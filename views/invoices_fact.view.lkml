@@ -10,7 +10,7 @@ view: invoices_fact {
     sql: ${TABLE}.company_id ;;
   }
 
-  dimension: company_pk {
+  dimension: company_fk {
     hidden: yes
     type: string
     sql: ${TABLE}.company_fk ;;
@@ -469,7 +469,7 @@ view: invoices_fact {
     sql: ${TABLE}.quarters_since_first_invoice ;;
   }
 
-  dimension: timesheet_project_pk {
+  dimension: timesheet_project_fk {
     hidden: yes
 
     type: string
