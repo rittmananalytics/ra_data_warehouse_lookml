@@ -139,7 +139,7 @@ view: targets {
   }
 
   measure: total_deals_revenue_target {
-    hidden: yes
+    hidden: no
 
     type: sum
     value_format_name: gbp
