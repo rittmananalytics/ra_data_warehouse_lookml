@@ -22,6 +22,7 @@ view: companies_dim_ideal_customer {
     allowed_value: {label: "Ideal Customer Lead Pathway" value: "original_lead_pathway"}
     allowed_value: {label: "Ideal Customer Lead Customer Source" value: "original_lead_customer_source"}
     allowed_value: {label: "Ideal Customer Client Size" value: "company_size"}
+    allowed_value: {label: "Ideal Customer Is Digital Native" value: "is_digital_native"}
     allowed_value: {label: "Ideal Customer Client Vertical" value: "ideal_customer_vertical"}
     allowed_value: {label: "Ideal Customer Original Buyer Challenge" value: "original_buyer_challenge"}
     allowed_value: {label: "Ideal Customer Original Buyer Requirement" value: "original_buyer_requirement"}
@@ -58,6 +59,7 @@ view: companies_dim_ideal_customer {
     allowed_value: {label: "Ideal Customer Lead Pathway" value: "original_lead_pathway"}
     allowed_value: {label: "Ideal Customer Lead Customer Source" value: "original_lead_customer_source"}
     allowed_value: {label: "Ideal Customer Client Size" value: "company_size"}
+    allowed_value: {label: "Ideal Customer Is Digital Native" value: "is_digital_native"}
     allowed_value: {label: "Ideal Customer Client Vertical" value: "ideal_customer_vertical"}
     allowed_value: {label: "Ideal Customer Original Buyer Challenge" value: "original_buyer_challenge"}
     allowed_value: {label: "Ideal Customer Original Buyer Requirement" value: "original_buyer_requirement"}
@@ -190,6 +192,12 @@ view: companies_dim_ideal_customer {
 
     type: string
     sql: ${TABLE}.company_size ;;
+  }
+
+  dimension: is_digital_native {
+    group_label: "     Ideal Customer"
+    type: yesno
+    sql: ${TABLE}.is_digital_native="Yes" ;;
   }
 
   dimension: ideal_customer_vertical {
