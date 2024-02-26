@@ -92,7 +92,8 @@ view: general_ledger_fact {
 
   dimension: description {
     type: string
-    sql: initcap(${TABLE}.description) ;;
+    sql: replace(replace(replace(replace(rtrim(ltrim(initcap(
+    ${TABLE}.description)))," Subscription","")," Platform",""),"Hrms Software","Humaans Software"),"Cloud Ngxwwn           Dublin        Irl","Google Cloud") ;;
   }
 
   dimension: gross_amount {
