@@ -395,7 +395,7 @@ view: web_sessions_fact {
     group_label: "Behavior"
 
     type: yesno
-    sql: ${TABLE}.is_converting_session ;;
+    sql: ${TABLE}.is_conversion_session ;;
   }
 
   dimension: channel {

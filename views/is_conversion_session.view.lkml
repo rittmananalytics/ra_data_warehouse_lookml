@@ -22,13 +22,14 @@ view: is_conversion_session {
 
   dimension: is_conversion_session {
     group_label: "Behavior"
-
+    hidden: yes
     type: yesno
     sql: ${TABLE}.is_conversion_session ;;
   }
 
   dimension: is_goal_achieved_session {
     group_label: "Behavior"
+    hidden: yes
 
     type: yesno
     sql: ${TABLE}.is_conversion_session ;;

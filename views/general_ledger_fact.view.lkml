@@ -92,7 +92,7 @@ view: general_ledger_fact {
 
   dimension: description {
     type: string
-    sql: ${TABLE}.description ;;
+    sql: initcap(${TABLE}.description) ;;
   }
 
   dimension: gross_amount {

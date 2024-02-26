@@ -197,7 +197,7 @@ view: companies_dim_ideal_customer {
   dimension: is_digital_native {
     group_label: "     Ideal Customer"
     type: yesno
-    sql: ${TABLE}.is_digital_native="Yes" ;;
+    sql: ${TABLE}.is_Digital_Native="Yes" ;;
   }
 
   dimension: ideal_customer_vertical {
