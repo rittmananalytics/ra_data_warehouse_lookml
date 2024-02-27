@@ -18,7 +18,7 @@ view: profit_and_loss_report_fact {
   }
 
   dimension: account_code {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.account_code ;;
@@ -38,14 +38,14 @@ view: profit_and_loss_report_fact {
 
   dimension: account_report_category {
     hidden: no
-
+    order_by_field: account_report_category_order
     type: string
     sql: ${TABLE}.account_report_category ;;
   }
 
   dimension: account_report_group {
     hidden: no
-
+    order_by_field: account_report_order
     type: string
     sql: ${TABLE}.account_report_group ;;
   }
@@ -59,9 +59,21 @@ view: profit_and_loss_report_fact {
 
   dimension: account_report_sub_category {
     hidden: no
-
+    order_by_field: account_report_sub_category_order
     type: string
     sql: ${TABLE}.account_report_sub_category ;;
+  }
+
+  dimension: account_report_sub_category_order {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.account_report_sub_category_order ;;
+  }
+
+  dimension: account_report_category_order {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.account_report_category_order ;;
   }
 
   dimension: account_type {
