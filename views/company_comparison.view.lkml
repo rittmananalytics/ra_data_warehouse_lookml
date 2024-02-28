@@ -105,7 +105,7 @@ view: company_comparison {
     filters: [measure: "Interest Receivable"]
   }
 
-  measure: Pre-Tax_Profit {
+  measure: Pre_Tax_Profit {
     group_label: "Metrics"
 
     type: sum
@@ -171,6 +171,7 @@ view: company_comparison {
 
   measure: revenue_per_employee {
     group_label: "Derived Metrics"
+    value_format_name: gbp_0
     type: number
     sql: ${Turnover}/${Number_Of_Employees} ;;
   }
@@ -179,18 +180,15 @@ view: company_comparison {
     group_label: "Derived Metrics"
 
     type: number
+    value_format_name: percent_0
     sql: ${Gross_Profit}/${Turnover} ;;
   }
 
-  measure: net_margin_pct {
-    group_label: "Derived Metrics"
 
-    type: number
-    sql: ${Pre-Tax_Profit}/${Turnover} ;;
-  }
 
   measure: cost_of_sales_pct {
     group_label: "Derived Metrics"
+    value_format_name: percent_0
 
     type: number
     sql: ${Cost_Of_Sales}/${Turnover} ;;
@@ -198,6 +196,7 @@ view: company_comparison {
 
   measure: retained_profit_pct {
     group_label: "Derived Metrics"
+    value_format_name: percent_0
 
     type: number
     sql: ${Retained_Profit}/${Turnover} ;;
@@ -205,9 +204,18 @@ view: company_comparison {
 
   measure: ebitda_pct {
     group_label: "Derived Metrics"
+    value_format_name: percent_0
 
   type: number
   sql: ${EBITDA}/${Turnover} ;;
+  }
+
+  measure: net_margin_pct {
+    group_label: "Derived Metrics"
+    value_format_name: percent_0
+
+    type: number
+    sql: ${Pre_Tax_Profit}/${Turnover} ;;
   }
 
   dimension: year {
