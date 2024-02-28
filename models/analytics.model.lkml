@@ -21,6 +21,8 @@ explore: revenue_and_forecast {
 
 }
 
+explore: company_comparison {}
+
 explore: ad_campaign_performance_fact {
   label: "Campaign Performance"
   description: "Ad Campaigns and Website Performance"
