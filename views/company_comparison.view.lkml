@@ -44,7 +44,7 @@ view: company_comparison {
 
   measure: Turnover {
     type: sum
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     group_label: "Metrics"
     sql: ${value} ;;
@@ -53,7 +53,7 @@ view: company_comparison {
 
   measure: Other_Income_Or_Grants {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -62,7 +62,7 @@ view: company_comparison {
 
   measure: Cost_Of_Sales {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -71,7 +71,7 @@ view: company_comparison {
 
   measure: Gross_Profit {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -80,7 +80,7 @@ view: company_comparison {
 
   measure: Admin_Expenses {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -89,7 +89,7 @@ view: company_comparison {
 
   measure: Operating_Profit {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -98,7 +98,7 @@ view: company_comparison {
 
   measure: Interest_Payable {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -107,7 +107,7 @@ view: company_comparison {
 
   measure: Interest_Receivable {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -116,7 +116,7 @@ view: company_comparison {
 
   measure: Pre_Tax_Profit {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -125,7 +125,7 @@ view: company_comparison {
 
   measure: Tax {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -134,7 +134,7 @@ view: company_comparison {
 
   measure: Profit_After_Tax {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -143,7 +143,7 @@ view: company_comparison {
 
   measure: Dividends_Paid {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -152,7 +152,7 @@ view: company_comparison {
 
   measure: Retained_Profit {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -161,7 +161,7 @@ view: company_comparison {
 
   measure: Employee_Costs {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
     type: sum
     sql: ${value} ;;
     filters: [measure: "Employee Costs"]
@@ -177,7 +177,7 @@ view: company_comparison {
 
   measure: EBITDA {
     group_label: "Metrics"
-    value_format_name: gbp
+    value_format_name: gbp_0
 
     type: sum
     sql: ${value} ;;
@@ -223,6 +223,22 @@ view: company_comparison {
     sql: ${Retained_Profit}/${Turnover} ;;
   }
 
+  measure: avg_employee_cost {
+    group_label: "Derived Metrics"
+    value_format_name: gbp_0
+
+    type: number
+    sql: ${Employee_Costs}/${Number_Of_Employees} ;;
+  }
+
+  measure: admin_expenses_pct {
+    group_label: "Derived Metrics"
+    value_format_name: percent_0
+
+    type: number
+    sql: ${Admin_Expenses}/${Turnover} ;;
+  }
+
   measure: ebitda_pct {
     group_label: "Derived Metrics"
     value_format_name: percent_0
@@ -237,6 +253,13 @@ view: company_comparison {
 
     type: number
     sql: ${Pre_Tax_Profit}/${Turnover} ;;
+  }
+
+  measure: staff_revenue_to_cost_ratio {
+    group_label: "Derived Metrics"
+    value_format_name: decimal_2
+    type: number
+    sql: ${revenue_per_employee}/${avg_employee_cost} ;;
   }
 
   dimension: year {
