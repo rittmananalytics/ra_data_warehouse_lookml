@@ -23,6 +23,18 @@ view: company_comparison {
     sql: concat(${company_name},${year},${measure}) ;;
   }
 
+  dimension: total_years_operating {
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.total_years_operating ;;
+  }
+
+  dimension: year_founded {
+    type: number
+    value_format_name: id
+    sql: ${TABLE}.year_founded ;;
+  }
+
   dimension: measure {
     type: string
     sql: ${TABLE}.measure ;;
