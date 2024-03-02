@@ -13,6 +13,7 @@ view: company_comparison {
 
   dimension: company_name {
     type: string
+    hidden: yes
     sql: ${TABLE}.company_name ;;
   }
 
@@ -35,17 +36,28 @@ view: company_comparison {
     sql: ${TABLE}.year_founded ;;
   }
 
+  dimension: alias {
+    label: "Company Name"
+    type: string
+    sql: ${TABLE}.alias ;;
+  }
+
   dimension: measure {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.measure ;;
   }
 
   measure: amount {
+    hidden: yes
+
     type: sum
     sql: ${TABLE}.value;;
   }
 
   dimension: value {
+    hidden: yes
     type: number
     sql: ${TABLE}.value ;;
   }
@@ -66,6 +78,7 @@ view: company_comparison {
   measure: Other_Income_Or_Grants {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -111,6 +124,7 @@ view: company_comparison {
   measure: Interest_Payable {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -120,6 +134,7 @@ view: company_comparison {
   measure: Interest_Receivable {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -129,6 +144,7 @@ view: company_comparison {
   measure: Pre_Tax_Profit {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -147,6 +163,7 @@ view: company_comparison {
   measure: Profit_After_Tax {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -156,6 +173,7 @@ view: company_comparison {
   measure: Dividends_Paid {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -165,6 +183,7 @@ view: company_comparison {
   measure: Retained_Profit {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -174,6 +193,8 @@ view: company_comparison {
   measure: Employee_Costs {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
+
     type: sum
     sql: ${value} ;;
     filters: [measure: "Employee Costs"]
@@ -181,6 +202,7 @@ view: company_comparison {
 
   measure: Number_Of_Employees {
     group_label: "Metrics"
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -190,6 +212,7 @@ view: company_comparison {
   measure: EBITDA {
     group_label: "Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: sum
     sql: ${value} ;;
@@ -199,8 +222,10 @@ view: company_comparison {
   measure: revenue_per_employee {
     group_label: "Derived Metrics"
     value_format_name: gbp_0
+    hidden: yes
+
     type: number
-    sql: ${Turnover}/${Number_Of_Employees} ;;
+    sql: ${sales}/${Number_Of_Employees} ;;
   }
 
   dimension: years_operating {
@@ -230,6 +255,7 @@ view: company_comparison {
   measure: retained_profit_pct {
     group_label: "Derived Metrics"
     value_format_name: percent_0
+    hidden: yes
 
     type: number
     sql: ${Retained_Profit}/${Turnover} ;;
@@ -238,6 +264,7 @@ view: company_comparison {
   measure: avg_employee_cost {
     group_label: "Derived Metrics"
     value_format_name: gbp_0
+    hidden: yes
 
     type: number
     sql: ${Employee_Costs}/${Number_Of_Employees} ;;
@@ -254,6 +281,7 @@ view: company_comparison {
   measure: ebitda_pct {
     group_label: "Derived Metrics"
     value_format_name: percent_0
+    hidden: yes
 
   type: number
   sql: ${EBITDA}/${Turnover} ;;
@@ -262,6 +290,7 @@ view: company_comparison {
   measure: net_margin_pct {
     group_label: "Derived Metrics"
     value_format_name: percent_0
+    hidden: yes
 
     type: number
     sql: ${Pre_Tax_Profit}/${Turnover} ;;
@@ -271,6 +300,8 @@ view: company_comparison {
     group_label: "Derived Metrics"
     value_format_name: decimal_2
     type: number
+    hidden: yes
+
     sql: ${revenue_per_employee}/${avg_employee_cost} ;;
   }
 
