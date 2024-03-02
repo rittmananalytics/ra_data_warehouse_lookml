@@ -225,7 +225,7 @@ view: company_comparison {
     hidden: yes
 
     type: number
-    sql: ${sales}/${Number_Of_Employees} ;;
+    sql: ${Sales}/${Number_Of_Employees} ;;
   }
 
   dimension: years_operating {
@@ -239,7 +239,7 @@ view: company_comparison {
 
     type: number
     value_format_name: percent_0
-    sql: ${Gross_Profit}/${Turnover} ;;
+    sql: ${Gross_Profit}/${Sales} ;;
   }
 
 
@@ -249,7 +249,7 @@ view: company_comparison {
     value_format_name: percent_0
 
     type: number
-    sql: ${Cost_Of_Sales}/${Turnover} ;;
+    sql: ${Cost_Of_Sales}/${Sales} ;;
   }
 
   measure: retained_profit_pct {
@@ -258,7 +258,7 @@ view: company_comparison {
     hidden: yes
 
     type: number
-    sql: ${Retained_Profit}/${Turnover} ;;
+    sql: ${Retained_Profit}/${Sales} ;;
   }
 
   measure: avg_employee_cost {
@@ -275,7 +275,7 @@ view: company_comparison {
     value_format_name: percent_0
 
     type: number
-    sql: ${Admin_Expenses}/${Turnover} ;;
+    sql: ${Admin_Expenses}/${Sales} ;;
   }
 
   measure: ebitda_pct {
@@ -284,7 +284,7 @@ view: company_comparison {
     hidden: yes
 
   type: number
-  sql: ${EBITDA}/${Turnover} ;;
+  sql: ${EBITDA}/${Sales} ;;
   }
 
   measure: net_margin_pct {
@@ -293,7 +293,7 @@ view: company_comparison {
     hidden: yes
 
     type: number
-    sql: ${Pre_Tax_Profit}/${Turnover} ;;
+    sql: ${Pre_Tax_Profit}/${Sales} ;;
   }
 
   measure: staff_revenue_to_cost_ratio {
