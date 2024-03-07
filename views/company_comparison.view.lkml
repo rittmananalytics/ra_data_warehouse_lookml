@@ -2,7 +2,10 @@
 view: company_comparison {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `ra-development.analytics_seed.company_comparison` ;;
+  derived_table: {
+    sql: select * from `ra-development.analytics_seed.company_comparison` ;;
+    }
+
 
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -13,7 +16,7 @@ view: company_comparison {
 
   dimension: company_name {
     type: string
-    hidden: yes
+    hidden: no
     sql: ${TABLE}.company_name ;;
   }
 
@@ -37,9 +40,13 @@ view: company_comparison {
   }
 
   dimension: alias {
-    label: "Company Name"
     type: string
     sql: ${TABLE}.alias ;;
+    }
+
+  dimension: segment {
+    type: string
+    sql: ${TABLE}.segment ;;
   }
 
   dimension: measure {
@@ -75,6 +82,17 @@ view: company_comparison {
     filters: [measure: "Sales"]
     }
 
+
+
+  measure: avg_Sales {
+    type: average
+    value_format_name: gbp_0
+
+    group_label: "Metrics"
+    sql: ${value} ;;
+    filters: [measure: "Sales"]
+  }
+
   measure: Other_Income_Or_Grants {
     group_label: "Metrics"
     value_format_name: gbp_0
@@ -94,11 +112,29 @@ view: company_comparison {
     filters: [measure: "Cost Of Sales"]
   }
 
+  measure: avg_Cost_Of_Sales {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+
+    type: average
+    sql: ${value} ;;
+    filters: [measure: "Cost Of Sales"]
+  }
+
   measure: Gross_Profit {
     group_label: "Metrics"
     value_format_name: gbp_0
 
     type: sum
+    sql: ${value} ;;
+    filters: [measure: "Gross Profit"]
+  }
+
+  measure: avg_Gross_Profit {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+
+    type: average
     sql: ${value} ;;
     filters: [measure: "Gross Profit"]
   }
@@ -112,11 +148,29 @@ view: company_comparison {
     filters: [measure: "Admin Expenses"]
   }
 
+  measure: avg_Admin_Expenses {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+
+    type: average
+    sql: ${value} ;;
+    filters: [measure: "Admin Expenses"]
+  }
+
   measure: Operating_Profit {
     group_label: "Metrics"
     value_format_name: gbp_0
 
     type: sum
+    sql: ${value} ;;
+    filters: [measure: "Operating Profit"]
+  }
+
+  measure: avg_Operating_Profit {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+
+    type: average
     sql: ${value} ;;
     filters: [measure: "Operating Profit"]
   }
@@ -147,6 +201,16 @@ view: company_comparison {
     hidden: yes
 
     type: sum
+    sql: ${value} ;;
+    filters: [measure: "Pre-Tax Profit"]
+  }
+
+  measure: avg_Pre_Tax_Profit {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+    hidden: no
+
+    type: average
     sql: ${value} ;;
     filters: [measure: "Pre-Tax Profit"]
   }
@@ -190,6 +254,16 @@ view: company_comparison {
     filters: [measure: "Retained Profit"]
   }
 
+  measure: avg_Retained_Profit {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+    hidden: no
+
+    type: average
+    sql: ${value} ;;
+    filters: [measure: "Retained Profit"]
+  }
+
   measure: Employee_Costs {
     group_label: "Metrics"
     value_format_name: gbp_0
@@ -200,11 +274,32 @@ view: company_comparison {
     filters: [measure: "Employee Costs"]
   }
 
+  measure: avg_Employee_Costs {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+    hidden: no
+
+    type: average
+    sql: ${value} ;;
+    filters: [measure: "Employee Costs"]
+  }
+
   measure: Number_Of_Employees {
     group_label: "Metrics"
     hidden: yes
 
     type: sum
+    sql: ${value} ;;
+    value_format_name: decimal_0
+    filters: [measure: "Number Of Employees"]
+  }
+
+  measure: avg_Number_Of_Employees {
+    group_label: "Metrics"
+    hidden: no
+    value_format_name: decimal_0
+
+    type: average
     sql: ${value} ;;
     filters: [measure: "Number Of Employees"]
   }
@@ -228,6 +323,15 @@ view: company_comparison {
     sql: ${Sales}/${Number_Of_Employees} ;;
   }
 
+  measure: avg_evenue_per_employee {
+    group_label: "Derived Metrics"
+    value_format_name: gbp_0
+    hidden: no
+
+    type: average
+    sql: ${Sales}/${Number_Of_Employees} ;;
+  }
+
   dimension: years_operating {
     type: number
     value_format_name: id
@@ -244,6 +348,8 @@ view: company_comparison {
 
 
 
+
+
   measure: cost_of_sales_pct {
     group_label: "Derived Metrics"
     value_format_name: percent_0
@@ -255,7 +361,7 @@ view: company_comparison {
   measure: retained_profit_pct {
     group_label: "Derived Metrics"
     value_format_name: percent_0
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${Retained_Profit}/${Sales} ;;
@@ -264,7 +370,7 @@ view: company_comparison {
   measure: avg_employee_cost {
     group_label: "Derived Metrics"
     value_format_name: gbp_0
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${Employee_Costs}/${Number_Of_Employees} ;;
@@ -290,7 +396,7 @@ view: company_comparison {
   measure: net_margin_pct {
     group_label: "Derived Metrics"
     value_format_name: percent_0
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${Pre_Tax_Profit}/${Sales} ;;
