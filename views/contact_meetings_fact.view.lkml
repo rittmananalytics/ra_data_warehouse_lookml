@@ -1,19 +1,5 @@
 # Un-hide and use this explore, or copy the joins into another explore, to get all the fully nested relationships from this view
-explore: contact_meetings_fact {
-  hidden: yes
 
-  join: contact_meetings_fact__all_company_pk {
-    view_label: "Contact Meetings Fact: All Company Pk"
-    sql: LEFT JOIN UNNEST(${contact_meetings_fact.all_company_pk}) as contact_meetings_fact__all_company_pk ;;
-    relationship: one_to_many
-  }
-
-  join: contact_meetings_fact__all_attendee_contact_pk {
-    view_label: "Contact Meetings Fact: All Attendee Contact Pk"
-    sql: LEFT JOIN UNNEST(${contact_meetings_fact.all_attendee_contact_pk}) as contact_meetings_fact__all_attendee_contact_pk ;;
-    relationship: one_to_many
-  }
-}
 
 # The name of this view in Looker is "Contact Meetings Fact"
 view: contact_meetings_fact {
@@ -32,6 +18,16 @@ view: contact_meetings_fact {
     sql: ${TABLE}.all_attendee_contact_fk ;;
   }
 
+ dimension: company_fk {
+  hidden: yes
+
+  sql: (SELECT max(company_fk)  FROM UNNEST(all_company_fk) as company_fk WHERE company_fk != 'f0d582da39b8661f0a9e8d6ebe1ea224' ) ;;
+}
+
+
+
+
+
   # Here's what a typical dimension looks like in LookML.
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called "All Company Pk" in Explore.
@@ -48,17 +44,20 @@ view: contact_meetings_fact {
   }
 
   dimension: engagement_id {
-    hidden: no
+    hidden:yes
     primary_key: no
     sql: ${TABLE}.engagement_id ;;
   }
 
-  dimension: deal_pk {
+  dimension: deal_fk {
+    hidden: yes
+
     type: string
-    sql: ${TABLE}.deal_pk ;;
+    sql: ${TABLE}.deal_fk ;;
   }
 
   dimension: is_meeting_active {
+    hidden: yes
     type: yesno
     sql: ${TABLE}.is_meeting_active ;;
   }
@@ -78,6 +77,7 @@ view: contact_meetings_fact {
   }
 
   dimension: meeting_title {
+    group_label: "Deal Meetings"
     type: string
     sql: ${TABLE}.meeting_title ;;
   }
@@ -86,28 +86,28 @@ view: contact_meetings_fact {
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: meeting_ts {
+    group_label: "Deal Meetings"
+    label: "Meeting"
     type: time
     timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
+      date
+
     ]
     sql: ${TABLE}.meeting_ts ;;
   }
 
   dimension: meeting_type {
+    group_label: "Deal Meetings"
+
     type: string
     sql: ${TABLE}.meeting_type ;;
   }
 
   measure: total_meetings {
     hidden: no
+    label: "Total Deal Meetings"
     type: count_distinct
-    sql: ${engagement_id} ;;
+    sql: ${meeting_pk} ;;
     drill_fields: []
   }
 }

@@ -52,7 +52,7 @@ view: timesheet_projects_dim {
     hidden: yes
 
     type: number
-    sql: safe_cast(SPLIT(${TABLE}.project_code,'-')[SAFE_OFFSET(1)] as int64) ;;
+    sql: safe_cast(split(split(project_code,'-')[safe_offset(1)],'-')[safe_offset(0)] as int64);;
   }
 
   dimension: project_cost_budget {

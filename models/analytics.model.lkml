@@ -189,13 +189,7 @@ explore: people {
     relationship: many_to_one
     type: inner
   }
-  join: contact_meeting_deal {
-    view_label: "Sales Meeting Related Deal"
-    from: deals_fact
-    sql_on: ${contact_meetings_fact.deal_pk} = ${contact_meeting_deal.deal_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
+
   join: contacts_engaged_dim {
     from: contacts_dim
     view_label: "Sales Meeting Attendees"
@@ -628,6 +622,17 @@ explore: companies_dim {
     type: full_outer
     relationship: one_to_many
   }
+  join: sows_fact {
+    view_label: "        Statements of Work"
+    sql_on: ${companies_dim.company_pk} = ${sows_fact.company_fk} ;;
+  }
+  join: sows_projects_dim {
+    from: timesheet_projects_dim
+    view_label: "        Sales"
+    sql_on: ${sows_fact.project_code} = ${sows_projects_dim.project_code} ;;
+    }
+
+
   join: customer_first_deal_cohorts {
     view_label: "        Sales"
     sql_on: ${deals_fact.deal_pk} = ${customer_first_deal_cohorts.deal_pk};;
@@ -668,42 +673,24 @@ explore: companies_dim {
   }
   join: contact_companies_fact {
     sql_on: ${companies_dim.company_pk} = ${contact_companies_fact.company_pk};;
-    type: inner
+    type: left_outer
     relationship: one_to_many
+  }
+
+  join: contact_meetings_fact {
+    view_label: "        Sales"
+    sql_on: ${companies_dim.company_pk} = ${contact_meetings_fact.company_fk}
+       and ${deals_fact.deal_pk} = ${contact_meetings_fact.deal_fk};;
   }
   join: contacts {
     from: contacts_dim
     view_label: "       Contacts"
     sql_on: ${contact_companies_fact.contact_pk} = ${contacts.contact_pk} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  join: contact_meetings_fact {
-    view_label: "       Meetings"
-    sql_on: ${contacts.contact_pk} = ${contact_meetings_fact.meeting_host_contact_pk};;
     type: left_outer
-    relationship: one_to_many
-  }
-  join: contact_engagements_fact {
-    view_label: "       Contacts"
-    sql_on: ${contacts.contact_pk} = ${contact_engagements_fact.to_contact_pk} ;;
-    type: inner
     relationship: many_to_one
   }
-  join: contacts_engaged_dim {
-    from: contacts_dim
-    view_label: "       Contacts"
-    sql_on: ${contact_engagements_fact.to_contact_pk} = ${contacts_engaged_dim.contact_pk} ;;
-    relationship: many_to_one
-    type: left_outer
-  }
-  join: companies_engaged_dim {
-    from: companies_dim
-    view_label: "       Contacts"
-    sql_on: ${companies_engaged_dim.company_pk} = ${companies_dim.company_pk};;
-    type: inner
-    relationship: one_to_many
-  }
+
+
   join: contracts_fact {
     view_label: "Legal"
     sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;

@@ -6,7 +6,7 @@ view: contact_companies_fact {
     hidden: yes
     primary_key: yes
     type: string
-    sql: ${TABLE}.company_pk ;;
+    sql: ${TABLE}.company_fk ;;
   }
 
   dimension: contact_company_pk {
@@ -18,7 +18,7 @@ view: contact_companies_fact {
   dimension: contact_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.contact_pk ;;
+    sql: ${TABLE}.contact_fk ;;
   }
 
 
