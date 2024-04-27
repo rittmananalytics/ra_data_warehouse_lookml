@@ -675,12 +675,18 @@ explore: companies_dim {
   join: sows_fact {
     view_label: "        Statements of Work"
     sql_on: ${companies_dim.company_pk} = ${sows_fact.company_fk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: sow_requests {
+    sql_on: ${sows_fact.deal_pk} = ${sow_requests.deal_pk} ;;
   }
   join: sows_projects_dim {
     from: timesheet_projects_dim
     view_label: "        Sales"
     sql_on: ${sows_fact.project_code} = ${sows_projects_dim.project_code} ;;
     }
+
 
 
   join: customer_first_deal_cohorts {

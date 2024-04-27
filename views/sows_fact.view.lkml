@@ -94,6 +94,7 @@ view: sows_fact {
 
   dimension: sow_pk {
     hidden: yes
+    primary_key: yes
     type: string
     sql: ${TABLE}.sow_pk ;;
   }
