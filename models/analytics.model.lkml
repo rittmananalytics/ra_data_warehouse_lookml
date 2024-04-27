@@ -21,6 +21,48 @@ explore: revenue_and_forecast {
 
 }
 
+explore: date_spine_dim {
+  join: projects_invoiced {
+    view_label: "Project Invoicing (Harvest)"
+    from: invoices_fact
+    sql_on: ${date_spine_dim.date_date} = ${projects_invoiced.invoice_sent_at_ts_date};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: timesheets_fact {
+    sql_on: ${date_spine_dim.date_date} = ${timesheets_fact.timesheet_billing_date} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: nps_survey_results_fact {
+    view_label: "    NPS Surveys"
+    sql_on: ${date_spine_dim.date_date} = ${nps_survey_results_fact.nps_survey_ts_date}  ;;
+    relationship: one_to_many
+    type: left_outer
+  }
+  join: deals_fact {
+    view_label: "Deals Snapshot"
+    sql_on: ${date_spine_dim.date_date} = ${deals_fact.deal_pipeline_stage_date};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: sows_fact {
+    view_label: "        Statements of Work"
+    sql_on: ${date_spine_dim.date_date} = ${sows_fact.sow_start_date} ;;
+  }
+  join: sows_projects_dim {
+    from: timesheet_projects_dim
+    view_label: "        Statements of Work"
+    sql_on: ${sows_fact.project_code} = ${sows_projects_dim.project_code} ;;
+  }
+
+}
+
 explore: company_comparison {}
 
 explore: ad_campaign_performance_fact {
@@ -91,6 +133,7 @@ explore: contacts {
     type: inner
     relationship: one_to_many
   }
+
   join: timesheet_tasks_dim {
     view_label: "Project Timesheets (Harvest)"
     sql_on: ${timesheets_fact.timesheet_task_pk} = ${timesheet_tasks_dim.timesheet_task_pk} ;;
@@ -567,6 +610,13 @@ explore: companies_dim {
     type: left_outer
     relationship: many_to_one
   }
+  join: recognized_project_revenue {
+    view_label: "Recognised Revenue"
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
   join: project_invoice_timesheets {
     view_label: "    Invoicing"
     from: timesheets_fact

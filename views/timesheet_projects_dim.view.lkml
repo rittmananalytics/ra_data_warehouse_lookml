@@ -100,7 +100,8 @@ view: timesheet_projects_dim {
 
   dimension: project_fee_amount {
     group_label: "Project Commercials"
-    hidden: yes
+    hidden: no
+    value_format_name: gbp_0
 
     type: number
     sql: ${TABLE}.project_fee_amount ;;
@@ -131,7 +132,7 @@ view: timesheet_projects_dim {
 
   dimension: project_hourly_rate {
     group_label: "Project Commercials"
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${TABLE}.project_hourly_rate ;;
@@ -163,7 +164,7 @@ view: timesheet_projects_dim {
 
   dimension: project_is_fixed_fee {
     group_label: "Project Commercials"
-    hidden: yes
+    hidden: no
 
     type: yesno
     sql: ${TABLE}.project_is_fixed_fee ;;

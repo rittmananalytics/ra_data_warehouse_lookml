@@ -265,6 +265,13 @@ view: web_events_fact {
     sql: ${visit_value};;
   }
 
+  measure: avg_session_value {
+    value_format_name: decimal_2
+
+    type: number
+    sql: ${total_visitor_value}/${total_sessions} ;;
+  }
+
   dimension: postal_code {
    map_layer_name: us_zipcode_tabulation_areas
     type: string
