@@ -51,15 +51,7 @@ explore: date_spine_dim {
     type: left_outer
     relationship: one_to_many
   }
-  join: sows_fact {
-    view_label: "        Statements of Work"
-    sql_on: ${date_spine_dim.date_date} = ${sows_fact.sow_start_date} ;;
-  }
-  join: sows_projects_dim {
-    from: timesheet_projects_dim
-    view_label: "        Statements of Work"
-    sql_on: ${sows_fact.project_code} = ${sows_projects_dim.project_code} ;;
-  }
+
 
 }
 
@@ -618,6 +610,12 @@ explore: companies_dim {
   join: recognized_project_revenue {
     view_label: "Recognised Revenue"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: sow_requests {
+    view_label: "Statements of Work"
+    sql_on: ${sow_requests.company_fk} = ${companies_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_many
   }

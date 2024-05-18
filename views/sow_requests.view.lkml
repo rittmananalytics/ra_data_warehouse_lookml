@@ -5,17 +5,19 @@ view: sow_requests {
     }
 
     measure: count {
-      type: count
-      drill_fields: [detail*]
+      type: count_distinct
+
     }
 
     dimension: sow_pk {
       hidden: yes
+      primary_key: yes
       type: number
       sql: ${TABLE}.sow_pk ;;
     }
 
     dimension: statement_of_work_number {
+      label: "             SoW Number"
       group_label: "       SoW Request"
       type: number
       sql: ${TABLE}.Statement_of_Work_Number ;;
@@ -23,13 +25,14 @@ view: sow_requests {
 
     dimension_group: sow_request_ts {
       group_label: "       SoW Request"
-
+      timeframes: [date]
       type: time
       sql: ${TABLE}.sow_request_ts ;;
     }
 
     dimension: client_name {
       group_label: "       SoW Request"
+      label: "            Client Name"
 
       type: string
       sql: ${TABLE}.Client_Name ;;
@@ -37,6 +40,7 @@ view: sow_requests {
 
     dimension: project_name {
       group_label: "       SoW Request"
+      label: "          Project Name"
 
       type: string
       sql: ${TABLE}.Project_Name ;;
@@ -86,6 +90,7 @@ view: sow_requests {
 
     dimension: background_to_project {
       group_label: "       SoW Request"
+      label: "        Background"
 
       type: string
       sql: ${TABLE}.Background_to_project ;;
@@ -93,6 +98,7 @@ view: sow_requests {
 
     dimension: services_to_be_delivered {
       group_label: "       SoW Request"
+      label: "      Services Schedule"
 
       type: string
       sql: ${TABLE}.Services_to_be_Delivered ;;
@@ -128,13 +134,14 @@ view: sow_requests {
 
     dimension: original_lead_enquiry_vertical {
       group_label: "      Original Website Lead"
-
+      label: "     Lead Vertical"
       type: string
       sql: ${TABLE}.original_lead_enquiry_vertical ;;
     }
 
     dimension: original_lead_enquiry_company_size {
       group_label: "      Original Website Lead"
+      label: "    Lead Company Size"
 
       type: string
       sql: ${TABLE}.original_lead_enquiry_company_size ;;
@@ -142,20 +149,24 @@ view: sow_requests {
 
     dimension: original_lead_enquiry_lead_category {
       group_label: "      Original Website Lead"
+      label: "      Lead Category"
 
       type: string
       sql: ${TABLE}.original_lead_enquiry_lead_category ;;
     }
 
-    dimension: original_lead_enquiry_date_time {
+    dimension_group: original_lead_enquiry_date_time {
       group_label: "      Original Website Lead"
+      label: "     Lead"
 
-      type: string
-      sql: ${TABLE}.original_lead_enquiry_date_time ;;
+      type: time
+      timeframes: [date]
+      sql: timestamp(${TABLE}.original_lead_enquiry_date_time) ;;
     }
 
     dimension: original_lead_enquiry_details {
       group_label: "      Original Website Lead"
+      label: "    Lead Details"
 
       type: string
       sql: ${TABLE}.original_lead_enquiry_details ;;
@@ -183,13 +194,14 @@ view: sow_requests {
 
     dimension: deal_name {
       group_label: "    Hubspot Deal"
-
+      label: "          Deal Name"
       type: string
       sql: ${TABLE}.deal_name ;;
     }
 
     dimension: deal_type {
       group_label: "    Hubspot Deal"
+      label: "         Deal Type"
 
       type: string
       sql: ${TABLE}.deal_type ;;
@@ -197,13 +209,15 @@ view: sow_requests {
 
     dimension_group: deal_created_ts {
       group_label: "    Hubspot Deal"
-
+      label: "        Deal"
+      timeframes: [date]
       type: time
       sql: ${TABLE}.deal_created_ts ;;
     }
 
     dimension: deal_description {
       group_label: "    Hubspot Deal"
+      label: "        Deal Details"
 
       type: string
       sql: ${TABLE}.deal_description ;;
@@ -212,6 +226,7 @@ view: sow_requests {
 
     dimension: deal_currency_code {
       group_label: "    Hubspot Deal"
+      label: "      Deal Currency"
 
       type: string
       sql: ${TABLE}.deal_currency_code ;;
@@ -219,6 +234,7 @@ view: sow_requests {
 
     dimension: deal_source {
       group_label: "    Hubspot Deal"
+      label: "    Deal Source"
 
       type: string
       sql: ${TABLE}.deal_source ;;
@@ -226,20 +242,35 @@ view: sow_requests {
 
     dimension: deal_amount {
       group_label: "    Hubspot Deal"
-
+      hidden: yes
       type: number
       sql: ${TABLE}.deal_amount ;;
     }
 
+    measure: total_deal_amount {
+      group_label: "    Hubspot Deal"
+      type: sum
+      value_format_name: gbp_0
+      sql: ${deal_amount} ;;
+    }
+
     dimension: deal_closed_amount_value {
       group_label: "    Hubspot Deal"
-
+      hidden: yes
       type: number
       sql: ${TABLE}.deal_closed_amount_value ;;
     }
 
+  measure: total_deal_closed_amount {
+    group_label: "    Hubspot Deal"
+    type: sum
+    value_format_name: gbp_0
+    sql: ${deal_closed_amount_value} ;;
+  }
+
     dimension: hs_closed_amount_in_home_currency {
       group_label: "    Hubspot Deal"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.hs_closed_amount_in_home_currency ;;
@@ -247,10 +278,18 @@ view: sow_requests {
 
     dimension: deal_days_to_close {
       group_label: "    Hubspot Deal"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.deal_days_to_close ;;
     }
+
+  measure: avg_deal_closed_amount {
+    group_label: "    Hubspot Deal"
+    type: average
+    value_format_name: decimal_0
+    sql: ${deal_days_to_close} ;;
+  }
 
     dimension: deal_closed_lost_reason {
       group_label: "    Hubspot Deal"
@@ -289,27 +328,30 @@ view: sow_requests {
 
     dimension: pipeline_stage_closed_won {
       group_label: "    Hubspot Deal"
+      label: "   Is Won Deal?"
 
       type: yesno
       sql: ${TABLE}.pipeline_stage_closed_won ;;
     }
 
-    dimension: sow_start_ts {
+    dimension_group: sow_start {
       group_label: "  Harvest Projects"
+      timeframes: [date]
 
-      type: string
-      sql: ${TABLE}.sow_start_ts ;;
+      type: time
+      sql: timestamp(${TABLE}.sow_start_ts) ;;
     }
 
-    dimension: sow_end_ts {
+    dimension_group: sow {
       group_label: "  Harvest Projects"
-
-      type: string
-      sql: ${TABLE}.sow_end_ts ;;
+      timeframes: [date]
+      type: time
+      sql: timestamp(${TABLE}.sow_end_ts) ;;
     }
 
     dimension: hourly_rate {
       group_label: "  Harvest Projects"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.hourly_rate ;;
@@ -324,41 +366,80 @@ view: sow_requests {
 
     dimension: project_fee_amount {
       group_label: "  Harvest Projects"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.project_fee_amount ;;
     }
 
+    measure: total_project_fee_amount {
+      group_label: "  Harvest Projects"
+      type: sum
+      sql: ${project_fee_amount} ;;
+
+    }
+
     dimension: project_duration_days {
       group_label: "  Harvest Projects"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.project_duration_days ;;
     }
 
-    dimension: total_hours_billed {
+  measure: total_project_duration_days {
+    group_label: "  Harvest Projects"
+    type: sum
+    sql: ${project_duration_days} ;;
+  }
+
+  measure: avg_project_duration_days {
+    group_label: "  Harvest Projects"
+    type: average
+    sql: ${project_duration_days} ;;}
+
+    dimension: hours_billed {
       group_label: "Harvest Timesheets"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.total_hours_billed ;;
     }
 
-    dimension: total_hourly_billing_revenue {
+  measure: total_hours_billed {
+    group_label: "  Harvest Projects"
+    type: sum
+    sql: ${hours_billed} ;;}
+
+    dimension: hourly_billing_revenue {
       group_label: "Harvest Timesheets"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.total_hourly_billing_revenue ;;
     }
 
-    dimension: total_billing_cost {
+  measure: total_hourly_billing_revenue {
+    group_label: "  Harvest Projects"
+    type: sum
+    sql: ${hourly_billing_revenue} ;;}
+
+    dimension: billing_cost {
       group_label: "Harvest Timesheets"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.total_billing_cost ;;
     }
 
+  measure: total_billing_cost {
+    group_label: "  Harvest Projects"
+    type: sum
+    sql: ${billing_cost} ;;}
+
     dimension_group: first_project_billing_date {
       group_label: "Harvest Timesheets"
+      hidden: yes
 
       type: time
       sql: ${TABLE}.first_project_billing_date ;;
@@ -366,85 +447,39 @@ view: sow_requests {
 
     dimension_group: last_project_billing_date {
       group_label: "Harvest Timesheets"
+      hidden: yes
 
       type: time
       sql: ${TABLE}.last_project_billing_date ;;
     }
 
-    dimension: avg_billable_hourly_rate_amount {
+    dimension: billable_hourly_rate_amount {
       group_label: "Harvest Timesheets"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.avg_billable_hourly_rate_amount ;;
     }
 
-    dimension: avg_timesheet_billable_hourly_cost_amount {
+  measure: avg_billable_hourly_rate_amount {
+    group_label: "  Harvest Projects"
+    type: sum
+    sql: ${billable_hourly_rate_amount} ;;}
+
+    dimension: timesheet_billable_hourly_cost_amount {
       group_label: "Harvest Timesheets"
+      hidden: yes
 
       type: number
       sql: ${TABLE}.avg_timesheet_billable_hourly_cost_amount ;;
     }
 
-    set: detail {
-      fields: [
-        sow_pk,
-        statement_of_work_number,
-        sow_request_ts_time,
-        client_name,
-        project_name,
-        contact_name,
-        contact_title,
-        contact_email,
-        contact_phone,
-        client_address,
-        client_state_country,
-        background_to_project,
-        services_to_be_delivered,
-        fee_schedule,
-        total_contract_value,
-        invoicing_schedule,
-        cancellation_policy,
-        original_lead_enquiry_vertical,
-        original_lead_enquiry_company_size,
-        original_lead_enquiry_lead_category,
-        original_lead_enquiry_date_time,
-        original_lead_enquiry_details,
-        deal_id,
-        deal_pk,
-        company_fk,
-        deal_name,
-        deal_type,
-        deal_created_ts_time,
-        deal_description,
-        deal_pipeline_id,
-        deal_owner_id,
-        deal_currency_code,
-        deal_source,
-        deal_amount,
-        deal_closed_amount_value,
-        hs_closed_amount_in_home_currency,
-        deal_days_to_close,
-        deal_closed_lost_reason,
-        deal_pricing_model,
-        deal_partner_referral,
-        deal_sprint_type,
-        pipeline_label,
-        pipeline_stage_closed_won,
-        sow_start_ts,
-        sow_end_ts,
-        hourly_rate,
-        project_is_fixed_fee,
-        project_fee_amount,
-        project_duration_days,
-        total_hours_billed,
-        total_hourly_billing_revenue,
-        total_billing_cost,
-        first_project_billing_date_time,
-        last_project_billing_date_time,
-        avg_billable_hourly_rate_amount,
-        avg_timesheet_billable_hourly_cost_amount
-      ]
-    }
+  measure: avg_billable_hourly_cost_amount {
+    group_label: "  Harvest Projects"
+    type: sum
+    sql: ${timesheet_billable_hourly_cost_amount} ;;}
+
+
 
 
 
