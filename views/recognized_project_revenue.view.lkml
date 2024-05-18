@@ -1,7 +1,7 @@
 view: recognized_project_revenue {
 
     derived_table: {
-      sql: select * from `ra-development.analytics.recognized_revenue_fact;;
+      sql: select * from `ra-development.analytics.recognized_revenue_fact`;;
     }
 
 
