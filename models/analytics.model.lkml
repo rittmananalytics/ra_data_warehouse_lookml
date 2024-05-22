@@ -608,10 +608,20 @@ explore: companies_dim {
     relationship: many_to_one
   }
   join: recognized_project_revenue {
+    from: recognized_revenue_fact
     view_label: "Recognised Revenue"
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk} ;;
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk}
+       ;;
     type: left_outer
     relationship: one_to_many
+  }
+  join: recognized_revenue_contact {
+    from: contacts_dim
+    view_label: "Recognised Revenue"
+    sql_on: ${recognized_project_revenue.contact_fk} = ${recognized_revenue_contact.contact_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+
   }
   join: sow_requests {
     view_label: "Statements of Work"
