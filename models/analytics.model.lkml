@@ -672,13 +672,7 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-  join: consultant_revenue_attribution {
-    view_label: "    Consultant Contribution"
-    sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
-      and ${project_timesheets.timesheet_project_fk} = ${consultant_revenue_attribution.timesheet_project_pk};;
-      type: left_outer
-      relationship: one_to_one
-  }
+
   join: deals_fact {
     view_label: "        Sales"
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
