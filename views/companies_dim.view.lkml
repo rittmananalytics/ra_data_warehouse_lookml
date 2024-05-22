@@ -2,7 +2,7 @@ view: companies_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.companies_dim`;;
 
   dimension_group: company_created {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     label: "Company Created"
     hidden: yes
 
@@ -19,7 +19,7 @@ view: companies_dim {
   }
 
   dimension: company_description {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     label: "     Company Description"
     description: "Company Bio, sourced from LinkedIn via Hubspot"
 
@@ -42,7 +42,7 @@ view: companies_dim {
 
   dimension: company_industry {
     hidden: no
-    group_label: "     Companies"
+    group_label: "           Company Details"
     label: "    Company Industry"
 
     type: string
@@ -69,7 +69,7 @@ view: companies_dim {
 
   dimension: company_linkedin_company_page {
     hidden: yes
-    group_label: "     Companies"
+    group_label: "           Company Details"
     label: "   Company LinkedIn Page"
 
 
@@ -78,7 +78,7 @@ view: companies_dim {
   }
 
   dimension: company_name {
-    group_label: "     Companies"
+    group_label: "           Company Details"
 
     label: "         Company Name"
     type: string
@@ -97,7 +97,7 @@ view: companies_dim {
   }
 
   dimension: company_pk {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     hidden: yes
     primary_key: yes
     type: string
@@ -105,7 +105,7 @@ view: companies_dim {
   }
 
   dimension: company_twitterhandle {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     label: "  Company Twitter Handle"
 
     hidden: no
@@ -115,7 +115,7 @@ view: companies_dim {
   }
 
   dimension: company_website {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     label: " Company Website"
 
     hidden: no
