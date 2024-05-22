@@ -47,11 +47,13 @@ view: recognized_revenue_fact {
 
   measure: total_hours_billed {
     type: sum
+    value_format_name: decimal_0
     sql: ${hours_billed} ;;
   }
 
   measure: total_recognized_revenue_gbp {
     type: sum
+    value_format_name: gbp_0
     sql: ${consultant_recognized_revenue_gbp} ;;  }
 
 
