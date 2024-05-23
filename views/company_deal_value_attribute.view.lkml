@@ -25,14 +25,14 @@ view: company_deal_value_attribute {
   }
 
   dimension: initial_deal_amount {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     hidden: yes
     type: number
     sql: ${TABLE}.initial_deal_amount ;;
   }
 
   dimension: expansion_deal_amount {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     hidden: yes
 
     type: number
@@ -40,7 +40,7 @@ view: company_deal_value_attribute {
   }
 
   measure:total_initial_deal_amount {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     hidden: yes
 
     type: sum
@@ -48,7 +48,7 @@ view: company_deal_value_attribute {
   }
 
   measure: total_expansion_deal_amount {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     hidden: yes
 
     type: sum

@@ -609,7 +609,7 @@ explore: companies_dim {
   }
   join: recognized_project_revenue {
     from: recognized_revenue_fact
-    view_label: "Recognised Revenue"
+    view_label: "     Recognised Revenue"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk}
        ;;
     type: left_outer
@@ -617,7 +617,8 @@ explore: companies_dim {
   }
   join: recognized_revenue_contact {
     from: contacts_dim
-    view_label: "Recognised Revenue"
+    view_label: "     Recognised Revenue"
+    fields: [contact_name]
     sql_on: ${recognized_project_revenue.contact_fk} = ${recognized_revenue_contact.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
@@ -733,7 +734,8 @@ explore: companies_dim {
   }
   join: contacts {
     from: contacts_dim
-    view_label: "       Contacts"
+    fields: [contact_conversion_event,is_contact_in_crm_workflow,contact_crm_lifecycle_stage,contact_name,count_contacts,contact_job_description,contact_description]
+    view_label: "        Companies"
     sql_on: ${contact_companies_fact.contact_pk} = ${contacts.contact_pk} ;;
     type: left_outer
     relationship: many_to_one

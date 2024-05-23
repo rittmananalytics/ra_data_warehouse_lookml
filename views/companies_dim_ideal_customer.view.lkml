@@ -5,7 +5,7 @@ view: companies_dim_ideal_customer {
 
 
   dimension: company_pk {
-    group_label: "     Companies"
+    group_label: "           Company Details"
     hidden: yes
     primary_key: yes
     type: string
