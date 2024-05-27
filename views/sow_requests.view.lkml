@@ -25,7 +25,7 @@ view: sow_requests {
 
     dimension_group: sow_request_ts {
       group_label: "       SoW Request"
-      timeframes: [date]
+      timeframes: [date,week,month,month_num,quarter,year]
       type: time
       sql: ${TABLE}.sow_request_ts ;;
     }
