@@ -47,8 +47,9 @@ view: recognized_revenue_fact {
 
   measure: total_hours_billed {
     type: sum
+    description: "Total billable hours billed by consultant"
     value_format_name: decimal_0
-    sql: ${hours_billed} ;;
+    sql: ${consultant_hours_billed} ;;
   }
 
   measure: total_recognized_revenue_gbp {
