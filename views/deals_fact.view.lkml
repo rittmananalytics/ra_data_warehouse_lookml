@@ -37,7 +37,7 @@ view: deals_fact {
 
     label: "Deal Won"
     type: time
-    timeframes: [date,week,week_of_year,month, quarter,year]
+    timeframes: [date,week,week_of_year,month_num,month, quarter,year]
     sql: ${TABLE}.deal_closed_ts;;
     description: "Time group for when deals were closed"
   }
