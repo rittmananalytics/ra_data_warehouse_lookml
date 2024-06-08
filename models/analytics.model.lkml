@@ -624,12 +624,7 @@ explore: companies_dim {
     relationship: many_to_one
 
   }
-  join: sow_requests {
-    view_label: "Statements of Work"
-    sql_on: ${sow_requests.company_fk} = ${companies_dim.company_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
+
 
   join: project_invoice_timesheets {
     view_label: "    Invoicing"
@@ -678,6 +673,13 @@ explore: companies_dim {
     view_label: "        Sales"
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
     type: full_outer
+    relationship: one_to_many
+  }
+  join: deal_projects_dim {
+    view_label: "        Sales"
+    from: timesheet_projects_dim
+    sql_on: ${deals_fact.deal_id} = ${deal_projects_dim.deal_id} ;;
+    type: left_outer
     relationship: one_to_many
   }
 

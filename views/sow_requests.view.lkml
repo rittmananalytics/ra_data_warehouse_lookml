@@ -342,7 +342,7 @@ view: sow_requests {
       sql: timestamp(${TABLE}.sow_start_ts) ;;
     }
 
-    dimension_group: sow {
+    dimension_group: sow_end {
       group_label: "  Harvest Projects"
       timeframes: [date]
       type: time

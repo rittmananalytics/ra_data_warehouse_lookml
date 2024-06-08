@@ -84,8 +84,9 @@ dimension: deal_id {
   description: "The unique identifier for the deal in Hubspot."
   group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
-  hidden: yes
+  hidden: no
   type: number
+  value_format_name: id
   sql: ${TABLE}.deal_id ;;
 }
 
