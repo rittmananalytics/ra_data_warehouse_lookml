@@ -13,7 +13,7 @@ view: client_prospect_status_dim {
       LEFT JOIN `analytics.timesheets_fact`
            AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_fk
       LEFT JOIN `analytics.timesheet_projects_dim`
-           AS project_timesheet_projects ON project_timesheets.timesheet_project_fk = project_timesheet_projects.timesheet_project_fk
+           AS project_timesheet_projects ON project_timesheets.timesheet_project_fk = project_timesheet_projects.timesheet_project_pk
       FULL OUTER JOIN `analytics.deals_fact` AS deals_fact ON companies_dim.company_pk = deals_fact.company_fk
       GROUP BY
           1,2)

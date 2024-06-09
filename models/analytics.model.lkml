@@ -755,7 +755,7 @@ explore: companies_dim {
   join: contacts {
 
     from: contacts_dim
-    fields: [contact_conversion_event,is_contact_in_crm_workflow,contact_crm_lifecycle_stage,contact_name,count_contacts,contact_job_description,contact_description]
+
     view_label: "        Companies"
     sql_on: ${contact_companies_fact.contact_fk} = ${contacts.contact_pk} ;;
     type: left_outer

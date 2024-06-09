@@ -10,7 +10,7 @@ view: contracts_fact {
   dimension: company_pk {
     hidden: yes
     type: string
-    sql: ${TABLE}.company_pk ;;
+    sql: ${TABLE}.company_fk ;;
   }
 
   dimension: contact_email {
