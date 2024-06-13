@@ -1,6 +1,6 @@
 project_name: "analytics"
 application: explore-assistant {
-  label: "Explore Assistant"
+  label: "Explore Assistant 2"
   # file: "bundle.js"
   file: "bundle.js"
   entitlements: {

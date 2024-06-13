@@ -25,7 +25,7 @@ explore: date_spine_dim {
   join: projects_invoiced {
     view_label: "Project Invoicing (Harvest)"
     from: invoices_fact
-    sql_on: ${date_spine_dim.date_date} = ${projects_invoiced.invoice_sent_at_ts_date};;
+    sql_on: ${date_spine_dim.date_month} = ${projects_invoiced.invoice_sent_at_ts_month};;
     type: left_outer
     relationship: one_to_many
   }
@@ -35,22 +35,47 @@ explore: date_spine_dim {
     relationship: many_to_one
   }
   join: timesheets_fact {
-    sql_on: ${date_spine_dim.date_date} = ${timesheets_fact.timesheet_billing_date} ;;
+    sql_on: ${date_spine_dim.date_month} = ${timesheets_fact.timesheet_billing_month} ;;
     type: left_outer
     relationship: one_to_many
   }
   join: nps_survey_results_fact {
     view_label: "    NPS Surveys"
-    sql_on: ${date_spine_dim.date_date} = ${nps_survey_results_fact.nps_survey_ts_date}  ;;
+    sql_on: ${date_spine_dim.date_month} = ${nps_survey_results_fact.nps_survey_ts_month}  ;;
     relationship: one_to_many
     type: left_outer
   }
   join: deals_fact {
     view_label: "Deals Snapshot"
-    sql_on: ${date_spine_dim.date_date} = ${deals_fact.deal_pipeline_stage_date};;
+    sql_on: ${date_spine_dim.date_month} = ${deals_fact.deal_pipeline_stage_month};;
     type: left_outer
     relationship: one_to_many
   }
+  join: web_events_fact {
+    view_label: "Web Traffic"
+    sql_on: ${date_spine_dim.date_month} = ${web_events_fact.event_ts_month} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: delivery_tasks_fact {
+    view_label: "Delivery Tasks"
+    sql_on: ${date_spine_dim.date_month} = ${delivery_tasks_fact.task_completed_ts_month} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: profit_and_loss_report_fact {
+    view_label: "Financial Results"
+    sql_on: ${date_spine_dim.date_month} = ${profit_and_loss_report_fact.period_month} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: website_leads {
+    view_label: "New Direct Enquiries"
+    sql_on: ${date_spine_dim.date_month} = ${website_leads.booking_month};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join:  {}
 
 
 }

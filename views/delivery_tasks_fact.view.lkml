@@ -59,7 +59,8 @@ view: delivery_tasks_fact {
     type: time
     timeframes: [
       time,
-      date
+      date,
+      month
     ]
     sql: ${TABLE}.task_completed_ts ;;
   }
