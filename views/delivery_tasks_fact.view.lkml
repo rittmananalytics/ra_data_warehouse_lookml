@@ -2,7 +2,7 @@ view: delivery_tasks_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.delivery_tasks_fact`
     ;;
 
-  dimension: delivery_project_pk {
+  dimension: delivery_project_fk {
     hidden: yes
     type: string
     sql: ${TABLE}.delivery_project_fk ;;

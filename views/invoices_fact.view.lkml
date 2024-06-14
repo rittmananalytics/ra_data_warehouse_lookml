@@ -455,7 +455,7 @@ view: invoices_fact {
   }
 
   dimension: project_id {
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.project_id ;;

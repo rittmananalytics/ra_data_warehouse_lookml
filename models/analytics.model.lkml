@@ -75,7 +75,7 @@ explore: date_spine_dim {
     type: left_outer
     relationship: one_to_many
   }
-  join:  {}
+
 
 
 }
@@ -523,13 +523,13 @@ explore: web_sessions_fact {
   }
   join: visitor_companies {
     from: contact_companies_fact
-      sql_on: ${visitor_details.contact_pk} = ${visitor_companies.contact_pk};;
+      sql_on: ${visitor_details.contact_pk} = ${visitor_companies.contact_fk};;
       type: inner
       relationship: one_to_many
     }
   join: visitor_organisations {
     from: companies_dim
-    sql_on: ${visitor_companies.company_pk} = ${visitor_organisations.company_pk};;
+    sql_on: ${visitor_companies.company_fk} = ${visitor_organisations.company_pk};;
     type: inner
     relationship: many_to_one
   }
@@ -649,12 +649,7 @@ explore: companies_dim {
     relationship: many_to_one
 
   }
-  join: sow_requests {
-    view_label: "Statements of Work"
-    sql_on: ${sow_requests.company_fk} = ${companies_dim.company_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
+
 
   join: project_invoice_timesheets {
     view_label: "    Invoicing"
@@ -705,6 +700,29 @@ explore: companies_dim {
     type: full_outer
     relationship: one_to_many
   }
+  join: deal_projects_dim {
+    view_label: "        Sales"
+    from: timesheet_projects_dim
+    sql_on: ${deals_fact.deal_id} = ${deal_projects_dim.deal_id} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: deal_project_timesheets_fact {
+    view_label: "        Sales"
+
+    from: timesheets_fact
+    sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_timesheets_fact.timesheet_project_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: deal_project_invoices_fact {
+    view_label: "        Sales"
+
+    from: invoices_fact
+    sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_invoices_fact.timesheet_project_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
 
 
 
@@ -747,7 +765,9 @@ explore: companies_dim {
     relationship: many_to_one
   }
   join: contact_companies_fact {
-    sql_on: ${companies_dim.company_pk} = ${contact_companies_fact.company_pk};;
+    view_label: "        Companies"
+
+    sql_on: ${companies_dim.company_pk} = ${contact_companies_fact.company_fk};;
     type: left_outer
     relationship: one_to_many
   }
@@ -758,10 +778,11 @@ explore: companies_dim {
        and ${deals_fact.deal_pk} = ${contact_meetings_fact.deal_fk};;
   }
   join: contacts {
+
     from: contacts_dim
-    fields: [contact_conversion_event,is_contact_in_crm_workflow,contact_crm_lifecycle_stage,contact_name,count_contacts,contact_job_description,contact_description]
+
     view_label: "        Companies"
-    sql_on: ${contact_companies_fact.contact_pk} = ${contacts.contact_pk} ;;
+    sql_on: ${contact_companies_fact.contact_fk} = ${contacts.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
   }

@@ -12,7 +12,7 @@ view: recognized_revenue_fact {
 
   dimension_group: billing_month {
     type: time
-    timeframes: [raw, month, quarter, year]
+    timeframes: [raw, month, month_num,quarter, year]
     convert_tz: no
     datatype: date
     sql: ${TABLE}.billing_month ;;
@@ -47,8 +47,9 @@ view: recognized_revenue_fact {
 
   measure: total_hours_billed {
     type: sum
+    description: "Total billable hours billed by consultant"
     value_format_name: decimal_0
-    sql: ${hours_billed} ;;
+    sql: ${consultant_hours_billed} ;;
   }
 
   measure: total_recognized_revenue_gbp {

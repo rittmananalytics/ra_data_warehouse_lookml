@@ -47,12 +47,14 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.project_code ;;
   }
 
-  dimension: hubspot_deal_id {
+  dimension: deal_id {
     group_label: "        Project Details"
-    hidden: yes
+    alias: [hubspot_deal_id]
+    hidden: no
 
     type: number
-    sql: safe_cast(split(split(project_code,'-')[safe_offset(1)],'-')[safe_offset(0)] as int64);;
+    value_format_name: id
+    sql: safe_cast(split(split(${TABLE}.project_code,'-')[safe_offset(1)],'-')[safe_offset(0)] as int64);;
   }
 
   dimension: project_cost_budget {

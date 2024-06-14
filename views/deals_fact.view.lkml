@@ -37,7 +37,7 @@ view: deals_fact {
 
     label: "Deal Won"
     type: time
-    timeframes: [date,week,week_of_year,month, quarter,year]
+    timeframes: [date,week,week_of_year,month_num,month, quarter,year]
     sql: ${TABLE}.deal_closed_ts;;
     description: "Time group for when deals were closed"
   }
@@ -84,8 +84,9 @@ dimension: deal_id {
   description: "The unique identifier for the deal in Hubspot."
   group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
-  hidden: yes
+  hidden: no
   type: number
+  value_format_name: id
   sql: ${TABLE}.deal_id ;;
 }
 
