@@ -11,7 +11,9 @@ datagroup: analytics_default_datagroup {
 fiscal_month_offset: +3
 week_start_day: monday
 
+explore: monthly_performance_fact {}
 
+explore: performance_narrative_fact {}
 
 explore: revenue_and_forecast {
 
@@ -72,6 +74,12 @@ explore: date_spine_dim {
   join: website_leads {
     view_label: "New Direct Enquiries"
     sql_on: ${date_spine_dim.date_month} = ${website_leads.booking_month};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: targets {
+    view_label: "Targets"
+    sql_on: ${date_spine_dim.date_month} = ${targets.period_month} ;;
     type: left_outer
     relationship: one_to_many
   }

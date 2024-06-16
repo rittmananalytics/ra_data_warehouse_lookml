@@ -13,7 +13,7 @@ view: delivery_tasks_fact {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.delivery_task_fk ;;
+    sql: ${TABLE}.delivery_task_pk ;;
   }
 
   dimension: task_is_latest_sprint_version {
