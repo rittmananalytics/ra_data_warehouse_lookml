@@ -34,6 +34,7 @@ view: performance_narrative_fact {
   dimension: overall_summary {
     type: string
     sql: ${TABLE}.overall_summary ;;
+    html:<div style="white-space:pre">{{value}}</div>;;
   }
 
   dimension: sales_marketing_summary {

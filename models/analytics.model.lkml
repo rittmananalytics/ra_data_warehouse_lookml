@@ -23,6 +23,8 @@ explore: revenue_and_forecast {
 
 }
 
+explore: podcast_transcriptions {}
+
 explore: date_spine_dim {
   join: projects_invoiced {
     view_label: "Project Invoicing (Harvest)"

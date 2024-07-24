@@ -186,15 +186,8 @@ view: web_events_fact {
   dimension: visit_value {
     type: number
     hidden: no
-    sql: case when ${page_category} in ("01: Blog","01: Podcast") then 1
-              when ${page_category} = "01: Home Page" then 1
-              when ${page_category} in ("02: Marketing","02: Landing Page") then 2
-              when ${page_category} in ("04: Service","04: Gated Content") then 4
-              when ${page_category} in ("03: Case Study") then 3
-              when ${page_category} = "08: Contact" then 8
-              when ${is_goal_achieved} or ${page_category} = "08: Goal Achieved" then 8
-              when ${page_category} = "12: Commercials" then 12
-              when ${is_conversion_event} then 16 end;;
+    sql: case when ${is_conversion_event} then 16 else safe_cast(split(${TABLE}.page_category,":")[SAFE_OFFSET(0)] as int64) end;;
+
   }
 
   dimension: is_conversion_event {
@@ -353,7 +346,7 @@ view: web_events_fact {
     hidden: no
     type: count_distinct
     sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
-    filters: [page_category: "02: Marketing"]
+    filters: [page_category: "04: Marketing"]
   }
 
   measure: total_case_study_page_views {
@@ -361,7 +354,7 @@ view: web_events_fact {
     hidden: no
     type: count_distinct
     sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
-    filters: [page_category: "03: Case Study"]
+    filters: [page_category: "06: Case Study"]
   }
 
   measure: total_services_page_views {
@@ -369,7 +362,7 @@ view: web_events_fact {
     hidden: no
     type: count_distinct
     sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
-    filters: [page_category: "04: Service"]
+    filters: [page_category: "08: Services"]
   }
 
   measure: total_blog_page_views {
@@ -377,7 +370,7 @@ view: web_events_fact {
     hidden: no
     type: count_distinct
     sql: case when ${TABLE}.event_type = 'Page View' then ${TABLE}.web_events_pk end ;;
-    filters: [page_category: "01: Blog"]
+    filters: [page_category: "02: Social"]
   }
 
   dimension: time_on_page_secs {

@@ -399,7 +399,7 @@ dimension: deal_is_deleted {
   dimension: pipeline_stage_display_order {
     group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
-    hidden: yes
+    hidden: no
     type: number
     sql: ${TABLE}.pipeline_stage_display_order ;;
   }
