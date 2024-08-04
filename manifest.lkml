@@ -2,7 +2,7 @@ project_name: "analytics"
 visualization: {
   id: "looker_gemini_insight"
   label: "Gemini Insight"
-  url: "https://looker-gemini-insight-r6jhgfswwa-nw.a.run.app/source"
+  url: "https://looker-gemini-insight-r6jhgfswwa-nw.a.run.app"
 }
 
 application: explore_assistant {
