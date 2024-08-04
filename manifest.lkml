@@ -1,4 +1,9 @@
 project_name: "analytics"
+visualization: {
+  id: "looker_gemini_insight"
+  label: "Gemini Insight"
+  url: "https://looker-gemini-insight-r6jhgfswwa-nw.a.run.app/source"
+}
 
 application: explore_assistant {
   label: "Explore Assistant v2"
@@ -14,9 +19,4 @@ application: explore_assistant {
     local_storage: yes
     # external_api_urls: ["cloud function url"]
   }
-}
-visualization: {
-  id: "looker_gemini_insight"
-  label: "Gemini Insight"
-  url: "https://looker-gemini-insight-r6jhgfswwa-nw.a.run.app/source"
 }
