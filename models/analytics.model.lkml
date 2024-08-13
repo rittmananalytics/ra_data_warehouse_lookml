@@ -25,6 +25,8 @@ explore: revenue_and_forecast {
 
 explore: dynamic_web_stats {}
 
+explore: weekly_analysis_reports {}
+
 explore: podcast_transcriptions {}
 
 explore: date_spine_dim {

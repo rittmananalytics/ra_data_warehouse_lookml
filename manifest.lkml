@@ -4,6 +4,11 @@ visualization: {
   label: "Gemini Insight2"
   url: "https://looker-gemini-insight-r6jhgfswwa-nw.a.run.app/source.js"
 }
+visualization: {
+  id: "ra_html_viz"
+  label: "HTML View"
+  url: "https://www.rittmananalytics.com/s/html_viz.js"
+}
 
 application: explore_assistant {
   label: "Explore Assistant v2"
