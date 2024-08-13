@@ -35,7 +35,14 @@ view: weekly_analysis_reports {
   dimension: weekly_report {
     type: string
     sql: ${TABLE}.weekly_report ;;
+    html:{{ value | replace: '-br-', '<br/>'
+    | replace: '-h2', '<h2>' | replace: 'h2-', '</h2>'
+    | replace: '-li', '<li>' | replace: 'li-', '</li>'
+    | replace: '-i', '<i>' | replace: 'i-', '</i>'
+    | replace: '-b', '<b>' | replace: 'b-', '</b>'
+    | replace: '-a', '<a href="' | replace: '--', '">' | replace: 'a-', '</a>'}};;
   }
+
   measure: count {
     type: count
   }

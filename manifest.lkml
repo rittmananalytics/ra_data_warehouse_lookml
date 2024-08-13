@@ -5,8 +5,8 @@ visualization: {
   url: "https://looker-gemini-insight-r6jhgfswwa-nw.a.run.app/source.js"
 }
 visualization: {
-  id: "ra_html_viz"
-  label: "HTML View"
+  id: "ra-html3"
+  label: "HTML Manifest"
   url: "https://www.rittmananalytics.com/s/html_viz.js"
 }
 
