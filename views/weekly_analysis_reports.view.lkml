@@ -9,19 +9,39 @@ view: weekly_analysis_reports {
 
     # Here's what a typical dimension looks like in LookML.
     # A dimension is a groupable field that can be used to filter query results.
-    # This dimension will be called "Analysis" in Explore.
+    # This dimension will be called "Company Report" in Explore.
 
-  dimension: analysis {
+  dimension: company_report {
     type: string
-    sql: ${TABLE}.analysis ;;
+    sql: ${TABLE}.company_report ;;
+  }
+
+  dimension: raw_data {
+    type: string
+    sql: ${TABLE}.raw_data ;;
+  }
+
+  dimension: region_report {
+    type: string
+    sql: ${TABLE}.region_report ;;
+  }
+
+  dimension: narrative_lang {
+    type: string
+    sql: "{{ _user_attributes['narrative_lang'] }}" ;;
+  }
+
+  dimension: store_report {
+    type: string
+    sql: ${TABLE}.store_report ;;
   }
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
-  dimension: week {
-    type: date
-    sql: ${TABLE}.week ;;
-    primary_key: yes
+  dimension_group: timestamp {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: ${TABLE}.timestamp ;;
   }
 
   dimension_group: week {
@@ -31,18 +51,6 @@ view: weekly_analysis_reports {
     datatype: date
     sql: ${TABLE}.week ;;
   }
-
-  dimension: weekly_report {
-    type: string
-    sql: ${TABLE}.weekly_report ;;
-    html:{{ value | replace: '-br-', '<br/>'
-    | replace: '-h2', '<h2>' | replace: 'h2-', '</h2>'
-    | replace: '-li', '<li>' | replace: 'li-', '</li>'
-    | replace: '-i', '<i>' | replace: 'i-', '</i>'
-    | replace: '-b', '<b>' | replace: 'b-', '</b>'
-    | replace: '-a', '<a href="' | replace: '--', '">' | replace: 'a-', '</a>'}};;
-  }
-
   measure: count {
     type: count
   }
