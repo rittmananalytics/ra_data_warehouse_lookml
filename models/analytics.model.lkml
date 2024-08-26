@@ -17,6 +17,8 @@ explore: performance_narrative_fact {}
 
 explore: pl_reports {}
 
+explore: profit_and_loss_report_account_group {}
+
 explore: revenue_and_forecast {
 
   hidden: yes
