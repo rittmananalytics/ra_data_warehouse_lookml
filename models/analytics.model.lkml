@@ -15,6 +15,8 @@ explore: monthly_performance_fact {}
 
 explore: performance_narrative_fact {}
 
+explore: pl_reports {}
+
 explore: revenue_and_forecast {
 
   hidden: yes
