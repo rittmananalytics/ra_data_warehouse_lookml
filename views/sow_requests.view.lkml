@@ -161,7 +161,7 @@ view: sow_requests {
 
       type: time
       timeframes: [date]
-      sql: timestamp(${TABLE}.original_lead_enquiry_date_time) ;;
+      sql: TIMESTAMP_PARSE(${TABLE}.original_lead_enquiry_date_time, '%Y-%m-%d %I:%M %p') ;;
     }
 
     dimension: original_lead_enquiry_details {

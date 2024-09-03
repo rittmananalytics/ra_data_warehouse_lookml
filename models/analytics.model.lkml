@@ -27,6 +27,10 @@ explore: revenue_and_forecast {
 
 }
 
+explore: monzo_bank_transactions_enriched {
+  label: "Bank Transactions"
+}
+
 explore: dynamic_web_stats {}
 
 explore: weekly_analysis_reports {}
