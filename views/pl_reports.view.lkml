@@ -32,9 +32,29 @@ view: pl_reports {
     sql: ${TABLE}.report_created_ts ;;
   }
 
+  dimension: invoice_report {
+    type: string
+    sql: ${TABLE}.invoice_report ;;
+  }
+
+  dimension: invoice_analysis {
+    type: string
+    sql: ${TABLE}.invoice_analysis ;;
+  }
+
+  dimension: recurring_payments_report {
+    type: string
+    sql: ${TABLE}.recurring_payments_report ;;
+  }
+
+  dimension: recurring_payments_analysis {
+    type: string
+    sql: ${TABLE}.recurring_payments_analysis ;;
+  }
+
   dimension: report_data {
     type: string
-    sql: ${TABLE}.report_data ;;
+    sql: ${TABLE}.report_analysis ;;
   }
   measure: count {
     type: count
