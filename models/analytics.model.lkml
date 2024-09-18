@@ -13,6 +13,8 @@ week_start_day: monday
 
 explore: monthly_performance_fact {}
 
+
+
 explore: performance_narrative_fact {}
 
 explore: pl_reports {}
@@ -745,6 +747,12 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: deal_pipeline_history {
+    view_label: "        Sales Pipeline History"
+    sql_on: ${deals_fact.deal_id} = ${deal_pipeline_history.deal_id} ;;
+    type: inner
+    relationship: one_to_many
+    }
 
 
 
