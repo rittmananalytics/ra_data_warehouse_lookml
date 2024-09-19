@@ -13,6 +13,7 @@ week_start_day: monday
 
 explore: monthly_performance_fact {}
 
+explore: timesheet_project_monthly_forecast_billing_fact {}
 
 
 explore: performance_narrative_fact {}
@@ -202,7 +203,7 @@ explore: contacts {
   join: projects_managed {
     view_label: " Project Management (Jira)"
     from: delivery_projects_dim
-    sql_on: ${delivery_tasks_fact.delivery_project_pk} = ${projects_managed.delivery_project_pk} ;;
+    sql_on: ${delivery_tasks_fact.delivery_project_fk} = ${projects_managed.delivery_project_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -703,6 +704,14 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+
+  join: timesheet_project_monthly_forecast_billing_fact {
+    view_label: "      Project Forecast Billing"
+    sql_on: ${project_timesheet_projects.project_name} = ${timesheet_project_monthly_forecast_billing_fact.project_name};;
+    type: left_outer
+    relationship: one_to_one
+  }
+
   join: projects_delivered_is_ontime {
     view_label: "      Timesheets"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_delivered_is_ontime.timesheet_project_pk} ;;

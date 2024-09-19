@@ -109,6 +109,14 @@ where total_closing_events <= 1
       sql: ${deal_amount_gbp} ;;
     }
 
+  measure: total_weighted_amount_gbp {
+    type: sum
+    sql: case when ${deal_stage_category} = '1: Initial Meeting' then ${deal_amount_gbp} * .10
+              when ${deal_stage_category} = '2: Needs analysis and proposal' then ${deal_amount_gbp} * .30
+              when ${deal_stage_category} = '3: Negotiation and commitment' then ${deal_amount_gbp} * .60
+              when ${deal_stage_category} = '4: Deal close' then ${deal_amount_gbp} else 0 end;;
+  }
+
     dimension: deal_id {
       type: number
       sql: ${TABLE}.deal_id ;;
@@ -141,6 +149,8 @@ where total_closing_events <= 1
       sql: ${TABLE}.deal_amount_gbp ;;
       hidden: yes
     }
+
+
 
     dimension_group: deal_month_ts {
       type: time
