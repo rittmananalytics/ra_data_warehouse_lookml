@@ -604,6 +604,10 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
+  join: engagements {
+    view_label: "       Engagements"
+    sql_on: ${companies_dim.company_pk} = ${engagements.company_fk} ;;
+  }
   join: companies_dim__all_company_ids {
     view_label: "        Companies"
     sql: LEFT JOIN UNNEST(${companies_dim__all_company_ids.companies_dim__all_company_ids}) as  companies_dim__all_company_ids;;
