@@ -15,8 +15,8 @@ view: deal_pipeline_history {
 
   measure: total_weighted_amount_gbp {
     type: sum
-    sql: case when ${deal_stage_category} = '1: Initial Meeting' then ${deal_amount_gbp} * .10
-              when ${deal_stage_category} = '2: Needs analysis and proposal' then ${deal_amount_gbp} * .30
+    sql: case when ${deal_stage_category} = '1: Initial Meeting' then ${deal_amount_gbp} * .30
+              when ${deal_stage_category} = '2: Needs analysis and proposal' then ${deal_amount_gbp} * .45
               when ${deal_stage_category} = '3: Negotiation and commitment' then ${deal_amount_gbp} * .60
               when ${deal_stage_category} = '4: Deal close' then ${deal_amount_gbp} else 0 end;;
   }
