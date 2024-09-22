@@ -607,6 +607,14 @@ explore: companies_dim {
   join: engagements {
     view_label: "       Engagements"
     sql_on: ${companies_dim.company_pk} = ${engagements.company_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: project_engagements {
+    view_label: "       Engagements Monthly Revenue"
+    sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
+    type: left_outer
+    relationship: one_to_many
   }
   join: companies_dim__all_company_ids {
     view_label: "        Companies"
