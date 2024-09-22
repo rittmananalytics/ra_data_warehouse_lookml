@@ -606,7 +606,8 @@ explore: companies_dim {
   }
   join: engagements {
     view_label: "       Engagements"
-    sql_on: ${companies_dim.company_pk} = ${engagements.company_fk} ;;
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${engagements.timesheet_project_pk}
+       and ${companies_dim.company_pk} = ${engagements.company_fk};;
     type: left_outer
     relationship: one_to_many
   }
