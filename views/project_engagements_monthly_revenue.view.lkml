@@ -1,5 +1,5 @@
   view: project_engagements {
-    sql_table_name: analytics.ra-development.analytics.timesheet_project_engagements_monthly_revenue_fact;;
+    sql_table_name: ra-development.analytics.timesheet_project_engagements_monthly_revenue_fact;;
 
 
 
