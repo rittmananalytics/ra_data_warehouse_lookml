@@ -74,7 +74,7 @@ filtered_project_revenues AS (
 SELECT
     company_name,
     month_date,
-    SUM(remaining_unbilled_revenue) AS total_remaining_unbilled_revenue
+    sum(remaining_unbilled_revenue) as remaining_unbilled_revenue
 FROM filtered_project_revenues
 GROUP BY company_name, month_date
 

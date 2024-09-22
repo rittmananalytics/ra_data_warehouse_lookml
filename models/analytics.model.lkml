@@ -34,6 +34,8 @@ explore: monzo_bank_transactions_enriched {
   label: "Bank Transactions"
 }
 
+explore: project_engagements {}
+
 explore: dynamic_web_stats {}
 
 explore: weekly_analysis_reports {}
