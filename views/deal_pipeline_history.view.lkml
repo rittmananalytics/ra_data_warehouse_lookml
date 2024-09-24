@@ -4,7 +4,7 @@ view: deal_pipeline_history {
 
     measure: count_deals {
       type: count
-      sql: ${deal_id} ;;
+
 
     }
 

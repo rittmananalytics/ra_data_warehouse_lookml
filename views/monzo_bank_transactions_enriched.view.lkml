@@ -30,8 +30,8 @@ view: monzo_bank_transactions_enriched {
   measure: amount {
     value_format_name: gbp
     type: sum
-    sql: ${TABLE}.${amount} ;;  }
-
+    sql: ${amount} ;;
+}
 
   dimension: balance {
     type: number

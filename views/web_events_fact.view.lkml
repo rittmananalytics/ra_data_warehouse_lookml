@@ -513,11 +513,7 @@ view: web_events_fact {
 
   }
 
-  dimension: referrer_days_since_post {
-    group_label: "    Acquisition"
-    type: number
-    sql: case when ${referrer_article_stub} is not null then timestamp_diff(${event_ts_raw},${marketing_content_dim.interaction_posted_ts_raw},DAY) end ;;
-  }
+
 
   dimension: event_details_seq_1 {
     group_label: "Event Sequence"
