@@ -69,7 +69,7 @@ explore: site_report_by_site {
 
 
 explore: projects_delivered {
-  hidden: no
+  hidden: yes
   label: "           Projects"
   view_label: "      Project Delivery"
   group_label: "        Core Analytics"
@@ -459,29 +459,7 @@ explore: companies_dim {
     type: full_outer
     relationship: one_to_many
   }
-  join: deal_projects_dim {
-    view_label: "        Sales"
-    from: timesheet_projects_dim
-    sql_on: ${deals_fact.deal_id} = ${deal_projects_dim.deal_id} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: deal_project_timesheets_fact {
-    view_label: "        Sales"
 
-    from: timesheets_fact
-    sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_timesheets_fact.timesheet_project_fk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: deal_project_invoices_fact {
-    view_label: "        Sales"
-
-    from: invoices_fact
-    sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_invoices_fact.timesheet_project_fk};;
-    type: left_outer
-    relationship: one_to_many
-  }
   join: deal_pipeline_history {
     view_label: "        Sales Pipeline History"
     sql_on: ${deals_fact.deal_id} = ${deal_pipeline_history.deal_id} ;;
