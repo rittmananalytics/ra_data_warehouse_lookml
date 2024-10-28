@@ -2,7 +2,7 @@ view: companies_dim {
   sql_table_name: `{{ _user_attributes['dataset'] }}.companies_dim` ;;
 
   dimension_group: company_created {
-    group_label: "           Company Details"
+    group_label: "Company Details"
     label: "Company Created"
     hidden: yes
     description: "The creation date of the company record."
@@ -19,7 +19,7 @@ view: companies_dim {
   }
 
   dimension: company_description {
-    group_label: "           Company Details"
+    group_label: "Company Details"
     label: "Company Description"
     description: "Company Bio, sourced from LinkedIn via Hubspot"
     type: string
@@ -41,7 +41,7 @@ view: companies_dim {
 
   dimension: company_industry {
     hidden: no
-    group_label: "           Company Details"
+    group_label: "Company Details"
     label: "Company Industry"
     description: "The industry in which the company operates."
     type: string
@@ -58,7 +58,7 @@ view: companies_dim {
 
   dimension: company_linkedin_company_page {
     hidden: yes
-    group_label: "           Company Details"
+    group_label: "Company Details"
     label: "Company LinkedIn Page"
     description: "The LinkedIn page URL of the company."
     type: string
@@ -66,8 +66,8 @@ view: companies_dim {
   }
 
   dimension: company_name {
-    group_label: "           Company Details"
-    label: "    Company Name"
+    group_label: "Company Details"
+    label: "Company Name"
     description: "The name of the company."
     type: string
     sql: ${TABLE}.company_name ;;
@@ -81,7 +81,7 @@ view: companies_dim {
   }
 
   dimension: company_pk {
-    group_label: "           Company Details"
+    group_label: "Company Details"
     hidden: yes
     primary_key: yes
     description: "The primary key of the company record."
@@ -90,7 +90,7 @@ view: companies_dim {
   }
 
   dimension: company_twitterhandle {
-    group_label: "           Company Details"
+    group_label: "Company Details"
     label: "Company Twitter Handle"
     hidden: no
     description: "The Twitter handle of the company."
@@ -99,7 +99,7 @@ view: companies_dim {
   }
 
   dimension: company_website {
-    group_label: "           Company Details"
+    group_label: "Company Details"
     label: "Company Website"
     hidden: no
     description: "The website URL of the company."
@@ -122,7 +122,7 @@ view: companies_dim {
   }
 
   dimension: hubspot_company_id {
-    hidden: no
+    hidden: yes
     description: "The HubSpot company ID."
     sql: (SELECT max(hubspot_company_id) FROM UNNEST(all_company_ids) AS hubspot_company_id WHERE hubspot_company_id like '%hubspot%') ;;
   }
