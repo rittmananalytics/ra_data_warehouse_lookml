@@ -1,6 +1,10 @@
 view: delivery_tasks_fact {
-  sql_table_name: `{{ _user_attributes['dataset'] }}.delivery_tasks_fact`
-    ;;
+  derived_table: {
+    sql: select *,min(task_start_ts) over (partition by delivery_project_fk, epic_name) as epic_start_ts,
+                  max(task_end_ts) over (partition by delivery_project_fk, epic_name) as epic_end_ts
+        from analytics.delivery_tasks_fact ;;
+  }
+
 
   dimension: delivery_project_fk {
     hidden: yes
@@ -144,6 +148,20 @@ view: delivery_tasks_fact {
     type: time
     timeframes: [date,time,week,month,month_num]
     sql: ${TABLE}.task_start_ts ;;
+  }
+
+  dimension_group: epic_start {
+    group_label: "Project Tasks"
+    type: time
+    timeframes: [date,time,week,month,month_num]
+    sql: ${TABLE}.epic_start_ts ;;
+  }
+
+  dimension_group: epic_end {
+    group_label: "Project Tasks"
+    type: time
+    timeframes: [date,time,week,month,month_num]
+    sql: ${TABLE}.epic_end_ts ;;
   }
 
   dimension: task_sprint_day {
