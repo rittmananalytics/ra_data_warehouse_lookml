@@ -225,6 +225,14 @@ view: delivery_tasks_fact {
     }
   }
 
+  dimension: epic_name {
+    group_label: "Project Tasks"
+    type: string
+    sql: ${TABLE}.epic_name ;;
+
+  }
+
+
 
 
   dimension: task_status_workflow_stage_number {
