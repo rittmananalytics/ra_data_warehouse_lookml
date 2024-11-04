@@ -185,7 +185,7 @@ view: timesheets_fact {
     sql: ${TABLE}.timesheet_project_fk ;;
   }
 
-  dimension: timesheet_task_pk {
+  dimension: timesheet_task_fk {
     hidden: yes
 
     type: string

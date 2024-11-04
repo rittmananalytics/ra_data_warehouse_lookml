@@ -29,7 +29,7 @@ view: engagements {
 
     dimension_group: engagement_start_ts {
       type: time
-      timeframes: [month,quarter,year]
+      timeframes: [date,month,quarter,year]
       sql: timestamp(${TABLE}.engagement_start_ts) ;;
     }
 

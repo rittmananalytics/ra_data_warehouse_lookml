@@ -746,6 +746,14 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: project_timesheet_tasks {
+    view_label: "      Timesheets"
+    from: timesheet_tasks_dim
+    fields: [project_timesheet_tasks.task_name]
+    sql_on: ${project_timesheets.timesheet_task_fk}  = ${project_timesheet_tasks.timesheet_task_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
 
   join: deals_fact {
     view_label: "        Sales"
