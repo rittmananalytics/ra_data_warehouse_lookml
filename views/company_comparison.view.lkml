@@ -3,7 +3,7 @@ view: company_comparison {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
   derived_table: {
-    sql: select * from `ra-development.analytics_seed.company_comparison` ;;
+    sql: select *, safe_divide(value-lag(value) over (partition by company_name, measure order by year),lag(value) over (partition by company_name, measure order by year)) as pct_chg_yoy from `ra-development.analytics_seed.company_benchmarking_data` ;;
     }
 
 
@@ -56,6 +56,12 @@ view: company_comparison {
     sql: ${TABLE}.measure ;;
   }
 
+  dimension: pct_chg_yoy {
+    hidden: no
+    type: number
+    sql: ${TABLE}.pct_chg_yoy ;;
+  }
+
   measure: amount {
     hidden: yes
 
@@ -81,6 +87,15 @@ view: company_comparison {
     sql: ${value} ;;
     filters: [measure: "Sales"]
     }
+
+  measure: Sales_chg_pct_yoy {
+    type: average
+    value_format_name: percent_0
+
+    group_label: "Metrics"
+    sql: ${pct_chg_yoy} ;;
+    filters: [measure: "Sales"]
+  }
 
 
 
@@ -109,6 +124,15 @@ view: company_comparison {
 
     type: sum
     sql: ${value} ;;
+    filters: [measure: "Cost Of Sales"]
+  }
+
+  measure: Cost_Of_Sales_chg_pct_yoy {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+
+    type: sum
+    sql: ${pct_chg_yoy} ;;
     filters: [measure: "Cost Of Sales"]
   }
 
@@ -166,6 +190,15 @@ view: company_comparison {
     filters: [measure: "Operating Profit"]
   }
 
+  measure: Operating_Profit_chg_pct_yoy {
+    group_label: "Metrics"
+    value_format_name: percent_0
+
+    type: average
+    sql: ${pct_chg_yoy} ;;
+    filters: [measure: "Operating Profit"]
+  }
+
   measure: avg_Operating_Profit {
     group_label: "Metrics"
     value_format_name: gbp_0
@@ -202,6 +235,16 @@ view: company_comparison {
 
     type: sum
     sql: ${value} ;;
+    filters: [measure: "Pre-Tax Profit"]
+  }
+
+  measure: Pre_Tax_Profit_chg_pct_yoy {
+    group_label: "Metrics"
+    value_format_name: gbp_0
+    hidden: yes
+
+    type: average
+    sql: ${pct_chg_yoy} ;;
     filters: [measure: "Pre-Tax Profit"]
   }
 
