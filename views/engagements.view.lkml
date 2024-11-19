@@ -27,6 +27,51 @@ view: engagements {
       sql: ${TABLE}.company_fk ;;
     }
 
+  dimension_group: dt_entered_3_sow_drafted {
+
+    label: "Deal SoW Drafted"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_3_sow_drafted ;;
+  }
+
+  dimension: sow_drafted_days_to_engagement_start {
+    type: number
+    sql: DATE_DIFF(timestamp(${TABLE}.engagement_start_ts),timestamp(${TABLE}.dt_entered_3_sow_drafted),DAY) ;;
+  }
+
+  dimension_group: dt_entered_5_customer_agreed_sow {
+
+    label: "Deal SoW Agreed"
+    type: time
+    timeframes: [date]
+    sql: timestamp(${TABLE}.dt_entered_5_customer_agreed_sow) ;;
+  }
+
+  dimension: sow_agreed_days_to_engagement_start {
+    type: number
+    sql: DATE_DIFF(timestamp(${TABLE}.engagement_start_ts),timestamp(${TABLE}.dt_entered_5_customer_agreed_sow),DAY) ;;
+  }
+
+  dimension_group: dt_entered_7_sow_customer_docusigned {
+
+    label: "Deal SoW Signed"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_7_sow_customer_docusigned ;;
+  }
+
+  dimension: sow_signed_days_to_engagement_start {
+    type: number
+    sql: DATE_DIFF(timestamp(${TABLE}.engagement_start_ts),timestamp(${TABLE}.dt_entered_7_sow_customer_docusigned),DAY) ;;
+  }
+
+  dimension: deal_created_days_to_engagement_start {
+    type: number
+    sql: DATE_DIFF(timestamp(${TABLE}.engagement_start_ts),timestamp(${TABLE}.deal_created_ts),DAY) ;;
+  }
+
+
     dimension_group: engagement_start_ts {
       type: time
       timeframes: [date,month,quarter,year]
@@ -81,6 +126,26 @@ view: engagements {
       sql: ${deal_days_to_close} ;;
     }
 
+    measure: avg_days_sow_drafted_to_start {
+      type: average
+      sql: ${sow_drafted_days_to_engagement_start} ;;
+    }
+
+  measure: avg_days_sow_agreed_to_start {
+    type: average
+    sql: ${sow_agreed_days_to_engagement_start} ;;
+  }
+
+  measure: avg_days_sow_signed_to_start {
+    type: average
+    sql: ${sow_signed_days_to_engagement_start} ;;
+  }
+
+  measure: avg_days_deal_created_to_start {
+    type: average
+    sql: ${deal_created_days_to_engagement_start} ;;
+  }
+
     dimension_group: deal_created {
       type: time
       timeframes: [date]
@@ -89,9 +154,19 @@ view: engagements {
 
     dimension_group: deal_closed {
       type: time
-      timeframes: [date]
+      timeframes: [date,quarter,year]
       sql: ${TABLE}.deal_closed_ts ;;
     }
+
+  dimension: deal_source {
+    type: string
+    sql: ${TABLE}.deal_source ;;
+  }
+
+  dimension: deal_partner_referral {
+    type: string
+    sql: ${TABLE}.deal_partner_referral ;;
+  }
 
     dimension: timesheet_project_pk {
       type: string

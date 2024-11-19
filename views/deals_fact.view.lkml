@@ -35,7 +35,7 @@ view: deals_fact {
   dimension_group: deal_closed {
     group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
 
-    label: "Deal Won"
+    label: "Deal Closed"
     type: time
     timeframes: [date,week,week_of_year,month_num,month, quarter,year]
     sql: ${TABLE}.deal_closed_ts;;
@@ -268,6 +268,88 @@ dimension: deal_is_deleted {
     group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     label: "            Deal Type"
     sql: case when ${TABLE}.deal_type is null then 'Existing Business' else ${TABLE}.deal_type end ;;
+  }
+
+  dimension_group: delivery_schedule_ts {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+    label: "Delivery Scheduled"
+    type: time
+    timeframes: [
+      date,
+      week,
+      month
+           ]
+    sql: coalesce(${TABLE}.delivery_schedule_ts,${TABLE}.delivery_start_date_ts) ;;
+  }
+
+
+
+  dimension: partner_deal_contact_name {
+    label: "Partner Deal Contact Name"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    type: string
+    sql: ${TABLE}.partner_deal_contact_name ;;
+  }
+
+  dimension: funding_partner_name {
+    label: "Funding Partner"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    type: string
+    sql: ${TABLE}.funding_partner_name ;;
+  }
+
+  dimension: partner_funding_amount {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.partner_funding_amount ;;
+  }
+
+  dimension: deal_jumpstart_type {
+    label: "Jumpstart Type"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    type: string
+    sql: ${TABLE}.deal_jumpstart_type ;;
+  }
+
+  dimension: partner_funding_scheme {
+    label: "Partner Funding Scheme"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    type: string
+    sql: ${TABLE}.partner_funding_scheme ;;
+  }
+
+  dimension: buyer_confirmed_budget_available {
+    label: "Has Buyer Confirmed Budget Available"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    type: string
+    sql: ${TABLE}.buyer_confirmed_budget_available ;;
+  }
+
+  dimension: spend_agreed_with_buyer {
+    label: "Is Spend Agreed with Buyer"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    type: string
+    sql: ${TABLE}.spend_agreed_with_buyer ;;
+  }
+
+
+
+  dimension: forecasted_duration_months {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.forecasted_duration_months ;;
+  }
+
+  dimension: forecasted_monthly_hours {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.forecasted_monthly_hours ;;
+  }
+
+  measure: total_forecasted_monthly_hours {
+    label: "Total Forecasted Delivery Hours"
+    type: sum
+    sql: ${forecasted_duration_months}*${forecasted_monthly_hours} ;;
   }
 
 
@@ -524,6 +606,33 @@ dimension: deal_is_deleted {
     group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
     sql: ${TABLE}.deal_end_ts ;;
+  }
+
+  dimension_group: dt_entered_3_sow_drafted {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal SoW Drafted"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_3_sow_drafted ;;
+  }
+
+  dimension_group: dt_entered_5_customer_agreed_sow {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal SoW Agreed"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_5_customer_agreed_sow ;;
+  }
+
+  dimension_group: dt_entered_7_sow_customer_docusigned {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal SoW Signed"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_7_sow_customer_docusigned ;;
   }
 
   dimension: deal_sales_email_last_replied {
