@@ -15,6 +15,10 @@ explore: monthly_performance_fact {
   hidden: yes
 }
 
+explore: monthly_resource_revenue_forecast_fact {
+  label: "Monthly Forecast"
+}
+
 explore: timesheet_project_monthly_forecast_billing_fact {}
 
 
