@@ -12,26 +12,35 @@ view: payments_fact {
   # This dimension will be called "Account ID" in Explore.
 
   dimension: account_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.account_id ;;
   }
 
   dimension: company_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.company_id ;;
   }
 
   dimension: currency_code {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.currency_code ;;
   }
 
   dimension: invoice_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.invoice_id ;;
   }
 
   dimension: invoice_number {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.invoice_number ;;
   }
@@ -43,22 +52,29 @@ view: payments_fact {
   }
 
   dimension: invoice_type {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.invoice_type ;;
   }
 
   dimension: payment_amount {
+    hidden: yes
+
     type: number
     sql: safe_cast(${TABLE}.payment_amount as float64);;
   }
 
   measure: total_payment_amount {
     type: sum
+    label: "Payment Amount GBP"
     value_format_name: gbp
     sql: ${TABLE}.payment_amount ;;
   }
 
   dimension: payment_bank_amount {
+    hidden: yes
+
     type: number
     sql: safe_cast(${TABLE}.payment_bank_amount as float64);;
   }
@@ -66,11 +82,15 @@ view: payments_fact {
 
 
   dimension: payment_code {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.payment_code ;;
   }
 
   dimension: payment_currency_rate {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.payment_currency_rate ;;
   }
@@ -79,6 +99,8 @@ view: payments_fact {
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: payment {
+    hidden: yes
+
     type: time
     timeframes: [
       raw,
@@ -93,16 +115,22 @@ view: payments_fact {
   }
 
   dimension: payment_id {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.payment_id ;;
   }
 
   dimension: payment_is_discounted {
+    hidden: yes
+
     type: yesno
     sql: ${TABLE}.payment_is_discounted ;;
   }
 
   dimension: payment_is_reconciled {
+    hidden: yes
+
     type: yesno
     sql: ${TABLE}.payment_is_reconciled ;;
   }
@@ -115,21 +143,29 @@ view: payments_fact {
   }
 
   dimension: payment_reference {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.payment_reference ;;
   }
 
   dimension: payment_status {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.payment_status ;;
   }
 
   dimension: payment_type {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.payment_type ;;
   }
 
   dimension: source {
+    hidden: yes
+
     type: string
     sql: ${TABLE}.source ;;
   }
@@ -139,6 +175,8 @@ view: payments_fact {
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
   measure: count {
+    hidden: yes
+
     type: count
     drill_fields: []
   }

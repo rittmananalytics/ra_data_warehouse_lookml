@@ -37,12 +37,14 @@ view: client_prospect_status_dim {
 
   dimension: client_status {
     group_label: "           Company Details"
+    hidden: yes
     type: string
     sql: ${TABLE}.client_status ;;
   }
 
   dimension: is_client {
     group_label: "           Company Details"
+    hidden: yes
 
     type: yesno
     sql: ${client_status} like '%Client%' ;;
@@ -50,6 +52,7 @@ view: client_prospect_status_dim {
 
   dimension: is_prospect {
     group_label: "           Company Details"
+    hidden: yes
 
     type: yesno
     sql: ${client_status} like '%Prospect%' ;;

@@ -286,14 +286,14 @@ dimension: deal_is_deleted {
 
   dimension: partner_deal_contact_name {
     label: "            Partner Deal Contact Name"
-    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Funding"
     type: string
     sql: ${TABLE}.partner_deal_contact_name ;;
   }
 
   dimension: funding_partner_name {
     label: "           Funding Partner"
-    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Funding"
     type: string
     sql: ${TABLE}.funding_partner_name ;;
   }
@@ -306,14 +306,14 @@ dimension: deal_is_deleted {
 
   dimension: deal_jumpstart_type {
     label: "              Jumpstart Type"
-    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Funding"
     type: string
     sql: ${TABLE}.deal_jumpstart_type ;;
   }
 
   dimension: partner_funding_scheme {
     label: "          Partner Funding Scheme"
-    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Funding"
     type: string
     sql: ${TABLE}.partner_funding_scheme ;;
   }
