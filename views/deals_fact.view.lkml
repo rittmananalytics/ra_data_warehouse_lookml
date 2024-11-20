@@ -335,21 +335,27 @@ dimension: deal_is_deleted {
 
 
   dimension: forecasted_duration_months {
-    hidden: yes
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "Forecasted Duration in Months"
+    hidden: no
     type: number
     sql: ${TABLE}.forecasted_duration_months ;;
   }
 
   dimension: forecasted_monthly_hours {
-    hidden: yes
+    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
+    label: "Forecasted Monthly Hours"
+
+    hidden: no
     type: number
     sql: ${TABLE}.forecasted_monthly_hours ;;
   }
 
   measure: total_forecasted_monthly_hours {
+
     label: "Total Forecasted Delivery Hours"
     type: sum
-    sql: ${forecasted_duration_months}*${forecasted_monthly_hours} ;;
+    sql: round(${forecasted_duration_months}*${forecasted_monthly_hours},1) ;;
   }
 
 
