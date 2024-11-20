@@ -11,23 +11,42 @@ datagroup: analytics_default_datagroup {
 fiscal_month_offset: +3
 week_start_day: monday
 
-explore: monthly_performance_fact {}
+explore: monthly_performance_fact {
+  hidden: yes
+}
 
 explore: timesheet_project_monthly_forecast_billing_fact {}
 
 
-explore: performance_narrative_fact {}
+explore: performance_narrative_fact {
+  hidden: yes
 
-explore: pl_reports {}
+}
 
-explore: project_engagements {}
+explore: pl_reports {
+  hidden: yes
 
-explore: dynamic_web_stats {}
+}
 
-explore: weekly_analysis_reports {}
+explore: project_engagements {
+  hidden: yes
+
+}
+
+explore: dynamic_web_stats {
+  hidden: yes
+
+}
+
+explore: weekly_analysis_reports {
+  hidden: yes
+
+}
 
 
 explore: date_spine_dim {
+  hidden: yes
+
   join: projects_invoiced {
     view_label: "Project Invoicing (Harvest)"
     from: invoices_fact
@@ -179,7 +198,7 @@ explore: contacts {
 }
 
 explore: people {
-  hidden: no
+  hidden: yes
   from: contacts_dim
   label: "     Contacts"
   view_label: "Client and Marketing Contacts"
