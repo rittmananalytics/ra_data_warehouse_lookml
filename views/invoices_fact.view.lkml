@@ -16,6 +16,13 @@ view: invoices_fact {
     sql: ${TABLE}.company_fk ;;
   }
 
+  dimension: churned {
+    type: string
+    group_label: "        Invoice Details"
+
+    sql: cast(case when ${TABLE}.last_invoice_month < timestamp(date_sub(current_date, interval 3 month)) then extract(year from ${TABLE}.last_invoice_month) end as string);;
+  }
+
 
 
   dimension_group: first_invoice {
@@ -35,15 +42,12 @@ view: invoices_fact {
   }
 
   dimension_group: last_invoice {
-    hidden: yes
+    hidden: no
 
     type: time
     timeframes: [
       raw,
-      month,
-      quarter,
-      year,
-      quarter_of_year
+      month
     ]
     sql: ${TABLE}.last_invoice_month ;;
   }
