@@ -866,7 +866,7 @@ explore: companies_dim {
   }
   join: timesheet_project_costs_fact {
     view_label: "      Project Invoicing"
-    fields: [timesheet_project_costs_fact.expense_amount_gbp,timesheet_project_costs_fact.expense_category_name]
+    fields: [timesheet_project_costs_fact.expense_amount_gbp,total_cost_gbp,timesheet_project_costs_fact.expense_category_name]
     sql_on: ${projects_delivered.timesheet_project_pk} = ${timesheet_project_costs_fact.timesheet_project_pk};;
     type: left_outer
     relationship: many_to_one
