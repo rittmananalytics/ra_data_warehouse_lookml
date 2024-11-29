@@ -125,7 +125,7 @@ view: targets {
   measure: total_revenue_target {
     hidden: no
 
-    type: sum
+    type: sum_distinct
     value_format_name: gbp
 
     sql: ${revenue_target} ;;
