@@ -717,7 +717,7 @@ explore: companies_dim {
     from: targets
     view_label: "      Project Invoicing"
     fields: [revenue_target.total_revenue_target]
-    sql_on: ${projects_invoiced.invoice_sent_at_ts_month} = ${revenue_target.period_month} ;;
+    sql_on: ${projects_invoiced.invoice_issued_month} = ${revenue_target.period_month} ;;
     type: left_outer
     relationship: one_to_many
     }
