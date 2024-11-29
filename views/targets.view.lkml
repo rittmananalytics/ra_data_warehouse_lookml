@@ -12,7 +12,7 @@ view: targets {
   # This dimension will be called "Deals Closed Target" in Explore.
 
   dimension: deals_closed_target {
-    hidden: no
+    hidden: yes
     type: number
     sql: ${TABLE}.deals_closed_target ;;
   }
@@ -25,11 +25,13 @@ view: targets {
   }
 
   dimension: enps_target {
+    hidden: yes
     type: number
     sql: ${TABLE}.enps ;;
   }
 
   dimension: hr_survey_target {
+    hidden: yes
     type: number
     sql: ${TABLE}.hr_survey ;;
   }

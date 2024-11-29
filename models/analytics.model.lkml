@@ -713,6 +713,14 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: revenue_target {
+    from: targets
+    view_label: "      Project Invoicing"
+    fields: [revenue_target.total_revenue_target]
+    sql_on: ${projects_invoiced.invoice_sent_at_ts_month} = ${revenue_target.period_month} ;;
+    type: left_outer
+    relationship: one_to_many
+    }
   join: recognized_revenue_contact {
     from: contacts_dim
     view_label: "     Recognised Revenue"
@@ -783,6 +791,14 @@ explore: companies_dim {
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
     type: full_outer
     relationship: one_to_many
+  }
+  join: deal_targets {
+    from: targets
+    fields: [total_deals_closed_revenue_target]
+    view_label: "        Sales"
+    sql_on: ${deals_fact.deal_closed_month} = ${deal_targets.period_month} ;;
+    type: left_outer
+    relationship: many_to_one
   }
 
   join: deal_pipeline_history {
@@ -977,6 +993,14 @@ explore: companies_dim {
     join: profit_and_loss_report_fact {
       view_label: "Profit & Loss Report"
       sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id};;
+      type: left_outer
+      relationship: one_to_many
+    }
+    join: profit_and_loss_report_targets {
+      from: targets
+      view_label: "Profit & Loss Report"
+      fields: [profit_and_loss_report_targets.total_revenue_target,profit_and_loss_report_targets.retained_earnings_target]
+      sql_on: ${profit_and_loss_report_fact.period_month} = ${profit_and_loss_report_targets.period_month} ;;
       type: left_outer
       relationship: one_to_many
     }
