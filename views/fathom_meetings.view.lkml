@@ -17,6 +17,7 @@ view: fathom_meetings {
     dimension: pk {
       type: string
       sql: concat(${recording_url},${meeting_raw}) ;;
+      primary_key: yes
       hidden: yes
     }
 
@@ -35,7 +36,7 @@ view: fathom_meetings {
 
     dimension_group: meeting {
       type: time
-      timeframes: [raw,time,date,week,month,quarter,year]
+      timeframes: [raw,time,date,week,month,quarter,year, day_of_week]
       sql: ${TABLE}.meeting_scheduled_start_time ;;
     }
 

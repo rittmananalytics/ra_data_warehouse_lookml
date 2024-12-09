@@ -28,7 +28,14 @@ explore: performance_narrative_fact {
 }
 
 explore: fathom_meetings {
-  label: "Meetings"
+  view_label: "Meetings"
+  join: fathom_meeting_actions {
+    sql_on: ${fathom_meetings.recording_url} = ${fathom_meeting_actions.recording_url} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+
 }
 
 explore: pl_reports {
