@@ -126,11 +126,7 @@ view: timesheets_fact {
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
 
-  measure: avg_utilisation {
-    value_format_name: decimal_2
-    label: "Average Utilisation"
-    sql:  SAFE_DIVIDE(${total_timesheet_billable_hours_billed},${total_timesheet_hours_billed});;
-  }
+
 
   measure: total_timesheet_billable_hours_billed {
     value_format_name: decimal_0

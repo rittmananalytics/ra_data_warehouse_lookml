@@ -27,6 +27,10 @@ explore: performance_narrative_fact {
 
 }
 
+explore: fathom_meetings {
+  label: "Meetings"
+}
+
 explore: pl_reports {
   hidden: yes
 
