@@ -26,18 +26,18 @@ looker.plugins.visualizations.add({
       console.log("updateAsync called");
       console.log("Data received:", data);
       console.log("Query response:", queryResponse);
-  
+
       this.clearErrors();
-  
+
       if (!queryResponse || !data || data.length === 0) {
         console.log("No data available");
         this.addError({ title: "No Data", message: "This chart requires data to render." });
         done();
         return;
       }
-  
+
       console.log("Data and query response are valid");
-  
+
       // Check if we have the necessary fields
       if (!queryResponse.fields.dimensions || queryResponse.fields.dimensions.length < 2) {
         console.log("Not enough dimensions found");
@@ -45,16 +45,16 @@ looker.plugins.visualizations.add({
         done();
         return;
       }
-  
+
       let processedData = [];
       let categories = [];
-  
+
       // Assuming the first dimension is used for categories and the second for values
       let dimensionName = queryResponse.fields.dimensions[0].name;
       let measureName = queryResponse.fields.dimensions[1].name;
       console.log("Dimension name:", dimensionName);
       console.log("Measure name:", measureName);
-  
+
       // Group data by category
       let groupedData = {};
       data.forEach((row, index) => {
@@ -62,39 +62,39 @@ looker.plugins.visualizations.add({
         let category = LookerCharts.Utils.textForCell(row[dimensionName]);
         let value = LookerCharts.Utils.textForCell(row[measureName]);
         console.log(`Category: ${category}, Value: ${value}`);
-  
+
         if (!groupedData[category]) {
           groupedData[category] = [];
         }
         groupedData[category].push(Number(value));
       });
-  
+
       console.log("Grouped data:", groupedData);
-  
+
       // Process grouped data
       for (let category in groupedData) {
         categories.push(category);
         processedData.push(groupedData[category]);
       }
-  
+
       console.log("Processed data:", processedData);
       console.log("Categories:", categories);
-  
+
       let step = config.step || 0.1;
       let precision = config.precision || 0.001;
       let densityWidth = config.densityWidth || 0.5;
       console.log("Config values:", { step, precision, densityWidth });
-  
+
       console.log("Calling processViolin function");
       let violinData = processViolin(step, precision, densityWidth, ...processedData);
       console.log("Violin data:", violinData);
-  
+
       let seriesData = violinData.results.map((result, index) => ({
         name: categories[index],
         data: result.filter(point => point[1] !== null && point[2] !== null)
       }));
       console.log("Series data:", seriesData);
-  
+
       console.log("Creating Highcharts visualization");
   Highcharts.chart(element, {
     chart: {
@@ -152,12 +152,12 @@ looker.plugins.visualizations.add({
       data: series.data
     }))
   });
-  
+
       console.log("Highcharts visualization created");
       done();
     }
   });
-  
+
   function processViolin(step, precision, densityWidth, ...args) {
     let xiData = [];
     function processXi(args) {
@@ -216,4 +216,5 @@ looker.plugins.visualizations.add({
     });
     return { xiData, results, stat };
   }
-  
+
+
