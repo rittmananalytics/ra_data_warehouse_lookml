@@ -1,6 +1,6 @@
 view: looker_usage_stats {
   derived_table: {
-    sql: select * from ra-development.fivetran_email.usage_stats
+    sql: select *, row_number() over () as new_pk from ra-development.fivetran_email.usage_stats
       ;;
   }
 
@@ -12,6 +12,7 @@ view: looker_usage_stats {
 
 
   dimension_group: _fivetran_synced {
+    hidden: yes
     type: time
     sql: ${TABLE}._fivetran_synced ;;
   }
@@ -27,28 +28,29 @@ view: looker_usage_stats {
     sql: coalesce(cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64),${TABLE}.history_average_runtime_in_seconds) ;;
   }
 
-  measure: median_runtime_in_seconds {
-    value_format_name: decimal_0
 
-    type: median_distinct
-    sql: coalesce(cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64),${TABLE}.history_average_runtime_in_seconds) ;;
-  }
 
-  measure: max_runtime_in_seconds {
+  measure: max_average_runtime_in_seconds {
     value_format_name: decimal_0
 
     type: max
     sql: coalesce(cast(replace(${TABLE}.average_runtime_in_seconds,',','') as float64),${TABLE}.history_average_runtime_in_seconds) ;;
   }
 
-
-
   dimension: client {
+    type: string
+    sql: initcap(${TABLE}.client) ;;
+  }
+
+
+
+  dimension: client_alias {
     type: string
     sql: case when ${TABLE}.client = "colourpop" then "SMB eCommerce, Redshift"
      when ${TABLE}.client = "popsa" then "SMB Mobile App, AWS Athena"
      when ${TABLE}.client= "parcel2go" then "SMB Logistics, BigQuery"
      when ${TABLE}.client = "lick" then "SMB Retail, Redshift"
+     when ${TABLE}.client = "pleo" then "MM Internal BI, BigQuery"
      when ${TABLE}.client = "qubit-livetap" then "SMB Martech, BigQuery"
      when ${TABLE}.client = "dandelion" then "SMB eCommerce, BigQuery"
      when ${TABLE}.client = "rixo" then "SMB Retail, BigQuery"
@@ -90,6 +92,7 @@ end;;
   }
 
   dimension: name {
+    label: "User Name"
     type: string
     sql: coalesce(${TABLE}.name,${TABLE}.user_name) ;;
   }
@@ -97,7 +100,8 @@ end;;
   dimension: pk {
     primary_key: yes
     type: string
-    sql: ${TABLE}.pk ;;
+    hidden: yes
+    sql: ${TABLE}.new_pk ;;
   }
 
   dimension: rebuild_pdts_yes_no_ {
@@ -116,6 +120,7 @@ end;;
   }
 
   dimension: title {
+    label: "Look Title"
     type: string
     sql: coalesce(${TABLE}.title,${TABLE}.look_title) ;;
   }

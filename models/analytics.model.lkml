@@ -21,6 +21,8 @@ explore: monthly_resource_revenue_forecast_fact {
 
 explore: timesheet_project_monthly_forecast_billing_fact {}
 
+explore: looker_usage_stats {}
+
 
 explore: performance_narrative_fact {
   hidden: yes
@@ -648,6 +650,7 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
+
   join: engagements {
     view_label: "        Statements of Work"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${engagements.timesheet_project_pk}
