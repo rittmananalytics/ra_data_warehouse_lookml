@@ -1,7 +1,7 @@
 view: engagements {
     derived_table: {
-      sql: select * except(projects) from analytics.timesheet_project_engagements_dim,
-        unnest(projects) as projects ;;
+      sql: select project_engagement_pk, engagement_code, company_fk, engagement_start_ts, engagement_end_ts, deal_id, deal_amount, deal_description, deal_name, deal_type, deal_partner_referral, deal_source, deal_days_to_close, deal_created_ts, dt_entered_3_sow_drafted, dt_entered_5_customer_agreed_sow, dt_entered_7_sow_customer_docusigned, deal_closed_ts from analytics.timesheet_project_engagements_dim
+        group by all ;;
     }
 
     measure: count {
@@ -168,28 +168,7 @@ view: engagements {
     sql: ${TABLE}.deal_partner_referral ;;
   }
 
-    dimension: timesheet_project_pk {
-      type: string
-      hidden: yes
-      sql: ${TABLE}.timesheet_project_pk ;;
-    }
 
-    dimension: project_name {
-      type: string
-      sql: ${TABLE}.project_name ;;
-    }
-
-    dimension_group: project_delivery_start {
-      type: time
-      timeframes: [date]
-      sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
-    }
-
-    dimension_group: project_delivery_end {
-      type: time
-      timeframes: [date]
-      sql: timestamp(${TABLE}.project_delivery_end_ts);;
-    }
 
 
   }

@@ -15,6 +15,7 @@ explore: monthly_performance_fact {
   hidden: yes
 }
 
+
 explore: monthly_resource_revenue_forecast_fact {
   label: "Monthly Forecast"
 }
@@ -653,8 +654,7 @@ explore: companies_dim {
 
   join: engagements {
     view_label: "        Statements of Work"
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${engagements.timesheet_project_pk}
-       and ${companies_dim.company_pk} = ${engagements.company_fk};;
+    sql_on: ${companies_dim.company_pk} = ${engagements.company_fk};;
     type: left_outer
     relationship: one_to_many
   }

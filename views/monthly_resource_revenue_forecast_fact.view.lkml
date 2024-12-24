@@ -30,7 +30,7 @@ view: monthly_resource_revenue_forecast_fact {
 
     dimension_group: forecast {
       type: time
-      timeframes: [raw,month,quarter,year]
+      timeframes: [raw,month,quarter,year,month_num]
       datatype: timestamp
       sql: timestamp(${TABLE}.forecast_month) ;;
     }
