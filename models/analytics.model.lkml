@@ -652,6 +652,13 @@ explore: companies_dim {
     relationship: one_to_one
   }
 
+  join: customer_meetings {
+    view_label: "   Meetings"
+    sql_on: ${companies_dim.company_pk} = ${customer_meetings.company_fk};;
+    type: inner
+    relationship: one_to_many
+  }
+
   join: engagements {
     view_label: "        Statements of Work"
     sql_on: ${companies_dim.company_pk} = ${engagements.company_fk};;
