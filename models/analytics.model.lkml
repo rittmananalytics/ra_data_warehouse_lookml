@@ -164,7 +164,7 @@ explore: contacts {
 
   join: meeting_contact_lines_fact {
     view_label: "Meeting Transcript Lines"
-    sql_on: ${contacts_dim.contact_pk} = ${meeting_contact_lines_fact.contact_fk} ;;
+    sql_on: ${contacts.contact_pk} = ${meeting_contact_lines_fact.contact_fk} ;;
     type: left_outer
     relationship: one_to_many
   }
