@@ -148,6 +148,26 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
+  join: messages_fact {
+    view_label: "Messages"
+    sql_on: ${contacts.contact_pk} = ${messages_fact.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: customer_meetings {
+    view_label: "Customer Meetings"
+    sql_on: ${contacts.contact_pk} = ${customer_meetings.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: meeting_contact_lines_fact {
+    view_label: "Meeting Transcript Lines"
+    sql_on: ${contacts_dim.contact_pk} = ${meeting_contact_lines_fact.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
 
   join: projects_delivered {
     view_label: "Project Timesheets (Harvest)"
