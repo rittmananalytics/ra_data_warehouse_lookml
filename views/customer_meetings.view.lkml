@@ -15,6 +15,8 @@ view: customer_meetings {
 
   dimension: meeting_contribution_pk {
     primary_key: yes
+    hidden: yes
+
     type: string
     sql: ${TABLE}.meeting_contribution_pk ;;
   }
@@ -73,6 +75,8 @@ view: customer_meetings {
   }
 
   dimension: contribution_sentiment_score {
+    hidden: yes
+
     type: number
     sql: case when ${contribution_sentiment_category} in ('UNENGAGED', 'CONCERNED') then -1
               when ${contribution_sentiment_category} = 'POSITIVE' then 1
@@ -80,6 +84,8 @@ view: customer_meetings {
   }
 
   dimension: meeting_engagement_level {
+    hidden: yes
+
     type: number
     sql: ${TABLE}.meeting_engagement_level ;;
   }

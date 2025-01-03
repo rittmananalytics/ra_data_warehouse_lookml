@@ -18,7 +18,7 @@ view: timesheet_projects_dim {
 
   measure: project_hours_budget {
     group_label: "Project Commercials"
-    hidden: yes
+    hidden: no
 
     type: sum
     sql: ${TABLE}.project_budget_amount ;;

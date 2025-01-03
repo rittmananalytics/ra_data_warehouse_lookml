@@ -17,10 +17,13 @@ explore: monthly_performance_fact {
 
 
 explore: monthly_resource_revenue_forecast_fact {
+  hidden: yes
   label: "Monthly Forecast"
 }
 
-explore: timesheet_project_monthly_forecast_billing_fact {}
+explore: timesheet_project_monthly_forecast_billing_fact {
+  hidden: yes
+}
 
 explore: looker_usage_stats {}
 
@@ -31,6 +34,7 @@ explore: performance_narrative_fact {
 }
 
 explore: fathom_meetings {
+  hidden: yes
   view_label: "Meetings"
   join: fathom_meeting_actions {
     sql_on: ${fathom_meetings.recording_url} = ${fathom_meeting_actions.recording_url} ;;
@@ -216,7 +220,7 @@ explore: contacts {
 }
 
 explore: people {
-  hidden: yes
+  hidden: no
   from: contacts_dim
   label: "     Contacts"
   view_label: "Client and Marketing Contacts"
@@ -377,7 +381,7 @@ explore: site_report_by_site {
 
 
 explore: projects_delivered {
-  hidden: no
+  hidden: yes
   label: "           Projects"
   view_label: "      Project Delivery"
   group_label: "        Core Analytics"
@@ -653,10 +657,25 @@ explore: companies_dim {
   }
 
   join: customer_meetings {
-    view_label: "   Meetings"
+    view_label: "   Meeting Summaries"
     sql_on: ${companies_dim.company_pk} = ${customer_meetings.company_fk};;
     type: inner
     relationship: one_to_many
+  }
+
+  join: messages_fact {
+    view_label: "   Messages"
+    sql_on: ${companies_dim.company_pk} = ${messages_fact.company_fk};;
+    type: inner
+    relationship: one_to_many
+  }
+  join: message_contacts {
+    view_label: "   Messages"
+    from: contacts_dim
+    fields: [message_contacts.contact_name]
+    sql_on: ${messages_fact.contact_fk} = ${message_contacts.contact_pk} ;;
+    relationship: many_to_one
+
   }
 
   join: engagements {
@@ -864,7 +883,8 @@ explore: companies_dim {
   }
   join: team_dim {
     from: contacts_dim
-    view_label: "    Project Delivery"
+    fields: [team_dim.contact_name,team_dim.contact_is_staff,team_dim.contact_is_contractor]
+    view_label: "     Project Delivery"
     sql_on: ${delivery_tasks_fact.contact_pk} = ${team_dim.contact_pk};;
     type: left_outer
     relationship: many_to_one
