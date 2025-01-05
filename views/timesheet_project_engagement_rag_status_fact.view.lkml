@@ -31,7 +31,7 @@ view: timesheet_project_engagement_rag_status_fact {
     {% endif %}
     ;;
   }
-  dimension: overall_rag_status_reason {
+  dimension: overall_rag_status_rationale {
     type: string
     sql: ${TABLE}.overall_rag_status_reason ;;
   }
@@ -42,11 +42,11 @@ view: timesheet_project_engagement_rag_status_fact {
     datatype: date
     sql: ${TABLE}.reporting_month ;;
   }
-  dimension: resourcing_rationale {
+  dimension: resourcing_status_rationale {
     type: string
     sql: ${TABLE}.resourcing_rationale ;;
   }
-  dimension: resourcing_status {
+  dimension: resourcing_rag_status {
     type: string
     sql: ${TABLE}.resourcing_status ;;
     html:
@@ -59,7 +59,25 @@ view: timesheet_project_engagement_rag_status_fact {
     {% endif %}
     ;;
   }
-  dimension: schedule_status {
+
+  dimension: scope_status_rationale {
+    type: string
+    sql: ${TABLE}.scope_rationale ;;
+  }
+  dimension: scope_rag_status {
+    type: string
+    sql: ${TABLE}.scope_status ;;
+    html:
+    {% if value == 'RED' %}
+    <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == 'AMBER' %}
+    <p style="color: white; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: white; background-color: green; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+    ;;
+  }
+  dimension: schedule_rag_status {
     type: string
     sql: ${TABLE}.schedule_status ;;
     html:
@@ -72,7 +90,7 @@ view: timesheet_project_engagement_rag_status_fact {
     {% endif %}
     ;;
   }
-  dimension: schedule_status_rationale {
+  dimension: schedule_rag_status_rationale {
     type: string
     sql: ${TABLE}.schedule_status_rationale ;;
   }
@@ -80,11 +98,11 @@ view: timesheet_project_engagement_rag_status_fact {
     type: string
     sql: ${TABLE}.sprint_name ;;
   }
-  dimension: technology_rationale {
+  dimension: technology_rag_status_rationale {
     type: string
     sql: ${TABLE}.technology_rationale ;;
   }
-  dimension: technology_status {
+  dimension: technology_rag_status {
     type: string
     sql: ${TABLE}.technology_status ;;
     html:
