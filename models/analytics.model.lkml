@@ -660,11 +660,11 @@ explore: web_sessions_fact {
 explore: companies_dim {
   label: "                    Business Operations"
   group_label: "        Core Analytics"
-  view_label: "        Companies"
+  view_label: "           Companies"
   description: "Main explore used for reporting, starts with prospects and covers lifecycle through to projects and NPS"
   hidden: no
   join: companies_dim_ideal_customer {
-   view_label: "        Companies"
+   view_label: "           Companies"
    sql_on: ${companies_dim.company_pk} = ${companies_dim_ideal_customer.company_pk};;
    type: left_outer
    relationship: one_to_one
@@ -675,22 +675,44 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
+  join: timesheet_project_engagement_rag_status_fact {
+    view_label: "         Client RAG Status History"
+    sql_on: ${companies_dim.company_name} = ${timesheet_project_engagement_rag_status_fact.client_name} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
 
   join: customer_meetings {
-    view_label: "   Meeting Summaries"
+    view_label: "       Project Meetings"
     sql_on: ${companies_dim.company_pk} = ${customer_meetings.company_fk};;
     type: inner
     relationship: one_to_many
   }
+  join: timesheet_project_stakeholder_jtbd_fact {
+    view_label: "       Project Meetings"
+    sql_on: ${customer_meetings.contact_fk} = ${timesheet_project_stakeholder_jtbd_fact.contact_fk} ;;
+    relationship: one_to_one
+    type: left_outer
+  }
+  join: timesheet_project_stakeholder_jtbd_fact__keywords {
+    view_label: "       Project Meetings"
+    sql: LEFT JOIN UNNEST(${timesheet_project_stakeholder_jtbd_fact.keywords}) as timesheet_project_stakeholder_jtbd_fact__keywords ;;
+    relationship: one_to_many
+  }
+  join: timesheet_project_stakeholder_jtbd_fact__identified_jtbds {
+    view_label: "       Project Meetings"
+    sql: LEFT JOIN UNNEST(${timesheet_project_stakeholder_jtbd_fact.identified_jtbds}) as timesheet_project_stakeholder_jtbd_fact__identified_jtbds ;;
+    relationship: one_to_many
+  }
 
   join: messages_fact {
-    view_label: "   Messages"
+    view_label: "      Project Messages"
     sql_on: ${companies_dim.company_pk} = ${messages_fact.company_fk};;
     type: inner
     relationship: one_to_many
   }
   join: message_contacts {
-    view_label: "   Messages"
+    view_label: "      Project Messages"
     from: contacts_dim
     fields: [message_contacts.contact_name]
     sql_on: ${messages_fact.contact_fk} = ${message_contacts.contact_pk} ;;
@@ -699,19 +721,19 @@ explore: companies_dim {
   }
 
   join: engagements {
-    view_label: "        Statements of Work"
+    view_label: "        Engagements (SoWs)"
     sql_on: ${companies_dim.company_pk} = ${engagements.company_fk};;
     type: left_outer
     relationship: one_to_many
   }
   join: project_engagements {
-    view_label: "       SoW Pipeline History"
+    view_label: "        Engagements (SoWs) Pipeline History"
     sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
     type: left_outer
     relationship: one_to_many
   }
   join: companies_dim__all_company_ids {
-    view_label: "        Companies"
+    view_label: "           Companies"
     sql: LEFT JOIN UNNEST(${companies_dim__all_company_ids.companies_dim__all_company_ids}) as  companies_dim__all_company_ids;;
     relationship: one_to_many
   }
@@ -722,26 +744,26 @@ explore: companies_dim {
     type: left_outer
     }
   join: client_prospect_status_dim {
-    view_label: "        Companies"
+    view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
 
   join: customer_first_order_segments {
-    view_label: "        Companies"
+    view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${customer_first_order_segments.companies_dim_company_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
   join: rfm_model {
-    view_label: "        Companies"
+    view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
   join: company_deal_value_attribute {
-    view_label: "        Companies"
+    view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${company_deal_value_attribute.company_pk} ;;
     type: left_outer
     relationship: one_to_one
@@ -855,14 +877,14 @@ explore: companies_dim {
   join: deal_targets {
     from: targets
     fields: [total_deals_closed_revenue_target]
-    view_label: "        Sales"
+    view_label: "         Sales"
     sql_on: ${deals_fact.deal_closed_month} = ${deal_targets.period_month} ;;
     type: left_outer
     relationship: many_to_one
   }
 
   join: deal_pipeline_history {
-    view_label: "        Sales Pipeline History"
+    view_label: "         Sales Pipeline History"
     sql_on: ${deals_fact.deal_id} = ${deal_pipeline_history.deal_id} ;;
     type: inner
     relationship: one_to_many
@@ -871,7 +893,7 @@ explore: companies_dim {
 
 
   join: customer_first_deal_cohorts {
-    view_label: "        Sales"
+    view_label: "         Sales"
     sql_on: ${deals_fact.deal_pk} = ${customer_first_deal_cohorts.deal_pk};;
     type: inner
     relationship: one_to_one
@@ -910,7 +932,7 @@ explore: companies_dim {
     relationship: many_to_one
   }
   join: contact_companies_fact {
-    view_label: "        Company Contacts"
+    view_label: "         Contacts"
 
     sql_on: ${companies_dim.company_pk} = ${contact_companies_fact.company_fk};;
     type: left_outer
@@ -918,7 +940,7 @@ explore: companies_dim {
   }
 
   join: contact_meetings_fact {
-    view_label: "        Sales"
+    view_label: "         Sales"
     sql_on: ${companies_dim.company_pk} = ${contact_meetings_fact.company_fk}
        and ${deals_fact.deal_pk} = ${contact_meetings_fact.deal_fk};;
       type: left_outer
@@ -928,7 +950,7 @@ explore: companies_dim {
 
     from: contacts_dim
 
-    view_label: "        Company Contacts"
+    view_label: "         Contacts"
     sql_on: ${contact_companies_fact.contact_fk} = ${contacts.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
