@@ -1,6 +1,6 @@
 view: engagements {
     derived_table: {
-      sql: select project_engagement_pk, engagement_code, company_fk, engagement_start_ts, engagement_end_ts, deal_id, deal_amount, deal_description, deal_name, deal_type, deal_partner_referral, deal_source, deal_days_to_close, deal_created_ts, dt_entered_3_sow_drafted, dt_entered_5_customer_agreed_sow, dt_entered_7_sow_customer_docusigned, deal_closed_ts from analytics.timesheet_project_engagements_dim
+      sql: select project_engagement_pk, engagement_code, company_fk, engagement_start_ts, engagement_end_ts, deal_id, deal_amount, deal_description, deal_name, deal_type, deal_partner_referral, deal_source, deal_days_to_close, deal_created_ts, dt_entered_3_sow_drafted, dt_entered_5_customer_agreed_sow, dt_entered_7_sow_customer_docusigned, deal_closed_ts, projects from analytics.timesheet_project_engagements_dim
         group by all ;;
     }
 
@@ -109,7 +109,6 @@ view: engagements {
       label: "Original Engagement Deal Amount"
       hidden: yes
       type: number
-      hidden: yes
       sql: ${TABLE}.deal_amount ;;
     }
 
@@ -211,7 +210,39 @@ view: engagements {
     sql: ${TABLE}.deal_partner_referral ;;
   }
 
+  dimension: projects {
+    hidden: yes
+    sql: ${TABLE}.projects ;;
+  }
+
 
 
 
   }
+
+view: timesheet_project_engagements_dim__projects {
+  drill_fields: [timesheet_project_pk]
+
+  dimension: timesheet_project_pk {
+    primary_key: yes
+    type: string
+    sql: timesheet_project_pk ;;
+  }
+  dimension: project_delivery_end_ts {
+    type: string
+    sql: project_delivery_end_ts ;;
+  }
+  dimension: project_delivery_start_ts {
+    type: string
+    sql: project_delivery_start_ts ;;
+  }
+  dimension: project_name {
+    type: string
+    sql: project_name ;;
+  }
+  dimension: timesheet_project_engagements_dim__projects {
+    type: string
+    hidden: yes
+    sql: timesheet_project_engagements_dim__projects ;;
+  }
+}

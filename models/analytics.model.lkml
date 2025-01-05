@@ -732,6 +732,11 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: timesheet_project_engagements_dim__projects {
+    view_label: "Timesheet Project Engagements Dim: Projects"
+    sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
+    relationship: one_to_many
+  }
   join: companies_dim__all_company_ids {
     view_label: "           Companies"
     sql: LEFT JOIN UNNEST(${companies_dim__all_company_ids.companies_dim__all_company_ids}) as  companies_dim__all_company_ids;;
