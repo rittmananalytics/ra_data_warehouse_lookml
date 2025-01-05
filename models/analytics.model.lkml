@@ -738,13 +738,47 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: timesheet_project_engagements_projects_invoiced {
-    view_label: "      Project Invoicing"
+    view_label: "        Engagements (SoWs)"
     from: invoices_fact
-    fields: [timesheet_project_engagements_projects_invoiced.invoice_gbp_revenue_amount]
-    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
+    fields: [timesheet_project_engagements_projects_invoiced.total_invoiced_net_amount_gbp]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagements_projects_invoiced.timesheet_project_fk};;
     type: left_outer
     relationship: one_to_many
   }
+
+  join: timesheet_project_engagement_timesheets {
+    view_label: "        Engagements (SoWs)"
+    fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
+    from: timesheets_fact
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_timesheets.timesheet_project_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagement_projects_delivered_is_ontime {
+    from:  projects_delivered_is_ontime
+    fields: [timesheet_project_engagement_projects_delivered_is_ontime.count_ontime_timesheet_projects]
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_projects_delivered_is_ontime.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: timesheet_project_engagement_project_costs_fact {
+    from: timesheet_project_costs_fact
+    view_label: "        Engagements (SoWs)"
+    fields: [timesheet_project_engagement_project_costs_fact.total_cost_gbp]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_project_costs_fact.timesheet_project_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: timesheet_project_engagement_timesheets_projects_dim {
+    from: timesheet_projects_dim
+    fields: [timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount]
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
 
   join: companies_dim__all_company_ids {
     view_label: "           Companies"

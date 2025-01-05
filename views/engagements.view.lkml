@@ -230,17 +230,17 @@ view: timesheet_project_engagements_dim__projects {
     type: string
     sql: timesheet_project_pk ;;
   }
-  dimension: project_delivery_end_ts {
+  dimension_group: engagement_sprint_start {
     group_label: "Engagement Sprints"
-
-    type: string
-    sql: project_delivery_end_ts ;;
+    timeframes: [date]
+    type: time
+    sql: timestamp(project_delivery_end_ts) ;;
   }
-  dimension: project_delivery_start_ts {
+  dimension_group: engagement_sprint_end {
     group_label: "Engagement Sprints"
-
-    type: string
-    sql: project_delivery_start_ts ;;
+    timeframes: [date]
+    type: time
+    sql: timestamp(project_delivery_start_ts) ;;
   }
   dimension: project_name {
     group_label: "Engagement Sprints"

@@ -59,7 +59,7 @@ view: timesheet_project_stakeholder_jtbd_fact {
 view: timesheet_project_stakeholder_jtbd_fact__keywords {
 
   dimension: timesheet_project_stakeholder_jtbd_fact__keywords {
-    group_label: " Stakeholder Jobs to be Done"
+    group_label: "Jobs to be Done Keywords"
 
     label: "JTBD Keyword"
     type: string
@@ -70,7 +70,7 @@ view: timesheet_project_stakeholder_jtbd_fact__keywords {
 view: timesheet_project_stakeholder_jtbd_fact__identified_jtbds {
 
   dimension: description {
-    group_label: "Jobs to be Done Keywords"
+    group_label: "Jobs to be Done"
 
     label: "JTBD Description"
 

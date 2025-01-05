@@ -211,7 +211,7 @@ view: timesheet_projects_dim {
 
   measure: count_timesheet_projects {
     hidden: no
-    label: "Total Project Deliveries"
+    label: "Total Sprints"
 
     type: count_distinct
     sql:  ${TABLE}.timesheet_project_pk ;;
