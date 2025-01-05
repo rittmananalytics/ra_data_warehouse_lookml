@@ -60,6 +60,24 @@ view: timesheet_project_engagement_rag_status_fact {
     ;;
   }
 
+  dimension: financials_status_rationale {
+    type: string
+    sql: ${TABLE}.financials_rationale ;;
+  }
+  dimension: financials_rag_status {
+    type: string
+    sql: ${TABLE}.financials_status ;;
+    html:
+    {% if value == 'RED' %}
+    <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == 'AMBER' %}
+    <p style="color: white; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: white; background-color: green; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+    ;;
+  }
+
   dimension: scope_status_rationale {
     type: string
     sql: ${TABLE}.scope_rationale ;;
