@@ -224,19 +224,27 @@ view: timesheet_project_engagements_dim__projects {
   drill_fields: [timesheet_project_pk]
 
   dimension: timesheet_project_pk {
+    group_label: "Engagement Sprints"
     primary_key: yes
+    hidden: yes
     type: string
     sql: timesheet_project_pk ;;
   }
   dimension: project_delivery_end_ts {
+    group_label: "Engagement Sprints"
+
     type: string
     sql: project_delivery_end_ts ;;
   }
   dimension: project_delivery_start_ts {
+    group_label: "Engagement Sprints"
+
     type: string
     sql: project_delivery_start_ts ;;
   }
   dimension: project_name {
+    group_label: "Engagement Sprints"
+    label: "Sprint Name"
     type: string
     sql: project_name ;;
   }

@@ -733,10 +733,19 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: timesheet_project_engagements_dim__projects {
-    view_label: "Timesheet Project Engagements Dim: Projects"
+    view_label: "        Engagements (SoWs)"
     sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
     relationship: one_to_many
   }
+  join: timesheet_project_engagements_projects_invoiced {
+    view_label: "      Project Invoicing"
+    from: invoices_fact
+    fields: [timesheet_project_engagements_projects_invoiced.invoice_gbp_revenue_amount]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+
   join: companies_dim__all_company_ids {
     view_label: "           Companies"
     sql: LEFT JOIN UNNEST(${companies_dim__all_company_ids.companies_dim__all_company_ids}) as  companies_dim__all_company_ids;;
