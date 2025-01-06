@@ -62,7 +62,7 @@ view: timesheet_project_engagement_rag_status_fact {
 
   dimension: financials_status_rationale {
     type: string
-    sql: ${TABLE}.financials_rationale ;;
+    sql: ${TABLE}.financials_status_rationale ;;
   }
   dimension: financials_rag_status {
     type: string
@@ -80,7 +80,7 @@ view: timesheet_project_engagement_rag_status_fact {
 
   dimension: scope_status_rationale {
     type: string
-    sql: ${TABLE}.scope_rationale ;;
+    sql: ${TABLE}.scope_status_rationale ;;
   }
   dimension: scope_rag_status {
     type: string
@@ -118,7 +118,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: technology_rag_status_rationale {
     type: string
-    sql: ${TABLE}.technology_rationale ;;
+    sql: ${TABLE}.technology_status_rationale ;;
   }
   dimension: technology_rag_status {
     type: string
