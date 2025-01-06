@@ -65,6 +65,11 @@ view: timesheet_project_stakeholder_jtbd_fact__keywords {
     type: string
     sql: timesheet_project_stakeholder_jtbd_fact__keywords ;;
   }
+
+  measure: count_used {
+    type: sum
+    sql: 1 ;;
+  }
 }
 
 view: timesheet_project_stakeholder_jtbd_fact__identified_jtbds {
