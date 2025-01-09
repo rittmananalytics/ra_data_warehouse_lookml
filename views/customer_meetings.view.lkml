@@ -25,7 +25,7 @@ view: customer_meetings {
   }
 
   dimension: contact_fk {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.contact_fk ;;
   }
@@ -48,6 +48,7 @@ view: customer_meetings {
 
   dimension: contact_name {
     label: "    Meeting Attendee"
+    hidden: no
     type: string
     sql: ${TABLE}.contact_name ;;
   }

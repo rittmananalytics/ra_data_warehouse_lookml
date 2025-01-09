@@ -694,6 +694,15 @@ explore: companies_dim {
     relationship: one_to_one
     type: left_outer
   }
+  join: customer_meeting_attendees {
+    view_label: "       Project Meetings"
+
+    from: contacts_dim
+    fields: [customer_meeting_attendees.contact_name,customer_meeting_attendees.contact_bio]
+    sql_on: ${customer_meetings.contact_fk} = ${customer_meeting_attendees.contact_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
   join: timesheet_project_stakeholder_jtbd_fact__keywords {
     view_label: "       Project Meetings"
     sql: LEFT JOIN UNNEST(${timesheet_project_stakeholder_jtbd_fact.keywords}) as timesheet_project_stakeholder_jtbd_fact__keywords ;;
