@@ -757,7 +757,7 @@ explore: companies_dim {
 
   join: timesheet_project_engagement_timesheets {
     view_label: "        Engagements (SoWs)"
-    fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
+    #fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
     from: timesheets_fact
     sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_timesheets.timesheet_project_fk} ;;
     type: left_outer

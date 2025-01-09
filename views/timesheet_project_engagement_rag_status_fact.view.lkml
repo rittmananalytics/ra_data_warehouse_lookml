@@ -118,7 +118,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: technology_rag_status_rationale {
     type: string
-    sql: ${TABLE}.technology_status_rationale ;;
+    sql: ${TABLE}.technology_rationale ;;
   }
   dimension: technology_rag_status {
     type: string

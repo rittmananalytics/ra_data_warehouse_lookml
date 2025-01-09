@@ -11,14 +11,14 @@ view: timesheets_fact {
 
   dimension: timesheet_billable_hourly_cost_amount_gbp {
     group_label: "    Timesheet Details"
-    hidden: yes
+    hidden: no
 
     type: number
-    sql: ${TABLE}.timesheet_billable_hourly_cost_amount;;
+    sql: case when ${TABLE}.contact_fk = 'caed405b1af8b8e1d223c47b554b3191' then 45 else ${TABLE}.timesheet_billable_hourly_cost_amount end;;
   }
 
   measure: avg_timesheet_billable_hourly_cost_amount_gbp {
-    hidden: yes
+    hidden: no
 
     type: average
     value_format_name: gbp
@@ -30,7 +30,7 @@ view: timesheets_fact {
 
   dimension: timesheet_billable_hourly_rate_amount_gbp {
     group_label: "    Timesheet Details"
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${TABLE}.timesheet_billable_hourly_rate_amount ;;
@@ -211,11 +211,11 @@ view: timesheets_fact {
 
     type: sum
     value_format_name: gbp_0
-    sql: coalesce(${TABLE}.timesheet_hours_billed * ${TABLE}.timesheet_billable_hourly_cost_amount,0) ;;
+    sql: coalesce(${TABLE}.timesheet_hours_billed * (case when ${TABLE}.contact_fk = 'caed405b1af8b8e1d223c47b554b3191' then 45 else ${TABLE}.timesheet_billable_hourly_cost_amount end),0) ;;
   }
 
   dimension: contact_pk {
-    hidden: yes
+    hidden: no
     type: string
     sql: ${TABLE}.contact_fk ;;
   }
