@@ -95,6 +95,25 @@ view: timesheet_project_engagement_rag_status_fact {
     {% endif %}
     ;;
   }
+
+  dimension: data_quality_qa_status_rationale {
+    type: string
+    sql: ${TABLE}.data_quality_qa_rationale ;;
+  }
+  dimension: data_quality_qa_rag_status {
+    type: string
+    sql: ${TABLE}.data_quality_qa_status ;;
+    html:
+    {% if value == 'RED' %}
+    <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% elsif value == 'AMBER' %}
+    <p style="color: white; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: white; background-color: green; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+    ;;
+  }
+
   dimension: schedule_rag_status {
     type: string
     sql: ${TABLE}.schedule_status ;;
