@@ -735,6 +735,22 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: engagement_details {
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${engagements.deal_id} = ${engagement_details.deal_id} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: engagement_details__objectives {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${engagement_details.objectives}) as engagement_details__objectives ;;
+    relationship: one_to_many
+  }
+  join: engagement_details__deliverables {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${engagement_details.deliverables}) as engagement_details__deliverables ;;
+    relationship: one_to_many
+  }
   join: project_engagements {
     view_label: "        Engagements (SoWs) Pipeline History"
     sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
@@ -757,7 +773,7 @@ explore: companies_dim {
 
   join: timesheet_project_engagement_timesheets {
     view_label: "        Engagements (SoWs)"
-    #fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
+    fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
     from: timesheets_fact
     sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_timesheets.timesheet_project_fk} ;;
     type: left_outer
