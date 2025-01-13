@@ -741,9 +741,15 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
-  join: engagement_details__objectives {
+  join: timesheet_project_engagement_progress_fact {
     view_label: "        Engagements (SoWs)"
-    sql: LEFT JOIN UNNEST(${engagement_details.objectives}) as engagement_details__objectives ;;
+    sql_on: ${engagements.deal_id} = ${timesheet_project_engagement_progress_fact.deal_id};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagement_progress_fact__objectives {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${timesheet_project_engagement_progress_fact.objectives}) as timesheet_project_engagement_progress_fact__objectives ;;
     relationship: one_to_many
   }
   join: engagement_details__deliverables {
