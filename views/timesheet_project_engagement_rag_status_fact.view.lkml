@@ -14,7 +14,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: engagement_name {
     hidden: no
-
+    link: {label: "View Project Dashboard" url: "/dashboards/311?Engagement+Name={{ value }}" icon_url: "https://rittman.eu.looker.com/favicon.ico"}
     type: string
     sql: ${TABLE}.engagement_name ;;
   }

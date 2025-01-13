@@ -51,7 +51,7 @@ view: timesheet_project_engagement_progress_fact__objectives {
     group_label: "   Engagement Objectives"
     type: average
     value_format_name: decimal_1
-    sql: ${completion_score} ;;
+    sql: cast(${completion_score} as numeric) ;;
   }
   dimension: objective_number {
     group_label: "   Engagement Objectives"
