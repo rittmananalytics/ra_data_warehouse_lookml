@@ -62,6 +62,7 @@ view: timesheet_project_stakeholder_jtbd_fact__keywords {
     group_label: "Jobs to be Done Keywords"
 
     label: "JTBD Keyword"
+    primary_key: yes
     type: string
     sql: timesheet_project_stakeholder_jtbd_fact__keywords ;;
   }
