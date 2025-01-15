@@ -682,6 +682,12 @@ explore: companies_dim {
     relationship: one_to_many
   }
 
+  join: timesheet_project_engagement_rag_status_fact__month_timeline_events {
+    view_label: "         Client RAG Status History"
+    sql: LEFT JOIN UNNEST(${timesheet_project_engagement_rag_status_fact.month_timeline_events}) as timesheet_project_engagement_rag_status_fact__month_timeline_events ;;
+    relationship: one_to_many
+  }
+
   join: customer_meetings {
     view_label: "       Project Meetings"
     sql_on: ${companies_dim.company_pk} = ${customer_meetings.company_fk};;

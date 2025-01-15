@@ -153,4 +153,31 @@ view: timesheet_project_engagement_rag_status_fact {
     ;;
   }
 
+  dimension: month_timeline_events {
+    hidden: yes
+    sql: ${TABLE}.month_timeline_events ;;
+  }
+
+}
+
+view: timesheet_project_engagement_rag_status_fact__month_timeline_events {
+
+  dimension_group: event_date {
+    group_label: "Engagement Timeline"
+    label: "Event"
+    type: time
+    timeframes: [date]
+    sql: timestamp(event_date) ;;
+  }
+  dimension: event_description {
+    group_label: "Engagement Timeline"
+
+    type: string
+    sql: event_description ;;
+  }
+  dimension: timesheet_project_engagement_rag_status_fact__month_timeline_events {
+    type: string
+    hidden: yes
+    sql: timesheet_project_engagement_rag_status_fact__month_timeline_events ;;
+  }
 }
