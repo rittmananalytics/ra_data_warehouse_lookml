@@ -809,7 +809,7 @@ explore: companies_dim {
   }
   join: timesheet_project_engagement_timesheets_projects_dim {
     from: timesheet_projects_dim
-    fields: [timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount]
+    fields: [timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
     view_label: "        Engagements (SoWs)"
     sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
     type: left_outer
