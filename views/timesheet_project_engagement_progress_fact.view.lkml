@@ -29,6 +29,7 @@ view: timesheet_project_engagement_progress_fact {
   dimension: deal_id {
     type: number
     hidden: no
+    primary_key: yes
     sql: ${TABLE}.deal_id ;;
   }
   dimension: objectives {
@@ -55,7 +56,7 @@ view: timesheet_project_engagement_progress_fact__objectives {
   }
   dimension: objective_number {
     group_label: "   Engagement Objectives"
-
+    primary_key: yes
     type: string
     sql: objective_number ;;
   }

@@ -18,7 +18,7 @@ view: invoices_fact {
 
   dimension: churned {
     type: string
-    group_label: "        Invoice Details"
+    group_label: "    Invoice Details"
 
     sql: cast(case when ${TABLE}.last_invoice_month < timestamp(date_sub(current_date, interval 3 month)) then extract(year from ${TABLE}.last_invoice_month) end as string);;
   }
@@ -95,13 +95,13 @@ view: invoices_fact {
   }
 
   dimension: invoice_currency {
-    group_label: "        Invoice Details"
+    group_label: "    Invoice Details"
     type: string
     sql: ${TABLE}.invoice_currency ;;
   }
 
   dimension_group: invoice_due {
-    group_label: "        Invoice Details"
+    group_label: "    Invoice Details"
     hidden: no
 
     type: time
@@ -115,7 +115,7 @@ view: invoices_fact {
   }
 
   dimension_group: invoice_payment {
-    group_label: "        Invoice Details"
+    group_label: "    Invoice Details"
     description: "Either the date that payment is expected OR the date that payment has been received - note that if expected payment date is populated that should supercede payment date for unpaid invoices"
     type: time
     hidden: yes
@@ -152,7 +152,7 @@ view: invoices_fact {
   }
 
   dimension_group: expected_payment {
-    group_label: "        Invoice Details"
+    group_label: "    Invoice Details"
     label: "Payment Due"
 
     hidden: no
