@@ -204,24 +204,6 @@ view: invoices_fact {
           end;;
   }
 
-  #dimension: invoice_local_total_services_amount {
-  #  hidden: yes
-  #  type: number
-  #  sql: ${TABLE}.invoice_local_total_services_amount ;;
-  #}
-
-  #measure: invoice_local_services_amoun {
-  #  hidden: yes
-  #  type: sum
-  #  sql: ${TABLE}.invoice_local_total_services_amount ;;
-  #}
-
-  #dimension: invoice_local_total_support_amount {
-  #  hidden: yes
-  #  type: number
-  #  sql: ${TABLE}.invoice_local_total_support_amount ;;
-  #}
-
 
 
 

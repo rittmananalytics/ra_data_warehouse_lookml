@@ -28,7 +28,7 @@ view: timesheet_project_engagement_progress_fact {
 
   dimension: deal_id {
     type: number
-    hidden: no
+    hidden: yes
     primary_key: yes
     sql: ${TABLE}.deal_id ;;
   }
@@ -43,6 +43,7 @@ view: timesheet_project_engagement_progress_fact__objectives {
 
   dimension: completion_score {
     group_label: "   Engagement Objectives"
+    hidden: yes
 
     type: number
     sql: completion_score ;;
@@ -97,13 +98,25 @@ view: timesheet_project_engagement_progress_fact__deliverables {
 
   dimension: completion_score {
     type: string
+    hidden: yes
+
     sql: completion_score ;;
   }
+  measure: avg_completion_score {
+    group_label: "   Engagement Deliverables"
+    type: average
+    value_format_name: decimal_1
+    sql: cast(${completion_score} as numeric) ;;
+  }
   dimension: deliverable_number {
+    group_label: "   Engagement Deliverables"
+
     type: string
     sql: deliverable_number ;;
   }
   dimension: rationale {
+    group_label: "   Engagement Deliverables"
+
     type: string
     sql: rationale ;;
   }

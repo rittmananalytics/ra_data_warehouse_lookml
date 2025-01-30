@@ -33,6 +33,8 @@ view: engagements {
 
     label: "Engagement SoW Drafted"
     type: time
+    hidden: yes
+
     timeframes: [date]
     sql: ${TABLE}.dt_entered_3_sow_drafted ;;
   }
@@ -48,6 +50,8 @@ view: engagements {
 
     label: "Engagement SoW Agreed"
     type: time
+    hidden: yes
+
     timeframes: [date]
     sql: timestamp(${TABLE}.dt_entered_5_customer_agreed_sow) ;;
   }

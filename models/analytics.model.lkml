@@ -791,14 +791,7 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-  join: timesheet_project_engagement_projects_delivered_is_ontime {
-    from:  projects_delivered_is_ontime
-    fields: [timesheet_project_engagement_projects_delivered_is_ontime.count_ontime_timesheet_projects]
-    view_label: "        Engagements (SoWs)"
-    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_projects_delivered_is_ontime.timesheet_project_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
+
   join: timesheet_project_engagement_project_costs_fact {
     from: timesheet_project_costs_fact
     view_label: "        Engagements (SoWs)"
