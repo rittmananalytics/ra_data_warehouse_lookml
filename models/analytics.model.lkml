@@ -791,6 +791,14 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: timesheet_project_engagement_timesheet_users {
+    view_label: "        Engagements (SoWs)"
+    from: contacts_dim
+    fields: [timesheet_project_engagement_timesheet_users.contact_name]
+    sql_on: ${timesheet_project_engagement_timesheets.contact_pk}  = ${timesheet_project_engagement_timesheet_users.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
 
   join: timesheet_project_engagement_project_costs_fact {
     from: timesheet_project_costs_fact
