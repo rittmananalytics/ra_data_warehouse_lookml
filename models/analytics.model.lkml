@@ -777,7 +777,7 @@ explore: companies_dim {
   join: timesheet_project_engagements_projects_invoiced {
     view_label: "        Engagements (SoWs)"
     from: invoices_fact
-    fields: [timesheet_project_engagements_projects_invoiced.total_invoiced_net_amount_gbp]
+    fields: [timesheet_project_engagements_projects_invoiced.total_invoiced_net_amount_gbp,timesheet_project_engagements_projects_invoiced.invoice_paid_date,timesheet_project_engagements_projects_invoiced.invoice_sent_at_ts_date,timesheet_project_engagements_projects_invoiced.invoice_currency,timesheet_project_engagements_projects_invoiced.total_local_amount,timesheet_project_engagements_projects_invoiced.expected_payment_date,timesheet_project_engagements_projects_invoiced.invoice_due_date,timesheet_project_engagements_projects_invoiced.invoice_total_days_overdue,timesheet_project_engagements_projects_invoiced.invoice_tax_rate_pct]
     sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagements_projects_invoiced.timesheet_project_fk};;
     type: left_outer
     relationship: one_to_many
@@ -796,6 +796,14 @@ explore: companies_dim {
     from: contacts_dim
     fields: [timesheet_project_engagement_timesheet_users.contact_name]
     sql_on: ${timesheet_project_engagement_timesheets.contact_pk}  = ${timesheet_project_engagement_timesheet_users.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagement_timesheet_tasks {
+    view_label: "        Engagements (SoWs)"
+    from: timesheet_tasks_dim
+    fields: [timesheet_project_engagement_timesheet_tasks.task_name]
+    sql_on: ${timesheet_project_engagement_timesheets.timesheet_task_fk}  = ${timesheet_project_engagement_timesheet_tasks.timesheet_task_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
