@@ -230,7 +230,7 @@ view: invoices_fact {
 
   dimension_group: invoice_paid {
     group_label: "        Invoice Details"
-    hidden: yes
+    hidden: no
 
     type: time
     timeframes: [
@@ -329,20 +329,24 @@ view: invoices_fact {
 
   dimension: invoice_tax_rate_pct {
     group_label: "        Invoice Details"
-    hidden: yes
+    hidden: no
     type: number
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
 
   dimension: invoice_total_days_overdue {
-    hidden: yes
+    group_label: "        Invoice Details"
+
+    hidden: no
 
     type: number
     sql: ${TABLE}.invoice_total_days_overdue ;;
   }
 
   dimension: invoice_total_days_to_pay {
-    hidden: yes
+    group_label: "        Invoice Details"
+
+    hidden: no
 
     type: number
     sql: ${TABLE}.invoice_total_days_to_pay ;;
