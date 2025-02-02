@@ -657,6 +657,97 @@ explore: web_sessions_fact {
   }
 }
 
+explore: client_projects {
+  from: companies_dim
+  group_label: "        Core Analytics"
+  view_label: "Client Accounts"
+  join: engagements {
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${client_projects.company_pk} = ${engagements.company_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: engagement_details {
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${engagements.deal_id} = ${engagement_details.deal_id} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: engagement_details__objectives {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${engagement_details.objectives}) as engagement_details__objectives ;;
+    relationship: one_to_many
+
+  }
+  join: engagement_details__deliverables {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${engagement_details.deliverables}) as engagement_details__deliverables ;;
+    relationship: one_to_many
+  }
+  join: project_engagements {
+    view_label: "        Engagements (SoWs) Pipeline History"
+    sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagements_dim__projects {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagements_projects_invoiced {
+    view_label: "        Engagements (SoWs)"
+    from: invoices_fact
+    fields: [timesheet_project_engagements_projects_invoiced.total_invoiced_net_amount_gbp,timesheet_project_engagements_projects_invoiced.invoice_paid_date,timesheet_project_engagements_projects_invoiced.invoice_sent_at_ts_date,timesheet_project_engagements_projects_invoiced.invoice_currency,timesheet_project_engagements_projects_invoiced.total_local_amount,timesheet_project_engagements_projects_invoiced.expected_payment_date,timesheet_project_engagements_projects_invoiced.invoice_due_date,timesheet_project_engagements_projects_invoiced.invoice_total_days_overdue,timesheet_project_engagements_projects_invoiced.invoice_tax_rate_pct,total_invoice_net_amount_local,total_invoice_tax_local,invoice_issued_date,invoice_seq,invoice_subject,invoice_number,avg_invoice_days_overdue,avg_invoice_days_to_pay,total_invoice_gross_amount_local,total_invoice_tax_local]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagements_projects_invoiced.timesheet_project_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: timesheet_project_engagement_timesheets {
+    view_label: "        Engagements (SoWs)"
+    fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.timesheet_billing_date,timesheet_project_engagement_timesheets.timesheet_billing_week,timesheet_project_engagement_timesheets.timesheet_billing_month,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
+    from: timesheets_fact
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_timesheets.timesheet_project_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagement_timesheet_users {
+    view_label: "        Engagements (SoWs)"
+    from: contacts_dim
+    fields: [timesheet_project_engagement_timesheet_users.contact_name]
+    sql_on: ${timesheet_project_engagement_timesheets.contact_pk}  = ${timesheet_project_engagement_timesheet_users.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagement_timesheet_tasks {
+    view_label: "        Engagements (SoWs)"
+    from: timesheet_tasks_dim
+    fields: [timesheet_project_engagement_timesheet_tasks.task_name]
+    sql_on: ${timesheet_project_engagement_timesheets.timesheet_task_fk}  = ${timesheet_project_engagement_timesheet_tasks.timesheet_task_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: timesheet_project_engagement_project_costs_fact {
+    from: timesheet_project_costs_fact
+    view_label: "        Engagements (SoWs)"
+    fields: [timesheet_project_engagement_project_costs_fact.total_cost_gbp]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_project_costs_fact.timesheet_project_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: timesheet_project_engagement_timesheets_projects_dim {
+    from: timesheet_projects_dim
+    fields: [timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+}
+
 explore: companies_dim {
   label: "                    Business Operations"
   group_label: "        Core Analytics"
@@ -747,16 +838,11 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
-  join: timesheet_project_engagement_progress_fact {
+  join: engagement_details__objectives {
     view_label: "        Engagements (SoWs)"
-    sql_on: ${engagements.deal_id} = ${timesheet_project_engagement_progress_fact.deal_id};;
-    type: left_outer
+    sql: LEFT JOIN UNNEST(${engagement_details.objectives}) as engagement_details__objectives ;;
     relationship: one_to_many
-  }
-  join: timesheet_project_engagement_progress_fact__objectives {
-    view_label: "        Engagements (SoWs)"
-    sql: LEFT JOIN UNNEST(${timesheet_project_engagement_progress_fact.objectives}) as timesheet_project_engagement_progress_fact__objectives ;;
-    relationship: one_to_many
+
   }
   join: engagement_details__deliverables {
     view_label: "        Engagements (SoWs)"
