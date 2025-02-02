@@ -18,7 +18,7 @@ view: invoices_fact {
 
   dimension: churned {
     type: string
-    group_label: "    Invoice Details"
+    group_label: "        Invoice Details"
 
     sql: cast(case when ${TABLE}.last_invoice_month < timestamp(date_sub(current_date, interval 3 month)) then extract(year from ${TABLE}.last_invoice_month) end as string);;
   }
@@ -95,13 +95,13 @@ view: invoices_fact {
   }
 
   dimension: invoice_currency {
-    group_label: "    Invoice Details"
+    group_label: "        Invoice Details"
     type: string
     sql: ${TABLE}.invoice_currency ;;
   }
 
   dimension_group: invoice_due {
-    group_label: "    Invoice Details"
+    group_label: "        Invoice Details"
     hidden: no
 
     type: time
@@ -115,7 +115,7 @@ view: invoices_fact {
   }
 
   dimension_group: invoice_payment {
-    group_label: "    Invoice Details"
+    group_label: "        Invoice Details"
     description: "Either the date that payment is expected OR the date that payment has been received - note that if expected payment date is populated that should supercede payment date for unpaid invoices"
     type: time
     hidden: no
@@ -133,26 +133,20 @@ view: invoices_fact {
 
   dimension_group: invoice_issued {
     hidden: no
-    label: "Revenue"
-    group_label: "Revenue Dates"
+    label: "Invoice"
+    group_label: "        Invoice Details"
     type: time
     timeframes: [
       date,
       month,
       month_num,
       quarter,
-      year,
-      week,
-      fiscal_month_num,
-      fiscal_quarter,
-      fiscal_quarter_of_year,
-      fiscal_year
-    ]
+      year]
     sql: ${TABLE}.invoice_issue_at_ts ;;
   }
 
   dimension_group: expected_payment {
-    group_label: "    Invoice Details"
+    group_label: "        Invoice Details"
     label: "Payment Due"
 
     hidden: no
@@ -222,7 +216,7 @@ view: invoices_fact {
 
   dimension: invoice_number {
     group_label: "        Invoice Details"
-    hidden: yes
+    hidden: no
 
     type: string
     sql: ${TABLE}.invoice_number ;;
@@ -241,9 +235,9 @@ view: invoices_fact {
 
   dimension: invoice_payment_term {
     group_label: "        Invoice Details"
-    hidden: yes
+    hidden: no
 
-    type: string
+    type: number
     sql: ${TABLE}.invoice_payment_term ;;
   }
 
@@ -334,8 +328,8 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
 
-  measure: avg_tax_rate_pct {
-    group_label: "        Invoice Details"
+  measure: avg_invoice_tax_rate_pct {
+    group_label: "Invoicing"
     hidden: no
     type: average
     value_format_name: percent_0
@@ -343,18 +337,20 @@ view: invoices_fact {
   }
 
   dimension: invoice_total_days_overdue {
-    group_label: "        Invoice Details"
+    group_label: "Invoicing"
 
-    hidden: no
+    hidden: yes
 
     type: number
     sql: ${TABLE}.invoice_total_days_overdue ;;
   }
 
   measure: avg_invoice_days_overdue {
+    group_label: "Invoicing"
+
     type: average
     value_format_name: decimal_0
-    sql: ${invoice_total_days_overdue} ;;
+    sql: case when ${invoice_total_days_overdue} <=0 then 0 else ${invoice_total_days_overdue} end ;;
   }
 
   dimension: invoice_total_days_to_pay {
@@ -368,6 +364,8 @@ view: invoices_fact {
 
   measure: avg_invoice_days_to_pay {
     type: average
+    group_label: "Invoicing"
+
     value_format_name: decimal_0
     sql: ${invoice_total_days_to_pay} ;;
   }
@@ -544,7 +542,7 @@ view: invoices_fact {
 
 
   measure: total_invoice_gross_amount_local {
-    group_label: "Reporting"
+    group_label: "Invoicing"
 
     hidden: no
     type: sum
@@ -552,7 +550,7 @@ view: invoices_fact {
   }
 
   measure: total_invoice_tax_local {
-    group_label: "Reporting"
+    group_label: "Invoicing"
 
     hidden: no
     type: sum
@@ -560,7 +558,7 @@ view: invoices_fact {
   }
 
   measure: total_invoice_net_amount_local {
-    group_label: "Reporting"
+    group_label: "Invoicing"
 
     hidden: no
     type: sum
@@ -588,6 +586,7 @@ view: invoices_fact {
 
   measure: total_net_amount_gbp {
     label: "Total Revenue GBP"
+    group_label: "Invoicing"
 
     hidden: no
     type: sum
@@ -597,14 +596,18 @@ view: invoices_fact {
 
   measure: total_invoiced_net_amount_gbp {
     label: "Total Invoiced Revenue GBP"
+    group_label: "Invoicing"
+
     type: sum
     value_format_name: gbp_0
     sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
-    filters: [invoice_status : "Paid, Open"]
+    filters: [invoice_status : "Paid, Open, Overdue"]
   }
 
   measure: total_uninvoiced_net_amount_gbp {
     label: "Total Uninvoiced Revenue GBP"
+    group_label: "Invoicing"
+
     type: sum
     value_format_name: gbp_0
     sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
@@ -612,6 +615,8 @@ view: invoices_fact {
   }
 
   measure: count_invoices {
+    group_label: "Invoicing"
+
     hidden: yes
 
     type: count_distinct

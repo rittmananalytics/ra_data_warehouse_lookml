@@ -5,6 +5,9 @@ view: engagements {
     }
 
     measure: count {
+      label: "Total Engagements"
+      group_label: "                       Engagement Details"
+
       type: count
 
     }
@@ -110,7 +113,9 @@ view: engagements {
     }
 
     dimension: deal_amount {
-      label: "Original Engagement Deal Amount"
+      label: "Engagement Deal Amount"
+      group_label: "                       Engagement Details"
+
       hidden: yes
       type: number
       sql: ${TABLE}.deal_amount ;;
@@ -118,24 +123,30 @@ view: engagements {
 
     dimension: deal_description {
       label: "Engagement Description"
+      group_label: "                       Engagement Details"
+
       type: string
       sql: ${TABLE}.deal_description ;;
     }
 
     measure: total_engagement_deal_amount {
+      group_label: "                       Engagement Details"
+      label: "Total Engagement Amount"
       type: sum
       sql: ${deal_amount} ;;
     }
 
     dimension: deal_name {
       label: "Engagement Name"
+      group_label: "                       Engagement Details"
 
       type: string
       sql: ${TABLE}.deal_name ;;
     }
 
     dimension: deal_type {
-      label: "Original Engagement Deal Type"
+      label: "Engagement Type"
+      group_label: "                       Engagement Details"
 
       type: string
       sql: ${TABLE}.deal_type ;;
@@ -150,42 +161,48 @@ view: engagements {
     }
 
     measure: avg_days_to_close {
-      label: "Original Engagement Deal Avg Days to Close"
+      label: "Avg Days to Close"
+      group_label: "                       Engagement Details"
 
       type: average
       sql: ${deal_days_to_close} ;;
     }
 
     measure: avg_days_sow_drafted_to_start {
-      label: "Original Engagement Deal Avg Days SoW Drafted to Start"
+      label: "Avg Days SoW Drafted to Start"
+      group_label: "                       Engagement Details"
 
       type: average
       sql: ${sow_drafted_days_to_engagement_start} ;;
     }
 
   measure: avg_days_sow_agreed_to_start {
-    label: "Original Engagement Deal Avg Days SoW Agreed to Start"
+    label: "Avg Days SoW Agreed to Start"
+    group_label: "                       Engagement Details"
 
     type: average
     sql: ${sow_agreed_days_to_engagement_start} ;;
   }
 
   measure: avg_days_sow_signed_to_start {
-    label: "Original Engagement Deal Avg Days SoW Signed to Start"
+    label: "Avg Days SoW Signed to Start"
+    group_label: "                       Engagement Details"
 
     type: average
     sql: ${sow_signed_days_to_engagement_start} ;;
   }
 
   measure: avg_days_deal_created_to_start {
-    label: "Original Engagement Deal Avg Days Deal Created to Start"
+    label: "Avg Days Deal Created to Start"
+    group_label: "                       Engagement Details"
 
     type: average
     sql: ${deal_created_days_to_engagement_start} ;;
   }
 
     dimension_group: deal_created {
-      label: "Original Engagement Deal Created"
+      label: "Engagement Created"
+      group_label: "                       Engagement Details"
 
       type: time
       timeframes: [date]
@@ -194,6 +211,7 @@ view: engagements {
 
     dimension_group: deal_closed {
       label: "Original Engagement Deal Closed"
+      group_label: "                       Engagement Details"
 
       type: time
       timeframes: [date]
@@ -201,14 +219,16 @@ view: engagements {
     }
 
   dimension: deal_source {
-    label: "Original Engagement Deal Source"
+    label: "Engagement Source"
+    group_label: "                       Engagement Details"
 
     type: string
     sql: ${TABLE}.deal_source ;;
   }
 
   dimension: deal_partner_referral {
-    label: "Original Engagement Deal Partner"
+    label: "Partner Source"
+    group_label: "                       Engagement Details"
 
     type: string
     sql: ${TABLE}.deal_partner_referral ;;

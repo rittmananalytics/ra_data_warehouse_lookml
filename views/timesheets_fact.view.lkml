@@ -19,6 +19,7 @@ view: timesheets_fact {
 
   measure: avg_timesheet_billable_hourly_cost_amount_gbp {
     hidden: no
+    group_label: "Timesheets"
 
     type: average
     value_format_name: gbp
@@ -123,6 +124,8 @@ view: timesheets_fact {
     value_format_name: decimal_0
     label: "Total Hours"
     type: sum
+    group_label: "Timesheets"
+
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
 
@@ -131,6 +134,7 @@ view: timesheets_fact {
   measure: total_timesheet_billable_hours_billed {
     value_format_name: decimal_0
     label: "Total Billable Hours"
+    group_label: "Timesheets"
 
     type: sum
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
@@ -140,6 +144,7 @@ view: timesheets_fact {
   measure: total_timesheet_nonbillable_hours_billed {
     value_format_name: decimal_0
     label: "Total Non-Billable Hours"
+    group_label: "Timesheets"
 
 
     type: sum
@@ -201,6 +206,8 @@ view: timesheets_fact {
   }
 
   measure: total_timesheet_amount_billed {
+    group_label: "Timesheets"
+
     hidden: yes
     type: sum
     sql: coalesce(${TABLE}.timesheet_total_amount_billed,0) ;;
@@ -208,7 +215,7 @@ view: timesheets_fact {
 
   measure: total_timesheet_cost_amount_gbp {
     label: "Total Timesheet Hours Cost"
-
+    group_label: "Timesheets"
     type: sum
     value_format_name: gbp_0
     sql: coalesce(${TABLE}.timesheet_hours_billed * (case when ${TABLE}.contact_fk = 'caed405b1af8b8e1d223c47b554b3191' then 45 else ${TABLE}.timesheet_billable_hourly_cost_amount end),0) ;;

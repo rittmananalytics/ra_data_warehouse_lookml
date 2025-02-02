@@ -181,6 +181,8 @@ view: timesheet_projects_dim {
 
   measure: total_project_fee_amount {
     label: "Total Project Fee Amount GBP"
+    group_label: "Project Commercials"
+
     type: sum
     sql: ${project_fee_amount} ;;
   }
