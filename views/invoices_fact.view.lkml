@@ -118,7 +118,7 @@ view: invoices_fact {
     group_label: "    Invoice Details"
     description: "Either the date that payment is expected OR the date that payment has been received - note that if expected payment date is populated that should supercede payment date for unpaid invoices"
     type: time
-    hidden: yes
+    hidden: no
 
     timeframes: [
       date
@@ -334,6 +334,14 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
 
+  measure: avg_tax_rate_pct {
+    group_label: "        Invoice Details"
+    hidden: no
+    type: average
+    value_format_name: percent_0
+    sql: ${TABLE}.invoice_tax_rate_pct ;;
+  }
+
   dimension: invoice_total_days_overdue {
     group_label: "        Invoice Details"
 
@@ -341,6 +349,12 @@ view: invoices_fact {
 
     type: number
     sql: ${TABLE}.invoice_total_days_overdue ;;
+  }
+
+  measure: avg_invoice_days_overdue {
+    type: average
+    value_format_name: decimal_0
+    sql: ${invoice_total_days_overdue} ;;
   }
 
   dimension: invoice_total_days_to_pay {
@@ -351,6 +365,13 @@ view: invoices_fact {
     type: number
     sql: ${TABLE}.invoice_total_days_to_pay ;;
   }
+
+  measure: avg_invoice_days_to_pay {
+    type: average
+    value_format_name: decimal_0
+    sql: ${invoice_total_days_to_pay} ;;
+  }
+
 
   dimension: invoice_total_days_variance_on_payment_terms {
     hidden: yes
@@ -522,29 +543,31 @@ view: invoices_fact {
 
 
 
-  measure: total_gross_amount_local {
+  measure: total_invoice_gross_amount_local {
     group_label: "Reporting"
 
-    hidden: yes
+    hidden: no
     type: sum
     sql: ${TABLE}.total_local_amount ;;
   }
 
-  measure: total_tax_local {
+  measure: total_invoice_tax_local {
     group_label: "Reporting"
 
-    hidden: yes
+    hidden: no
     type: sum
     sql: ${invoice_local_total_tax_amount};;
   }
 
-  measure: total_net_amount_local {
+  measure: total_invoice_net_amount_local {
     group_label: "Reporting"
 
-    hidden: yes
+    hidden: no
     type: sum
     sql: ${total_local_amount} - coalesce(${invoice_local_total_tax_amount},0);;
   }
+
+
 
   measure: total_gross_amount_gbp {
     group_label: "Reporting"
