@@ -25,6 +25,8 @@ explore: timesheet_project_monthly_forecast_billing_fact {
   hidden: yes
 }
 
+explore: linkedin_company_pages {}
+
 explore: looker_usage_stats {}
 
 
