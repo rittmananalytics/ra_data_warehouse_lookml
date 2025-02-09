@@ -186,18 +186,6 @@ view: invoices_fact {
 
 
 
-  measure: invoice_gbp_revenue_amount {
-    hidden: yes
-    value_format_name: gbp
-    type: sum
-    sql: case when lower(${TABLE}.invoice_status) in ('open','paid') then
-          case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.invoice_local_total_revenue_amount * 0.73
-                when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.invoice_local_total_revenue_amount * 0.57
-                when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.invoice_local_total_revenue_amount * 0.85
-                else ${TABLE}.invoice_local_total_revenue_amount   end
-          end;;
-  }
-
 
 
 

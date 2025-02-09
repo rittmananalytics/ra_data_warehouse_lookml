@@ -762,12 +762,7 @@ explore: companies_dim {
    type: left_outer
    relationship: one_to_one
   }
-  join: client_concentration {
-    view_label: "Monthly Concentration"
-    sql_on: ${projects_invoiced.invoice_sent_at_ts_month} = ${client_concentration.invoice_month_month} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
+
   join: timesheet_project_engagement_rag_status_fact {
     view_label: "         Client RAG Status History"
     sql_on: ${companies_dim.company_name} = ${timesheet_project_engagement_rag_status_fact.client_name} ;;

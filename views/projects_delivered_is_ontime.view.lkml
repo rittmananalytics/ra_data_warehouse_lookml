@@ -28,7 +28,7 @@ view: projects_delivered_is_ontime {
            AS project_timesheets ON projects_delivered.timesheet_project_pk = project_timesheets.timesheet_project_fk
       LEFT JOIN `analytics.companies_dim` AS companies_dim ON projects_delivered.company_fk = companies_dim.company_pk
       LEFT JOIN `analytics.invoices_fact`
-           AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_pk
+           AS projects_invoiced ON projects_delivered.timesheet_project_pk = projects_invoiced.timesheet_project_fk
 
       GROUP BY
       1,
