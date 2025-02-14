@@ -15,6 +15,17 @@ explore: monthly_performance_fact {
   hidden: yes
 }
 
+explore: marketing_email_sends {
+  from: email_sends_dim
+  label: "Marketing Emails"
+  join: email_send_outcomes_fact {
+    view_label: "Send Outcomes"
+    sql_on: ${marketing_email_sends.send_pk} = ${email_send_outcomes_fact.send_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+}
+
 
 explore: monthly_resource_revenue_forecast_fact {
   hidden: yes

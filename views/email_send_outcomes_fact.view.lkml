@@ -61,19 +61,34 @@ view: email_send_outcomes_fact {
     sql: ${TABLE}.timestamp ;;
   }
 
-  dimension: total_bounces {
+  dimension: bounces {
     type: number
     sql: ${TABLE}.total_bounces ;;
   }
 
-  dimension: total_clicks {
+  measure: total_bounces {
+    type: sum
+    sql: ${bounces} ;;
+  }
+
+  dimension: clicks {
     type: number
     sql: ${TABLE}.total_clicks ;;
   }
 
-  dimension: total_opens {
+  measure: total_clicks {
+    type: sum
+    sql: ${clicks} ;;
+  }
+
+  dimension: opens {
     type: number
     sql: ${TABLE}.total_opens ;;
+  }
+
+  measure: total_opens {
+    type: sum
+    sql: ${opens} ;;
   }
 
   dimension: type {
@@ -81,8 +96,9 @@ view: email_send_outcomes_fact {
     sql: ${TABLE}.type ;;
   }
 
-  measure: count {
-    type: count
+  measure: total_sends {
+    type: count_distinct
+    sql: ${send_pk} ;;
     drill_fields: []
   }
 }

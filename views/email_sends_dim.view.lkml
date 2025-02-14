@@ -106,6 +106,7 @@ view: email_sends_dim {
   }
 
   dimension: send_pk {
+    primary_key: yes
     type: string
     sql: ${TABLE}.send_pk ;;
   }
