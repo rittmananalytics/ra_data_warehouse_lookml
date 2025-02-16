@@ -98,6 +98,135 @@ view: targets {
     sql: ${TABLE}.prn_tgt ;;
   }
 
+  dimension: ceo_revenue_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.ceo_tgt ;;
+  }
+
+  dimension: con_revenue_target {
+    hidden: no
+
+    type: number
+    sql: ${TABLE}.con_tgt ;;
+  }
+
+  dimension: ae_target_hours  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ae_tgt_hrs ;;
+  }
+
+  dimension: sae_target_hours  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.sae_tgt_hrs ;;
+  }
+
+  dimension: prn_target_hours  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.prn_tgt_hrs ;;
+  }
+
+  dimension: con_target_hours  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.con_tgt_hrs ;;
+  }
+
+  dimension: ceo_target_hours  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ceo_tgt_hrs ;;
+  }
+
+  dimension: ae_target_hourly_rate  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ae_tgt_rate ;;
+  }
+
+  dimension: sae_target_hourly_rate  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.sae_tgt_rate ;;
+  }
+
+  dimension: prn__target_hourly_rate  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.prn_tgt_rate ;;
+  }
+
+  dimension: con_target_hourly_rate  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.con_tgt_rate ;;
+  }
+
+  dimension: ceo_target_hourly_rate  {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.ceo_tgt_rate ;;
+  }
+
+  measure: avg_ae_target_hourly_rate  {
+    type: average
+    sql: ${TABLE}.ae_tgt_rate ;;
+  }
+
+  measure: avg_sae_target_hourly_rate  {
+    type: average
+    sql: ${TABLE}.sae_tgt_rate ;;
+  }
+
+  measure: avg_prn_target_hourly_rate  {
+    type: average
+    sql: ${TABLE}.prn_tgt_rate ;;
+  }
+
+  measure: avg_ceo_target_hourly_rate  {
+    type: average
+    sql: ${TABLE}.ceo_tgt_rate ;;
+  }
+
+  measure: avg_con_target_hourly_rate  {
+    type: average
+    sql: ${TABLE}.con_tgt_rate ;;
+  }
+
+
+  measure: total_ae_target_hours {
+    type: sum
+    sql: ${ae_target_hours} ;;
+  }
+
+  measure: total_sae_target_hours {
+    type: sum
+    sql: ${sae_target_hours} ;;
+  }
+
+  measure: total_prn_target_hours {
+    type: sum
+    sql: ${prn_target_hours} ;;
+  }
+
+  measure: total_ceo_target_hours {
+    type: sum
+    sql: ${ceo_target_hours} ;;
+  }
+
+  measure: total_con_target_hours {
+    type: sum
+    sql: ${con_target_hours} ;;
+  }
+
+
+
+
+
   dimension: ae_revenue_target {
     hidden: no
 
@@ -194,6 +323,18 @@ view: targets {
     type: sum
     value_format_name: decimal_0
     sql: ${ae_revenue_target} ;;
+  }
+
+  measure: total_ceo_revenue_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${ceo_revenue_target} ;;
+  }
+
+  measure: total_con_revenue_target {
+    type: sum
+    value_format_name: decimal_0
+    sql: ${con_revenue_target} ;;
   }
 
   measure: total_prn_revenue_target {
