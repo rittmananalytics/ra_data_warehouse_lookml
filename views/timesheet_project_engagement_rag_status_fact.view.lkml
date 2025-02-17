@@ -35,6 +35,10 @@ view: timesheet_project_engagement_rag_status_fact {
     type: string
     sql: ${TABLE}.overall_rag_status_reason ;;
   }
+  dimension: overall_rag_status_rationale_evidence {
+    type: string
+    sql: ${TABLE}.overall_status_rationale_evidence ;;
+  }
   dimension_group: reporting {
     type: time
     timeframes: [month]
@@ -45,6 +49,10 @@ view: timesheet_project_engagement_rag_status_fact {
   dimension: resourcing_status_rationale {
     type: string
     sql: ${TABLE}.resourcing_rationale ;;
+  }
+  dimension: resourcing_status_rationale_evidence {
+    type: string
+    sql: ${TABLE}.resourcing_status_rationale_evidence ;;
   }
   dimension: resourcing_rag_status {
     type: string
@@ -64,6 +72,10 @@ view: timesheet_project_engagement_rag_status_fact {
     type: string
     sql: ${TABLE}.financials_status_rationale ;;
   }
+  dimension: financials_status_rationale_evidence {
+    type: string
+    sql: ${TABLE}.financials_status_rationale_evidence ;;
+  }
   dimension: financials_rag_status {
     type: string
     sql: ${TABLE}.financials_status ;;
@@ -82,6 +94,10 @@ view: timesheet_project_engagement_rag_status_fact {
     type: string
     sql: ${TABLE}.scope_status_rationale ;;
   }
+  dimension: scope_status_rationale_evidence {
+    type: string
+    sql: ${TABLE}.scope_status_rationale_evidence ;;
+  }
   dimension: scope_rag_status {
     type: string
     sql: ${TABLE}.scope_status ;;
@@ -99,6 +115,10 @@ view: timesheet_project_engagement_rag_status_fact {
   dimension: data_quality_qa_status_rationale {
     type: string
     sql: ${TABLE}.data_quality_qa_rationale ;;
+  }
+  dimension: data_quality_qa_status_rationale_evidence {
+    type: string
+    sql: ${TABLE}.data_quality_qa_status_rationale_evidence ;;
   }
   dimension: data_quality_qa_rag_status {
     type: string
@@ -131,6 +151,10 @@ view: timesheet_project_engagement_rag_status_fact {
     type: string
     sql: ${TABLE}.schedule_status_rationale ;;
   }
+  dimension: schedule_rag_status_rationale_evidence {
+    type: string
+    sql: ${TABLE}.schedule_status_rationale_evidence ;;
+  }
   dimension: sprint_name {
     type: string
     sql: ${TABLE}.sprint_name ;;
@@ -138,6 +162,10 @@ view: timesheet_project_engagement_rag_status_fact {
   dimension: technology_rag_status_rationale {
     type: string
     sql: ${TABLE}.technology_rationale ;;
+  }
+  dimension: technology_rag_status_rationale_evidence {
+    type: string
+    sql: ${TABLE}.technology_status_rationale_evidence ;;
   }
   dimension: technology_rag_status {
     type: string
