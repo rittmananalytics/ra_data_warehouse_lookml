@@ -767,12 +767,7 @@ explore: companies_dim {
   view_label: "           Companies"
   description: "Main explore used for reporting, starts with prospects and covers lifecycle through to projects and NPS"
   hidden: no
-  join: companies_dim_ideal_customer {
-   view_label: "           Companies"
-   sql_on: ${companies_dim.company_pk} = ${companies_dim_ideal_customer.company_pk};;
-   type: left_outer
-   relationship: one_to_one
-  }
+
 
   join: timesheet_project_engagement_rag_status_fact {
     view_label: "         Client RAG Status History"
@@ -912,7 +907,7 @@ explore: companies_dim {
   }
   join: timesheet_project_engagement_timesheets_projects_dim {
     from: timesheet_projects_dim
-    fields: [timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
+    fields: [timesheet_project_engagement_timesheets_projects_dim.project_name,timesheet_project_engagement_timesheets_projects_dim.project_delivery_start_ts_date,timesheet_project_engagement_timesheets_projects_dim.project_delivery_end_ts_date, timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
     view_label: "        Engagements (SoWs)"
     sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
     type: left_outer
