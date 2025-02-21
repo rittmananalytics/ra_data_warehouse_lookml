@@ -121,6 +121,25 @@ view: engagements {
       sql: ${TABLE}.deal_amount ;;
     }
 
+  dimension: deal_hourly_rate {
+    label: "Engagement Deal Amount"
+    group_label: "                       Engagement Details"
+    value_format_name: gbp_0
+    hidden: yes
+    type: number
+    sql: ${TABLE}.deal_hourly_rate ;;
+  }
+
+  measure: avg_engagement_hourly_rate {
+      group_label: "                       Engagement Details"
+      label: "Avg Engagement Hourly Rate"
+      type: average
+      sql: ${deal_hourly_rate} ;;
+    }
+  }
+
+
+
     dimension: deal_description {
       label: "Engagement Description"
       group_label: "                       Engagement Details"
