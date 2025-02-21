@@ -136,7 +136,7 @@ view: engagements {
       type: average
       sql: ${deal_hourly_rate} ;;
     }
-  }
+
 
 
 
