@@ -111,7 +111,7 @@ view: contacts_dim {
     group_label: "      Contact Staff"
 
     type: number
-    sql: ${TABLE}.contact_cost_rate ;;
+    sql: case when ${TABLE}.contact_name like '%Bailey%' then 45 else ${TABLE}.contact_cost_rate end  ;;
   }
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average

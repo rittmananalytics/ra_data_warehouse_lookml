@@ -110,6 +110,18 @@ view: profit_and_loss_report_fact {
     sql: ${TABLE}.net_amount  ;;
   }
 
+  measure: budget {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_budget_amount ;;
+  }
+
+  measure: budget_variance {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_budget_variance ;;
+  }
+
 
 
   dimension: profit_and_loss_pk {

@@ -342,6 +342,16 @@ dimension: deal_is_deleted {
     sql: ${TABLE}.forecasted_duration_months ;;
   }
 
+  measure: total_forecasted_duration_months {
+    type: sum
+    sql: ${TABLE}.forecasted_duration_months ;;
+  }
+
+  measure: total_forecasted_hours {
+    type: sum
+    sql: ${forecasted_duration_months} * ${forecasted_monthly_hours} ;;
+  }
+
   dimension: forecasted_monthly_hours {
     group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
     label: "Forecasted Monthly Hours"

@@ -18,7 +18,7 @@ view: timesheet_projects_dim {
 
   measure: project_hours_budget {
     group_label: "Project Commercials"
-    hidden: yes
+    hidden: no
 
     type: sum
     sql: ${TABLE}.project_budget_amount ;;
@@ -181,6 +181,8 @@ view: timesheet_projects_dim {
 
   measure: total_project_fee_amount {
     label: "Total Project Fee Amount GBP"
+    group_label: "Project Commercials"
+
     type: sum
     sql: ${project_fee_amount} ;;
   }
@@ -211,7 +213,7 @@ view: timesheet_projects_dim {
 
   measure: count_timesheet_projects {
     hidden: no
-    label: "Total Project Deliveries"
+    label: "Total Sprints"
 
     type: count_distinct
     sql:  ${TABLE}.timesheet_project_pk ;;
