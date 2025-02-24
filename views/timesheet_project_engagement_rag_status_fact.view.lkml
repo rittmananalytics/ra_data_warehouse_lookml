@@ -186,6 +186,58 @@ view: timesheet_project_engagement_rag_status_fact {
     sql: ${TABLE}.month_timeline_events ;;
   }
 
+  dimension: ra_action_points {
+    hidden: yes
+    sql: ${TABLE}.ra_action_points ;;
+  }
+
+  dimension: client_action_points {
+    hidden: yes
+    sql: ${TABLE}.client_action_points ;;
+  }
+
+}
+
+view: timesheet_project_engagement_rag_status_fact__ra_action_points {
+
+  dimension: action_number {
+    group_label: "RA Action Points"
+    label: "Action Point Number"
+    type: number
+    sql: action_number ;;
+  }
+  dimension: action_point {
+    group_label: "RA Action Points"
+    order_by_field: action_number
+    type: string
+    sql: action_point ;;
+  }
+  dimension: timesheet_project_engagement_rag_status_fact__ra_action_points {
+    type: string
+    hidden: yes
+    sql: timesheet_project_engagement_rag_status_fact__ra_action_points ;;
+  }
+}
+
+view: timesheet_project_engagement_rag_status_fact__client_action_points {
+
+  dimension: action_number {
+    group_label: "Client Action Points"
+    label: "Action Point Number"
+    type: number
+    sql: action_number ;;
+  }
+  dimension: action_point {
+    group_label: "Client Action Points"
+    order_by_field: action_number
+    type: string
+    sql: action_point ;;
+  }
+  dimension: timesheet_project_engagement_rag_status_fact__client_action_points {
+    type: string
+    hidden: yes
+    sql: timesheet_project_engagement_rag_status_fact__client_action_points ;;
+  }
 }
 
 view: timesheet_project_engagement_rag_status_fact__month_timeline_events {
