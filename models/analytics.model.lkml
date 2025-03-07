@@ -672,6 +672,7 @@ explore: web_sessions_fact {
 
 explore: client_projects {
   from: companies_dim
+  hidden: yes
   group_label: "        Core Analytics"
   view_label: "Client Accounts"
   join: engagements {
@@ -767,6 +768,13 @@ explore: companies_dim {
   view_label: "           Companies"
   description: "Main explore used for reporting, starts with prospects and covers lifecycle through to projects and NPS"
   hidden: no
+
+  join: ideal_customers {
+    view_label: "           Companies"
+    sql_on: ${ideal_customers.company_name} = ${companies_dim.company_name} ;;
+    type: inner
+    relationship: one_to_one
+  }
 
 
   join: timesheet_project_engagement_rag_status_fact {
@@ -1074,7 +1082,7 @@ explore: companies_dim {
   join: deal_targets {
     from: targets
     fields: [total_deals_closed_revenue_target]
-    view_label: "         Sales"
+    view_label: "        Sales"
     sql_on: ${deals_fact.deal_closed_month} = ${deal_targets.period_month} ;;
     type: left_outer
     relationship: many_to_one
@@ -1090,7 +1098,7 @@ explore: companies_dim {
 
 
   join: customer_first_deal_cohorts {
-    view_label: "         Sales"
+    view_label: "        Sales"
     sql_on: ${deals_fact.deal_pk} = ${customer_first_deal_cohorts.deal_pk};;
     type: inner
     relationship: one_to_one
@@ -1137,7 +1145,7 @@ explore: companies_dim {
   }
 
   join: contact_meetings_fact {
-    view_label: "         Sales"
+    view_label: "        Sales"
     sql_on: ${companies_dim.company_pk} = ${contact_meetings_fact.company_fk}
        and ${deals_fact.deal_pk} = ${contact_meetings_fact.deal_fk};;
       type: left_outer

@@ -122,7 +122,7 @@ view: companies_dim {
   }
 
   dimension: hubspot_company_id {
-    hidden: no
+    hidden: yes
     description: "The HubSpot company ID."
     sql: (SELECT max(hubspot_company_id) FROM UNNEST(all_company_ids) AS hubspot_company_id WHERE hubspot_company_id like '%hubspot%') ;;
   }
