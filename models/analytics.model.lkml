@@ -27,6 +27,11 @@ explore: marketing_email_sends {
 }
 
 
+explore: icp_lookalike_audience_uk_ie_eu_only {
+  label: "ICP Target List"
+}
+
+
 explore: monthly_resource_revenue_forecast_fact {
   hidden: yes
   label: "Monthly Forecast"
@@ -1291,6 +1296,15 @@ explore: companies_dim {
       sql_on: ${profit_and_loss_report_fact.period_month} = ${profit_and_loss_report_targets.period_month} ;;
       type: left_outer
       relationship: one_to_many
+    }
+    aggregate_table: profit_and_loss_by_category_quarter {
+      query: {
+        dimensions: [profit_and_loss_report_fact.account_report_category, profit_and_loss_report_fact.period_quarter]
+        measures: [profit_and_loss_report_fact.amount, profit_and_loss_report_fact.budget,profit_and_loss_report_fact.budget_variance]
+      }
+      materialization: {
+        sql_trigger_value: SELECT CURRENT-DATE;;
+      }
     }
     join: bank_transactions_fact {
       view_label: "Bank Transactions"
