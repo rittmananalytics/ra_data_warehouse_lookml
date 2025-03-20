@@ -26,6 +26,18 @@ explore: marketing_email_sends {
   }
 }
 
+explore: branch_sku_day {
+  aggregate_table: branch_class_day {
+    query: {
+      dimensions: [branch_sku_day.branch_number,branch_sku_day.date_date,branch_sku_day.date_month,branch_sku_day.date_quarter,branch_sku_day.date_date,branch_sku_day.date_week,branch_sku_day.date_year,branch_sku_day.product_class,branch_sku_day.region_number]
+      measures: [branch_sku_day.gross_revenue,branch_sku_day.discount,branch_sku_day.net_revenue,branch_sku_day.budget_net_revenue]
+    }
+    materialization: {
+      sql_trigger_value: SELECT CURRENT-DATE;;
+    }
+  }
+}
+
 
 explore: icp_lookalike_audience_uk_ie_eu_only {
   label: "ICP Target List"
