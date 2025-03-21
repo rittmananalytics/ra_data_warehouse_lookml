@@ -8,6 +8,8 @@ view: branch_sku_day {
           `ra-development.analytics_seed.region_class_day`
           {% elsif branch_sku_day.product_class._in_query and branch_sku_day.date_date._in_query %}
           `ra-development.analytics_seed.class_day`
+          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.region_number._in_queryand branch_sku_day.date_month._in_query %}
+          `ra-development.analytics_seed.region_class_month`
           {% else %}
           `ra-development.analytics_seed.branch_sku_day`
           {% endif %}
@@ -20,6 +22,7 @@ view: branch_sku_day {
   dimension: budget_net_revenue {
     type: number
     sql: ${TABLE}.budget_net_revenue;;
+    drill_fields: [sku, product_class, branch_number, region_number,date_date,date_week,date_month,date_quarter,date_year]
   }
   dimension_group: date {
     type: time
@@ -36,6 +39,7 @@ view: branch_sku_day {
     hidden: yes
     type: number
     sql: ${TABLE}.discount ;;
+
   }
   dimension: gross_revenue {
     hidden: yes
@@ -60,24 +64,38 @@ view: branch_sku_day {
     sql: ${TABLE}.sku ;;
   }
   dimension: tax {
+    group_label: "Common Measures"
+
     hidden: yes
     type: number
     sql: ${TABLE}.tax ;;
+    drill_fields: [sku, product_class, branch_number, region_number,date_date,date_week,date_month,date_quarter,date_year]
   }
   measure: total_discount {
+    group_label: "Common Measures"
+
     type: sum
     sql: ${discount} ;;
+    drill_fields: [sku, product_class, branch_number, region_number,date_date,date_week,date_month,date_quarter,date_year]
   }
   measure: total_net_revenue {
+    group_label: "Common Measures"
     type: sum
     sql: ${net_revenue} ;;
+    drill_fields: [sku, product_class, branch_number, region_number,date_date,date_week,date_month,date_quarter,date_year]
   }
   measure: total_gross_revenue {
+    group_label: "Common Measures"
+
     type: sum
     sql: ${gross_revenue} ;;
+    drill_fields: [sku, product_class, branch_number, region_number,date_date,date_week,date_month,date_quarter,date_year]
   }
   measure: total_budget_net_revenue {
-    type: sum
-    sql: nullif(${budget_net_revenue},0) ;;
+    group_label: "Budget (Product Class+) Measures"
+
+    type: number
+    sql: sum(${budget_net_revenue}) ;;
+    drill_fields: [sku, product_class, branch_number, region_number,date_date,date_week,date_month,date_quarter,date_year]
   }
 }
