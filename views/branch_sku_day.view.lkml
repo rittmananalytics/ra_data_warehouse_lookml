@@ -1,12 +1,12 @@
 view: branch_sku_day {
   sql_table_name:
-    {% if branch_sku_day.sku._in_query and branch_sku_day.branch_number._in_query and branch_sku_day.date_day._in_query %}
+    {% if branch_sku_day.sku._in_query and branch_sku_day.branch_number._in_query and branch_sku_day.date_date._in_query %}
           `ra-development.analytics_seed.branch_sku_day`
-          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.branch_number._in_query and branch_sku_day.date_day._in_query %}
+          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.branch_number._in_query and branch_sku_day.date_date._in_query %}
           `ra-development.analytics_seed.branch_class_day`
-          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.region_number._in_query and branch_sku_day.date_day._in_query %}
+          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.region_number._in_query and branch_sku_day.date_date._in_query %}
           `ra-development.analytics_seed.region_class_day`
-          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.date_day._in_query %}
+          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.date_date._in_query %}
           `ra-development.analytics_seed.class_day`
           {% else %}
           `ra-development.analytics_seed.branch_sku_day`
@@ -19,7 +19,7 @@ view: branch_sku_day {
   }
   dimension: budget_net_revenue {
     type: number
-    sql: case when ${TABLE}.budget_net_revenue = 0 then null end;;
+    sql: ${TABLE}.budget_net_revenue;;
   }
   dimension_group: date {
     type: time
