@@ -78,6 +78,6 @@ view: branch_sku_day {
   }
   measure: total_budget_net_revenue {
     type: sum
-    sql: ${budget_net_revenue} ;;
+    sql: nullif(${budget_net_revenue},0) ;;
   }
 }
