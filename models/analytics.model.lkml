@@ -632,7 +632,7 @@ explore: web_sessions_fact {
   }
   join: ips_enriched {
     view_label: " Events"
-    sql_on: ${web_events_fact.ip} = ${ips_enriched._events_ip} ;;
+    sql_on: ${web_events_fact.ip} = ${ips_enriched.ip} ;;
     type: left_outer
     relationship: many_to_one
   }
