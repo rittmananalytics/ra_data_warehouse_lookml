@@ -8,7 +8,7 @@ view: branch_sku_day {
           `ra-development.analytics_seed.region_class_day`
           {% elsif branch_sku_day.product_class._in_query and branch_sku_day.date_date._in_query %}
           `ra-development.analytics_seed.class_day`
-          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.region_number._in_queryand branch_sku_day.date_month._in_query %}
+          {% elsif branch_sku_day.product_class._in_query and branch_sku_day.region_number._in_query and branch_sku_day.date_month._in_query %}
           `ra-development.analytics_seed.region_class_month`
           {% else %}
           `ra-development.analytics_seed.branch_sku_day`

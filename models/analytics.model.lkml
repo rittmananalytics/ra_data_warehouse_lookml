@@ -617,6 +617,7 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_one
   }
+
   join: page_first_published {
     view_label: "  Sessions"
     sql_on: ${web_sessions_fact.first_page_title} = ${page_first_published.web_sessions_fact_first_page_title} ;;
@@ -628,6 +629,12 @@ explore: web_sessions_fact {
     sql_on: ${web_sessions_fact.session_id} = ${web_events_fact.session_id} ;;
     type: left_outer
     relationship: one_to_many
+  }
+  join: ips_enriched {
+    view_label: " Events"
+    sql_on: ${web_events_fact.ip} = ${ips_enriched._events_ip} ;;
+    type: left_outer
+    relationship: many_to_one
   }
   join: visitor_details {
     from: email_contacts_dim
