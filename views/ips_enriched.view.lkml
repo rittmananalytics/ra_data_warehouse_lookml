@@ -4,7 +4,7 @@ view: ips_enriched {
   dimension: ip {
     hidden: yes
     type: string
-    sql: ${TABLE}._Events_IP ;;
+    sql: ${TABLE}.ip ;;
   }
   dimension: asn {
     hidden: yes
