@@ -1,7 +1,7 @@
 view: ips_enriched {
   sql_table_name: `ra-development.analytics_seed.ips_enriched` ;;
 
-  dimension: _events_ip {
+  dimension: ip {
     hidden: yes
     type: string
     sql: ${TABLE}._Events_IP ;;
