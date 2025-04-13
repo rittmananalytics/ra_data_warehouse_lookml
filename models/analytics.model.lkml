@@ -26,9 +26,6 @@ explore: marketing_email_sends {
   }
 }
 
-explore: branch_sku_day {
-
-}
 
 
 explore: icp_lookalike_audience_uk_ie_eu_only {
@@ -88,178 +85,9 @@ explore: weekly_analysis_reports {
 }
 
 
-explore: date_spine_dim {
-  hidden: yes
-
-  join: projects_invoiced {
-    view_label: "Project Invoicing (Harvest)"
-    from: invoices_fact
-    sql_on: ${date_spine_dim.date_month} = ${projects_invoiced.invoice_sent_at_ts_month};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: exchange_rates {
-    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: timesheets_fact {
-    sql_on: ${date_spine_dim.date_month} = ${timesheets_fact.timesheet_billing_month} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: nps_survey_results_fact {
-    view_label: "    NPS Surveys"
-    sql_on: ${date_spine_dim.date_month} = ${nps_survey_results_fact.nps_survey_ts_month}  ;;
-    relationship: one_to_many
-    type: left_outer
-  }
-  join: deals_fact {
-    view_label: "Deals Snapshot"
-    sql_on: ${date_spine_dim.date_month} = ${deals_fact.deal_pipeline_stage_month};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: web_events_fact {
-    view_label: "Web Traffic"
-    sql_on: ${date_spine_dim.date_month} = ${web_events_fact.event_ts_month} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: delivery_tasks_fact {
-    view_label: "Delivery Tasks"
-    sql_on: ${date_spine_dim.date_month} = ${delivery_tasks_fact.task_completed_ts_month} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: profit_and_loss_report_fact {
-    view_label: "Financial Results"
-    sql_on: ${date_spine_dim.date_month} = ${profit_and_loss_report_fact.period_month} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: website_leads {
-    view_label: "New Direct Enquiries"
-    sql_on: ${date_spine_dim.date_month} = ${website_leads.booking_month};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: targets {
-    view_label: "Targets"
-    sql_on: ${date_spine_dim.date_month} = ${targets.period_month} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
 
 
 
-
-
-}
-
-explore: contacts {
-  hidden: yes
-  from: contacts_dim
-  label: "         Delivery Team"
-  view_label: "          Staff Member"
-  sql_always_where: ${contact_is_staff} or ${contact_is_contractor} ;;
-  description: "Utilisation and project activity for RA Delivery Team Members"
-  join: timesheets_fact {
-    view_label: "Project Timesheets (Harvest)"
-    sql_on: ${contacts.contact_pk} = ${timesheets_fact.contact_pk}  ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: messages_fact {
-    view_label: "Messages"
-    sql_on: ${contacts.contact_pk} = ${messages_fact.contact_fk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-
-  join: customer_meetings {
-    view_label: "Customer Meetings"
-    sql_on: ${contacts.contact_pk} = ${customer_meetings.contact_fk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-
-  join: meeting_contact_lines_fact {
-    view_label: "Meeting Transcript Lines"
-    sql_on: ${contacts.contact_pk} = ${meeting_contact_lines_fact.contact_fk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-
-  join: projects_delivered {
-    view_label: "Project Timesheets (Harvest)"
-    from: timesheet_projects_dim
-    sql_on: ${timesheets_fact.timesheet_project_fk} = ${projects_delivered.timesheet_project_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: projects_delivered_clients {
-    from: companies_dim
-    view_label: "Project Timesheets (Harvest)"
-    sql_on: ${timesheets_fact.company_fk} = ${projects_delivered_clients.company_pk}
-      and ${projects_delivered.company_fk} = ${projects_delivered_clients.company_pk};;
-    type: inner
-    relationship: one_to_many
-  }
-
-  join: timesheet_tasks_dim {
-    view_label: "Project Timesheets (Harvest)"
-    sql_on: ${timesheets_fact.timesheet_task_fk} = ${timesheet_tasks_dim.timesheet_task_pk} ;;
-    type: inner
-    relationship: many_to_one
-  }
-  join: projects_invoiced {
-    view_label: "Project Invoicing (Harvest)"
-    from: invoices_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: exchange_rates {
-    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: delivery_tasks_fact {
-    view_label: " Project Management (Jira)"
-    sql_on: ${contacts.contact_pk} = ${delivery_tasks_fact.contact_pk};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: projects_managed {
-    view_label: " Project Management (Jira)"
-    from: delivery_projects_dim
-    sql_on: ${delivery_tasks_fact.delivery_project_fk} = ${projects_managed.delivery_project_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  #join: delivery_team_fact_xa {
-  #  view_label: "Project Stats"
-  #  sql_on: ${contacts.contact_pk} = ${delivery_team_fact_xa.contact_pk} ;;
-  #  type: left_outer
-  #  relationship: one_to_one
-  #}
-  join: delivered_companies_dim {
-    from: companies_dim
-    view_label: "       Clients"
-    sql_on: ${projects_delivered.company_fk} = ${delivered_companies_dim.company_pk}
-      and ${timesheets_fact.company_fk} = ${delivered_companies_dim.company_pk};;
-    type: inner
-    relationship: one_to_many
-  }
-
-  #join: payments_fact {
-  #  view_label: " Payments"
-  #  type: left_outer
-  #  sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
-  # relationship: one_to_many
-  #}
-}
 
 explore: people {
   hidden: no
@@ -557,12 +385,7 @@ explore: nps_survey_results_fact {
   }
 }
 
-explore: hr_survey_results_fact {
-  hidden: yes
-  label: "Team"
-  view_label: "Staff Satisfaction"
-  group_label: "Experimental"
-}
+
 
 explore: website_leads {
   group_label: "        Core Analytics"
@@ -636,54 +459,20 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: many_to_one
   }
-  join: visitor_details {
-    from: email_contacts_dim
-    sql_on: ${web_sessions_fact.blended_user_id} = ${visitor_details.contact_email};;
-    type: left_outer
-    relationship: one_to_one
-  }
   join: has_viewed_pricing {
     view_label: "  Sessions"
     sql_on: ${web_sessions_fact.blended_user_id} = ${has_viewed_pricing.web_sessions_fact_blended_user_id} ;;
     type: inner
     relationship: one_to_one
   }
-  join: visitor_companies {
-    from: contact_companies_fact
-      sql_on: ${visitor_details.contact_pk} = ${visitor_companies.contact_fk};;
-      type: inner
-      relationship: one_to_many
-    }
-  join: visitor_organisations {
-    from: companies_dim
-    sql_on: ${visitor_companies.company_fk} = ${visitor_organisations.company_pk};;
-    type: inner
-    relationship: many_to_one
-  }
-  join: visitor_journey {
-    view_label: "Visitor Journey"
-    sql_on: ${web_sessions_fact.web_sessions_pk} = ${visitor_journey.web_sessions_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
+
   join: is_conversion_session {
     view_label: "  Sessions"
     type: left_outer
     sql_on: ${web_sessions_fact.session_id} = ${is_conversion_session.web_events_fact_session_id} ;;
     relationship: one_to_one
     }
-  join: ad_campaigns_dim {
-    view_label: "Campaigns"
-    sql_on: ${web_sessions_fact.ad_campaign_pk} = ${ad_campaigns_dim.ad_campaign_pk};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: marketing_content_dim {
-    view_label: "Content"
-    sql_on: ${web_sessions_fact.referrer_article_stub} = ${marketing_content_dim.article_stub} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
+
 }
 
 explore: client_projects {

@@ -158,33 +158,6 @@ view: invoices_fact {
     sql: ${TABLE}.expected_payment_at_ts ;;
   }
 
-  #dimension: invoice_local_total_billed_amount {
-  #  hidden: yes
-  #  type: number
-  #  sql: ${TABLE}.invoice_local_total_billed_amount ;;
-  #}
-
-  #dimension: invoice_local_total_due_amount {
-  #  hidden: yes
-   # type: number
-  #  sql: ${TABLE}.invoice_local_total_due_amount ;;
-  #}
-
-  #dimension: invoice_local_total_expenses_amount {
-  #  hidden: yes
-  #  type: number
-  #  sql: ${TABLE}.invoice_local_total_expenses_amount ;;
-  #}
-
-  #dimension: invoice_local_total_licence_referral_fee_amount {
-   # hidden: yes
-  #  type: number
-  #  sql: ${TABLE}.invoice_local_total_licence_referral_fee_amount ;;
-  #}
-
-
-
-
 
 
 
@@ -229,37 +202,6 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_payment_term ;;
   }
 
-  dimension_group: invoice_period_end_at_ts {
-    hidden: yes
-
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.invoice_period_end_at_ts ;;
-  }
-
-  dimension_group: invoice_period_start_at_ts {
-    hidden: yes
-
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.invoice_period_start_at_ts ;;
-  }
 
   dimension: invoice_pk {
     hidden: yes

@@ -6,7 +6,7 @@ view: rfm_model {
         column: invoice_months_recency { field: projects_invoiced.min_invoice_months_before_now }
         column: company_pk { field: company_deal_value_attribute.company_pk }
         filters: {
-          field: projects_invoiced.invoice_gbp_revenue_amount
+          field: projects_invoiced.invoice_gbp_amount
           value: ">0"
         }
         filters: {
