@@ -26,6 +26,110 @@ explore: marketing_email_sends {
   }
 }
 
+explore: contacts {
+  hidden: yes
+  from: contacts_dim
+  label: "         Delivery Team"
+  view_label: "          Staff Member"
+  sql_always_where: ${contact_is_staff} or ${contact_is_contractor} ;;
+  description: "Utilisation and project activity for RA Delivery Team Members"
+  join: timesheets_fact {
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${contacts.contact_pk} = ${timesheets_fact.contact_pk}  ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: messages_fact {
+    view_label: "Messages"
+    sql_on: ${contacts.contact_pk} = ${messages_fact.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: customer_meetings {
+    view_label: "Customer Meetings"
+    sql_on: ${contacts.contact_pk} = ${customer_meetings.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: meeting_contact_lines_fact {
+    view_label: "Meeting Transcript Lines"
+    sql_on: ${contacts.contact_pk} = ${meeting_contact_lines_fact.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: projects_delivered {
+    view_label: "Project Timesheets (Harvest)"
+    from: timesheet_projects_dim
+    sql_on: ${timesheets_fact.timesheet_project_fk} = ${projects_delivered.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_delivered_clients {
+    from: companies_dim
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${timesheets_fact.company_fk} = ${projects_delivered_clients.company_pk}
+      and ${projects_delivered.company_fk} = ${projects_delivered_clients.company_pk};;
+    type: inner
+    relationship: one_to_many
+  }
+
+  join: timesheet_tasks_dim {
+    view_label: "Project Timesheets (Harvest)"
+    sql_on: ${timesheets_fact.timesheet_task_fk} = ${timesheet_tasks_dim.timesheet_task_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  join: projects_invoiced {
+    view_label: "Project Invoicing (Harvest)"
+    from: invoices_fact
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: delivery_tasks_fact {
+    view_label: " Project Management (Jira)"
+    sql_on: ${contacts.contact_pk} = ${delivery_tasks_fact.contact_pk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: projects_managed {
+    view_label: " Project Management (Jira)"
+    from: delivery_projects_dim
+    sql_on: ${delivery_tasks_fact.delivery_project_fk} = ${projects_managed.delivery_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  #join: delivery_team_fact_xa {
+  #  view_label: "Project Stats"
+  #  sql_on: ${contacts.contact_pk} = ${delivery_team_fact_xa.contact_pk} ;;
+  #  type: left_outer
+  #  relationship: one_to_one
+  #}
+  join: delivered_companies_dim {
+    from: companies_dim
+    view_label: "       Clients"
+    sql_on: ${projects_delivered.company_fk} = ${delivered_companies_dim.company_pk}
+      and ${timesheets_fact.company_fk} = ${delivered_companies_dim.company_pk};;
+    type: inner
+    relationship: one_to_many
+  }
+
+  join: payments_fact {
+    view_label: " Payments"
+    type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+   relationship: one_to_many
+  }
+}
+
 
 
 explore: icp_lookalike_audience_uk_ie_eu_only {
@@ -79,10 +183,6 @@ explore: dynamic_web_stats {
 
 }
 
-explore: weekly_analysis_reports {
-  hidden: yes
-
-}
 
 
 
