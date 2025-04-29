@@ -1128,6 +1128,15 @@ explore: companies_dim {
     }
   }
 
+  explore: resource_forecast {
+    from: date_spine_dim
+    view_name: "Calendar"
+    join: timesheets_forecast_fact {
+      view_label: "Resourcing Forecast"
+      sql_on: ${Calendar.date_raw} ;;
+    }
+  }
+
   explore: timesheets_forecast_fact {
     hidden: no
     label: "Resource Forecast"
@@ -1146,6 +1155,7 @@ explore: companies_dim {
       type: inner
       relationship: many_to_one
     }
+
     join: projects_invoiced {
       view_label: "    Invoicing"
       from: invoices_fact
