@@ -4,6 +4,7 @@ view: date_spine_dim {
       FROM UNNEST(
           GENERATE_DATE_ARRAY(DATE('2020-06-01'), CURRENT_DATE(), INTERVAL 1 DAY)
       ) AS day
+      where EXTRACT(DAYOFWEEK, day) between 2 and 6
        ;;
   }
 

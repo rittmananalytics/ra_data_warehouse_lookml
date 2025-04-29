@@ -47,6 +47,12 @@ view: timesheets_forecast_fact {
     sql: ${forecast_days} ;;
   }
 
+  measure: total_forecast_hours {
+    type: sum
+    sql: ${forecast_days}*8;;
+
+  }
+
   dimension_group: forecast_start_ts {
     type: time
     timeframes: [date]
