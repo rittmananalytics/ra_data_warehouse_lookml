@@ -517,7 +517,7 @@ explore: targets {
 
 
 explore: contact_utilization_fact {
-  hidden: yes
+  hidden: no
 
   label: "    Utilization"
   description: "Team Member utilisation reporting"
@@ -1134,7 +1134,7 @@ explore: companies_dim {
   }
 
   explore: timesheets_forecast_fact {
-    hidden: yes
+    hidden: no
     label: "Resource Forecast"
     group_label: "Experimental"
 
