@@ -26,6 +26,8 @@ explore: marketing_email_sends {
   }
 }
 
+
+
 explore: contacts {
   hidden: yes
   from: contacts_dim
@@ -130,7 +132,10 @@ explore: contacts {
   }
 }
 
-
+explore: monzo_bank_transactions_enriched {
+  view_label: "Bank Transactions"
+  label: "Banking"
+}
 
 explore: icp_lookalike_audience_uk_ie_eu_only {
   label: "ICP Target List"
