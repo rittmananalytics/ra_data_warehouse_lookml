@@ -57,7 +57,7 @@ view: monzo_bank_transactions_enriched {
 
   dimension_group: date {
     type: time
-    timeframes: [raw, date, week, month, quarter, year]
+    timeframes: [raw, date, day_of_month,week, month, month_num,quarter, year]
     convert_tz: no
     datatype: date
     sql: ${TABLE}.Date ;;
