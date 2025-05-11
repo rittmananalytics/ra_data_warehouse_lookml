@@ -26,6 +26,122 @@ explore: marketing_email_sends {
   }
 }
 
+explore: customers_dim {
+  from: companies_dim
+  label: "                    Customer Operations"
+  view_label: "           Customers"
+  description: "Customer Operations Reporting on Sales and Delivery"
+  hidden: no
+  join: customer_meetings {
+    view_label: "       Project Meetings"
+    sql_on: ${customers_dim.company_pk} = ${customer_meetings.company_fk};;
+    type: inner
+    relationship: one_to_many
+  }
+  join: customer_meeting_attendees {
+    view_label: "       Project Meetings"
+
+    from: contacts_dim
+    fields: [customer_meeting_attendees.contact_name,customer_meeting_attendees.contact_bio]
+    sql_on: ${customer_meetings.contact_fk} = ${customer_meeting_attendees.contact_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: engagements {
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${customers_dim.company_pk} = ${engagements.company_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: engagement_details {
+    view_label: "        Engagements (SoWs)"
+    sql_on: ${engagements.deal_id} = ${engagement_details.deal_id} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: engagement_details__objectives {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${engagement_details.objectives}) as engagement_details__objectives ;;
+    relationship: one_to_many
+
+  }
+  join: engagement_details__deliverables {
+    view_label: "        Engagements (SoWs)"
+    sql: LEFT JOIN UNNEST(${engagement_details.deliverables}) as engagement_details__deliverables ;;
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagements_dim__projects {
+    view_label: "       Engagement Sprints"
+    sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagements_projects_invoiced {
+    view_label: "       Engagement Sprints"
+    from: invoices_fact
+    fields: [timesheet_project_engagements_projects_invoiced.total_invoiced_net_amount_gbp,timesheet_project_engagements_projects_invoiced.invoice_paid_date,timesheet_project_engagements_projects_invoiced.invoice_sent_at_ts_date,timesheet_project_engagements_projects_invoiced.invoice_currency,timesheet_project_engagements_projects_invoiced.total_local_amount,timesheet_project_engagements_projects_invoiced.expected_payment_date,timesheet_project_engagements_projects_invoiced.invoice_due_date,timesheet_project_engagements_projects_invoiced.invoice_total_days_overdue,timesheet_project_engagements_projects_invoiced.invoice_tax_rate_pct,total_invoice_net_amount_local,total_invoice_tax_local,invoice_issued_date,invoice_seq,invoice_subject,invoice_number,avg_invoice_days_overdue,avg_invoice_days_to_pay,total_invoice_gross_amount_local,total_invoice_tax_local]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagements_projects_invoiced.timesheet_project_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: timesheet_project_engagement_timesheets {
+    view_label: "       Engagement Sprints"
+    fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.timesheet_billing_date,timesheet_project_engagement_timesheets.timesheet_billing_week,timesheet_project_engagement_timesheets.timesheet_billing_month,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
+    from: timesheets_fact
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_timesheets.timesheet_project_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagement_timesheet_users {
+    view_label: "       Engagement Sprints"
+    from: contacts_dim
+    fields: [timesheet_project_engagement_timesheet_users.contact_name]
+    sql_on: ${timesheet_project_engagement_timesheets.contact_pk}  = ${timesheet_project_engagement_timesheet_users.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: timesheet_project_engagement_timesheet_tasks {
+    view_label: "       Engagement Sprints"
+    from: timesheet_tasks_dim
+    fields: [timesheet_project_engagement_timesheet_tasks.task_name]
+    sql_on: ${timesheet_project_engagement_timesheets.timesheet_task_fk}  = ${timesheet_project_engagement_timesheet_tasks.timesheet_task_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: timesheet_project_engagement_project_costs_fact {
+    from: timesheet_project_costs_fact
+    view_label: "       Engagement Sprints"
+    fields: [timesheet_project_engagement_project_costs_fact.total_cost_gbp]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_project_costs_fact.timesheet_project_pk};;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: timesheet_project_engagement_timesheets_projects_dim {
+    from: timesheet_projects_dim
+    fields: [timesheet_project_engagement_timesheets_projects_dim.project_name,timesheet_project_engagement_timesheets_projects_dim.project_delivery_start_ts_date,timesheet_project_engagement_timesheets_projects_dim.project_delivery_end_ts_date, timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
+    view_label: "       Engagement Sprints"
+    sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: deals_fact {
+    view_label: "        Sales"
+    sql_on: ${customers_dim.company_pk} = ${deals_fact.company_pk};;
+    type: full_outer
+    relationship: one_to_many
+  }
+  join: deal_targets {
+    from: targets
+    fields: [total_deals_closed_revenue_target]
+    view_label: "        Sales"
+    sql_on: ${deals_fact.deal_closed_month} = ${deal_targets.period_month} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+
+}
 
 
 explore: contacts {
