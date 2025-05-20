@@ -20,7 +20,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: overall_rag_status {
     type: string
-    sql: ${TABLE}.overall_rag_status ;;
+    sql: UPPER(${TABLE}.overall_rag_status) ;;
     html:
     {% if value == 'RED' %}
     <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
@@ -56,7 +56,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: resourcing_rag_status {
     type: string
-    sql: ${TABLE}.resourcing_status ;;
+    sql: UPPER(${TABLE}.resourcing_status) ;;
     html:
     {% if value == 'RED' %}
     <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
@@ -78,7 +78,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: financials_rag_status {
     type: string
-    sql: ${TABLE}.financials_status ;;
+    sql: UPPER(${TABLE}.financials_status) ;;
     html:
     {% if value == 'RED' %}
     <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
@@ -100,7 +100,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: scope_rag_status {
     type: string
-    sql: ${TABLE}.scope_status ;;
+    sql: UPPER(${TABLE}.scope_status) ;;
     html:
     {% if value == 'RED' %}
     <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
@@ -122,7 +122,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: data_quality_qa_rag_status {
     type: string
-    sql: ${TABLE}.data_quality_qa_status ;;
+    sql: UPPER(${TABLE}.data_quality_qa_status) ;;
     html:
     {% if value == 'RED' %}
     <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
@@ -136,7 +136,7 @@ view: timesheet_project_engagement_rag_status_fact {
 
   dimension: schedule_rag_status {
     type: string
-    sql: ${TABLE}.schedule_status ;;
+    sql: UPPER(${TABLE}.schedule_status) ;;
     html:
     {% if value == 'RED' %}
     <p style="color: white; background-color: red; font-size:100%; text-align:center; vertical-align: middle;">{{ rendered_value }}</p>
@@ -169,7 +169,7 @@ view: timesheet_project_engagement_rag_status_fact {
   }
   dimension: technology_rag_status {
     type: string
-    sql: ${TABLE}.technology_status ;;
+    sql: UPPER(${TABLE}.technology_status) ;;
     html:
     {% if value == 'RED' %}
     <p style="color: white; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>

@@ -27,6 +27,7 @@ explore: marketing_email_sends {
 }
 
 explore: customers_dim {
+
   from: companies_dim
   label: "                    Customer Operations"
   view_label: "           Customers"
@@ -795,6 +796,10 @@ explore: client_projects {
 }
 
 explore: companies_dim {
+  access_filter: {
+    field: companies_dim.company_name
+    user_attribute: company_name
+  }
   label: "                    Business Operations"
   group_label: "        Core Analytics"
   view_label: "           Companies"
