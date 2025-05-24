@@ -39,19 +39,9 @@ view: web_sessions_fact {
 
 
 
-  dimension: ad_campaign_pk {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.ad_campaign_fk ;;
-  }
 
-  dimension: customer_pk {
-    group_label: "  Audience"
 
-    hidden: no
-    type: string
-    sql: ${TABLE}.customer_pk ;;
-  }
+
 
   dimension: device {
     group_label: "  Audience"
