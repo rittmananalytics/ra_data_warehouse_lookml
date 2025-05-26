@@ -324,7 +324,7 @@ view: web_sessions_fact {
 
 
 
-  measure: total_duration_in_s {
+  measure: total_session_duration_in_s {
     description: "The time spanned from the beginning to the end of a session in Seconds."
     type: average
     label: "Avg Session Duration (mins)"
@@ -332,7 +332,7 @@ view: web_sessions_fact {
     sql: timestamp_diff(${TABLE}.session_end_ts,${TABLE}.session_start_ts,MINUTE) ;;
   }
 
-  measure: total_web_sessions_pk {
+  measure: total_sessions {
     label: "Total Sessions"
     description: ""
     type: count_distinct
@@ -344,7 +344,7 @@ view: web_sessions_fact {
     description: ""
     type: number
     value_format: "0.00%"
-    sql: SAFE_DIVIDE(COUNT(DISTINCT(case when ${is_bounced_session} = TRUE then ${web_sessions_pk} end)),${total_web_sessions_pk})  ;;
+    sql: SAFE_DIVIDE(COUNT(DISTINCT(case when ${is_bounced_session} = TRUE then ${web_sessions_pk} end)),${total_sessions})  ;;
   }
 
 
@@ -469,8 +469,5 @@ view: web_sessions_fact {
 
 
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
+
 }

@@ -80,15 +80,9 @@ view: web_events_fact {
     sql: ${TABLE}.event_type ;;
   }
 
-  measure: event {
-    type: string
-    sql: array_agg(${event_type})[safe_offset(0)] ;;
-  }
 
-  measure: event_type_details {
-    type: string
-    sql: array_agg(coalesce(${event_details},"None"))[safe_offset(0)];;
-  }
+
+
 
 
 
@@ -246,11 +240,7 @@ view: web_events_fact {
     filters: [is_goal_achieved: "Yes"]
   }
 
-  measure: total_sessions {
-    type: count_distinct
-    value_format_name: decimal_0
-    sql: ${session_id} ;;
-  }
+
 
   measure: total_visitor_value {
     value_format_name: decimal_0
@@ -262,7 +252,7 @@ view: web_events_fact {
     value_format_name: decimal_2
 
     type: number
-    sql: ${total_visitor_value}/${total_sessions} ;;
+    sql: ${total_visitor_value}/${web_sessions_fact.total_sessions} ;;
   }
 
   dimension: postal_code {
@@ -317,7 +307,7 @@ view: web_events_fact {
     sql: ${TABLE}.site ;;
   }
 
-  measure: total_blended_user_id {
+  measure: total_unique_users {
     label: "Total Unique Users"
     description: "The total number of unique people viewing the site."
     value_format_name: decimal_0
@@ -442,11 +432,7 @@ view: web_events_fact {
     sql: ${TABLE}.web_events_pk ;;
   }
 
-  measure: total_events {
-    group_label: "Behavior"
-    type: count_distinct
-    sql: ${web_events_pk} ;;
-  }
+
 
 
 
@@ -515,65 +501,7 @@ view: web_events_fact {
 
 
 
-  dimension: event_details_seq_1 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 1 then event_details end ;;
-  }
 
-  dimension: event_details_seq_2 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 2 then event_details end ;;
-  }
-
-  dimension: event_details_seq_3 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 3 then event_details end ;;
-  }
-
-  dimension: event_details_seq_4 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 4 then event_details end ;;
-  }
-
-  dimension: event_details_seq_5 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 5 then event_details end ;;
-  }
-
-  dimension: event_type_seq_1 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 1 then event_type end ;;
-  }
-
-  dimension: event_type_seq_2 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 2 then event_type end ;;
-  }
-
-  dimension: event_type_seq_3 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 3 then event_type end ;;
-  }
-
-  dimension: event_type_seq_4 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 4 then event_type end ;;
-  }
-
-  dimension: event_type_seq_5 {
-    group_label: "Event Sequence"
-    type: string
-    sql: case when event_seq = 5 then event_type end ;;
-  }
 
 
 

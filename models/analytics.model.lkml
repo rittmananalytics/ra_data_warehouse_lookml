@@ -656,7 +656,6 @@ explore: contact_utilization_fact {
 }
 
 explore: web_sessions_fact {
-  #sql_always_where: ${web_sessions_fact.site} = 'www.switcherstudio.com' ;;
   label: "    Web Analytics"
   group_label: "        Core Analytics"
 
