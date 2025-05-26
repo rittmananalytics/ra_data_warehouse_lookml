@@ -2,10 +2,9 @@ view: web_sessions_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.web_sessions_fact`
     ;;
 
-
-
   parameter: time_range {
     type: string
+    description: "Select a predefined time period to filter the data. Values represent the number of past days to include."
     allowed_value: {
       label: "Last 7 Days"
       value: "7"
@@ -26,58 +25,54 @@ view: web_sessions_fact {
       label: "Last 365 days"
       value: "365"
     }
-
-    }
+  }
 
   dimension: blended_user_id {
     group_label: "  Audience"
-
+    description: "A unique identifier for a user, potentially unified across different platforms or tracking mechanisms."
     hidden: no
     type: string
     sql: ${TABLE}.blended_user_id ;;
   }
 
-
-
-
-
-
-
   dimension: device {
     group_label: "  Audience"
-    #description: "The type of device used to access the page, e.g Android, Macintosh, windows etc. This usually includes the device model and operating system version."
+    description: "The specific type of device, operating system, and browser used to access the website (e.g., 'iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/604.1')."
     type: string
     sql: ${TABLE}.device ;;
   }
 
   dimension: device_category {
     group_label: "  Audience"
-    #description: "A simplified version of Device field without OS/Browser detail. e.g 'iPhone','Android','iPad','Windows' etc"
+    description: "The general type or brand of the device, such as 'iPhone', 'Android', 'iPad', or 'Windows'. This is a simplified version of the 'Device' field."
     type: string
     sql: ${TABLE}.device_category ;;
   }
 
   dimension: duration_in_s {
     group_label: "Behavior"
+    description: "The total duration of the web session in seconds."
     type: number
     sql: ${TABLE}.duration_in_s ;;
   }
 
   dimension: duration_in_s_tier {
     group_label: "Behavior"
+    description: "Categorizes session duration (in seconds) into predefined time buckets."
     type: string
     sql: ${TABLE}.duration_in_s_tier ;;
   }
 
   dimension: referrer {
     group_label: "    Acquisition"
-
+    description: "The URL of the page that linked the user to the website, excluding any query parameters."
     type: string
     sql: split(${TABLE}.referrer, "?")[SAFE_OFFSET(0)] ;;
   }
 
   dimension: referrer_source {
     group_label: "    Acquisition"
+    description: "The classified source of the referral traffic, based on the referrer URL or first page URL for certain internal sources. Categories include 'Medium', 'Github', 'LinkedIn', 'Organic Search', 'Twitter', 'Squarespace', 'Podcast', or 'Direct'."
     type: string
     sql: case when ${referrer} like '%blog.rittmananalytics.com%' or ${referrer} like '%medium.com/mark-rittman%' then 'Medium'
               when ${referrer_host} like '%github%' then 'Github'
@@ -92,16 +87,17 @@ view: web_sessions_fact {
 
   dimension: referrer_article_stub {
     group_label: "    Acquisition"
+    description: "If the referrer or first page URL points to a known article (e.g., from Medium or the Rittman Analytics blog), this field provides a unique identifier or slug for that article."
     type: string
     sql: case when ${referrer_source} = 'Medium' and ${referrer_host} = 'blog.rittmananalytics.com' then split(${referrer},'/')[safe_offset(3)]
               when ${referrer_source} = 'Medium' and ${referrer_host} = 'medium.com' then split(${referrer},'/')[safe_offset(4)]
               when ${first_page_url} LIKE '%rittmananalytics.com/blog/2%' then SPLIT(first_page_url_path,'/')[safe_OFFSET(5)]
           end ;;
-
   }
 
   dimension: referrer_days_since_post {
     group_label: "    Acquisition"
+    description: "The number of days between the first publication date of the referring content (if identified and linked to page_first_published) and the start of the current session."
     type: number
     sql: timestamp_diff(${session_start_ts_raw},${page_first_published.page_first_session_start_ts_raw},DAY)  ;;
   }
@@ -109,35 +105,38 @@ view: web_sessions_fact {
   dimension: referrer_days_since_post_tier {
     type: tier
     group_label: "    Acquisition"
+    description: "Categorizes the 'Referrer Days Since Post' into predefined time intervals (1, 2, 3, 4, 5, 6, 7, 14, 28, 90, 180, 365, 730 days)."
     tiers: [1,2,3,4,5,6,7,14,28,90,180,365,730]
     sql: ${referrer_days_since_post} ;;
     style: interval
-
   }
 
   dimension: events {
     group_label: "Behavior"
     label: "Session Events"
+    description: "The total count of tracked events (e.g., page views, clicks) that occurred during this specific session."
     type: number
     sql: ${TABLE}.events ;;
   }
 
   measure: count_of_events {
-    type: sum #?
+    description: "The total sum of all recorded events across the selected sessions."
+    type: sum
     sql: ${events} ;;
   }
 
   dimension: first_page_title {
     label: "Entrance Page Title"
     group_label: "Behavior"
+    description: "The title of the first page (entrance page) viewed by the user during this session."
     type: string
     sql: ${TABLE}.first_page_title ;;
   }
 
   dimension: first_page_category {
     label: "Entrance Page Category"
-
     group_label: "Behavior"
+    description: "A predefined category for the first page (entrance page) viewed in the session, based on its URL or title. Examples include '01: Blog', '01: Podcast', '01: Home Page', '04: Service'."
     type: string
     sql:
               case when ${TABLE}.first_page_url like '%blog%' or ${TABLE}.first_page_url like '%rittmananalytics.com/202%' or  ${TABLE}.first_page_title like '%Videos — Rittman Analytics%' then '01: Blog'
@@ -161,6 +160,7 @@ view: web_sessions_fact {
   dimension: first_page_url {
     label: "Entrance Page URL"
     group_label: "Behavior"
+    description: "The full URL of the first page (entrance page) viewed by the user during this session, with any trailing slash removed."
     type: string
     sql: rtrim(${TABLE}.first_page_url,"/") ;;
   }
@@ -168,24 +168,28 @@ view: web_sessions_fact {
   dimension: first_page_url_host {
     hidden: yes
     group_label: "Behavior"
+    description: "The hostname (e.g., 'www.example.com') of the first page (entrance page) viewed in the session. Hidden by default."
     type: string
     sql: ${TABLE}.first_page_url_host ;;
   }
 
   dimension: first_page_url_path {
     hidden: yes
+    description: "The path (e.g., '/blog/article-name') of the first page (entrance page) viewed in the session, with any trailing slash removed. Hidden by default."
     type: string
     sql: rtrim(${TABLE}.first_page_url_path,"/") ;;
   }
 
   dimension: gclid {
     hidden: yes
+    description: "Google Click Identifier (GCLID), used for tracking clicks from Google Ads. Hidden by default."
     type: string
     sql: ${TABLE}.gclid ;;
   }
 
   dimension: is_bounced_session {
     group_label: "Behavior"
+    description: "Indicates whether the session was a bounce (Yes/No). A bounce is typically a session with only one page view or interaction."
     type: yesno
     sql: ${TABLE}.is_bounced_session ;;
   }
@@ -193,7 +197,7 @@ view: web_sessions_fact {
   dimension: last_page_title {
     group_label: "Behavior"
     label: "Exit Page Title"
-
+    description: "The title of the last page (exit page) viewed by the user before the session ended."
     type: string
     sql: ${TABLE}.last_page_title ;;
   }
@@ -201,16 +205,15 @@ view: web_sessions_fact {
   dimension: last_page_url {
     group_label: "Behavior"
     label: "Exit Page URL"
-
-
+    description: "The full URL of the last page (exit page) viewed by the user before the session ended, with any trailing slash removed."
     type: string
     sql: rtrim(${TABLE}.last_page_url,"/") ;;
   }
 
   dimension: last_page_category {
     label: "Exit Page Category"
-
     group_label: "Behavior"
+    description: "A predefined category for the last page (exit page) viewed in the session, based on its URL. Examples include '01: Blog', '01: Podcast', '01: Home Page', '04: Service'."
     type: string
     sql:
               case when ${TABLE}.last_page_url like '%blog%' or ${TABLE}.last_page_url like '%rittmananalytics.com/202%' then '01: Blog'
@@ -231,47 +234,46 @@ view: web_sessions_fact {
          ;;
   }
 
-
   dimension: last_page_url_host {
     label: "Exit Page URL Host"
-
     group_label: "Behavior"
+    description: "The hostname (e.g., 'www.example.com') of the last page (exit page) viewed in the session."
     type: string
     sql: ${TABLE}.last_page_url_host ;;
   }
 
   dimension: last_page_url_path {
     label: "Exit Page URL Path"
-
     group_label: "Behavior"
+    description: "The path (e.g., '/contact-us') of the last page (exit page) viewed in the session, with any trailing slash removed."
     type: string
     sql: rtrim(${TABLE}.last_page_url_path,"/") ;;
   }
 
   dimension: mins_between_sessions {
     group_label: "Behavior"
+    description: "The time in minutes between the start of this session and the end of the user's previous session. Null if this is the user's first session."
     type: number
     sql: ${TABLE}.mins_between_sessions ;;
   }
 
-
-
   dimension: referrer_host {
     group_label: "    Acquisition"
+    description: "The hostname (e.g., 'google.com', 'linkedin.com') of the website that referred the user."
     type: string
     sql: ${TABLE}.referrer_host ;;
   }
 
   dimension: referrer_medium {
     group_label: "    Acquisition"
+    description: "The medium of the referral source, often indicating how the user arrived (e.g., 'organic', 'cpc', 'referral', 'social'). This is typically the raw medium from the source data."
     type: string
     sql: ${TABLE}.referrer_medium ;;
   }
 
-
-
   dimension: search {
     group_label: "    Acquisition"
+    description: "The search query or keywords used by the visitor if they arrived from a search engine. May be '(not provided)' or null for privacy reasons or non-search referrals."
     type: string
     sql: ${TABLE}.search ;;
   }
@@ -279,9 +281,10 @@ view: web_sessions_fact {
   dimension_group: session_end_ts {
     group_label: "Dates"
     label: "Session End"
+    description: "The exact date and time when the user's session ended."
     type: time
     timeframes: [
-       raw,
+      raw,
       time,
       hour4,
       day_of_week,
@@ -298,6 +301,7 @@ view: web_sessions_fact {
 
   dimension: session_id {
     group_label: "Behavior"
+    description: "A unique identifier for this specific web session."
     type: string
     sql: ${TABLE}.session_id ;;
   }
@@ -305,6 +309,7 @@ view: web_sessions_fact {
   dimension_group: session_start_ts {
     group_label: "Dates"
     label: "Session Start"
+    description: "The exact date and time when the user's session began."
     type: time
     timeframes: [
       raw,
@@ -322,10 +327,8 @@ view: web_sessions_fact {
     sql: ${TABLE}.session_start_ts ;;
   }
 
-
-
   measure: total_session_duration_in_s {
-    description: "The time spanned from the beginning to the end of a session in Seconds."
+    description: "The average duration of user sessions, calculated in minutes from session start to session end. Displayed in mm:ss format."
     type: average
     label: "Avg Session Duration (mins)"
     value_format: "mm:ss"
@@ -334,62 +337,58 @@ view: web_sessions_fact {
 
   measure: total_sessions {
     label: "Total Sessions"
-    description: ""
+    description: "The total number of unique web sessions based on the web_sessions_pk."
     type: count_distinct
     sql: ${web_sessions_pk} ;;
   }
 
   measure: bounced_session_rate {
     label: "Bounced Session Rate"
-    description: ""
+    description: "The percentage of sessions that were bounces, calculated as (bounced sessions / total sessions)."
     type: number
     value_format: "0.00%"
     sql: SAFE_DIVIDE(COUNT(DISTINCT(case when ${is_bounced_session} = TRUE then ${web_sessions_pk} end)),${total_sessions})  ;;
   }
 
-
-
   dimension: user_session_number {
     group_label: "  Audience"
+    description: "A sequential number indicating which session this is for the user (e.g., 1 for the first session, 2 for the second)."
     type: number
     sql: ${TABLE}.user_session_number ;;
   }
 
   dimension: new_or_returning_user {
     group_label: "  Audience"
+    description: "Classifies the user as 'New' (if this is their first session, user_session_number = 1) or 'Returning' (if they have had previous sessions)."
     type: string
     sql: case when ${TABLE}.user_session_number = 1 then 'New' else 'Returning' end ;;
-
-
   }
-
-
-
-
 
   dimension: web_sessions_pk {
     hidden: yes
     primary_key: yes
+    description: "The primary key uniquely identifying each web session record. Hidden by default."
     type: string
     sql: ${TABLE}.web_sessions_pk ;;
   }
 
   dimension: is_converted_user {
     group_label: "Behavior"
-
+    description: "Indicates (Yes/No) whether the user associated with this session (blended_user_id) has ever performed a defined conversion action."
     type: yesno
     sql: ${TABLE}.is_converting_blended_user_id ;;
   }
 
   dimension: is_converting_session {
     group_label: "Behavior"
-
+    description: "Indicates (Yes/No) whether a defined conversion event occurred during this specific session."
     type: yesno
     sql: ${TABLE}.is_conversion_session ;;
   }
 
   dimension: channel {
     group_label: " Acquisition"
+    description: "The marketing channel attributed to this session, determined by custom logic using UTM parameters and referrer information. Examples include 'Paid Social', 'Organic Social', 'Organic Search', 'Referral', 'Direct'."
     type: string
     sql: case when ${session_utm_source} in ('linkedin','facebook') and ${session_utm_medium} = 'paid' then 'Paid Social'
               when (${session_utm_source} = 'linkedin' or ${referrer_host} like '%linkedin%') and ${session_utm_medium} != 'paid' then 'Organic Social'
@@ -405,29 +404,16 @@ view: web_sessions_fact {
 
   dimension: channel_category {
     group_label: " Acquisition"
+    description: "A higher-level grouping of the marketing channel. 'Paid' includes paid social and paid search; 'Organic' includes organic social, video, search, email, and referrals. Other channels retain their name."
     type: string
     sql: case when ${channel} in ('Paid Social','Paid Search') then 'Paid'
               when ${channel} in ('Organic Social','Organic Video','Organic Search','Email','Referral') then 'Organic'
               else ${channel} end;;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   dimension: session_utm_campaign {
     group_label: " Acquisition"
-
+    description: "The UTM campaign parameter associated with this session, used to identify a specific promotion or strategic campaign (e.g., 'summer_sale', 'newsletter_q3'). Values are lowercased."
     type: string
     label: "Session UTM Campaign"
     sql: lower(${TABLE}.utm_campaign) ;;
@@ -435,39 +421,32 @@ view: web_sessions_fact {
 
   dimension: session_utm_content {
     group_label: " Acquisition"
-
+    description: "The UTM content parameter associated with this session, used to differentiate ads or links that point to the same URL (e.g., 'logolink', 'textlink')."
     label: "Session UTM Content"
-
     type: string
     sql: ${TABLE}.utm_content ;;
   }
 
   dimension: session_utm_medium {
     group_label: " Acquisition"
-
+    description: "The UTM medium parameter associated with this session, indicating the advertising or marketing medium (e.g., 'cpc', 'banner', 'email'). Values are lowercased."
     label: "Session UTM Medium"
-
     type: string
     sql: lower(${TABLE}.utm_medium) ;;
   }
 
   dimension: session_utm_source {
     group_label: " Acquisition"
-
+    description: "The UTM source parameter associated with this session, indicating the referrer or origin of the traffic (e.g., 'google', 'newsletter', 'linkedin'). Values are lowercased and common suffixes like '.com' or slashes are removed."
     label: "Session UTM Source"
-
     type: string
     sql: replace(replace(lower(${TABLE}.utm_source),'/',''),'.com','') ;;
   }
 
   dimension: session_utm_term {
     group_label: " Acquisition"
-
+    description: "The UTM term (keyword) parameter associated with this session, typically used to identify paid search keywords."
     type: string
     sql: ${TABLE}.utm_term ;;
   }
-
-
-
-
 }
