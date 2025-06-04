@@ -430,7 +430,7 @@ view: invoices_fact {
 
 
   dimension: invoice_gbp_amount {
-    hidden: yes
+    hidden: no
     type: number
     value_format_name: gbp_0
     sql: case when ${TABLE}.total_gbp_amount is null then ${TABLE}.total_local_amount / ${exchange_rates.currency_rate} else ${TABLE}.total_gbp_amount end;;
