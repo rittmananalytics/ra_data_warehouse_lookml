@@ -805,9 +805,9 @@ explore: companies_dim {
   description: "Main explore used for reporting, starts with prospects and covers lifecycle through to projects and NPS"
   hidden: no
 
-  join: ideal_customers {
+  join: ideal_customer_2025 {
     view_label: "           Companies"
-    sql_on: ${ideal_customers.company_name} = ${companies_dim.company_name} ;;
+    sql_on: ${ideal_customer_2025.company_name} = ${companies_dim.company_name} ;;
     type: inner
     relationship: one_to_one
   }
