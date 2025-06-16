@@ -102,8 +102,8 @@ view: fathom_meetings {
       sql: ${TABLE}.fathom_user_team ;;
     }
 
-    dimension: transcript_plaintext {
-      hidden: yes
+    dimension: meeting_transcript {
+      hidden: no
       type: string
       sql: ${TABLE}.transcript_plaintext ;;
     }

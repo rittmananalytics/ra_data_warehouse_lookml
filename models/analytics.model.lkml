@@ -279,7 +279,7 @@ explore: performance_narrative_fact {
 }
 
 explore: fathom_meetings {
-  hidden: yes
+  hidden: no
   view_label: "Meetings"
   join: fathom_meeting_actions {
     sql_on: ${fathom_meetings.recording_url} = ${fathom_meeting_actions.recording_url} ;;
@@ -811,7 +811,12 @@ explore: companies_dim {
     type: inner
     relationship: one_to_one
   }
-
+  join: delivery_project_docs_dim {
+    view_label: "      Project Timesheets"
+    sql_on: ${delivery_project_docs_dim.company_fk} = ${companies_dim.company_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
 
   join: timesheet_project_engagement_rag_status_fact {
     view_label: "         Client RAG Status History"
