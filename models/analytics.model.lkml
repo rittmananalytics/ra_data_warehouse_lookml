@@ -26,6 +26,8 @@ explore: marketing_email_sends {
   }
 }
 
+explore: keyword_page_report {}
+
 explore: customers_dim {
 
   from: companies_dim
@@ -463,7 +465,7 @@ explore: ad_campaign_performance_fact {
 }
 
 explore: site_report_by_site {
-  hidden: yes
+  hidden: no
 }
 
 
