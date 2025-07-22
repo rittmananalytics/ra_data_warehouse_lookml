@@ -4,39 +4,7 @@ connection: "ra_dw_prod"
 # include all the views
 include: "/views/ecommerce_demo/**/*.view"
 
-# Main Orders Explore - Central hub for order analysis
-explore: orders {
-  from: fact_orders
-  label: "Orders & Sales Analysis"
-  description: "Comprehensive order and sales analysis with customer, product, and date dimensions"
 
-  # Date dimension
-  join: order_date {
-    from: dim_date
-    type: left_outer
-    sql_on: ${orders.order_date_key} = ${order_date.date_key} ;;
-    relationship: many_to_one
-    fields: [order_date.calendar_date, order_date.calendar_week, order_date.calendar_month,
-      order_date.calendar_quarter, order_date.calendar_year, order_date.day_of_week,
-      order_date.day_of_month, order_date.is_weekend]
-  }
-
-  # Customer dimension
-  join: customers {
-    from: dim_customers
-    type: left_outer
-    sql_on: ${orders.customer_key} = ${customers.customer_key} ;;
-    relationship: many_to_one
-  }
-
-  # Channel dimension
-  join: channels {
-    from: dim_channels
-    type: left_outer
-    sql_on: ${orders.channel_key} = ${channels.channel_key} ;;
-    relationship: many_to_one
-  }
-}
 
 # Order Items Explore - Line item detail analysis
 explore: order_items {
@@ -188,6 +156,40 @@ explore: inventory {
     from: dim_products
     type: left_outer
     sql_on: ${inventory.product_id} = ${products.product_id} ;;
+    relationship: many_to_one
+  }
+}
+
+# Main Orders Explore - Central hub for order analysis
+explore: orders {
+  from: fact_orders
+  label: "Orders & Sales Analysis"
+  description: "Comprehensive order and sales analysis with customer, product, and date dimensions"
+
+  # Date dimension
+  join: order_date {
+    from: dim_date
+    type: left_outer
+    sql_on: ${orders.order_date_key} = ${order_date.date_key} ;;
+    relationship: many_to_one
+    fields: [order_date.calendar_date, order_date.calendar_week, order_date.calendar_month,
+      order_date.calendar_quarter, order_date.calendar_year, order_date.day_of_week,
+      order_date.day_of_month, order_date.is_weekend]
+  }
+
+  # Customer dimension
+  join: customers {
+    from: dim_customers
+    type: left_outer
+    sql_on: ${orders.customer_key} = ${customers.customer_key} ;;
+    relationship: many_to_one
+  }
+
+  # Channel dimension
+  join: channels {
+    from: dim_channels
+    type: left_outer
+    sql_on: ${orders.channel_key} = ${channels.channel_key} ;;
     relationship: many_to_one
   }
 }
