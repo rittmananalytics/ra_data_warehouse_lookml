@@ -275,7 +275,7 @@ view: dim_customers {
   # Measures
   measure: count {
     type: count
-    drill_fields: [customer_id, full_name, email, total_spent, orders_count]
+
   }
 
   measure: count_current {
