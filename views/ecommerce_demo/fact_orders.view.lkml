@@ -2,6 +2,9 @@ view: fact_orders {
   sql_table_name: `ra-development.analytics_ecommerce_ecommerce.fact_orders` ;;
 
   # Primary Key
+
+
+  # Primary Key
   dimension: order_key {
     primary_key: yes
     type: number
@@ -193,6 +196,15 @@ view: fact_orders {
   }
 
   # Order Composition
+
+  dimension: order_value_histogram {
+    type: tier
+    sql: ${calculated_order_total};;
+    tiers: [25,50,100,200]
+    style: relational
+
+
+  }
   dimension: line_item_count {
     type: number
     sql: ${TABLE}.line_item_count ;;
@@ -282,17 +294,8 @@ view: fact_orders {
     description: "Order size category"
   }
 
-  dimension: is_first_order {
-    type: yesno
-    sql: ${TABLE}.is_first_order ;;
-    description: "Is customer's first order"
-  }
-
-  dimension: days_since_previous_order {
-    type: number
-    sql: ${TABLE}.days_since_previous_order ;;
-    description: "Days since customer's previous order"
-  }
+  # NOTE: is_first_order and days_since_previous_order fields don't exist in BigQuery table
+  # These would need to be calculated in the dbt model or as derived dimensions here
 
   dimension: is_cancelled {
     type: yesno
@@ -368,18 +371,8 @@ view: fact_orders {
     description: "Number of orders with discounts"
   }
 
-  measure: first_time_orders {
-    type: count
-    filters: [is_first_order: "yes"]
-    description: "Number of first-time orders"
-  }
-
-  measure: first_time_order_rate {
-    type: number
-    sql: ${first_time_orders} / NULLIF(${count}, 0) ;;
-    description: "First-time order rate"
-    value_format_name: percent_2
-  }
+  # NOTE: first_time_orders measures removed because is_first_order field doesn't exist in BigQuery
+  # These would need the is_first_order field to be calculated in the dbt model first
 
   # Drill fields
   set: order_detail {

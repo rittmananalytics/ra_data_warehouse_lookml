@@ -1,7 +1,7 @@
 view: fact_order_items {
   sql_table_name: `ra-development.analytics_ecommerce_ecommerce.fact_order_items` ;;
 
-  # Primary Key
+# Primary Key
   dimension: order_item_key {
     primary_key: yes
     type: string
@@ -164,19 +164,8 @@ view: fact_order_items {
     value_format_name: usd
   }
 
-  dimension: allocated_order_discount {
-    type: number
-    sql: ${TABLE}.allocated_order_discount ;;
-    description: "Allocated order-level discount"
-    value_format_name: usd
-  }
-
-  dimension: final_line_total {
-    type: number
-    sql: ${TABLE}.final_line_total ;;
-    description: "Final line total with allocations"
-    value_format_name: usd
-  }
+  # NOTE: allocated_order_discount and final_line_total don't exist in BigQuery
+  # Using line_total instead which is the actual calculated field
 
   # Order Information
   dimension: order_name {
@@ -322,7 +311,7 @@ view: fact_order_items {
 
   measure: total_revenue {
     type: sum
-    sql: ${final_line_total} ;;
+    sql: ${line_total} ;;
     description: "Total revenue"
     value_format_name: usd
   }
@@ -336,7 +325,7 @@ view: fact_order_items {
 
   measure: total_discount {
     type: sum
-    sql: ${line_discount} + ${allocated_order_discount} ;;
+    sql: ${line_discount} ;;
     description: "Total discounts"
     value_format_name: usd
   }
@@ -371,7 +360,7 @@ view: fact_order_items {
 
   measure: average_line_total {
     type: average
-    sql: ${final_line_total} ;;
+    sql: ${line_total} ;;
     description: "Average line total"
     value_format_name: usd
   }
@@ -391,7 +380,7 @@ view: fact_order_items {
 
   measure: gift_card_sales {
     type: sum
-    sql: ${final_line_total} ;;
+    sql: ${line_total} ;;
     filters: [is_gift_card: "yes"]
     description: "Gift card sales"
     value_format_name: usd
@@ -406,7 +395,7 @@ view: fact_order_items {
       variant_title,
       quantity,
       unit_price,
-      final_line_total,
+      line_total,
       discount_rate
     ]
   }
