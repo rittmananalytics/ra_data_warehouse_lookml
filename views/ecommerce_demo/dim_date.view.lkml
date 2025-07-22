@@ -1,6 +1,8 @@
 view: dim_date {
   sql_table_name: `ra-development.analytics_ecommerce_ecommerce.dim_date` ;;
 
+
+
   # Primary Key
   dimension: date_key {
     primary_key: yes
@@ -15,7 +17,7 @@ view: dim_date {
     timeframes: [raw, date, week, month, quarter, year, day_of_week, day_of_month, day_of_year]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.calendar_date ;;
+    sql: ${TABLE}.date_actual ;;
     description: "Calendar date for time-based analysis"
   }
 
@@ -57,13 +59,13 @@ view: dim_date {
 
   dimension: day_of_week {
     type: number
-    sql: ${TABLE}.day_of_week ;;
+    sql: ${TABLE}.day_of_week_number ;;
     description: "Day of week (1-7, Sunday=1)"
   }
 
   dimension: day_name {
     type: string
-    sql: ${TABLE}.day_name ;;
+    sql: ${TABLE}.day_of_week_name ;;
     description: "Day name (Sunday, Monday, etc.)"
     order_by_field: day_of_week
   }

@@ -214,9 +214,7 @@ explore: executive_overview {
     type: left_outer
     sql_on: ${executive_overview.order_date_key} = ${exec_order_date.date_key} ;;
     relationship: many_to_one
-    fields: [exec_order_date.calendar_date, exec_order_date.calendar_week, exec_order_date.calendar_month,
-      exec_order_date.calendar_quarter, exec_order_date.calendar_year, exec_order_date.day_of_week,
-      exec_order_date.day_of_month, exec_order_date.is_weekend]
+
   }
 
   # Customer dimension

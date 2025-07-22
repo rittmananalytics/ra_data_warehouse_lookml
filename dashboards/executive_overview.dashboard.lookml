@@ -17,7 +17,7 @@
       type: relative_timeframes
       display: inline
       options: []
-    model: ra_ecommerce_analytics
+    model: ecommerce_demo
     explore: executive_overview
     listens_to_filters: []
     field: exec_order_date.calendar_date
