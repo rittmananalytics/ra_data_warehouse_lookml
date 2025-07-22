@@ -30,6 +30,8 @@ explore: keyword_page_report {}
 
 explore: customers_dim {
 
+
+
   from: companies_dim
   label: "                    Customer Operations"
   view_label: "           Customers"
@@ -796,10 +798,15 @@ explore: client_projects {
 
 }
 
+access_grant: can_view_company_bio {
+  user_attribute: groups
+  allowed_values: [ "Pepkor IT", "Google", "Brighton SST" ]
+}
+
 explore: companies_dim {
   access_filter: {
     field: companies_dim.company_name
-    user_attribute: company_name
+    user_attribute: groups
   }
   label: "                    Business Operations"
   group_label: "        Core Analytics"

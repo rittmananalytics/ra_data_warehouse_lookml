@@ -24,6 +24,7 @@ view: companies_dim {
     description: "Company Bio, sourced from LinkedIn via Hubspot"
     type: string
     sql: ${TABLE}.company_description ;;
+    required_access_grants: [can_view_company_bio]
   }
 
   dimension: all_company_addresses {
