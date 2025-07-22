@@ -804,10 +804,8 @@ access_grant: can_view_company_bio {
 }
 
 explore: companies_dim {
-  access_filter: {
-    field: companies_dim.company_name
-    user_attribute: groups
-  }
+
+
   label: "                    Business Operations"
   group_label: "        Core Analytics"
   view_label: "           Companies"
