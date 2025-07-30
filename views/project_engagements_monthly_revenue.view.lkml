@@ -26,7 +26,7 @@
     dimension: pk {
       type: string
       primary_key: yes
-      sql: ${engagement_code},${booking_month} ;;
+      sql: concat(${engagement_code},${booking_month}) ;;
     }
 
     dimension: total_engagement_revenue_remaining {

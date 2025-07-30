@@ -15,6 +15,8 @@ explore: monthly_performance_fact {
   hidden: yes
 }
 
+explore: anomaly_detection {}
+
 explore: marketing_email_sends {
   from: email_sends_dim
   label: "Marketing Emails"

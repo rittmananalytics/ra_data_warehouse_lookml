@@ -109,10 +109,7 @@ view: contracts_fact {
     sql: parse_timestamp('%m/%d/%Y %I:%M:%S %p %Z',replace(${TABLE}.sent_ts,'BST','GMT')) ;;
   }
 
-  dimension: source {
-    type: string
-    sql: ${TABLE}.source ;;
-  }
+
 
   dimension: total_completed_signatures {
     hidden: yes

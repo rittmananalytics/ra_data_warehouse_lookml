@@ -690,12 +690,7 @@ dimension: deal_is_deleted {
     sql: ${TABLE}.predicted_amount ;;
   }
 
-  dimension: days_in_pipeline {
-    group_label: "            {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Details"
 
-    type: number
-    sql: ${TABLE}.days_in_pipeline ;;
-  }
 
 
 }
