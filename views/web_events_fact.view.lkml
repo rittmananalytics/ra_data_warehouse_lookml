@@ -8,7 +8,6 @@ view: web_events_fact {
               count(distinct case when event_type = 'Page View' then web_events_pk end) over (partition by replace(page_title,'—','-')) as total_page_views,
               count(distinct blended_user_id) over (partition by replace(page_title,'—','-')) as total_unique_viewers
        from web_events_fact;;
-    description: "Enriches raw web event data with page-specific metrics such as first published date, age of content at the time of event, and total views/viewers for the page title."
   }
 
 
@@ -184,7 +183,7 @@ view: web_events_fact {
     group_label: "Behavior"
     description: "A predefined category assigned to the page where the event occurred, often based on URL structure or content type (e.g., '02: Blog', '08: Services')."
     type: string
-    sql: ${TABLE}.page_category;;
+    sql: ${TABLE}.computed_page_category;;
   }
 
   dimension: visit_value {
@@ -507,5 +506,100 @@ view: web_events_fact {
     sql: case when ${referrer_source} = 'Medium' and ${referrer_host} = 'blog.rittmananalytics.com' then split(${referrer},'/')[safe_offset(3)]
               when ${referrer_source} = 'Medium' and ${referrer_host} = 'medium.com' then split(${referrer},'/')[safe_offset(4)]
           end ;;
+  }
+
+
+
+
+
+  dimension: referrer_domain {
+    type: string
+    sql: ${TABLE}.referrer_domain ;;
+  }
+
+  dimension: screen_resolution {
+    type: string
+    sql: ${TABLE}.screen_resolution ;;
+  }
+
+  dimension: viewport_size {
+    type: string
+    sql: ${TABLE}.viewport_size ;;
+  }
+
+  dimension: partner {
+    type: string
+    sql: ${TABLE}.partner ;;
+  }
+
+  dimension: blog_post_author {
+    type: string
+    sql: ${TABLE}.blog_post_author ;;
+  }
+
+  dimension: blog_post_category {
+    type: string
+    sql: ${TABLE}.blog_post_category ;;
+  }
+
+  dimension: blog_post_id {
+    type: string
+    sql: ${TABLE}.blog_post_id ;;
+  }
+
+  dimension: blog_post_tags {
+    type: string
+    sql: ${TABLE}.blog_post_tags ;;
+  }
+
+  dimension: blog_post_title {
+    type: string
+    sql: ${TABLE}.blog_post_title ;;
+  }
+
+  dimension: page_type {
+    type: string
+    sql: ${TABLE}.page_type ;;
+  }
+
+  dimension: city {
+    type: string
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: country {
+    type: string
+    sql: ${TABLE}.country ;;
+  }
+
+  dimension: country_code {
+    type: string
+    sql: ${TABLE}.country_code ;;
+  }
+
+  dimension: isp {
+    type: string
+    sql: ${TABLE}.isp ;;
+  }
+
+  dimension: latitude {
+    type: number
+    sql: ${TABLE}.latitude ;;
+  }
+
+
+  dimension: region {
+    type: string
+    sql: ${TABLE}.region ;;
+  }
+
+  dimension: region_code {
+    type: string
+    sql: ${TABLE}.region_code ;;
+  }
+
+  dimension: timezone {
+    type: string
+    sql: ${TABLE}.timezone ;;
   }
 }
