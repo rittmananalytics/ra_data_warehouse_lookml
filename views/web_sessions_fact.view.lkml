@@ -35,6 +35,12 @@ view: web_sessions_fact {
     sql: ${TABLE}.blended_user_id ;;
   }
 
+  dimension: company_name {
+    group_label: "  Audience"
+    type: string
+    sql: ${TABLE}.company_name ;;
+  }
+
   dimension: device {
     group_label: "  Audience"
     description: "The specific type of device, operating system, and browser used to access the website (e.g., 'iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/604.1')."

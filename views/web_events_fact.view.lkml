@@ -27,11 +27,7 @@ view: web_events_fact {
     sql: ${TABLE}.device_category ;;
   }
 
-  dimension: company_name {
-    group_label: "  Audience"
-    type: string
-    sql: ${TABLE}.company_name ;;
-  }
+
 
   dimension: event_details {
     group_label: "Behavior"
