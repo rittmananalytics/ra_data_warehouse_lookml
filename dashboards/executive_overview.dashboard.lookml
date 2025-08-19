@@ -15,7 +15,7 @@
     model: ecommerce_demo
     explore: executive_overview
     type: single_value
-    fields: [executive_overview.total_revenue]
+    fields: [executive_overview.total_revenue_usd]
 
     limit: 500
     custom_color_enabled: true
