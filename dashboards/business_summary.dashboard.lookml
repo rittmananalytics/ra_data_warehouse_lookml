@@ -10,7 +10,7 @@
     title: How much attributed revenue has each consultant delivered MTD?
     note_state: collapsed
     note_display: hover
-    note_text: Compares individual consultant's attributed revenue against their targets
+    note_text: Compares individuals consultant's attributed revenue against their targets
       for the current month. Used for evaluating each consultant's contribution to
       revenue targets and identifying who has met or exceeded their goals.
     merged_queries:
