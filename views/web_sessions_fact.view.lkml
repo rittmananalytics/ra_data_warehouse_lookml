@@ -333,6 +333,11 @@ view: web_sessions_fact {
     sql: ${TABLE}.session_start_ts ;;
   }
 
+  dimension: periods_ago {
+  type: number
+  sql: FLOOR(DATE_DIFF(CURRENT_DATE(), DATE(${session_start_ts_raw}), DAY) / 30);;
+  }
+
   measure: total_session_duration_in_s {
     description: "The average duration of user sessions, calculated in minutes from session start to session end. Displayed in mm:ss format."
     type: average
