@@ -673,6 +673,13 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_one
   }
+  join: web_events_pivoted_fact {
+    view_label: "  Sessions"
+    sql_on: ${web_sessions_fact.web_sessions_pk} = ${web_events_pivoted_fact.web_sessions_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
 
   join: page_first_published {
     view_label: "  Sessions"
