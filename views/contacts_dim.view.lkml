@@ -820,6 +820,90 @@ view: contacts_dim {
     type: yesno
     sql: ${TABLE}.is_twitter_interactor ;;
   }
+
+  dimension: contact_initial_referrer {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_initial_referrer ;;
+  }
+
+  dimension: contact_source {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_source ;;
+  }
+
+  dimension: contact_challenge {
+    group_label: "      Contact Sales Activity"
+    type: string
+    sql: ${TABLE}.contact_challenge ;;
+  }
+
+  dimension: contact_most_frequent_page_viewed {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_most_frequent_page_viewed ;;
+  }
+
+  dimension: contact_most_frequent_blog_post_viewed {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_most_frequent_blog_post_viewed ;;
+  }
+
+  dimension: contact_first_episode_played {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_first_episode_played ;;
+  }
+
+  dimension: contact_last_episode_played {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_last_episode_played ;;
+  }
+
+  dimension: contact_total_page_views {
+    group_label: "      Contact Marketing"
+    type: number
+    sql: ${TABLE}.contact_total_page_views ;;
+  }
+
+  dimension: contact_page_views_last_30_days {
+    group_label: "      Contact Marketing"
+    type: number
+    sql: ${TABLE}.contact_page_views_last_30_days ;;
+  }
+
+  dimension: contact_views_of_customer_testimonial_pages_last_30_days {
+    group_label: "      Contact Marketing"
+    type: number
+    sql: ${TABLE}.contact_views_of_customer_testimonial_pages_last_30_days ;;
+  }
+
+  dimension: contact_titles_of_pages_viewed {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_titles_of_pages_viewed ;;
+  }
+
+  dimension: contact_list_of_episodes_played_on_site {
+    group_label: "      Contact Marketing"
+    type: string
+    sql: ${TABLE}.contact_list_of_episodes_played_on_site ;;
+  }
+
+  dimension: contact_is_frequent_visitor {
+    group_label: "      Contact Marketing"
+    type: yesno
+    sql: ${TABLE}.contact_is_frequent_visitor ;;
+  }
+
+  dimension: contact_is_engaged_prospect_visitor {
+    group_label: "      Contact Marketing"
+    type: yesno
+    sql: ${TABLE}.contact_is_engaged_prospect_visitor ;;
+  }
   measure: count {
     type: count
     drill_fields: [contact_conversion_event_name, contact_name, contact_staff_team_name, contact_last_email_name]
