@@ -1320,21 +1320,11 @@ explore: companies_dim {
 
 
 
-  explore: profit_and_loss_report_fact {
-    label: "Profit & Loss Report"
-    join: profit_and_loss_report_targets {
-      from: targets
-      view_label: "Profit & Loss Report"
-      fields: [profit_and_loss_report_targets.total_revenue_target,profit_and_loss_report_targets.retained_earnings_target]
-      sql_on: ${profit_and_loss_report_fact.period_month} = ${profit_and_loss_report_targets.period_month} ;;
-      type: left_outer
-      relationship: one_to_many
-  }
-  }
+
 
   explore: chart_of_accounts_dim {
 
-    label: "GL & Profit & Loss"
+    label: "Financials"
     hidden: no
     group_label: "        Core Analytics"
 
@@ -1351,23 +1341,8 @@ explore: companies_dim {
       type: left_outer
       relationship: one_to_many
     }
-    join: profit_and_loss_report_targets {
-      from: targets
-      view_label: "Profit & Loss Report"
-      fields: [profit_and_loss_report_targets.total_revenue_target,profit_and_loss_report_targets.retained_earnings_target]
-      sql_on: ${profit_and_loss_report_fact.period_month} = ${profit_and_loss_report_targets.period_month} ;;
-      type: left_outer
-      relationship: one_to_many
-    }
-    aggregate_table: profit_and_loss_by_category_quarter {
-      query: {
-        dimensions: [profit_and_loss_report_fact.account_report_category, profit_and_loss_report_fact.period_quarter]
-        measures: [profit_and_loss_report_fact.amount, profit_and_loss_report_fact.budget,profit_and_loss_report_fact.budget_variance]
-      }
-      materialization: {
-        sql_trigger_value: SELECT CURRENT-DATE;;
-      }
-    }
+
+
     join: bank_transactions_fact {
       view_label: "Bank Transactions"
       sql_on: ${chart_of_accounts_dim.account_id} = ${bank_transactions_fact.account_id} ;;

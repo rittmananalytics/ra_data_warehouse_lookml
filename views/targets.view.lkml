@@ -50,7 +50,7 @@ view: targets {
   }
 
   dimension: retained_earnings_target {
-    hidden: no
+    hidden: yes
 
     type: number
     sql: ${TABLE}.retained_earnings ;;
@@ -255,6 +255,8 @@ view: targets {
 
   measure: total_retained_earnings_target {
     type: sum
+    hidden: yes
+
     sql: ${retained_earnings_target} ;;
   }
 

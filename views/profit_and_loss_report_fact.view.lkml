@@ -1,15 +1,8 @@
-# The name of this view in Looker is "Profit and Loss Report Fact"
 view: profit_and_loss_report_fact {
-  # The sql_table_name parameter indicates the underlying database table
-  # to be used for all fields in this view.
+
   sql_table_name: `ra-development.analytics.profit_and_loss_report_fact`
     ;;
-  # No primary key is defined for this view. In order to join this view in an Explore,
-  # define primary_key: yes on a dimension that has no repeated values.
 
-  # Here's what a typical dimension looks like in LookML.
-  # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "Account Class" in Explore.
 
   dimension: account_class {
     hidden: no
@@ -30,6 +23,7 @@ view: profit_and_loss_report_fact {
   }
 
   dimension: account_name {
+    label: "Account"
     hidden: no
     order_by_field: account_report_order
     type: string
@@ -37,6 +31,8 @@ view: profit_and_loss_report_fact {
   }
 
   dimension: account_report_category {
+    label: "Account Category"
+
     hidden: no
     order_by_field: account_report_category_order
     type: string
@@ -45,6 +41,7 @@ view: profit_and_loss_report_fact {
   }
 
   dimension: account_report_group {
+    label: "Account Group"
     hidden: no
     order_by_field: account_report_order
     description: "Second-level P&L account grouping, drill-down from Account Report Category"
@@ -94,14 +91,18 @@ view: profit_and_loss_report_fact {
   }
 
   measure: amount {
-    label: "Retained Earnings"
-    description: "Profit after all costs including taxation and dividends"
+    group_label: "P&L Base Measures"
+
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
   }
 
+  # Actuals for P&L Report Categories
+
   measure: revenue {
+    group_label: "P&L Actuals"
+
     type: sum
     description: "Sales revenue from consulting projects and other services"
     value_format_name: gbp
@@ -110,6 +111,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: cost_of_delivery {
+    group_label: "P&L Actuals"
+
     description: "Direct costs e.g. consultants wages, delivery software etc incurred in delivering consulting projects and other services"
     type: sum
     value_format_name: gbp
@@ -118,6 +121,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: overheads {
+    group_label: "P&L Actuals"
+
     type: sum
     description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
 
@@ -127,6 +132,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: taxation {
+    group_label: "P&L Actuals"
+
     description: "Corporation tax levied on net profits before payment of dividends"
     type: sum
     value_format_name: gbp
@@ -135,6 +142,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: dividends {
+    group_label: "P&L Actuals"
+
     type: sum
     description: "Payments to shareholders made from post-taxation net profit"
     value_format_name: gbp
@@ -142,7 +151,177 @@ view: profit_and_loss_report_fact {
     filters: [account_report_category: "Dividends"]
   }
 
+  measure: retained_earnings {
+    group_label: "P&L Actuals"
+
+    label: "Retained Earnings"
+    description: "Retained Earnings prior month (i.e. previous month)"
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  # Actuals Prior Month for P&L Report Categories
+
+  measure: revenue_prior_month {
+    group_label: "P&L Actuals Prior Month"
+    type: period_over_period
+    label: "Revenue Prior Month"
+    description: "Sales Revenue prior month (i.e. previous month)"
+    based_on: revenue
+    based_on_time: period_month
+    period: month
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: cost_of_delivery_prior_month {
+    group_label: "P&L Actuals Prior Month"
+    type: period_over_period
+    label: "Cost of Delivery Prior Month"
+    description: "Cost of Delivery prior month (i.e. previous month)"
+    based_on: cost_of_delivery
+    based_on_time: period_month
+    period: month
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: overheads_prior_month {
+    group_label: "P&L Actuals Prior Month"
+    type: period_over_period
+    label: "Overheads Prior Month"
+    description: "Overheads prior month (i.e. previous month)"
+    based_on: overheads
+    based_on_time: period_month
+    period: month
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: taxation_prior_month {
+    group_label: "P&L Actuals Prior Month"
+    type: period_over_period
+    label: "Taxation Prior Month"
+    description: "Taxation prior month (i.e. previous month)"
+    based_on: taxation
+    based_on_time: period_month
+    period: month
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure:dividends_prior_month {
+    group_label: "P&L Actuals"
+    type: period_over_period
+    label: "Dividends Prior Month"
+    description: "Dividends prior month (i.e. previous month)"
+    based_on: dividends
+    based_on_time: period_month
+    period: month
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: retained_earnings_prior_month {
+    group_label: "P&L Actuals Prior Month"
+    type: period_over_period
+    label: "Retained Earnings Prior Month"
+    description: "Profit after all costs including taxation and dividends"
+    based_on: retained_earnings
+    based_on_time: period_month
+    period: month
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  # Actuals Prior Quarter for P&L Report Categories
+
+  measure: revenue_prior_quarter {
+    group_label: "P&L Actuals Prior Quarter"
+    type: period_over_period
+    label: "Revenue Prior Quarter"
+    description: "Sales Revenue prior quarter (i.e. previous quarter)"
+    based_on: revenue
+    based_on_time: period_quarter
+    period: quarter
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: cost_of_delivery_prior_quarter {
+    group_label: "P&L Actuals Prior Quarter"
+    type: period_over_period
+    label: "Cost of Delivery Prior Quarter"
+    description: "Cost of Delivery Prior Quarter (i.e. previous month)"
+    based_on: cost_of_delivery
+    based_on_time: period_month
+    period: quarter
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: overheads_prior_quarter {
+    group_label: "P&L Actuals Prior Quarter"
+    type: period_over_period
+    label: "Overheads Prior Quarter"
+    description: "Overheads Prior Quarter (i.e. previous month)"
+    based_on: overheads
+    based_on_time: period_month
+    period: quarter
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: taxation_prior_quarter {
+    group_label: "P&L Actuals Prior Quarter"
+    type: period_over_period
+    label: "Taxation Prior Quarter"
+    description: "Taxation Prior Quarter (i.e. previous month)"
+    based_on: taxation
+    based_on_time: period_month
+    period: quarter
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure:dividends_prior_quarter {
+    group_label: "P&L Actuals"
+    type: period_over_period
+    label: "Dividends Prior Quarter"
+    description: "Dividends Prior Quarter (i.e. previous month)"
+    based_on: dividends
+    based_on_time: period_month
+    period: quarter
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: retained_earnings_prior_quarter {
+    group_label: "P&L Actuals Prior Quarter"
+    type: period_over_period
+    label: "Retained Earnings Prior Quarter"
+    description: "Profit after all costs including taxation and dividends"
+    based_on: retained_earnings
+    based_on_time: period_month
+    period: quarter
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+  }
+
+  # Budgets for P&L Report Categories
+
+
   measure: budget {
+    group_label: "P&L Base Measures"
+
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_budget_amount ;;
+  }
+
+  measure: retained_earnings_budget {
+    group_label: "P&L Budget"
     type: sum
     label: "Retained Earnings Budget"
     value_format_name: gbp
@@ -150,6 +329,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: revenue_budget {
+    group_label: "P&L Budget"
+
     type: sum
     description: "Sales revenue Budget"
     value_format_name: gbp
@@ -158,6 +339,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: cost_of_delivery_budget {
+    group_label: "P&L Budget"
+
     description: "Direct costs budget"
     type: sum
     value_format_name: gbp
@@ -166,6 +349,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: overheads_budget {
+    group_label: "P&L Budget"
+
     type: sum
     description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
 
@@ -175,6 +360,8 @@ view: profit_and_loss_report_fact {
   }
 
   measure: taxation_budget {
+    group_label: "P&L Budget"
+
     description: "Corporation tax Budget"
     type: sum
     value_format_name: gbp
@@ -183,12 +370,15 @@ view: profit_and_loss_report_fact {
   }
 
   measure: dividends_budget {
+    group_label: "P&L Budget"
+
     type: sum
     description: "Dividends budget"
     value_format_name: gbp
     sql: ${TABLE}.net_budget_amount  ;;
     filters: [account_report_category: "Dividends"]
   }
+
 
 
 
@@ -201,14 +391,7 @@ view: profit_and_loss_report_fact {
     sql: ${TABLE}.profit_and_loss_pk ;;
   }
 
-  # A measure is a field that uses a SQL aggregate function. Here are count, sum, and average
-  # measures for numeric dimensions, but you can also add measures of many different types.
-  # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-
-
-  # These sum and average measures are hidden by default.
-  # If you want them to show up in your explore, remove hidden: yes.
 
 
 }
