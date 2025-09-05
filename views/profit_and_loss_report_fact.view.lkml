@@ -105,9 +105,45 @@ view: profit_and_loss_report_fact {
   }
 
   measure: amount {
+    label: "Retained Earnings"
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
+  }
+
+  measure: revenue {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+    filters: [account_report_category: "Revenue"]
+  }
+
+  measure: cost_of_delivery {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+    filters: [account_report_category: "Cost of Delivery"]
+  }
+
+  measure: overheads {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+    filters: [account_report_category: "Overheads"]
+  }
+
+  measure: taxation {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+    filters: [account_report_category: "Taxation"]
+  }
+
+  measure: dividends {
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_amount  ;;
+    filters: [account_report_category: "Dividends"]
   }
 
   measure: budget {
