@@ -40,48 +40,37 @@ view: profit_and_loss_report_fact {
     hidden: no
     order_by_field: account_report_category_order
     type: string
+    description: "Top-level P&L account grouping; Revenue, Cost of Delivery, Overheads, Dividends and Retained Earnings"
     sql: ${TABLE}.account_report_category ;;
   }
 
   dimension: account_report_group {
     hidden: no
     order_by_field: account_report_order
+    description: "Second-level P&L account grouping, drill-down from Account Report Category"
     type: string
     sql: ${TABLE}.account_report_group ;;
   }
 
   dimension: account_report_order {
-    hidden: no
+    hidden: yes
+    description: "Used for sorting account names in the P&L report"
 
     type: number
     sql: ${TABLE}.account_report_order ;;
   }
 
-  dimension: account_report_sub_category {
-    hidden: no
-    order_by_field: account_report_sub_category_order
-    type: string
-    sql: ${TABLE}.account_report_sub_category ;;
-  }
 
-  dimension: account_report_sub_category_order {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.account_report_sub_category_order ;;
-  }
+
 
   dimension: account_report_category_order {
+    description: "Used for sorting Account Report Categories in the P&L report"
     hidden: yes
     type: number
     sql: ${TABLE}.account_report_category_order ;;
   }
 
-  dimension: account_type {
-    hidden: no
 
-    type: string
-    sql: ${TABLE}.account_type ;;
-  }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
@@ -106,6 +95,7 @@ view: profit_and_loss_report_fact {
 
   measure: amount {
     label: "Retained Earnings"
+    description: "Profit after all costs including taxation and dividends"
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
@@ -113,12 +103,14 @@ view: profit_and_loss_report_fact {
 
   measure: revenue {
     type: sum
+    description: "Sales revenue from consulting projects and other services"
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
     filters: [account_report_category: "Revenue"]
   }
 
   measure: cost_of_delivery {
+    description: "Direct costs e.g. consultants wages, delivery software etc incurred in delivering consulting projects and other services"
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
@@ -127,12 +119,15 @@ view: profit_and_loss_report_fact {
 
   measure: overheads {
     type: sum
+    description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
+
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
     filters: [account_report_category: "Overheads"]
   }
 
   measure: taxation {
+    description: "Corporation tax levied on net profits before payment of dividends"
     type: sum
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
@@ -141,6 +136,7 @@ view: profit_and_loss_report_fact {
 
   measure: dividends {
     type: sum
+    description: "Payments to shareholders made from post-taxation net profit"
     value_format_name: gbp
     sql: ${TABLE}.net_amount  ;;
     filters: [account_report_category: "Dividends"]

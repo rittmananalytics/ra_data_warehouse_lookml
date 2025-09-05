@@ -1320,7 +1320,17 @@ explore: companies_dim {
 
 
 
-
+  explore: profit_and_loss_report_fact {
+    label: "Profit & Loss Report"
+    join: profit_and_loss_report_targets {
+      from: targets
+      view_label: "Profit & Loss Report"
+      fields: [profit_and_loss_report_targets.total_revenue_target,profit_and_loss_report_targets.retained_earnings_target]
+      sql_on: ${profit_and_loss_report_fact.period_month} = ${profit_and_loss_report_targets.period_month} ;;
+      type: left_outer
+      relationship: one_to_many
+  }
+  }
 
   explore: chart_of_accounts_dim {
 
