@@ -144,15 +144,53 @@ view: profit_and_loss_report_fact {
 
   measure: budget {
     type: sum
+    label: "Retained Earnings Budget"
     value_format_name: gbp
     sql: ${TABLE}.net_budget_amount ;;
   }
 
-  measure: budget_variance {
+  measure: revenue_budget {
+    type: sum
+    description: "Sales revenue Budget"
+    value_format_name: gbp
+    sql: ${TABLE}.net_budget_amount  ;;
+    filters: [account_report_category: "Revenue"]
+  }
+
+  measure: cost_of_delivery_budget {
+    description: "Direct costs budget"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_variance ;;
+    sql: ${TABLE}.net_budget_amount  ;;
+    filters: [account_report_category: "Cost of Delivery"]
   }
+
+  measure: overheads_budget {
+    type: sum
+    description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
+
+    value_format_name: gbp
+    sql: ${TABLE}.net_budget_amount  ;;
+    filters: [account_report_category: "Overheads"]
+  }
+
+  measure: taxation_budget {
+    description: "Corporation tax Budget"
+    type: sum
+    value_format_name: gbp
+    sql: ${TABLE}.net_budget_amount  ;;
+    filters: [account_report_category: "Taxation"]
+  }
+
+  measure: dividends_budget {
+    type: sum
+    description: "Dividends budget"
+    value_format_name: gbp
+    sql: ${TABLE}.net_budget_amount  ;;
+    filters: [account_report_category: "Dividends"]
+  }
+
+
 
 
 
