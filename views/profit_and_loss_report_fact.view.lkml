@@ -14,11 +14,11 @@ view: profit_and_loss_report_fact {
        type: unquoted
     allowed_value: {
       label: "Yes"
-      value: "yes"
+      value: "2.145"
     }
     allowed_value: {
       label: "No"
-      value: "no"
+      value: "1"
     }
   }
 
@@ -102,12 +102,17 @@ view: profit_and_loss_report_fact {
     sql: ${TABLE}.date_month ;;
   }
 
+  dimension: amount_base {
+    type: number
+    sql: ${TABLE}.net_amount * 2.14 ;;
+  }
+
   measure: amount {
     group_label: "P&L Base Measures"
 
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
   }
 
   # Actuals for P&L Report Categories
@@ -118,10 +123,7 @@ view: profit_and_loss_report_fact {
     type: sum
     description: "Sales revenue from consulting projects and other services"
     value_format_name: gbp
-    sql: CASE
-      WHEN {% parameter demo_mode %} == 'yes' THEN ${TABLE}.net_amount * 2.124
-      ELSE ${TABLE}.net_amount
-    END ;;
+    sql: ${amount_base};;
     filters: [account_report_category: "Revenue"]
   }
 
@@ -131,7 +133,7 @@ view: profit_and_loss_report_fact {
     description: "Direct costs e.g. consultants wages, delivery software etc incurred in delivering consulting projects and other services"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
     filters: [account_report_category: "Cost of Delivery"]
   }
 
@@ -142,7 +144,7 @@ view: profit_and_loss_report_fact {
     description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
 
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
     filters: [account_report_category: "Overheads"]
   }
 
@@ -152,7 +154,7 @@ view: profit_and_loss_report_fact {
     description: "Corporation tax levied on net profits before payment of dividends"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
     filters: [account_report_category: "Taxation"]
   }
 
@@ -162,7 +164,7 @@ view: profit_and_loss_report_fact {
     type: sum
     description: "Payments to shareholders made from post-taxation net profit"
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
     filters: [account_report_category: "Dividends"]
   }
 
@@ -173,7 +175,7 @@ view: profit_and_loss_report_fact {
     description: "Retained Earnings prior month (i.e. previous month)"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
   }
 
   # Actuals Prior Month for P&L Report Categories
@@ -187,7 +189,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: month
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
   }
 
   measure: cost_of_delivery_prior_month {
@@ -199,7 +201,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: month
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
   }
 
   measure: overheads_prior_month {
@@ -211,7 +213,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: month
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
   }
 
   measure: taxation_prior_month {
@@ -223,7 +225,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: month
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
   }
 
   measure:dividends_prior_month {
@@ -235,7 +237,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: month
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
   }
 
   measure: retained_earnings_prior_month {
@@ -247,7 +249,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: month
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
   }
 
   # Actuals Prior Quarter for P&L Report Categories
@@ -261,7 +263,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_quarter
     period: quarter
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
   }
 
   measure: cost_of_delivery_prior_quarter {
@@ -273,7 +275,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: quarter
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
   }
 
   measure: overheads_prior_quarter {
@@ -285,7 +287,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: quarter
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
   }
 
   measure: taxation_prior_quarter {
@@ -297,7 +299,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: quarter
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base}  ;;
   }
 
   measure:dividends_prior_quarter {
@@ -309,7 +311,7 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: quarter
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
   }
 
   measure: retained_earnings_prior_quarter {
@@ -321,18 +323,22 @@ view: profit_and_loss_report_fact {
     based_on_time: period_month
     period: quarter
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: ${amount_base} ;;
   }
 
   # Budgets for P&L Report Categories
 
+  dimension: budget_base {
+    type: number
+    sql: ${TABLE}.net_budget_amount * 1.96;;
+  }
 
   measure: budget {
     group_label: "P&L Base Measures"
 
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_amount ;;
+    sql: ${budget_base};;
   }
 
   measure: retained_earnings_budget {
@@ -340,7 +346,7 @@ view: profit_and_loss_report_fact {
     type: sum
     label: "Retained Earnings Budget"
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_amount ;;
+    sql: ${budget_base};;
   }
 
   measure: revenue_budget {
@@ -349,7 +355,7 @@ view: profit_and_loss_report_fact {
     type: sum
     description: "Sales revenue Budget"
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_amount  ;;
+    sql: ${budget_base}  ;;
     filters: [account_report_category: "Revenue"]
   }
 
@@ -359,7 +365,7 @@ view: profit_and_loss_report_fact {
     description: "Direct costs budget"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_amount  ;;
+    sql: ${budget_base}  ;;
     filters: [account_report_category: "Cost of Delivery"]
   }
 
@@ -370,7 +376,7 @@ view: profit_and_loss_report_fact {
     description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
 
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_amount  ;;
+    sql: ${budget_base};;
     filters: [account_report_category: "Overheads"]
   }
 
@@ -380,7 +386,7 @@ view: profit_and_loss_report_fact {
     description: "Corporation tax Budget"
     type: sum
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_amount  ;;
+    sql: ${budget_base} ;;
     filters: [account_report_category: "Taxation"]
   }
 
@@ -390,7 +396,7 @@ view: profit_and_loss_report_fact {
     type: sum
     description: "Dividends budget"
     value_format_name: gbp
-    sql: ${TABLE}.net_budget_amount  ;;
+    sql: ${budget_base} ;;
     filters: [account_report_category: "Dividends"]
   }
 
