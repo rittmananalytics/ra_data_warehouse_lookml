@@ -10,6 +10,18 @@ view: profit_and_loss_report_fact {
     sql: ${TABLE}.account_class ;;
   }
 
+  parameter: demo_mode {
+       type: unquoted
+    allowed_value: {
+      label: "Yes"
+      value: "yes"
+    }
+    allowed_value: {
+      label: "No"
+      value: "no"
+    }
+  }
+
   dimension: account_code {
     hidden: no
 
@@ -106,7 +118,10 @@ view: profit_and_loss_report_fact {
     type: sum
     description: "Sales revenue from consulting projects and other services"
     value_format_name: gbp
-    sql: ${TABLE}.net_amount  ;;
+    sql: CASE
+      WHEN {% parameter demo_mode %} == 'yes' THEN ${TABLE}.net_amount * 2.124
+      ELSE ${TABLE}.net_amount
+    END ;;
     filters: [account_report_category: "Revenue"]
   }
 
