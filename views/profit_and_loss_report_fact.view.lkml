@@ -320,7 +320,7 @@ view: profit_and_loss_report_fact {
 
   dimension: budget_base {
     type: number
-    sql: ${TABLE}.net_budget_amount * 1.96;;
+    sql: ${TABLE}.net_budget_amount ;;
   }
 
   measure: budget {
