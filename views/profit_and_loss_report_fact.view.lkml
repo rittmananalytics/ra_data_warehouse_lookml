@@ -10,17 +10,7 @@ view: profit_and_loss_report_fact {
     sql: ${TABLE}.account_class ;;
   }
 
-  parameter: demo_mode {
-       type: unquoted
-    allowed_value: {
-      label: "Yes"
-      value: "2.145"
-    }
-    allowed_value: {
-      label: "No"
-      value: "1"
-    }
-  }
+
 
   dimension: account_code {
     hidden: no
@@ -104,7 +94,7 @@ view: profit_and_loss_report_fact {
 
   dimension: amount_base {
     type: number
-    sql: ${TABLE}.net_amount * 2.14 ;;
+    sql: ${TABLE}.net_amount ;;
   }
 
   measure: amount {
