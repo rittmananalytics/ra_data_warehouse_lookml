@@ -4,6 +4,95 @@ view: monthly_resource_revenue_forecast_fact {
       sql: select * from ra-development.analytics.monthly_resource_planning_forecast_fact ;;
     }
 
+  parameter: selected_measure {
+    type: unquoted
+    allowed_value: {
+      label: "Total Forecast Revenue (GBP)"
+      value: "total_forecast_revenue_gbp"
+    }
+    allowed_value: {
+      label: "Total Forecast Monthly Hours"
+      value: "total_forecast_monthly_hours"
+    }
+    allowed_value: {
+      label: "Total Weighted Forecast Monthly Hours"
+      value: "total_weighted_forecast_monthly_hours"
+    }
+    allowed_value: {
+      label: "Total Forecast SAC FTE"
+      value: "total_forecast_sac_fte"
+    }
+    allowed_value: {
+      label: "Total Forecast Weighted SAC FTE"
+      value: "total_forecast_weighted_sac_fte"
+    }
+    allowed_value: {
+      label: "Average Forecast Hourly Rate"
+      value: "avg_forecast_hourly_rate"
+    }
+  }
+
+  # Parameter to allow user to select a dimension to split the measure by
+  parameter: selected_split {
+    type: unquoted
+    allowed_value: {
+      label: "Forecast Type"
+      value: "forecast_type"
+    }
+    allowed_value: {
+      label: "Engagement Name"
+      value: "engagement_name"
+    }
+    allowed_value: {
+      label: "Deal Partner Referral"
+      value: "deal_partner_referral"
+    }
+    allowed_value: {
+      label: "Deal Source"
+      value: "deal_source"
+    }
+  }
+
+  # Dynamic measure that changes based on the 'selected_measure' parameter
+  measure: dynamic_measure {
+    label: "Selected Measure"
+    type: number
+    sql:
+        {% if selected_measure._parameter_value == 'total_forecast_revenue_gbp' %}
+          ${total_forecast_revenue_gbp}
+        {% elsif selected_measure._parameter_value == 'total_forecast_monthly_hours' %}
+          ${total_forecast_monthly_hours}
+        {% elsif selected_measure._parameter_value == 'total_weighted_forecast_monthly_hours' %}
+          ${total_weighted_forecast_monthly_hours}
+        {% elsif selected_measure._parameter_value == 'total_forecast_sac_fte' %}
+          ${total_forecast_sac_fte}
+        {% elsif selected_measure._parameter_value == 'total_forecast_weighted_sac_fte' %}
+          ${total_forecast_weighted_sac_fte}
+        {% elsif selected_measure._parameter_value == 'avg_forecast_hourly_rate' %}
+          ${avg_forecast_hourly_rate}
+        {% else %}
+          NULL
+        {% endif %} ;;
+    value_format_name: decimal_2
+  }
+
+  # Dynamic dimension that changes based on the 'selected_split' parameter
+  dimension: dynamic_split {
+    label: "Selected Split"
+    sql:
+        {% if selected_split._parameter_value == 'forecast_type' %}
+          ${forecast_type}
+        {% elsif selected_split._parameter_value == 'engagement_name' %}
+          ${engagement_name}
+        {% elsif selected_split._parameter_value == 'deal_partner_referral' %}
+          ${deal_partner_referral}
+        {% elsif selected_split._parameter_value == 'deal_source' %}
+          ${deal_source}
+        {% else %}
+          ''
+        {% endif %} ;;
+  }
+
 
 
     dimension: forecast_pk {
