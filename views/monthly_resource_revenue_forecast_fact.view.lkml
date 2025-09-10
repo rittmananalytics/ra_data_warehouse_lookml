@@ -56,10 +56,23 @@ view: monthly_resource_revenue_forecast_fact {
       sql: ${TABLE}.forecasted_monthly_hours ;;
     }
 
+  dimension: forecasted_weighted_monthly_hours {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.forecasted_weighted_monthly_hours ;;
+  }
+
+
+
     measure: total_forecast_monthly_hours {
       type: sum
       sql: ${forecasted_monthly_hours} ;;
     }
+
+  measure: total_weighted_forecast_monthly_hours {
+    type: sum
+    sql: ${forecasted_weighted_monthly_hours} ;;
+  }
 
     dimension: forecast_monthly_deal_revenue_gbp {
       type: number
