@@ -71,6 +71,7 @@ view: monthly_resource_revenue_forecast_fact {
 
   measure: total_weighted_forecast_monthly_hours {
     type: sum
+    value_format_name: decimal_0
     sql: ${forecasted_weighted_monthly_hours} ;;
   }
 
@@ -97,6 +98,17 @@ view: monthly_resource_revenue_forecast_fact {
       type: sum
       sql: ${forecasted_sac_fte} ;;
     }
+
+  dimension: forecasted_weighted_sac_fte {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.forecasted_weighted_sac_fte ;;
+  }
+
+  measure: total_forecast_weighted_sac_fte {
+    type: sum
+    sql: ${forecasted_weighted_sac_fte} ;;
+  }
 
     dimension: forecast_hourly_deal_rate {
       type: number
