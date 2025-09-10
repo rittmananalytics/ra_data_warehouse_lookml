@@ -96,6 +96,7 @@ view: monthly_resource_revenue_forecast_fact {
 
     measure: total_forecast_sac_fte {
       type: sum
+      value_format_name: decimal_1
       sql: ${forecasted_sac_fte} ;;
     }
 
@@ -107,6 +108,8 @@ view: monthly_resource_revenue_forecast_fact {
 
   measure: total_forecast_weighted_sac_fte {
     type: sum
+    value_format_name: decimal_1
+
     sql: ${forecasted_weighted_sac_fte} ;;
   }
 
