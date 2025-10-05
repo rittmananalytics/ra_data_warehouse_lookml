@@ -25,60 +25,37 @@ view: invoices_fact {
 
 
 
-  dimension_group: first_invoice {
+  dimension_group: cohort {
     type: time
     timeframes: [
       raw,
       month,
       quarter,
       year,
-      quarter_of_year,
-      fiscal_month_num,
-      fiscal_quarter_of_year,
-      fiscal_year,
-      fiscal_quarter
+      quarter_of_year
     ]
     sql: ${TABLE}.first_invoice_month ;;
   }
 
-  dimension_group: last_invoice {
+  dimension_group: churn {
     hidden: no
 
     type: time
     timeframes: [
       raw,
-      month
+      month,
+      quarter,
+      quarter_of_year,
+      year
     ]
     sql: ${TABLE}.last_invoice_month ;;
   }
 
 
 
-  dimension_group: invoice {
-    label: "      Invoice"
-    hidden: yes
-    type: time
-    timeframes: [
-      date,
-      year,
-      month_num,
-      quarter_of_year,
-      week,
-      month,
-       fiscal_month_num,
-      fiscal_quarter_of_year,
-      fiscal_year,
-      fiscal_quarter,
-      quarter
-    ]
-    sql: ${TABLE}.invoice_sent_at_ts ;;
-  }
 
-  dimension: invoice_sent_at_ts {
-    hidden: yes
-    type: date
-    sql: ${TABLE}.invoice_sent_at_ts ;;
-  }
+
+
 
   measure: customer_total_active_months {
     group_label: "RFM"
@@ -88,11 +65,7 @@ view: invoices_fact {
     sql: ${invoice_issued_month} ;;
   }
 
-  dimension: invoice_creator_users_id {
-    hidden: yes
-    type: string
-    sql: ${TABLE}.invoice_creator_users_id ;;
-  }
+
 
   dimension: invoice_currency {
     group_label: "        Invoice Details"
@@ -210,25 +183,7 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_pk ;;
   }
 
-  dimension_group: invoice_sent_at_ts {
-    hidden: yes
-    label: "Invoice"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year,
-      fiscal_month_num,
-      fiscal_quarter,
-      fiscal_quarter_of_year,
-      fiscal_year
-    ]
-    sql: ${TABLE}.invoice_sent_at_ts ;;
-  }
+
 
   dimension: invoice_seq {
     group_label: "        Invoice Details"
@@ -258,13 +213,7 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
 
-  measure: avg_invoice_tax_rate_pct {
-    group_label: "Invoicing"
-    hidden: no
-    type: average
-    value_format_name: percent_0
-    sql: ${TABLE}.invoice_tax_rate_pct ;;
-  }
+
 
   dimension: invoice_total_days_overdue {
     group_label: "Invoicing"
@@ -275,13 +224,7 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_total_days_overdue ;;
   }
 
-  measure: avg_invoice_days_overdue {
-    group_label: "Invoicing"
 
-    type: average
-    value_format_name: decimal_0
-    sql: case when ${invoice_total_days_overdue} <=0 then 0 else ${invoice_total_days_overdue} end ;;
-  }
 
   dimension: invoice_total_days_to_pay {
     group_label: "        Invoice Details"
@@ -292,13 +235,7 @@ view: invoices_fact {
     sql: ${TABLE}.invoice_total_days_to_pay ;;
   }
 
-  measure: avg_invoice_days_to_pay {
-    type: average
-    group_label: "Invoicing"
 
-    value_format_name: decimal_0
-    sql: ${invoice_total_days_to_pay} ;;
-  }
 
 
   dimension: invoice_total_days_variance_on_payment_terms {
@@ -422,11 +359,7 @@ view: invoices_fact {
     sql: ${TABLE}.total_local_amount ;;
   }
 
-  dimension: invoice_local_total_revenue_amount {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.invoice_local_total_revenue_amount ;;
-  }
+
 
 
   dimension: invoice_gbp_amount {
@@ -514,15 +447,7 @@ view: invoices_fact {
     sql: ${invoice_gbp_tax_amount} ;;
   }
 
-  measure: total_net_amount_gbp {
-    label: "Total Revenue GBP"
-    group_label: "Invoicing"
 
-    hidden: no
-    type: sum
-    value_format_name: gbp_0
-    sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
-  }
 
   measure: total_invoiced_net_amount_gbp {
     label: "Total Invoiced Revenue GBP"
