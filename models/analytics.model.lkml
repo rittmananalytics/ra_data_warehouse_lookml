@@ -191,9 +191,27 @@ explore: people {
   hidden: no
   from: contacts_dim
   label: "     Contacts"
-  view_label: "Client and Marketing Contacts"
-  description: "Client contacts, leads and contacts and their related marketing and sales activity"
+  view_label: "Client and Marketing / Recruiting Contacts"
+  description: "Client contacts, leads and contacts and their related recruiting, marketing and sales activity"
 
+  join: recruiting_job_applications_fact {
+    view_label: "Recruitment"
+    sql_on: ${people.contact_pk} = ${recruiting_job_applications_fact.contact_fk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  join: recruiting_jobs_dim {
+    view_label: "Recruitment"
+    sql_on: ${recruiting_job_applications_fact.job_fk} = ${recruiting_jobs_dim.job_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  join: recruiting_application_stages_dim {
+    view_label: "Recruitment"
+    sql_on: ${recruiting_job_applications_fact.application_stage_fk} = ${recruiting_application_stages_dim.application_stage_pk} ;;
+    type: inner
+    relationship: many_to_one
+  }
   join: contact_engagements_fact {
     view_label: "Meetings"
     sql_on: ${people.contact_pk} = ${contact_engagements_fact.from_contact_pk} ;;

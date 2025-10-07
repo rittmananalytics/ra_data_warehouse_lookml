@@ -904,6 +904,26 @@ view: contacts_dim {
     type: yesno
     sql: ${TABLE}.contact_is_engaged_prospect_visitor ;;
   }
+  dimension: was_contact_recruitment_referred {
+    group_label: "      Contact Recruitment"
+    type: yesno
+    sql: ${TABLE}.contact_referred ;;
+  }
+
+  dimension: contact_recruitment_referring_site {
+    group_label: "      Contact Recruitment"
+    type: string
+    sql: ${TABLE}.contact_referred ;;
+  }
+
+  dimension: was_contact_recruitment_sourced {
+    group_label: "      Contact Recruitment"
+    type: string
+    sql: ${TABLE}.contact_sourced ;;
+  }
+
+
+
   measure: count {
     type: count
     drill_fields: [contact_conversion_event_name, contact_name, contact_staff_team_name, contact_last_email_name]
