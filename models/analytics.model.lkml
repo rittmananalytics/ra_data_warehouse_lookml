@@ -736,7 +736,12 @@ explore: companies_dim {
     sql: LEFT JOIN UNNEST(${timesheet_project_engagement_rag_status_fact.client_action_points}) as timesheet_project_engagement_rag_status_fact__client_action_points ;;
     relationship: one_to_many
   }
-
+  join: project_engagements {
+    view_label: "        Engagements (SoWs) Pipeline History"
+    sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
 
 
   join: customer_meetings {
@@ -809,12 +814,7 @@ explore: companies_dim {
     sql: LEFT JOIN UNNEST(${engagement_details.deliverables}) as engagement_details__deliverables ;;
     relationship: one_to_many
   }
-  join: project_engagements {
-    view_label: "        Engagements (SoWs) Pipeline History"
-    sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
+
   join: timesheet_project_engagements_dim__projects {
     view_label: "        Engagements (SoWs)"
     sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
@@ -862,14 +862,14 @@ explore: companies_dim {
     type: left_outer
     relationship: many_to_one
   }
-  join: timesheet_project_engagement_timesheets_projects_dim {
-    from: timesheet_projects_dim
-    fields: [timesheet_project_engagement_timesheets_projects_dim.project_name,timesheet_project_engagement_timesheets_projects_dim.project_delivery_start_ts_date,timesheet_project_engagement_timesheets_projects_dim.project_delivery_end_ts_date, timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
-    view_label: "        Engagements (SoWs)"
-    sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
+  #join: timesheet_project_engagement_timesheets_projects_dim {
+  #  from: timesheet_projects_dim
+  #  fields: [timesheet_project_engagement_timesheets_projects_dim.project_name,timesheet_project_engagement_timesheets_projects_dim.project_delivery_start_ts_date,timesheet_project_engagement_timesheets_projects_dim#.project_delivery_end_ts_date, timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
+  #  view_label: "        Engagements (SoWs)"
+  #  sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
+   # type: left_outer
+  #  relationship: many_to_one
+  #}
 
 
   join: companies_dim__all_company_ids {

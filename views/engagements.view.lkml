@@ -271,25 +271,25 @@ view: timesheet_project_engagements_dim__projects {
     primary_key: yes
     hidden: yes
     type: string
-    sql: timesheet_project_pk ;;
+    sql: ${TABLE}.timesheet_project_pk ;;
   }
   dimension_group: engagement_sprint_start {
     group_label: "Engagement Sprints"
     timeframes: [date]
     type: time
-    sql: timestamp(project_delivery_end_ts) ;;
+    sql: ${TABLE}.timestamp(project_delivery_end_ts) ;;
   }
   dimension_group: engagement_sprint_end {
     group_label: "Engagement Sprints"
     timeframes: [date]
     type: time
-    sql: timestamp(project_delivery_start_ts) ;;
+    sql: ${TABLE}.timestamp(project_delivery_start_ts) ;;
   }
   dimension: project_name {
     group_label: "Engagement Sprints"
     label: "Sprint Name"
     type: string
-    sql: project_name ;;
+    sql: ${TABLE}.project_name ;;
   }
   dimension: timesheet_project_engagements_dim__projects {
     type: string
