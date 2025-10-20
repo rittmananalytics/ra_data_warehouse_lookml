@@ -452,7 +452,15 @@ view: invoices_fact {
     sql: ${invoice_gbp_tax_amount} ;;
   }
 
+  measure: total_net_amount_gbp {
+    label: "Total Revenue GBP"
+    group_label: "Invoicing"
 
+    type: sum
+    value_format_name: gbp_0
+    sql: ${invoice_gbp_amount} - coalesce(${invoice_gbp_tax_amount},0);;
+    #filters: [invoice_status : "Paid, Open, Overdue, Draft"]
+  }
 
   measure: total_invoiced_net_amount_gbp {
     label: "Total Invoiced Revenue GBP"
