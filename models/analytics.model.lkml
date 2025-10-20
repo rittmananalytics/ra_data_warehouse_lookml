@@ -594,13 +594,13 @@ explore: client_engagements {
   view_label: "Client Accounts"
   join: ideal_customer_2025 {
     view_label: "Client Accounts"
-    sql_on: ${ideal_customer_2025.company_name} = ${client_engagements.company_name} ;;
+    sql_on: ${ideal_customer_2025.company_name} = ${companies_dim.company_name} ;;
     type: inner
     relationship: one_to_one
   }
   join: engagements {
     view_label: "        Engagements (SoWs)"
-    sql_on: ${client_engagements.company_pk} = ${engagements.company_fk};;
+    sql_on: ${client_projects.company_pk} = ${engagements.company_fk};;
     type: left_outer
     relationship: one_to_many
   }
@@ -635,7 +635,7 @@ explore: client_engagements {
   join: timesheet_project_engagements_projects_invoiced {
     view_label: "        Engagements (SoWs)"
     from: invoices_fact
-    fields: [timesheet_project_engagements_projects_invoiced.total_invoiced_net_amount_gbp,timesheet_project_engagements_projects_invoiced.invoice_paid_date,timesheet_project_engagements_projects_invoiced.invoice_currency,timesheet_project_engagements_projects_invoiced.total_local_amount,timesheet_project_engagements_projects_invoiced.expected_payment_date,timesheet_project_engagements_projects_invoiced.invoice_due_date,timesheet_project_engagements_projects_invoiced.invoice_total_days_overdue,timesheet_project_engagements_projects_invoiced.invoice_tax_rate_pct,total_invoice_net_amount_local,total_invoice_tax_local,invoice_issued_date,invoice_seq,invoice_subject,invoice_number,total_invoice_gross_amount_local,total_invoice_tax_local]
+    fields: [timesheet_project_engagements_projects_invoiced.total_invoiced_net_amount_gbp,timesheet_project_engagements_projects_invoiced.invoice_paid_date,timesheet_project_engagements_projects_invoiced.invoice_sent_at_ts_date,timesheet_project_engagements_projects_invoiced.invoice_currency,timesheet_project_engagements_projects_invoiced.total_local_amount,timesheet_project_engagements_projects_invoiced.expected_payment_date,timesheet_project_engagements_projects_invoiced.invoice_due_date,timesheet_project_engagements_projects_invoiced.invoice_total_days_overdue,timesheet_project_engagements_projects_invoiced.invoice_tax_rate_pct,total_invoice_net_amount_local,total_invoice_tax_local,invoice_issued_date,invoice_seq,invoice_subject,invoice_number,avg_invoice_days_overdue,avg_invoice_days_to_pay,total_invoice_gross_amount_local,total_invoice_tax_local]
     sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagements_projects_invoiced.timesheet_project_fk};;
     type: left_outer
     relationship: one_to_many
