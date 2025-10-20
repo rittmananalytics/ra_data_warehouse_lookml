@@ -587,7 +587,6 @@ explore: web_sessions_fact {
 }
 
 
-
 access_grant: can_view_company_bio {
   user_attribute: groups
   allowed_values: [ "Pepkor IT", "Google", "Brighton SST" ]
