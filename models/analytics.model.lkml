@@ -591,9 +591,9 @@ explore: client_engagements {
   from: companies_dim
   hidden: no
   group_label: "        Core Analytics"
-  view_label: "     Client Accounts"
+  view_label: "          Client Accounts"
   join: ideal_customer_2025 {
-    view_label: "     Client Accounts"
+    view_label: "          Client Accounts"
     sql_on: ${ideal_customer_2025.company_name} = ${client_engagements.company_name} ;;
     type: inner
     relationship: one_to_one
