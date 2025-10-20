@@ -591,9 +591,9 @@ explore: client_engagements {
   from: companies_dim
   hidden: no
   group_label: "        Core Analytics"
-  view_label: "Client Accounts"
+  view_label: "     Client Accounts"
   join: ideal_customer_2025 {
-    view_label: "Client Accounts"
+    view_label: "     Client Accounts"
     sql_on: ${ideal_customer_2025.company_name} = ${client_engagements.company_name} ;;
     type: inner
     relationship: one_to_one
@@ -621,12 +621,12 @@ explore: client_engagements {
     sql: LEFT JOIN UNNEST(${engagement_details.deliverables}) as engagement_details__deliverables ;;
     relationship: one_to_many
   }
-  join: project_engagements {
-    view_label: "        Engagements (SoWs) Pipeline History"
-    sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
+  #join: project_engagements {
+  #  view_label: "        Engagements (SoWs) Pipeline History"
+  #  sql_on: ${engagements.engagement_code} = ${project_engagements.engagement_code} ;;
+  #  type: left_outer
+  #  relationship: one_to_many
+  #}
   join: timesheet_project_engagements_dim__projects {
     view_label: "        Engagements (SoWs)"
     sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
