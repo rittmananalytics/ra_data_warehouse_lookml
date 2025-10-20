@@ -366,12 +366,13 @@ view: invoices_fact {
     hidden: no
     type: number
     value_format_name: gbp_0
-    sql: case when ${TABLE}.total_gbp_amount is null then
-    case when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.total_local_amount * 0.75
+    sql:
+    case when ${TABLE}.invoice_currency = 'GBP' then ${TABLE}.total_local_amount
+    when ${TABLE}.invoice_currency = 'USD' then ${TABLE}.total_local_amount * 0.75
     when ${TABLE}.invoice_currency = 'CAD' then ${TABLE}.total_local_amount *  0.58
     when ${TABLE}.invoice_currency = 'EUR' then ${TABLE}.total_local_amount *  0.90
-    else ${TABLE}.total_local_amount * 1 end
-    else ${TABLE}.total_gbp_amount end;;
+    end;;
+
   }
 
   dimension: invoice_local_total_tax_amount {
