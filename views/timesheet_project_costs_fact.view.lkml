@@ -38,7 +38,12 @@ view: timesheet_project_costs_fact {
     hidden: yes
 
     type: number
-    sql: ${TABLE}.expense_amount_local / ${expenses_exchange_rates.currency_rate};;
+    sql: ${TABLE}.expense_amount_local *
+    case when ${TABLE}.expense_currency_code = 'USD' then  0.75
+    when ${TABLE}.expense_currency_code = 'CAD' then  0.58
+    when ${TABLE}.expense_currency_code = 'EUR' then  0.90
+    else 1  end
+    ;;
   }
 
   measure: total_cost_gbp {
