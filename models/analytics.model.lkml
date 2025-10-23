@@ -608,6 +608,14 @@ explore: companies_dim {
     relationship: one_to_one
   }
 
+  join: company_converted_projects {
+    view_label: "           Companies"
+    sql_on: ${companies_dim.company_pk} = ${company_converted_projects.company_pk} ;;
+    type: inner
+    relationship: one_to_one
+
+  }
+
   ## Client Engagements, which are groupings of Harvest projects linked-together by a Hubspot Deal ID + Client code + sprint #
 
   join: engagements {
