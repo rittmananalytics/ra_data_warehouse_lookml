@@ -179,6 +179,18 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.project_name ;;
   }
 
+  dimension: is_discovery_sprint {
+    group_label: "        Project Details"
+    type: yesno
+    sql: ${TABLE}.project_name like '%Discovery%';;
+  }
+
+  dimension: is_jumpstart_sprint {
+  group_label: "        Project Details"
+  type: yesno
+  sql: ${TABLE}.project_name like '%Jumpstart%' or ${TABLE}.project_name like '%Quickstart%';;
+  }
+
   measure: total_project_fee_amount {
     label: "Total Project Fee Amount GBP"
     group_label: "Project Commercials"
@@ -220,6 +232,33 @@ view: timesheet_projects_dim {
     drill_fields: [project_name]
   }
 
+  measure: count_discovery_projects {
+    hidden: no
+    label: "Total Discovery Sprints"
+
+    type: count_distinct
+    sql:  ${TABLE}.timesheet_project_pk ;;
+    filters: [is_discovery_sprint: "Yes"]
+
+  }
+
+  measure: count_jumpstart_projects {
+    hidden: no
+    label: "Total Jumpstart Sprints"
+
+    type: count_distinct
+    sql:  ${TABLE}.timesheet_project_pk ;;
+    filters: [is_jumpstart_sprint: "Yes"]
+  }
+
+  measure: count_implementation_projects {
+    hidden: no
+    label: "Total Implementation Sprints"
+
+    type: count_distinct
+    sql:  ${TABLE}.timesheet_project_pk ;;
+    filters: [is_discovery_sprint: "No", is_jumpstart_sprint: "No"]
+  }
 
 
 }

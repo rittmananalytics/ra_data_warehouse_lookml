@@ -185,6 +185,8 @@ view: invoices_fact {
 
 
 
+
+
   dimension: invoice_seq {
     group_label: "        Invoice Details"
 
@@ -486,7 +488,7 @@ view: invoices_fact {
   measure: count_invoices {
     group_label: "Invoicing"
 
-    hidden: yes
+    hidden: no
 
     type: count_distinct
     sql: ${TABLE}.invoice_pk ;;
