@@ -114,6 +114,7 @@ view: invoices_fact {
       month,
       month_num,
       quarter,
+      fiscal_year,
       year]
     sql: ${TABLE}.invoice_issue_at_ts ;;
   }
