@@ -11,7 +11,11 @@ datagroup: analytics_default_datagroup {
 fiscal_month_offset: +3
 week_start_day: monday
 
+explore: delivery_project_cycle_times_hkm {
+  label: "Cycle Times (HKM)"
+  group_label: "Experimental"
 
+}
 
 explore: anomaly_detection {}
 
