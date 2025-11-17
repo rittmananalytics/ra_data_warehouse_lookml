@@ -14,7 +14,10 @@ week_start_day: monday
 explore: delivery_project_cycle_times_hkm {
   label: "Cycle Times (HKM)"
   group_label: "Experimental"
-
+}
+explore: delivery_project_cycle_times {
+  label: "Cycle Times"
+  group_label: "Experimental"
 }
 
 explore: anomaly_detection {}

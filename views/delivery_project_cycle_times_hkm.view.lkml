@@ -164,7 +164,7 @@ view: delivery_project_cycle_times_hkm {
 
     dimension: client_name {
       type: string
-      sql: ${client_name} ;;
+      sql: ${TABLE}.client_name ;;
     }
 
     dimension: assignee_name {
