@@ -20,7 +20,7 @@ dimension: issue_id {
 
 dimension: client_name {
   type: string
-  sql: ${project_name} ;;
+  sql: ${TABLE}.client_name ;;
 }
 
 dimension: assignee_name {
