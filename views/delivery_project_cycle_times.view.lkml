@@ -18,6 +18,11 @@ dimension: issue_id {
   sql: ${TABLE}.issue_id ;;
 }
 
+dimension: issue_name {
+  type: string
+  sql: ${TABLE}.issue_name ;;
+}
+
 dimension: client_name {
   type: string
   sql: ${TABLE}.client_name ;;
@@ -74,10 +79,10 @@ dimension: cycle_start_status {
   sql: ${TABLE}.cycle_start_status ;;
 }
 
-dimension: cycle_complete_day {
-  type: date
-  datatype: date
-  sql: ${TABLE}.cycle_complete_day ;;
+dimension_group: cycle_complete_day {
+  type: time
+  datatype: timestamp
+  sql: timestamp(${TABLE}.cycle_complete_day) ;;
 }
 
 dimension: cycle_complete_status {
