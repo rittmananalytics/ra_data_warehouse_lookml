@@ -81,6 +81,12 @@ view: web_events_fact {
     sql: ${TABLE}.event_ts ;;
   }
 
+  dimension: blended_user_id {
+    type: string
+    sql: ${TABLE}.blended_user_id ;;
+    hidden: yes
+  }
+
   dimension: event_type {
     group_label: "Behavior"
     description: "The type of user interaction or system event recorded (e.g., 'Page View', 'Click', 'Form Submission', 'Meeting Booked')."
@@ -225,6 +231,12 @@ view: web_events_fact {
     filters: [is_goal_achieved: "Yes"]
   }
 
+  measure: total_sessions {
+    value_format_name: decimal_0
+    type: count_distinct
+    sql: ${session_id} ;;
+  }
+
   measure: total_session_conversions {
     description: "The total number of unique sessions that included at least one 'Meeting Booked' event."
     value_format_name: decimal_0
@@ -232,6 +244,13 @@ view: web_events_fact {
     sql: ${session_id} ;;
     filters: [is_conversion_event: "Yes"]
   }
+
+  measure: total_blended_user_id {
+    value_format_name: decimal_0
+    type: count_distinct
+    sql: ${blended_user_id} ;;
+  }
+
 
   measure: total_user_conversions {
     description: "The total number of unique users (blended_user_id) who performed at least one 'Meeting Booked' event."

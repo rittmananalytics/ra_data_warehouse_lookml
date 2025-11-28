@@ -22,6 +22,13 @@ explore: delivery_project_cycle_times {
 
 explore: anomaly_detection {}
 
+explore: employee_pto {
+  label: "Employee PTO"
+  group_label: "HR Analytics"
+  view_label: "PTO Records"
+  description: "Employee paid time off tracking and analysis"
+}
+
 explore: marketing_email_sends {
   from: email_sends_dim
   label: "Marketing Emails"
@@ -32,6 +39,7 @@ explore: marketing_email_sends {
     relationship: one_to_many
   }
 }
+
 
 
 
@@ -338,6 +346,7 @@ explore: revenue_and_forecast {
 
 
 }
+
 
 
 
