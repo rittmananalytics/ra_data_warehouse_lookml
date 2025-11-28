@@ -1,22 +1,23 @@
-- dashboard: hkm_pop_dashboard_retail
+- dashboard: hkm_example_retail_dashboard
   title: HKM Example Retail Dashboard
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
-  preferred_slug: OYWdYMVrGMUglf34ntCulS
+  preferred_slug: OYWdYMVrGMUglf34ntCulL
   elements:
 
-  # --- CHART 1: LINE CHART (Current vs Prior) ---
+  # --- CHART 1: LINE CHART (Trends over time) ---
   - title: HKM Example Dashboard
     name: HKM Example Dashboard
     model: analytics
     explore: web_sessions_fact
     type: looker_line
+    # CORE FIELDS: Measure, Normalized Date (X-Axis), Period (Pivot)
     fields: [web_sessions_fact.total_sessions, web_sessions_fact.period_normalized_date, web_sessions_fact.period]
     pivots: [web_sessions_fact.period]
     fill_fields: [web_sessions_fact.period_normalized_date]
 
-    # Filter out rows that didn't match the selected criteria
+    # FILTER: Exclude data that doesn't fall into Current or Prior buckets
     filters:
       web_sessions_fact.period: "-NULL"
 
@@ -49,7 +50,7 @@
     interpolation: linear
     defaults_version: 1
 
-    # LISTEN: Connects the Dashboard Filters to the View Fields
+    # LISTEN: Binds the dashboard filters to the view logic
     listen:
       Period Selector: web_sessions_fact.period_selector
       Custom Date Range: web_sessions_fact.date_filter
@@ -58,16 +59,17 @@
     width: 24
     height: 12
 
-  # --- CHART 2: SINGLE VALUE TILE (Total with Comparison) ---
+  # --- CHART 2: SINGLE VALUE TILE (Totals with % Change) ---
   - title: Total Sessions
     name: Total Sessions
     model: analytics
     explore: web_sessions_fact
     type: single_value
+    # CORE FIELDS: Measure and Period (No Date Dimension needed here)
     fields: [web_sessions_fact.total_sessions, web_sessions_fact.period]
     pivots: [web_sessions_fact.period]
 
-    # Filter out rows that didn't match the selected criteria
+    # FILTER: Exclude NULL periods
     filters:
       web_sessions_fact.period: "-NULL"
 
@@ -91,7 +93,7 @@
     limit_displayed_rows: false
     defaults_version: 1
 
-    # LISTEN: Connects the Dashboard Filters to the View Fields
+    # LISTEN: Binds the dashboard filters to the view logic
     listen:
       Period Selector: web_sessions_fact.period_selector
       Custom Date Range: web_sessions_fact.date_filter
@@ -103,21 +105,25 @@
   # --- FILTERS CONFIGURATION ---
   filters:
 
-  # 1. The Primary Selector (Retail Weeks, Months, or Custom)
+  # 1. The Primary Selector (Retail Weeks/Months or Custom)
+  # NOTE: 'default_value' is omitted here to prevent conflicts.
+  # It will use the default defined in the View file (this_retail_week).
   - name: Period Selector
     title: Period Selector
     type: field_filter
+    # We keep the default, but set required: false to prevent crashing if validation fails
     default_value: "this_retail_week"
     allow_multiple_values: false
-    required: true
+    required: false
     ui_config:
-      type: button_toggles    # 'button_toggles' or 'dropdown_menu'
+      type: dropdown_menu    # Switch to dropdown to ensure it loads options correctly
       display: inline
     model: analytics
     explore: web_sessions_fact
     field: web_sessions_fact.period_selector
 
-  # 2. The Custom Date Picker (Only used if 'Custom Range' is selected above)
+  # 2. The Custom Date Picker
+  # (Functionally active only when 'Custom Range' is selected above)
   - name: Custom Date Range
     title: Custom Date Range (Only if Custom Selected)
     type: field_filter
@@ -125,7 +131,7 @@
     allow_multiple_values: false
     required: false
     ui_config:
-      type: advanced          # Allows full date picker flexibility
+      type: advanced          # Allows full date picking capabilities
       display: popover
     model: analytics
     explore: web_sessions_fact
