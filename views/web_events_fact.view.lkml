@@ -81,11 +81,7 @@ view: web_events_fact {
     sql: ${TABLE}.event_ts ;;
   }
 
-  dimension: blended_user_id {
-    type: string
-    sql: ${TABLE}.blended_user_id ;;
-    hidden: yes
-  }
+
 
   dimension: event_type {
     group_label: "Behavior"
