@@ -112,7 +112,6 @@
     title: Period Selector
     type: field_filter
     # We keep the default, but set required: false to prevent crashing if validation fails
-    default_value: "this_retail_week"
     allow_multiple_values: false
     required: false
     ui_config:
