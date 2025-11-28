@@ -2,6 +2,50 @@ view: web_sessions_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.web_sessions_fact`
     ;;
 
+  # --- POP LOGIC START ---
+  # 1. The Filter-Only Field
+  # We use this to capture the user's input (e.g., "Last 30 Days") without applying
+  # a hard SQL WHERE clause that would exclude last year's data.
+  filter: date_filter {
+    type: date
+    description: "Use this filter to define the current reporting period. The logic will automatically calculate the prior year comparison."
+  }
+
+  # 2. The Period Categorization
+  # Determines if a row belongs to the selected range or the range 1 year ago.
+  dimension: period {
+    type: string
+    description: "Current Period vs Prior Year based on the Date Filter"
+    sql:
+      CASE
+        -- Current Period
+        WHEN ${session_start_ts_raw} >= {% date_start date_filter %}
+         AND ${session_start_ts_raw} < {% date_end date_filter %}
+        THEN 'Current Period'
+
+      -- Prior Year (Shift criteria back 1 year)
+      WHEN ${session_start_ts_raw} >= TIMESTAMP_SUB({% date_start date_filter %}, INTERVAL 1 YEAR)
+      AND ${session_start_ts_raw} < TIMESTAMP_SUB({% date_end date_filter %}, INTERVAL 1 YEAR)
+      THEN 'Prior Year'
+
+      ELSE NULL
+      END ;;
+  }
+
+  # 3. Normalized Date (X-Axis)
+  # Shifts Prior Year dates forward by 1 year so they plot on top of Current Period dates.
+  dimension_group: period_normalized {
+    label: "Chart Date"
+    type: time
+    timeframes: [date, week, month]
+    sql:
+      CASE
+        WHEN ${period} = 'Current Period' THEN ${session_start_ts_raw}
+        WHEN ${period} = 'Prior Year' THEN TIMESTAMP_ADD(${session_start_ts_raw}, INTERVAL 1 YEAR)
+      END ;;
+  }
+  # --- POP LOGIC END ---
+
   parameter: time_range {
     type: string
     description: "Select a predefined time period to filter the data. Values represent the number of past days to include."
