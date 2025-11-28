@@ -2,6 +2,7 @@ connection: "ra_dw_prod"
 
 # include all the views
 include: "/views/**/*.view"
+include: "/dashboards/*"
 
 datagroup: analytics_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;

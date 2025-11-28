@@ -2,38 +2,118 @@ view: web_sessions_fact {
   sql_table_name: `{{ _user_attributes['dataset'] }}.web_sessions_fact`
     ;;
 
-  # --- POP LOGIC START ---
-  # 1. The Filter-Only Field
-  # We use this to capture the user's input (e.g., "Last 30 Days") without applying
-  # a hard SQL WHERE clause that would exclude last year's data.
-  filter: date_filter {
-    type: date
-    description: "Use this filter to define the current reporting period. The logic will automatically calculate the prior year comparison."
+  dimension: retail_week {
+    type: number
+    sql: (select Retail_Week from ra-development.analytics_seed.retail_calendar c where c.`date` = date(${TABLE}.session_start_ts)) ;;
   }
 
-  # 2. The Period Categorization
-  # Determines if a row belongs to the selected range or the range 1 year ago.
+  dimension: retail_month {
+    type: number
+    sql: (select Retail_Month from ra-development.analytics_seed.retail_calendar c where c.`date` = date(${TABLE}.session_start_ts)) ;;
+  }
+
+  dimension: retail_year {
+    type: number
+    sql: (select Retail_Year from ra-development.analytics_seed.retail_calendar c where c.`date` = date(${TABLE}.session_start_ts)) ;;
+  }
+
+  # --- POP HYBRID LOGIC START ---
+
+  # 1. The Selector
+  # This serves as the primary "Filter" for the user.
+  parameter: period_selector {
+    type: string
+    label: "Period Selector"
+    description: "Select a Retail Period or choose 'Custom Range' to pick specific dates."
+    allowed_value: { label: "This Retail Week" value: "this_retail_week" }
+    allowed_value: { label: "Last Retail Week" value: "last_retail_week" }
+    allowed_value: { label: "Last Retail Month" value: "last_retail_month" }
+    allowed_value: { label: "Last Retail Year" value: "last_retail_year" }
+    allowed_value: { label: "Custom Range" value: "custom" }
+    default_value: "this_retail_week"
+  }
+
+  # 2. The Custom Date Filter
+  # Only used when period_selector = 'Custom Range'
+  filter: date_filter {
+    type: date
+    label: "Custom Date Range"
+    description: "Select dates here ONLY if 'Custom Range' is selected above."
+  }
+
+  # 3. The Logic Engine
+  # Uses Liquid to generate different SQL based on the user's selection
   dimension: period {
     type: string
-    description: "Current Period vs Prior Year based on the Date Filter"
+    description: "Categorizes rows into Current vs Prior based on the Selector."
     sql:
       CASE
-        -- Current Period
-        WHEN ${session_start_ts_raw} >= {% date_start date_filter %}
-         AND ${session_start_ts_raw} < {% date_end date_filter %}
-        THEN 'Current Period'
+        /* ---------------------------------------------------------
+           SCENARIO 1: CUSTOM DATE RANGE
+           (Uses standard Calendar Dates)
+           --------------------------------------------------------- */
+        {% if period_selector._parameter_value == "'custom'" %}
 
-      -- Prior Year (Shift criteria back 1 year)
-      WHEN ${session_start_ts_raw} >= TIMESTAMP_SUB({% date_start date_filter %}, INTERVAL 1 YEAR)
-      AND ${session_start_ts_raw} < TIMESTAMP_SUB({% date_end date_filter %}, INTERVAL 1 YEAR)
+      -- Current Period (Calendar)
+      WHEN ${session_start_ts_raw} >= {% date_start date_filter %}
+      AND ${session_start_ts_raw} < {% date_end date_filter %}
+      THEN 'Current Period'
+
+      -- Prior Year (Calendar - Shifted back 1 Year)
+      WHEN ${session_start_ts_raw} >= TIMESTAMP(DATETIME_SUB(DATETIME({% date_start date_filter %}), INTERVAL 1 YEAR))
+      AND ${session_start_ts_raw} < TIMESTAMP(DATETIME_SUB(DATETIME({% date_end date_filter %}), INTERVAL 1 YEAR))
       THEN 'Prior Year'
+
+      /* ---------------------------------------------------------
+      SCENARIO 2: RETAIL PERIODS
+      (Uses Retail Year/Month/Week Columns)
+      --------------------------------------------------------- */
+      {% else %}
+
+      /* --- CURRENT PERIOD LOGIC --- */
+      WHEN
+      {% if period_selector._parameter_value == "'this_retail_week'" %}
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = CURRENT_DATE)
+      AND ${retail_week} = (SELECT Retail_Week FROM ra-development.analytics_seed.retail_calendar WHERE date = CURRENT_DATE)
+      {% elsif period_selector._parameter_value == "'last_retail_week'" %}
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY))
+      AND ${retail_week} = (SELECT Retail_Week FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY))
+      {% elsif period_selector._parameter_value == "'last_retail_month'" %}
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
+      AND ${retail_month} = (SELECT Retail_Month FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
+      {% elsif period_selector._parameter_value == "'last_retail_year'" %}
+      -- "Last Retail Year" usually means the full previous completed year.
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = CURRENT_DATE) - 1
+      {% endif %}
+      THEN 'Current Period'
+
+      /* --- PRIOR YEAR LOGIC --- */
+      /* We match the exact same criteria as above, but subtract 1 from the Retail Year */
+      WHEN
+      {% if period_selector._parameter_value == "'this_retail_week'" %}
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = CURRENT_DATE) - 1
+      AND ${retail_week} = (SELECT Retail_Week FROM ra-development.analytics_seed.retail_calendar WHERE date = CURRENT_DATE)
+      {% elsif period_selector._parameter_value == "'last_retail_week'" %}
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)) - 1
+      AND ${retail_week} = (SELECT Retail_Week FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY))
+      {% elsif period_selector._parameter_value == "'last_retail_month'" %}
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)) - 1
+      AND ${retail_month} = (SELECT Retail_Month FROM ra-development.analytics_seed.retail_calendar WHERE date = DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
+      {% elsif period_selector._parameter_value == "'last_retail_year'" %}
+      ${retail_year} = (SELECT Retail_Year FROM ra-development.analytics_seed.retail_calendar WHERE date = CURRENT_DATE) - 2
+      {% endif %}
+      THEN 'Prior Year'
+
+      {% endif %}
 
       ELSE NULL
       END ;;
   }
 
-  # 3. Normalized Date (X-Axis)
-  # Shifts Prior Year dates forward by 1 year so they plot on top of Current Period dates.
+  # 4. Normalized Date (For Charting)
+  # This works the same for both scenarios:
+  # It takes whatever fell into the 'Prior Year' bucket and shifts it forward 1 year
+  # so it overlays on the chart.
   dimension_group: period_normalized {
     label: "Chart Date"
     type: time
@@ -41,10 +121,10 @@ view: web_sessions_fact {
     sql:
       CASE
         WHEN ${period} = 'Current Period' THEN ${session_start_ts_raw}
-        WHEN ${period} = 'Prior Year' THEN TIMESTAMP_ADD(${session_start_ts_raw}, INTERVAL 1 YEAR)
+        WHEN ${period} = 'Prior Year' THEN TIMESTAMP(DATETIME_ADD(DATETIME(${session_start_ts_raw}), INTERVAL 1 YEAR))
       END ;;
   }
-  # --- POP LOGIC END ---
+  # --- POP HYBRID LOGIC END ---
 
   parameter: time_range {
     type: string
@@ -70,6 +150,8 @@ view: web_sessions_fact {
       value: "365"
     }
   }
+
+
 
   dimension: blended_user_id {
     group_label: "  Audience"
