@@ -366,6 +366,7 @@ explore: revenue_and_forecast {
 
 
 
+
 explore: projects_delivered {
   hidden: yes
   label: "           Projects"
@@ -1173,4 +1174,4 @@ explore: companies_dim {
       type: inner
       relationship: many_to_one
     }
-    }
+  }
