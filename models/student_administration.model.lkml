@@ -80,10 +80,10 @@ explore: course_summary_by_year {
   description: "Pre-aggregated course performance metrics by academic year"
   view_label: "Course Summary"
 
-  from: course_summary_by_year_agg
+  from: bp_course_summary_by_year_agg
 
   join: academic_years {
-    from: academic_year_dim
+    from: bp_academic_year_dim
     view_label: "Academic Year"
     sql_on: ${course_summary_by_year.academic_year_fk} = ${academic_years.academic_year_pk} ;;
     type: left_outer
@@ -91,7 +91,7 @@ explore: course_summary_by_year {
   }
 
   join: college_levels {
-    from: college_level_dim
+    from: bp_college_level_dim
     view_label: "College Levels"
     sql_on: ${course_summary_by_year.college_level_fk} = ${college_levels.college_level_pk} ;;
     type: left_outer
@@ -99,7 +99,7 @@ explore: course_summary_by_year {
   }
 
   join: offerings {
-    from: offering_dim
+    from: bp_offering_dim
     view_label: "Course Offerings"
     sql_on: ${course_summary_by_year.offering_fk} = ${offerings.offering_pk} ;;
     type: left_outer
