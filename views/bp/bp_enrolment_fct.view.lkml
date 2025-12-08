@@ -318,7 +318,8 @@ view: bp_enrolment_fct {
 
   # Measures
   measure: total_enrolments {
-    type: count
+    type: count_distinct
+    sql: ${enrolment_pk} ;;
     label: "Total Enrolments"
     drill_fields: [enrolment_id, final_grade, completion_status]
   }

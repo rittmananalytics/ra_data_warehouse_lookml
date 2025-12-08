@@ -116,7 +116,7 @@ view: engagements {
       label: "Engagement Deal Amount"
       group_label: "                       Engagement Details"
 
-      hidden: yes
+      hidden: no
       type: number
       sql: ${TABLE}.deal_amount ;;
     }
@@ -218,6 +218,14 @@ view: engagements {
     type: average
     sql: ${deal_created_days_to_engagement_start} ;;
   }
+
+  measure: avg_deal_amount {
+    label: "Average Original Deal Amount"
+    group_label: "                       Engagement Details"
+
+    type: average
+    sql: ${deal_amount} ;;
+    }
 
     dimension_group: deal_created {
       label: "Engagement Created"
