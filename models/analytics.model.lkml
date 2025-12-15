@@ -9,6 +9,11 @@ datagroup: analytics_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+datagroup: daily_refresh {
+  sql_trigger: SELECT CURRENT_DATE() ;;
+  max_cache_age: "24 hours"
+}
+
 fiscal_month_offset: +3
 week_start_day: monday
 
@@ -28,6 +33,26 @@ explore: employee_pto {
   group_label: "HR Analytics"
   view_label: "PTO Records"
   description: "Employee paid time off tracking and analysis"
+}
+
+explore: engagement_renewal_analysis {
+  label: "Engagement Renewal Analysis"
+  group_label: "        Core Analytics"
+  view_label: "Renewal Analysis"
+  description: "Analyze engagement renewals, churns, and reactivations with 60-day renewal window. Grain: Individual engagements"
+  
+  # Note: This explore is at the engagement grain for detailed analysis
+  # For quarterly aggregate metrics including cumulative churned clients, use the separate aggregate view
+}
+
+explore: cumulative_churned_clients {
+  label: "Cumulative Churned Clients"
+  group_label: "        Core Analytics"
+  view_label: "Churned Clients"
+  description: "Track the pool of churned clients over time, showing which companies remain in churned status each quarter"
+  
+  # This is a separate aggregate view that shows unique companies in churned status by quarter
+  # Join to engagement_renewal_analysis for combined quarterly metrics
 }
 
 explore: marketing_email_sends {
@@ -347,6 +372,7 @@ explore: revenue_and_forecast {
 
 
 }
+
 
 
 
