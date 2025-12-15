@@ -1,12 +1,14 @@
 # Engagement Renewal Analysis View
 # This derived table calculates renewal opportunities, renewals, churns, and reactivations
 # Based on 60-day renewal window logic
+# WITH CORRECT REVENUE TRACKING: Retained revenue = NEXT engagement's value
+# WITH CORRECT TIMING: Retained revenue attributed to quarter when NEW engagement started
 
 view: engagement_renewal_analysis {
   derived_table: {
     sql:
       WITH engagement_sequence AS (
-        -- Get all engagements with their company, start and end dates
+        -- Get all engagements with their company, start and end dates, AND DEAL AMOUNT
         SELECT
           c.company_name,
           c.company_pk,
@@ -14,12 +16,18 @@ view: engagement_renewal_analysis {
           e.deal_name AS engagement_name,
           TIMESTAMP(e.engagement_start_ts) AS engagement_start_date,
           TIMESTAMP(e.engagement_end_ts) AS engagement_end_date,
-          -- Get the next engagement start date for the same company
+          e.deal_amount AS engagement_deal_amount_gbp,
+          -- Get the next engagement details
           LEAD(TIMESTAMP(e.engagement_start_ts)) OVER (
             PARTITION BY c.company_pk 
             ORDER BY TIMESTAMP(e.engagement_end_ts), TIMESTAMP(e.engagement_start_ts)
           ) AS next_engagement_start_date,
-          -- Get the previous engagement end date for the same company
+          -- Get the NEXT engagement's revenue (what we actually retained!)
+          LEAD(e.deal_amount) OVER (
+            PARTITION BY c.company_pk 
+            ORDER BY TIMESTAMP(e.engagement_end_ts), TIMESTAMP(e.engagement_start_ts)
+          ) AS next_engagement_deal_amount_gbp,
+          -- Get the previous engagement end date
           LAG(TIMESTAMP(e.engagement_end_ts)) OVER (
             PARTITION BY c.company_pk 
             ORDER BY TIMESTAMP(e.engagement_end_ts), TIMESTAMP(e.engagement_start_ts)
@@ -36,11 +44,12 @@ view: engagement_renewal_analysis {
       ),
       
       engagement_gaps AS (
-        -- Calculate days between engagements
+        -- Calculate days between engagements and days since engagement ended
         SELECT
           *,
           DATE_DIFF(DATE(next_engagement_start_date), DATE(engagement_end_date), DAY) AS days_to_next_engagement,
-          DATE_DIFF(DATE(engagement_start_date), DATE(previous_engagement_end_date), DAY) AS days_from_previous_engagement
+          DATE_DIFF(DATE(previous_engagement_end_date), DATE(engagement_start_date), DAY) AS days_from_previous_engagement,
+          DATE_DIFF(CURRENT_DATE(), DATE(engagement_end_date), DAY) AS days_since_engagement_ended
         FROM engagement_sequence
       ),
       
@@ -55,10 +64,11 @@ view: engagement_renewal_analysis {
             ELSE FALSE
           END AS is_renewed,
           
-          -- Churn: no next engagement OR next engagement is > 60 days away
+          -- Churn: engagement ended 60+ days ago with no renewal
           CASE
-            WHEN next_engagement_start_date IS NULL THEN TRUE
-            WHEN days_to_next_engagement > 60 THEN TRUE
+            WHEN days_since_engagement_ended > 60 
+              AND (next_engagement_start_date IS NULL OR days_to_next_engagement > 60) 
+            THEN TRUE
             ELSE FALSE
           END AS is_churned,
           
@@ -69,11 +79,11 @@ view: engagement_renewal_analysis {
             ELSE FALSE
           END AS is_reactivation,
           
-          -- First churn date (when this specific engagement created a churn)
+          -- First churn date - only set if actually churned (60+ days elapsed)
           CASE
-            WHEN next_engagement_start_date IS NULL 
-              OR days_to_next_engagement > 60
-            THEN engagement_end_date
+            WHEN days_since_engagement_ended > 60 
+              AND (next_engagement_start_date IS NULL OR days_to_next_engagement > 60)
+            THEN TIMESTAMP_ADD(engagement_end_date, INTERVAL 60 DAY)
             ELSE NULL
           END AS first_churn_date
           
@@ -87,20 +97,37 @@ view: engagement_renewal_analysis {
         engagement_name,
         engagement_start_date,
         engagement_end_date,
+        engagement_deal_amount_gbp,
+        next_engagement_deal_amount_gbp,
         next_engagement_start_date,
         previous_engagement_end_date,
         days_to_next_engagement,
         days_from_previous_engagement,
+        days_since_engagement_ended,
         is_renewed,
         is_churned,
         is_reactivation,
         first_churn_date,
         
-        -- Extract quarter and year for grouping
+        -- Quarter labels based on ENDING engagement (for opportunity/churn timing)
         EXTRACT(QUARTER FROM engagement_end_date) AS end_quarter_num,
         EXTRACT(YEAR FROM engagement_end_date) AS end_year,
         FORMAT_DATE('%Y-Q%Q', DATE(engagement_end_date)) AS end_quarter_label,
         
+        -- ADDED: Quarter labels based on NEXT engagement START (for renewal timing - when won!)
+        CASE WHEN next_engagement_start_date IS NOT NULL THEN
+          EXTRACT(QUARTER FROM next_engagement_start_date)
+        END AS renewal_quarter_num,
+        
+        CASE WHEN next_engagement_start_date IS NOT NULL THEN
+          EXTRACT(YEAR FROM next_engagement_start_date)
+        END AS renewal_year,
+        
+        CASE WHEN next_engagement_start_date IS NOT NULL THEN
+          FORMAT_DATE('%Y-Q%Q', DATE(next_engagement_start_date))
+        END AS renewal_quarter_label,
+        
+        -- Churn quarter
         CASE WHEN first_churn_date IS NOT NULL THEN
           EXTRACT(QUARTER FROM first_churn_date)
         END AS churn_quarter_num,
@@ -113,6 +140,7 @@ view: engagement_renewal_analysis {
           FORMAT_DATE('%Y-Q%Q', DATE(first_churn_date))
         END AS churn_quarter_label,
         
+        -- Reactivation quarter
         CASE WHEN is_reactivation THEN
           EXTRACT(QUARTER FROM engagement_start_date)
         END AS reactivation_quarter_num,
@@ -160,6 +188,23 @@ view: engagement_renewal_analysis {
     sql: ${TABLE}.engagement_name ;;
   }
   
+  # Revenue Dimensions
+  dimension: engagement_deal_amount_gbp {
+    type: number
+    sql: ${TABLE}.engagement_deal_amount_gbp ;;
+    value_format_name: gbp
+    label: "Engagement Deal Amount (GBP)"
+    description: "The GBP value of THIS engagement that ended"
+  }
+  
+  dimension: next_engagement_deal_amount_gbp {
+    type: number
+    sql: ${TABLE}.next_engagement_deal_amount_gbp ;;
+    value_format_name: gbp
+    label: "Next Engagement Deal Amount (GBP)"
+    description: "The GBP value of the NEXT engagement (retained revenue)"
+  }
+  
   # Dates
   dimension_group: engagement_start {
     type: time
@@ -204,6 +249,26 @@ view: engagement_renewal_analysis {
     description: "Number of days between the previous engagement ending and this one starting"
   }
   
+  dimension: days_since_engagement_ended {
+    type: number
+    sql: ${TABLE}.days_since_engagement_ended ;;
+    description: "Number of days since this engagement ended (relative to today)"
+    label: "Days Since Ended"
+  }
+  
+  # Engagement Status
+  dimension: engagement_status {
+    type: string
+    sql: CASE
+      WHEN ${TABLE}.days_since_engagement_ended < 0 THEN 'Active (Not Yet Ended)'
+      WHEN ${TABLE}.days_since_engagement_ended BETWEEN 0 AND 60 THEN 'In Renewal Window (0-60 days)'
+      WHEN ${TABLE}.is_renewed THEN 'Renewed'
+      WHEN ${TABLE}.is_churned THEN 'Churned (60+ days, no renewal)'
+      ELSE 'Unknown'
+    END ;;
+    description: "Current status of the engagement based on end date and renewal outcome"
+  }
+  
   dimension: renewal_window_category {
     type: string
     sql: CASE
@@ -240,7 +305,7 @@ view: engagement_renewal_analysis {
   dimension: is_churned {
     type: yesno
     sql: ${TABLE}.is_churned ;;
-    description: "True if no next engagement OR next engagement starts > 60 days later"
+    description: "True if engagement ended 60+ days ago with no follow-up within 60 days"
   }
   
   dimension: is_reactivation {
@@ -266,11 +331,19 @@ view: engagement_renewal_analysis {
     description: "Quarter when this engagement ended (creates renewal opportunity)"
   }
   
+  # ADDED: Quarter when renewal was WON (new engagement started)
+  dimension: renewal_quarter_label {
+    type: string
+    sql: ${TABLE}.renewal_quarter_label ;;
+    label: "Renewal Won Quarter"
+    description: "Quarter when the NEW engagement started (when we won the renewal)"
+  }
+  
   dimension: churn_quarter_label {
     type: string
     sql: ${TABLE}.churn_quarter_label ;;
     label: "Churn Quarter"
-    description: "Quarter when this engagement created a churn"
+    description: "Quarter when this engagement was confirmed as churned (60 days after end)"
   }
   
   dimension: reactivation_quarter_label {
@@ -281,10 +354,9 @@ view: engagement_renewal_analysis {
   }
   
   # ============================================
-  # MEASURES - The Key Metrics
+  # MEASURES - The Key Metrics (COUNT-BASED)
   # ============================================
   
-  # 1. Renewal Opportunities
   measure: renewal_opportunities {
     type: count
     label: "Renewal Opportunities"
@@ -292,7 +364,6 @@ view: engagement_renewal_analysis {
     drill_fields: [detail*]
   }
   
-  # 2. Renewals
   measure: renewals {
     type: count
     filters: [is_renewed: "yes"]
@@ -301,16 +372,14 @@ view: engagement_renewal_analysis {
     drill_fields: [detail*]
   }
   
-  # 3. Churns (New in Quarter)
   measure: new_churns {
     type: count
     filters: [is_churned: "yes"]
     label: "New Churns"
-    description: "Number of engagements that churned (no follow-up within 60 days)"
+    description: "Number of engagements that churned (no follow-up after 60+ days have elapsed)"
     drill_fields: [detail*]
   }
   
-  # 4. Renewal Rate
   measure: renewal_rate {
     type: number
     sql: SAFE_DIVIDE(${renewals}, ${renewal_opportunities}) ;;
@@ -320,7 +389,6 @@ view: engagement_renewal_analysis {
     drill_fields: [detail*]
   }
   
-  # 5. Unique Companies with Renewals
   measure: unique_companies_renewed {
     type: count_distinct
     sql: ${company_pk} ;;
@@ -329,7 +397,6 @@ view: engagement_renewal_analysis {
     description: "Number of unique companies that had at least one renewal"
   }
   
-  # 6. Unique Companies Churned
   measure: unique_companies_churned {
     type: count_distinct
     sql: ${company_pk} ;;
@@ -338,7 +405,6 @@ view: engagement_renewal_analysis {
     description: "Number of unique companies that churned"
   }
   
-  # 7. Reactivations
   measure: reactivations {
     type: count
     filters: [is_reactivation: "yes"]
@@ -347,7 +413,6 @@ view: engagement_renewal_analysis {
     drill_fields: [detail*]
   }
   
-  # 8. Average Days to Next Engagement
   measure: avg_days_to_next_engagement {
     type: average
     sql: ${days_to_next_engagement} ;;
@@ -356,15 +421,114 @@ view: engagement_renewal_analysis {
     description: "Average number of days between engagement end and next engagement start"
   }
   
+  # ============================================
+  # REVENUE-BASED MEASURES (CORRECTED!)
+  # ============================================
+  
+  # Renewal Opportunities Revenue = Revenue that ENDED (at risk)
+  measure: renewal_opportunities_revenue_gbp {
+    type: sum
+    sql: ${engagement_deal_amount_gbp} ;;
+    value_format_name: gbp
+    label: "Renewal Opportunities Revenue (GBP)"
+    description: "Total GBP value of engagements that ended (revenue at risk)"
+    drill_fields: [revenue_detail*]
+  }
+  
+  # FIXED: Renewals Revenue = NEXT engagement's revenue (what we secured!)
+  # Note: Use renewal_quarter_label to see WHEN this revenue was won
+  measure: renewals_revenue_gbp {
+    type: sum
+    sql: ${next_engagement_deal_amount_gbp} ;;
+    filters: [is_renewed: "yes"]
+    value_format_name: gbp
+    label: "Renewals Revenue (GBP)"
+    description: "Total GBP value of NEW engagements secured (retained revenue). Use renewal_quarter_label to see when won."
+    drill_fields: [revenue_detail*]
+  }
+  
+  # Churned Revenue = Revenue that ENDED with no follow-up
+  measure: churned_revenue_gbp {
+    type: sum
+    sql: ${engagement_deal_amount_gbp} ;;
+    filters: [is_churned: "yes"]
+    value_format_name: gbp
+    label: "Churned Revenue (GBP)"
+    description: "Total GBP value of engagements that churned (lost revenue)"
+    drill_fields: [revenue_detail*]
+  }
+  
+  # Reactivations Revenue = Revenue from reactivated engagements
+  measure: reactivations_revenue_gbp {
+    type: sum
+    sql: ${engagement_deal_amount_gbp} ;;
+    filters: [is_reactivation: "yes"]
+    value_format_name: gbp
+    label: "Reactivations Revenue (GBP)"
+    description: "Total GBP value of engagements that were reactivations"
+    drill_fields: [revenue_detail*]
+  }
+  
+  # Revenue Retention Rate = What we secured / What ended
+  measure: revenue_retention_rate {
+    type: number
+    sql: SAFE_DIVIDE(${renewals_revenue_gbp}, ${renewal_opportunities_revenue_gbp}) ;;
+    value_format_name: percent_1
+    label: "Revenue Retention Rate"
+    description: "Percentage of revenue retained (New Engagement Revenue ÷ Ended Engagement Revenue)"
+    drill_fields: [revenue_detail*]
+  }
+  
+  # Average Deal Value for Renewals = Avg of NEXT engagement
+  measure: avg_renewal_deal_value_gbp {
+    type: average
+    sql: ${next_engagement_deal_amount_gbp} ;;
+    filters: [is_renewed: "yes"]
+    value_format_name: gbp
+    label: "Avg Renewal Deal Value (GBP)"
+    description: "Average GBP value of NEW engagements secured"
+  }
+  
+  # Average Deal Value for Churns = Avg of ended engagement
+  measure: avg_churn_deal_value_gbp {
+    type: average
+    sql: ${engagement_deal_amount_gbp} ;;
+    filters: [is_churned: "yes"]
+    value_format_name: gbp
+    label: "Avg Churn Deal Value (GBP)"
+    description: "Average GBP value of churned engagements"
+  }
+  
   # Drill Fields
   set: detail {
     fields: [
       company_name,
       engagement_name,
       engagement_end_date,
+      days_since_engagement_ended,
       next_engagement_start_date,
       days_to_next_engagement,
       engagement_outcome,
+      engagement_status,
+      is_reactivation
+    ]
+  }
+  
+  # Revenue Drill Fields
+  set: revenue_detail {
+    fields: [
+      company_name,
+      engagement_name,
+      engagement_deal_amount_gbp,
+      next_engagement_deal_amount_gbp,
+      engagement_end_date,
+      end_quarter_label,
+      next_engagement_start_date,
+      renewal_quarter_label,
+      days_since_engagement_ended,
+      days_to_next_engagement,
+      engagement_outcome,
+      engagement_status,
       is_reactivation
     ]
   }
