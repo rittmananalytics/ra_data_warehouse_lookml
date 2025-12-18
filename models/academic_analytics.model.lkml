@@ -1,7 +1,7 @@
 connection: "ra_dw_prod"
 
 # Include all view files
-include: "/views/*.view.lkml"
+include: "/views/rp/*.view.lkml"
 
 # =====================================================================
 # DATA GROUPS - For caching and scheduling
