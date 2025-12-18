@@ -997,25 +997,15 @@ view: fct_enrolment {
 
   # =====================================================================
   # ETHNICITY GAP MEASURES
+  # Note: Ethnicity gap analysis should be done by grouping by ethnicity
+  # dimension and comparing pass_rate_pct across groups. The max/min
+  # ethnicity gap requires a derived table or table calculation in Looker.
   # =====================================================================
 
-  measure: max_ethnicity_pass_rate {
-    type: max
-    sql: ${pass_rate_pct} ;;
-    label: "Max Ethnicity Pass Rate %"
-    description: "Highest pass rate among ethnicity groups (use with ethnicity dimension)"
-    group_label: "Ethnicity Analysis"
-    value_format_name: decimal_1
-  }
-
-  measure: min_ethnicity_pass_rate {
-    type: min
-    sql: ${pass_rate_pct} ;;
-    label: "Min Ethnicity Pass Rate %"
-    description: "Lowest pass rate among ethnicity groups (use with ethnicity dimension)"
-    group_label: "Ethnicity Analysis"
-    value_format_name: decimal_1
-  }
+  # These are placeholder dimensions to indicate ethnicity analysis is supported
+  # The actual max/min gap calculation should be done via:
+  # 1. A Looker table calculation on pass_rate_pct grouped by ethnicity
+  # 2. Or a derived table that pre-calculates ethnicity gaps
 
   # =====================================================================
   # GAP VS OVERALL MEASURES

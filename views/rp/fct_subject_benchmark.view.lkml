@@ -397,12 +397,12 @@ view: fct_subject_benchmark {
     description: "Subject cohort size"
   }
 
-  # Average GCSE dimension (visible)
-  dimension: average_gcse_on_entry {
+  # Average GCSE dimension (visible) - renamed to avoid conflict with measure
+  dimension: avg_gcse_entry_score {
     type: number
     sql: ${TABLE}.average_gcse_on_entry ;;
-    label: "Avg GCSE Entry"
-    description: "Average GCSE score on entry"
+    label: "Avg GCSE Entry Score"
+    description: "Average GCSE score on entry (dimension for filtering/grouping)"
     value_format_name: decimal_2
   }
 
