@@ -65,7 +65,7 @@
       font_size: large
       custom_color_enabled: true
       custom_color: "#4285F4"
-      value_format: "0.0\%"
+      value_format: "0.0%"
       row: 0
       col: 0
       width: 6
@@ -87,7 +87,7 @@
       font_size: large
       custom_color_enabled: true
       custom_color: "#FBBC04"
-      value_format: "0.0\%"
+      value_format: "0.0%"
       row: 0
       col: 6
       width: 6
@@ -199,26 +199,20 @@
       conditional_formatting:
         - type: greater than
           value: 0
-          background_color:
           font_color: "#4285F4"
-          color_application:
-            collection_id:
-            palette_id:
           bold: false
           italic: false
           strikethrough: false
           fields:
+            - subject_gender_gap.subject_gender_gap_pass
         - type: less than
           value: 0
-          background_color:
           font_color: "#EA4335"
-          color_application:
-            collection_id:
-            palette_id:
           bold: false
           italic: false
           strikethrough: false
           fields:
+            - subject_gender_gap.subject_gender_gap_pass
       note_state: expanded
       note_display: below
       note_text: "Positive = Female outperforming | Negative = Male outperforming"

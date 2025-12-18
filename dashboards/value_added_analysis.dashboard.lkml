@@ -200,26 +200,20 @@
       conditional_formatting:
         - type: greater than
           value: 0
-          background_color:
           font_color: "#34A853"
-          color_application:
-            collection_id:
-            palette_id:
           bold: false
           italic: false
           strikethrough: false
           fields:
+            - fct_subject_benchmark.avg_value_added_score
         - type: less than
           value: 0
-          background_color:
           font_color: "#EA4335"
-          color_application:
-            collection_id:
-            palette_id:
           bold: false
           italic: false
           strikethrough: false
           fields:
+            - fct_subject_benchmark.avg_value_added_score
       row: 3
       col: 0
       width: 24
