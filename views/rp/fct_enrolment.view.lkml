@@ -656,4 +656,386 @@ view: fct_enrolment {
     description: "Average attendance percentage"
     value_format_name: decimal_1
   }
+
+  # =====================================================================
+  # COMPLETION RATE MEASURES
+  # =====================================================================
+
+  measure: completed_count {
+    type: count
+    filters: [is_completed: "yes"]
+    label: "Completed"
+    description: "Count of completed enrolments"
+    group_label: "Completion"
+    drill_fields: [detail*]
+  }
+
+  measure: completion_rate_pct {
+    type: number
+    sql: SAFE_DIVIDE(${completed_count}, ${cohort_count}) * 100 ;;
+    label: "Completion Rate %"
+    description: "Percentage of enrolments completed"
+    group_label: "Completion"
+    value_format_name: decimal_1
+  }
+
+  # =====================================================================
+  # GRADE POINTS MEASURES (via dim_grade join)
+  # =====================================================================
+
+  measure: avg_grade_points {
+    type: average
+    sql: ${dim_grade.grade_points} ;;
+    label: "Avg Grade Points"
+    description: "Average grade points (requires dim_grade join)"
+    value_format_name: decimal_2
+  }
+
+  measure: total_grade_points {
+    type: sum
+    sql: ${dim_grade.grade_points} ;;
+    label: "Total Grade Points"
+    description: "Sum of grade points (requires dim_grade join)"
+  }
+
+  measure: avg_ucas_points {
+    type: average
+    sql: ${dim_grade.ucas_points} ;;
+    label: "Avg UCAS Points"
+    description: "Average UCAS tariff points (requires dim_grade join)"
+    value_format_name: decimal_1
+  }
+
+  # =====================================================================
+  # A*-E PERCENTAGE (missing from original)
+  # =====================================================================
+
+  measure: a_star_to_e_pct {
+    type: number
+    sql: SAFE_DIVIDE(${grade_a_star_to_e_count}, ${cohort_count}) * 100 ;;
+    label: "A*-E % (Pass)"
+    description: "Percentage of A*-E grades (all passes)"
+    group_label: "Grade Percentages"
+    value_format_name: decimal_1
+  }
+
+  # =====================================================================
+  # GENDER-SPECIFIC MEASURES
+  # =====================================================================
+
+  # Female measures
+  measure: female_pass_count {
+    type: sum
+    sql: CASE WHEN ${gender} = 'Female' THEN ${is_pass_dim} ELSE 0 END ;;
+    label: "Female Passes"
+    description: "Count of female pass grades"
+    group_label: "Gender Analysis"
+  }
+
+  measure: female_high_grade_count {
+    type: sum
+    sql: CASE WHEN ${gender} = 'Female' THEN ${is_high_grade_dim} ELSE 0 END ;;
+    label: "Female High Grades"
+    description: "Count of female high grades"
+    group_label: "Gender Analysis"
+  }
+
+  measure: female_pass_rate_pct {
+    type: number
+    sql: SAFE_DIVIDE(${female_pass_count}, ${female_count}) * 100 ;;
+    label: "Female Pass Rate %"
+    description: "Pass rate for female students"
+    group_label: "Gender Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: female_high_grade_pct {
+    type: number
+    sql: SAFE_DIVIDE(${female_high_grade_count}, ${female_count}) * 100 ;;
+    label: "Female High Grade %"
+    description: "High grade rate for female students"
+    group_label: "Gender Analysis"
+    value_format_name: decimal_1
+  }
+
+  # Male measures
+  measure: male_pass_count {
+    type: sum
+    sql: CASE WHEN ${gender} = 'Male' THEN ${is_pass_dim} ELSE 0 END ;;
+    label: "Male Passes"
+    description: "Count of male pass grades"
+    group_label: "Gender Analysis"
+  }
+
+  measure: male_high_grade_count {
+    type: sum
+    sql: CASE WHEN ${gender} = 'Male' THEN ${is_high_grade_dim} ELSE 0 END ;;
+    label: "Male High Grades"
+    description: "Count of male high grades"
+    group_label: "Gender Analysis"
+  }
+
+  measure: male_pass_rate_pct {
+    type: number
+    sql: SAFE_DIVIDE(${male_pass_count}, ${male_count}) * 100 ;;
+    label: "Male Pass Rate %"
+    description: "Pass rate for male students"
+    group_label: "Gender Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: male_high_grade_pct {
+    type: number
+    sql: SAFE_DIVIDE(${male_high_grade_count}, ${male_count}) * 100 ;;
+    label: "Male High Grade %"
+    description: "High grade rate for male students"
+    group_label: "Gender Analysis"
+    value_format_name: decimal_1
+  }
+
+  # Gender gap measures
+  measure: gender_gap_pass_pp {
+    type: number
+    sql: ${female_pass_rate_pct} - ${male_pass_rate_pct} ;;
+    label: "Gender Gap (Pass) pp"
+    description: "Gender gap in pass rate (Female - Male, positive = female outperforming)"
+    group_label: "Gender Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: gender_gap_high_grade_pp {
+    type: number
+    sql: ${female_high_grade_pct} - ${male_high_grade_pct} ;;
+    label: "Gender Gap (High Grade) pp"
+    description: "Gender gap in high grades (Female - Male, positive = female outperforming)"
+    group_label: "Gender Analysis"
+    value_format_name: decimal_1
+  }
+
+  # =====================================================================
+  # DISADVANTAGE-SPECIFIC MEASURES
+  # =====================================================================
+
+  measure: non_disadvantaged_count {
+    type: count
+    filters: [is_disadvantaged: "no"]
+    label: "Non-Disadvantaged"
+    description: "Count of non-disadvantaged students"
+    group_label: "Disadvantage Analysis"
+  }
+
+  measure: disadvantaged_pass_count {
+    type: sum
+    sql: CASE WHEN (${TABLE}.is_free_meals OR ${TABLE}.is_bursary) THEN ${is_pass_dim} ELSE 0 END ;;
+    label: "Disadvantaged Passes"
+    description: "Count of disadvantaged student passes"
+    group_label: "Disadvantage Analysis"
+  }
+
+  measure: non_disadvantaged_pass_count {
+    type: sum
+    sql: CASE WHEN NOT (${TABLE}.is_free_meals OR ${TABLE}.is_bursary) THEN ${is_pass_dim} ELSE 0 END ;;
+    label: "Non-Disadvantaged Passes"
+    description: "Count of non-disadvantaged student passes"
+    group_label: "Disadvantage Analysis"
+  }
+
+  measure: disadvantaged_pass_rate_pct {
+    type: number
+    sql: SAFE_DIVIDE(${disadvantaged_pass_count}, ${disadvantaged_count}) * 100 ;;
+    label: "Disadvantaged Pass Rate %"
+    description: "Pass rate for disadvantaged students"
+    group_label: "Disadvantage Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: non_disadvantaged_pass_rate_pct {
+    type: number
+    sql: SAFE_DIVIDE(${non_disadvantaged_pass_count}, ${non_disadvantaged_count}) * 100 ;;
+    label: "Non-Disadvantaged Pass Rate %"
+    description: "Pass rate for non-disadvantaged students"
+    group_label: "Disadvantage Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: disadvantaged_high_grade_count {
+    type: sum
+    sql: CASE WHEN (${TABLE}.is_free_meals OR ${TABLE}.is_bursary) THEN ${is_high_grade_dim} ELSE 0 END ;;
+    label: "Disadvantaged High Grades"
+    group_label: "Disadvantage Analysis"
+  }
+
+  measure: non_disadvantaged_high_grade_count {
+    type: sum
+    sql: CASE WHEN NOT (${TABLE}.is_free_meals OR ${TABLE}.is_bursary) THEN ${is_high_grade_dim} ELSE 0 END ;;
+    label: "Non-Disadvantaged High Grades"
+    group_label: "Disadvantage Analysis"
+  }
+
+  measure: disadvantaged_high_grade_pct {
+    type: number
+    sql: SAFE_DIVIDE(${disadvantaged_high_grade_count}, ${disadvantaged_count}) * 100 ;;
+    label: "Disadvantaged High Grade %"
+    group_label: "Disadvantage Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: non_disadvantaged_high_grade_pct {
+    type: number
+    sql: SAFE_DIVIDE(${non_disadvantaged_high_grade_count}, ${non_disadvantaged_count}) * 100 ;;
+    label: "Non-Disadvantaged High Grade %"
+    group_label: "Disadvantage Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: disadvantage_gap_pass_pp {
+    type: number
+    sql: ${non_disadvantaged_pass_rate_pct} - ${disadvantaged_pass_rate_pct} ;;
+    label: "Disadvantage Gap (Pass) pp"
+    description: "Gap in pass rate (Non-PP minus PP, positive = gap exists)"
+    group_label: "Disadvantage Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: disadvantage_gap_high_grade_pp {
+    type: number
+    sql: ${non_disadvantaged_high_grade_pct} - ${disadvantaged_high_grade_pct} ;;
+    label: "Disadvantage Gap (High Grade) pp"
+    description: "Gap in high grade rate (Non-PP minus PP)"
+    group_label: "Disadvantage Analysis"
+    value_format_name: decimal_1
+  }
+
+  # =====================================================================
+  # SEND-SPECIFIC MEASURES
+  # =====================================================================
+
+  measure: non_send_count {
+    type: count
+    filters: [is_send: "no"]
+    label: "Non-SEND"
+    description: "Count of non-SEND students"
+    group_label: "SEND Analysis"
+  }
+
+  measure: send_pass_count {
+    type: sum
+    sql: CASE WHEN ${TABLE}.is_send THEN ${is_pass_dim} ELSE 0 END ;;
+    label: "SEND Passes"
+    group_label: "SEND Analysis"
+  }
+
+  measure: non_send_pass_count {
+    type: sum
+    sql: CASE WHEN NOT ${TABLE}.is_send THEN ${is_pass_dim} ELSE 0 END ;;
+    label: "Non-SEND Passes"
+    group_label: "SEND Analysis"
+  }
+
+  measure: send_pass_rate_pct {
+    type: number
+    sql: SAFE_DIVIDE(${send_pass_count}, ${send_count}) * 100 ;;
+    label: "SEND Pass Rate %"
+    group_label: "SEND Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: non_send_pass_rate_pct {
+    type: number
+    sql: SAFE_DIVIDE(${non_send_pass_count}, ${non_send_count}) * 100 ;;
+    label: "Non-SEND Pass Rate %"
+    group_label: "SEND Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: send_high_grade_count {
+    type: sum
+    sql: CASE WHEN ${TABLE}.is_send THEN ${is_high_grade_dim} ELSE 0 END ;;
+    label: "SEND High Grades"
+    group_label: "SEND Analysis"
+  }
+
+  measure: non_send_high_grade_count {
+    type: sum
+    sql: CASE WHEN NOT ${TABLE}.is_send THEN ${is_high_grade_dim} ELSE 0 END ;;
+    label: "Non-SEND High Grades"
+    group_label: "SEND Analysis"
+  }
+
+  measure: send_high_grade_pct {
+    type: number
+    sql: SAFE_DIVIDE(${send_high_grade_count}, ${send_count}) * 100 ;;
+    label: "SEND High Grade %"
+    group_label: "SEND Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: non_send_high_grade_pct {
+    type: number
+    sql: SAFE_DIVIDE(${non_send_high_grade_count}, ${non_send_count}) * 100 ;;
+    label: "Non-SEND High Grade %"
+    group_label: "SEND Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: send_gap_pass_pp {
+    type: number
+    sql: ${non_send_pass_rate_pct} - ${send_pass_rate_pct} ;;
+    label: "SEND Gap (Pass) pp"
+    description: "Gap in pass rate (Non-SEND minus SEND)"
+    group_label: "SEND Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: send_gap_high_grade_pp {
+    type: number
+    sql: ${non_send_high_grade_pct} - ${send_high_grade_pct} ;;
+    label: "SEND Gap (High Grade) pp"
+    group_label: "SEND Analysis"
+    value_format_name: decimal_1
+  }
+
+  # =====================================================================
+  # ETHNICITY GAP MEASURES
+  # =====================================================================
+
+  measure: max_ethnicity_pass_rate {
+    type: max
+    sql: ${pass_rate_pct} ;;
+    label: "Max Ethnicity Pass Rate %"
+    description: "Highest pass rate among ethnicity groups (use with ethnicity dimension)"
+    group_label: "Ethnicity Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: min_ethnicity_pass_rate {
+    type: min
+    sql: ${pass_rate_pct} ;;
+    label: "Min Ethnicity Pass Rate %"
+    description: "Lowest pass rate among ethnicity groups (use with ethnicity dimension)"
+    group_label: "Ethnicity Analysis"
+    value_format_name: decimal_1
+  }
+
+  # =====================================================================
+  # GAP VS OVERALL MEASURES
+  # =====================================================================
+
+  measure: gap_vs_overall_pass_pp {
+    type: number
+    sql: ${pass_rate_pct} - (SELECT SAFE_DIVIDE(SUM(is_pass), COUNT(*)) * 100 FROM ${fct_enrolment.SQL_TABLE_NAME}) ;;
+    label: "Gap vs Overall (Pass) pp"
+    description: "Current group pass rate minus overall pass rate"
+    group_label: "Gap Analysis"
+    value_format_name: decimal_1
+  }
+
+  measure: gap_vs_overall_high_grade_pp {
+    type: number
+    sql: ${high_grade_pct} - (SELECT SAFE_DIVIDE(SUM(is_high_grade), COUNT(*)) * 100 FROM ${fct_enrolment.SQL_TABLE_NAME}) ;;
+    label: "Gap vs Overall (High Grade) pp"
+    description: "Current group high grade rate minus overall rate"
+    group_label: "Gap Analysis"
+    value_format_name: decimal_1
+  }
 }

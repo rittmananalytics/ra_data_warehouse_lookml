@@ -236,4 +236,96 @@ view: fct_alps_subject_performance {
     label: "Unmapped Subjects"
     description: "Count of subjects not matched to internal offerings"
   }
+
+  # =====================================================================
+  # ADDITIONAL ALPS MEASURES
+  # =====================================================================
+
+  # Combined band count for 5+
+  measure: count_band_5_plus {
+    type: count
+    filters: [alps_band: "5, 6, 7, 8, 9"]
+    label: "Band 5+ (Below Average)"
+    description: "Subjects in ALPS band 5 or higher (requiring improvement)"
+    group_label: "ALPS Band Counts"
+  }
+
+  # Weighted average ALPS score (by cohort size)
+  measure: weighted_avg_alps_score {
+    type: number
+    sql: SAFE_DIVIDE(SUM(${TABLE}.alps_score * ${TABLE}.cohort_count), SUM(${TABLE}.cohort_count)) ;;
+    label: "Weighted Avg ALPS Score"
+    description: "ALPS score weighted by cohort size"
+    value_format_name: decimal_2
+  }
+
+  # Weighted average ALPS band (by cohort size)
+  measure: weighted_avg_alps_band {
+    type: number
+    sql: SAFE_DIVIDE(SUM(${TABLE}.alps_band * ${TABLE}.cohort_count), SUM(${TABLE}.cohort_count)) ;;
+    label: "Weighted Avg ALPS Band"
+    description: "ALPS band weighted by cohort size (lower is better)"
+    value_format_name: decimal_1
+  }
+
+  # College ALPS Band (rounded weighted average)
+  measure: college_alps_band {
+    type: number
+    sql: ROUND(${weighted_avg_alps_band}) ;;
+    label: "College ALPS Band"
+    description: "Overall college ALPS band (rounded weighted average)"
+    value_format_name: decimal_0
+  }
+
+  # Subject-level pass rate (for comparison)
+  dimension: pass_rate_pct_dim {
+    type: number
+    sql: ${TABLE}.pass_rate_pct ;;
+    label: "Pass Rate %"
+    description: "Subject pass rate percentage"
+    value_format_name: decimal_1
+  }
+
+  dimension: high_grades_pct_dim {
+    type: number
+    sql: ${TABLE}.high_grades_pct ;;
+    label: "High Grades %"
+    description: "Subject high grades percentage"
+    value_format_name: decimal_1
+  }
+
+  dimension: cohort_count_dim {
+    type: number
+    sql: ${TABLE}.cohort_count ;;
+    label: "Cohort"
+    description: "Subject cohort size"
+  }
+
+  # ALPS Band Description
+  dimension: alps_band_description {
+    type: string
+    sql: CASE ${alps_band}
+      WHEN 1 THEN 'Exceptional (Top 5%)'
+      WHEN 2 THEN 'Very Strong (Top 25%)'
+      WHEN 3 THEN 'Strong'
+      WHEN 4 THEN 'Average'
+      WHEN 5 THEN 'Below Average'
+      WHEN 6 THEN 'Well Below Average'
+      WHEN 7 THEN 'Significantly Below'
+      WHEN 8 THEN 'Significantly Below'
+      WHEN 9 THEN 'Significantly Below'
+      ELSE 'Unknown'
+    END ;;
+    label: "ALPS Band Description"
+    description: "Descriptive label for ALPS band"
+  }
+
+  # Count subjects by status
+  measure: count_subjects_improving {
+    type: count
+    # This would need prior year data to calculate
+    label: "Subjects Improving"
+    description: "Count of subjects with improving ALPS band (requires YoY data)"
+    group_label: "ALPS Trend"
+  }
 }

@@ -327,4 +327,180 @@ view: fct_subject_benchmark {
     label: "Matched Subjects"
     description: "Subjects matched to internal offerings"
   }
+
+  # =====================================================================
+  # ADDITIONAL VALUE-ADDED MEASURES
+  # =====================================================================
+
+  # VA Band derived from score
+  dimension: va_band {
+    type: string
+    sql: CASE
+      WHEN ${value_added_score_dim} > 0.5 THEN 'A'
+      WHEN ${value_added_score_dim} > 0.25 THEN 'B'
+      WHEN ${value_added_score_dim} > -0.25 THEN 'C'
+      WHEN ${value_added_score_dim} > -0.5 THEN 'D'
+      ELSE 'E'
+    END ;;
+    label: "VA Band"
+    description: "Value-added band (A=Well Above, B=Above, C=At, D=Below, E=Well Below Expected)"
+    group_label: "Value Added"
+  }
+
+  dimension: va_band_description {
+    type: string
+    sql: CASE
+      WHEN ${value_added_score_dim} > 0.5 THEN 'Well Above Expected'
+      WHEN ${value_added_score_dim} > 0.25 THEN 'Above Expected'
+      WHEN ${value_added_score_dim} > -0.25 THEN 'At Expected'
+      WHEN ${value_added_score_dim} > -0.5 THEN 'Below Expected'
+      ELSE 'Well Below Expected'
+    END ;;
+    label: "VA Band Description"
+    description: "Descriptive value-added classification"
+    group_label: "Value Added"
+  }
+
+  # Visible VA Score dimension
+  dimension: value_added_score {
+    type: number
+    sql: ${TABLE}.value_added_score ;;
+    label: "VA Score"
+    description: "Value-added score"
+    value_format_name: decimal_2
+    group_label: "Value Added"
+  }
+
+  # VA Percentile (calculated based on ranking)
+  # Note: This is a simplified calculation - actual percentile would need window functions
+  dimension: va_percentile_tier {
+    type: tier
+    tiers: [10, 25, 50, 75, 90]
+    style: integer
+    sql: CASE
+      WHEN ${value_added_score_dim} > 0.6 THEN 90
+      WHEN ${value_added_score_dim} > 0.4 THEN 75
+      WHEN ${value_added_score_dim} > 0.1 THEN 50
+      WHEN ${value_added_score_dim} > -0.2 THEN 25
+      ELSE 10
+    END ;;
+    label: "VA Percentile Tier"
+    description: "Approximate VA percentile tier"
+    group_label: "Value Added"
+  }
+
+  # Cohort dimension (visible)
+  dimension: cohort_count {
+    type: number
+    sql: ${TABLE}.cohort_count ;;
+    label: "Cohort"
+    description: "Subject cohort size"
+  }
+
+  # Average GCSE dimension (visible)
+  dimension: average_gcse_on_entry {
+    type: number
+    sql: ${TABLE}.average_gcse_on_entry ;;
+    label: "Avg GCSE Entry"
+    description: "Average GCSE score on entry"
+    value_format_name: decimal_2
+  }
+
+  # Count subjects above/below expected
+  measure: count_above_expected {
+    type: count
+    filters: [value_added_score_dim: ">0"]
+    label: "Subjects Above Expected"
+    description: "Count of subjects with positive VA"
+    group_label: "VA Counts"
+  }
+
+  measure: count_below_expected {
+    type: count
+    filters: [value_added_score_dim: "<0"]
+    label: "Subjects Below Expected"
+    description: "Count of subjects with negative VA"
+    group_label: "VA Counts"
+  }
+
+  measure: count_at_expected {
+    type: count
+    filters: [value_added_score_dim: "[-0.1, 0.1]"]
+    label: "Subjects At Expected"
+    description: "Count of subjects with VA near zero"
+    group_label: "VA Counts"
+  }
+
+  # Weighted VA score
+  measure: weighted_avg_va_score {
+    type: number
+    sql: SAFE_DIVIDE(SUM(${TABLE}.value_added_score * ${TABLE}.cohort_count), SUM(${TABLE}.cohort_count)) ;;
+    label: "Weighted Avg VA Score"
+    description: "VA score weighted by cohort size"
+    value_format_name: decimal_2
+    group_label: "Value Added Metrics"
+  }
+
+  # College VA Band (based on weighted average)
+  measure: college_va_band {
+    type: string
+    sql: CASE
+      WHEN ${weighted_avg_va_score} > 0.5 THEN 'A'
+      WHEN ${weighted_avg_va_score} > 0.25 THEN 'B'
+      WHEN ${weighted_avg_va_score} > -0.25 THEN 'C'
+      WHEN ${weighted_avg_va_score} > -0.5 THEN 'D'
+      ELSE 'E'
+    END ;;
+    label: "College VA Band"
+    description: "Overall college VA band"
+    group_label: "Value Added Metrics"
+  }
+
+  # Confidence interval measures
+  measure: avg_confidence_lower {
+    type: average
+    sql: ${confidence_interval_lower} ;;
+    label: "Avg Confidence Lower"
+    description: "Average VA confidence interval lower bound"
+    value_format_name: decimal_2
+    group_label: "Value Added Metrics"
+  }
+
+  measure: avg_confidence_upper {
+    type: average
+    sql: ${confidence_interval_upper} ;;
+    label: "Avg Confidence Upper"
+    description: "Average VA confidence interval upper bound"
+    value_format_name: decimal_2
+    group_label: "Value Added Metrics"
+  }
+
+  # Subjects above/below expected as percentage
+  measure: pct_subjects_above_expected {
+    type: number
+    sql: SAFE_DIVIDE(${count_above_expected}, ${count}) * 100 ;;
+    label: "% Subjects Above Expected"
+    description: "Percentage of subjects with positive VA"
+    value_format_name: decimal_1
+    group_label: "VA Counts"
+  }
+
+  # Top/Bottom performers identification
+  measure: max_va_score {
+    type: max
+    sql: ${value_added_score_dim} ;;
+    label: "Max VA Score"
+    description: "Highest VA score"
+    value_format_name: decimal_2
+    group_label: "Value Added Metrics"
+  }
+
+  measure: min_va_score {
+    type: min
+    sql: ${value_added_score_dim} ;;
+    label: "Min VA Score"
+    description: "Lowest VA score"
+    value_format_name: decimal_2
+    group_label: "Value Added Metrics"
+  }
 }
