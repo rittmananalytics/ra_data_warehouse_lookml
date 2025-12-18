@@ -99,7 +99,7 @@
       font_size: large
       custom_color_enabled: true
       custom_color: "#34A853"
-      value_format: "0.0\%"
+      value_format: "0.0%"
       row: 0
       col: 4
       width: 4
@@ -122,7 +122,7 @@
       font_size: large
       custom_color_enabled: true
       custom_color: "#FBBC04"
-      value_format: "0.0\%"
+      value_format: "0.0%"
       row: 0
       col: 8
       width: 4
@@ -166,7 +166,7 @@
       font_size: large
       custom_color_enabled: true
       custom_color: "#5F6368"
-      value_format: "0.0\%"
+      value_format: "0.0%"
       row: 0
       col: 16
       width: 4
@@ -436,17 +436,8 @@
       series_point_styles:
         fct_enrolment_yoy.pass_rate_pct: filled
       size_by_field: fct_enrolment_yoy.cohort_count
-      reference_lines:
-        - reference_type: line
-          line_value: y=x
-          range_start:
-          range_end:
-          margin_top: deviation
-          margin_value:
-          margin_bottom: deviation
-          label_position: right
-          color: "#5F6368"
-          label: "No Change"
+      # Note: Diagonal y=x reference line not supported in LookML
+      # Points above the diagonal indicate improvement vs prior year
       row: 24
       col: 0
       width: 24

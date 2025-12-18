@@ -318,25 +318,19 @@
         - type: greater than
           value: 0
           background_color: "#E6F4EA"
-          font_color:
-          color_application:
-            collection_id:
-            palette_id:
           bold: false
           italic: false
           strikethrough: false
           fields:
+            - fct_alps_subject_performance.average_value_added
         - type: less than
           value: 0
           background_color: "#FCE8E6"
-          font_color:
-          color_application:
-            collection_id:
-            palette_id:
           bold: false
           italic: false
           strikethrough: false
           fields:
+            - fct_alps_subject_performance.average_value_added
       row: 16
       col: 0
       width: 24
