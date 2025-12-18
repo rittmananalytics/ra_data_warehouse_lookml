@@ -28,7 +28,7 @@ persist_with: daily_refresh
 explore: fct_enrolment {
   label: "Enrolment Performance"
   description: "Student enrolment data with grades, demographics, and prior attainment for performance and equity analysis"
-  group_label: "Performance Analytics"
+  group_label: "Academic Analytics"
 
   # Academic Year dimension
   join: dim_academic_year {
@@ -111,7 +111,7 @@ explore: fct_enrolment {
 explore: fct_alps_subject_performance {
   label: "ALPS Subject Performance"
   description: "ALPS benchmarking data at subject level with value-added scores and bands"
-  group_label: "Benchmarking"
+  group_label: "Academic Analytics"
 
   # Academic Year dimension
   join: dim_academic_year {
@@ -144,7 +144,7 @@ explore: fct_alps_subject_performance {
 explore: fct_college_performance {
   label: "College Performance"
   description: "College-level performance metrics from Six Dimensions reports"
-  group_label: "Benchmarking"
+  group_label: "Academic Analytics"
 
   # Academic Year dimension
   join: dim_academic_year {
@@ -169,7 +169,7 @@ explore: fct_college_performance {
 explore: fct_subject_benchmark {
   label: "Subject Benchmarking"
   description: "Subject-level performance benchmarking from Six Dimensions reports"
-  group_label: "Benchmarking"
+  group_label: "Academic Analytics"
 
   # Academic Year dimension
   join: dim_academic_year {
@@ -209,7 +209,7 @@ explore: fct_subject_benchmark {
 explore: fct_equity_gap {
   label: "Equity Gap Analysis"
   description: "Demographic equity gap analysis from JEDI reports"
-  group_label: "Equity & Diversity"
+  group_label: "Academic Analytics"
 
   # Academic Year dimension
   join: dim_academic_year {
@@ -242,7 +242,7 @@ explore: fct_equity_gap {
 explore: dim_student {
   label: "Student Demographics"
   description: "Student master data with core demographics"
-  group_label: "Student Data"
+  group_label: "Academic Analytics"
 
   # Student Detail for extended demographics
   join: dim_student_detail {
@@ -267,7 +267,7 @@ explore: dim_student {
 explore: dim_prior_attainment {
   label: "Prior Attainment"
   description: "Student prior attainment data including GCSE scores and banding"
-  group_label: "Student Data"
+  group_label: "Academic Analytics"
 
   # Academic Year for context
   join: dim_academic_year {
@@ -303,7 +303,7 @@ explore: dim_grade {
 explore: dim_offering {
   label: "Course Offerings"
   description: "Course offering reference with external system mappings"
-  group_label: "Reference Data"
+  group_label: "Academic Analytics"
 
   # Course Header
   join: dim_course_header {
