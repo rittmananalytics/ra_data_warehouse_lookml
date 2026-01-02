@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: youtube_activity
-      field: youtube_activity.activity_date
+      field: activity_date
 
   elements:
 

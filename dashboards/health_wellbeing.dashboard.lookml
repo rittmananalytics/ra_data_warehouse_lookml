@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: monthly_health
-      field: monthly_health.month_start_date
+      field: month_start_date
 
   elements:
 

@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: weekly_productivity
-      field: weekly_productivity.week_start_date
+      field: week_start_date
 
   elements:
 

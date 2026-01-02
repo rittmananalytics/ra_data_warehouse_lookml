@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: emails
-      field: emails.communication_date
+      field: communication_date
 
   elements:
 
