@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: youtube_activity
-      field: fct_youtube_activity.activity_date
+      field: youtube_activity.activity_date
 
   elements:
 
@@ -34,7 +34,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.count]
+      fields: [youtube_activity.count]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF0000"
@@ -50,7 +50,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.unique_domains]
+      fields: [youtube_activity.unique_domains]
       limit: 1
       custom_color_enabled: true
       custom_color: "#2196F3"
@@ -66,7 +66,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.unique_activities]
+      fields: [youtube_activity.unique_activities]
       limit: 1
       custom_color_enabled: true
       custom_color: "#4CAF50"
@@ -82,7 +82,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.avg_url_depth]
+      fields: [youtube_activity.avg_url_depth]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF9800"
@@ -102,9 +102,9 @@
       type: looker_line
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.activity_week, fct_youtube_activity.count]
-      fill_fields: [fct_youtube_activity.activity_week]
-      sorts: [fct_youtube_activity.activity_week]
+      fields: [youtube_activity.activity_week, youtube_activity.count]
+      fill_fields: [youtube_activity.activity_week]
+      sorts: [youtube_activity.activity_week]
       limit: 52
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -128,7 +128,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        fct_youtube_activity.count: "#FF0000"
+        youtube_activity.count: "#FF0000"
       row: 3
       col: 0
       width: 12
@@ -139,8 +139,8 @@
       type: looker_pie
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.source_system, fct_youtube_activity.count]
-      sorts: [fct_youtube_activity.count desc]
+      fields: [youtube_activity.source_system, youtube_activity.count]
+      sorts: [youtube_activity.count desc]
       limit: 10
       value_labels: legend
       label_type: labPer
@@ -163,9 +163,9 @@
       type: looker_column
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.activity_at_hour_of_day, fct_youtube_activity.count]
-      fill_fields: [fct_youtube_activity.activity_at_hour_of_day]
-      sorts: [fct_youtube_activity.activity_at_hour_of_day]
+      fields: [youtube_activity.activity_at_hour_of_day, youtube_activity.count]
+      fill_fields: [youtube_activity.activity_at_hour_of_day]
+      sorts: [youtube_activity.activity_at_hour_of_day]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -192,7 +192,7 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        fct_youtube_activity.count: "#FF0000"
+        youtube_activity.count: "#FF0000"
       row: 11
       col: 0
       width: 12
@@ -203,9 +203,9 @@
       type: looker_column
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.activity_at_day_of_week, fct_youtube_activity.count]
-      fill_fields: [fct_youtube_activity.activity_at_day_of_week]
-      sorts: [fct_youtube_activity.activity_at_day_of_week]
+      fields: [youtube_activity.activity_at_day_of_week, youtube_activity.count]
+      fill_fields: [youtube_activity.activity_at_day_of_week]
+      sorts: [youtube_activity.activity_at_day_of_week]
       limit: 7
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -232,7 +232,7 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        fct_youtube_activity.count: "#2196F3"
+        youtube_activity.count: "#2196F3"
       row: 11
       col: 12
       width: 12
@@ -247,8 +247,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.domain, fct_youtube_activity.count, fct_youtube_activity.unique_activities]
-      sorts: [fct_youtube_activity.count desc]
+      fields: [youtube_activity.domain, youtube_activity.count, youtube_activity.unique_activities]
+      sorts: [youtube_activity.count desc]
       limit: 20
       show_view_names: false
       show_row_numbers: true
@@ -276,7 +276,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [fct_youtube_activity.count]
+          fields: [youtube_activity.count]
       row: 19
       col: 0
       width: 12
@@ -287,8 +287,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.activity_date, fct_youtube_activity.activity_type, fct_youtube_activity.activity_title, fct_youtube_activity.domain]
-      sorts: [fct_youtube_activity.activity_date desc]
+      fields: [youtube_activity.activity_date, youtube_activity.activity_type, youtube_activity.activity_title, youtube_activity.domain]
+      sorts: [youtube_activity.activity_date desc]
       limit: 20
       show_view_names: false
       show_row_numbers: true
@@ -319,9 +319,9 @@
       type: looker_area
       model: personal_data_dashboard
       explore: youtube_activity
-      fields: [fct_youtube_activity.activity_month, fct_youtube_activity.count, fct_youtube_activity.unique_domains]
-      fill_fields: [fct_youtube_activity.activity_month]
-      sorts: [fct_youtube_activity.activity_month]
+      fields: [youtube_activity.activity_month, youtube_activity.count, youtube_activity.unique_domains]
+      fill_fields: [youtube_activity.activity_month]
+      sorts: [youtube_activity.activity_month]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -345,15 +345,15 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        fct_youtube_activity.count: "#FF0000"
-        fct_youtube_activity.unique_domains: "#2196F3"
+        youtube_activity.count: "#FF0000"
+        youtube_activity.unique_domains: "#2196F3"
       y_axes:
         - label: ''
           orientation: left
           series:
-            - id: fct_youtube_activity.count
+            - id: youtube_activity.count
               name: Activity Count
-              axisId: fct_youtube_activity.count
+              axisId: youtube_activity.count
           showLabels: true
           showValues: true
           unpinAxis: false
@@ -362,9 +362,9 @@
         - label: ''
           orientation: right
           series:
-            - id: fct_youtube_activity.unique_domains
+            - id: youtube_activity.unique_domains
               name: Unique Domains
-              axisId: fct_youtube_activity.unique_domains
+              axisId: youtube_activity.unique_domains
           showLabels: true
           showValues: true
           unpinAxis: false

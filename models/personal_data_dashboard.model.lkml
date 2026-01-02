@@ -11,6 +11,9 @@ connection: "ra_dw_prod"
 # Include all views
 include: "/views/**/**/*.view.lkml"
 
+# Include all dashboards
+include: "/dashboards/*.dashboard.lookml"
+
 
 # =============================================================================
 # DATAGROUPS - Data Refresh Triggers

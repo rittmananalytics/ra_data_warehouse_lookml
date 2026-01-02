@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: monthly_health
-      field: agg_monthly_health.month_start_date
+      field: monthly_health.month_start_date
 
   elements:
 
@@ -34,7 +34,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.avg_weight_measure]
+      fields: [monthly_health.avg_weight_measure]
       limit: 1
       custom_color_enabled: true
       custom_color: "#5A6B7C"
@@ -50,7 +50,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.avg_sleep_measure]
+      fields: [monthly_health.avg_sleep_measure]
       limit: 1
       custom_color_enabled: true
       custom_color: "#7B68EE"
@@ -66,7 +66,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.sum_workouts]
+      fields: [monthly_health.sum_workouts]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF6B6B"
@@ -82,7 +82,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.sum_steps]
+      fields: [monthly_health.sum_steps]
       limit: 1
       custom_color_enabled: true
       custom_color: "#4CAF50"
@@ -98,7 +98,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.avg_steps_measure]
+      fields: [monthly_health.avg_steps_measure]
       limit: 1
       custom_color_enabled: true
       custom_color: "#2196F3"
@@ -114,7 +114,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.count]
+      fields: [monthly_health.count]
       limit: 1
       custom_color_enabled: true
       custom_color: "#9C27B0"
@@ -134,9 +134,9 @@
       type: looker_line
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.month_start_month, agg_monthly_health.avg_weight_measure]
-      fill_fields: [agg_monthly_health.month_start_month]
-      sorts: [agg_monthly_health.month_start_month]
+      fields: [monthly_health.month_start_month, monthly_health.avg_weight_measure]
+      fill_fields: [monthly_health.month_start_month]
+      sorts: [monthly_health.month_start_month]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -160,7 +160,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        agg_monthly_health.avg_weight_measure: "#5A6B7C"
+        monthly_health.avg_weight_measure: "#5A6B7C"
       row: 3
       col: 0
       width: 12
@@ -171,9 +171,9 @@
       type: looker_line
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.month_start_month, agg_monthly_health.avg_sleep_measure]
-      fill_fields: [agg_monthly_health.month_start_month]
-      sorts: [agg_monthly_health.month_start_month]
+      fields: [monthly_health.month_start_month, monthly_health.avg_sleep_measure]
+      fill_fields: [monthly_health.month_start_month]
+      sorts: [monthly_health.month_start_month]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -197,7 +197,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        agg_monthly_health.avg_sleep_measure: "#7B68EE"
+        monthly_health.avg_sleep_measure: "#7B68EE"
       row: 3
       col: 12
       width: 12
@@ -212,9 +212,9 @@
       type: looker_area
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.month_start_month, agg_monthly_health.sum_steps]
-      fill_fields: [agg_monthly_health.month_start_month]
-      sorts: [agg_monthly_health.month_start_month]
+      fields: [monthly_health.month_start_month, monthly_health.sum_steps]
+      fill_fields: [monthly_health.month_start_month]
+      sorts: [monthly_health.month_start_month]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -238,7 +238,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        agg_monthly_health.sum_steps: "#4CAF50"
+        monthly_health.sum_steps: "#4CAF50"
       row: 11
       col: 0
       width: 12
@@ -249,8 +249,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: workouts
-      fields: [dim_workout_type.workout_type, fct_workouts.total_workouts, fct_workouts.total_duration_minutes, fct_workouts.avg_duration_minutes, fct_workouts.total_distance_km]
-      sorts: [fct_workouts.total_workouts desc]
+      fields: [dim_workout_type.workout_type, workouts.total_workouts, workouts.total_duration_minutes, workouts.avg_duration_minutes, workouts.total_distance_km]
+      sorts: [workouts.total_workouts desc]
       limit: 10
       show_view_names: false
       show_row_numbers: true
@@ -278,7 +278,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [fct_workouts.total_workouts]
+          fields: [workouts.total_workouts]
       row: 11
       col: 12
       width: 12
@@ -293,8 +293,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: monthly_health
-      fields: [agg_monthly_health.year_month, agg_monthly_health.avg_weight_kg, agg_monthly_health.avg_daily_sleep_hours, agg_monthly_health.avg_daily_steps, agg_monthly_health.total_workouts, agg_monthly_health.days_with_data]
-      sorts: [agg_monthly_health.year_month desc]
+      fields: [monthly_health.year_month, monthly_health.avg_weight_kg, monthly_health.avg_daily_sleep_hours, monthly_health.avg_daily_steps, monthly_health.total_workouts, monthly_health.days_with_data]
+      sorts: [monthly_health.year_month desc]
       limit: 12
       show_view_names: false
       show_row_numbers: true
@@ -322,7 +322,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_monthly_health.avg_daily_steps]
+          fields: [monthly_health.avg_daily_steps]
       row: 19
       col: 0
       width: 24

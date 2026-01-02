@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: emails
-      field: fct_emails.communication_date
+      field: emails.communication_date
 
   elements:
 
@@ -34,7 +34,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.count]
+      fields: [emails.count]
       limit: 1
       custom_color_enabled: true
       custom_color: "#2196F3"
@@ -50,7 +50,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.emails_received]
+      fields: [emails.emails_received]
       limit: 1
       custom_color_enabled: true
       custom_color: "#4CAF50"
@@ -66,7 +66,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.emails_sent]
+      fields: [emails.emails_sent]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF9800"
@@ -82,7 +82,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.receive_send_ratio]
+      fields: [emails.receive_send_ratio]
       limit: 1
       custom_color_enabled: true
       custom_color: "#9C27B0"
@@ -98,7 +98,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: messages
-      fields: [fct_messages.count]
+      fields: [messages.count]
       limit: 1
       custom_color_enabled: true
       custom_color: "#00BCD4"
@@ -114,7 +114,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.avg_subject_length]
+      fields: [emails.avg_subject_length]
       limit: 1
       custom_color_enabled: true
       custom_color: "#607D8B"
@@ -134,9 +134,9 @@
       type: looker_column
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.communication_at_day_of_week, fct_emails.emails_received, fct_emails.emails_sent]
-      fill_fields: [fct_emails.communication_at_day_of_week]
-      sorts: [fct_emails.communication_at_day_of_week]
+      fields: [emails.communication_at_day_of_week, emails.emails_received, emails.emails_sent]
+      fill_fields: [emails.communication_at_day_of_week]
+      sorts: [emails.communication_at_day_of_week]
       limit: 7
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -163,8 +163,8 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        fct_emails.emails_received: "#4CAF50"
-        fct_emails.emails_sent: "#FF9800"
+        emails.emails_received: "#4CAF50"
+        emails.emails_sent: "#FF9800"
       row: 3
       col: 0
       width: 12
@@ -175,9 +175,9 @@
       type: looker_line
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.communication_week, fct_emails.count]
-      fill_fields: [fct_emails.communication_week]
-      sorts: [fct_emails.communication_week]
+      fields: [emails.communication_week, emails.count]
+      fill_fields: [emails.communication_week]
+      sorts: [emails.communication_week]
       limit: 52
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -201,7 +201,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        fct_emails.count: "#2196F3"
+        emails.count: "#2196F3"
       row: 3
       col: 12
       width: 12
@@ -216,8 +216,8 @@
       type: looker_pie
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.source_system, fct_emails.count]
-      sorts: [fct_emails.count desc]
+      fields: [emails.source_system, emails.count]
+      sorts: [emails.count desc]
       limit: 10
       value_labels: legend
       label_type: labPer
@@ -236,9 +236,9 @@
       type: looker_column
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.communication_at_hour_of_day, fct_emails.count]
-      fill_fields: [fct_emails.communication_at_hour_of_day]
-      sorts: [fct_emails.communication_at_hour_of_day]
+      fields: [emails.communication_at_hour_of_day, emails.count]
+      fill_fields: [emails.communication_at_hour_of_day]
+      sorts: [emails.communication_at_hour_of_day]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -265,7 +265,7 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        fct_emails.count: "#2196F3"
+        emails.count: "#2196F3"
       row: 11
       col: 8
       width: 16
@@ -280,9 +280,9 @@
       type: looker_area
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.communication_month, fct_emails.emails_received, fct_emails.emails_sent]
-      fill_fields: [fct_emails.communication_month]
-      sorts: [fct_emails.communication_month]
+      fields: [emails.communication_month, emails.emails_received, emails.emails_sent]
+      fill_fields: [emails.communication_month]
+      sorts: [emails.communication_month]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -306,8 +306,8 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        fct_emails.emails_received: "#4CAF50"
-        fct_emails.emails_sent: "#FF9800"
+        emails.emails_received: "#4CAF50"
+        emails.emails_sent: "#FF9800"
       row: 19
       col: 0
       width: 24
@@ -322,8 +322,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: emails
-      fields: [fct_emails.folder, fct_emails.count, fct_emails.emails_received, fct_emails.emails_sent]
-      sorts: [fct_emails.count desc]
+      fields: [emails.folder, emails.count, emails.emails_received, emails.emails_sent]
+      sorts: [emails.count desc]
       limit: 15
       show_view_names: false
       show_row_numbers: true
@@ -351,7 +351,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [fct_emails.count]
+          fields: [emails.count]
       row: 27
       col: 0
       width: 24

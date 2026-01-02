@@ -21,7 +21,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.sleep_vs_productivity_corr]
+      fields: [cross_domain_correlations.sleep_vs_productivity_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#7B68EE"
@@ -37,7 +37,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.sleep_vs_productivity_strength]
+      fields: [cross_domain_correlations.sleep_vs_productivity_strength]
       limit: 1
       custom_color_enabled: true
       custom_color: "#4CAF50"
@@ -52,7 +52,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.exercise_vs_productivity_corr]
+      fields: [cross_domain_correlations.exercise_vs_productivity_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF6B6B"
@@ -68,7 +68,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.steps_vs_spending_corr]
+      fields: [cross_domain_correlations.steps_vs_spending_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#2196F3"
@@ -84,7 +84,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.steps_vs_spending_strength]
+      fields: [cross_domain_correlations.steps_vs_spending_strength]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF9800"
@@ -99,7 +99,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.sample_size]
+      fields: [cross_domain_correlations.sample_size]
       limit: 1
       custom_color_enabled: true
       custom_color: "#607D8B"
@@ -119,7 +119,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.sleep_vs_discretionary_corr]
+      fields: [cross_domain_correlations.sleep_vs_discretionary_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#9C27B0"
@@ -135,7 +135,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.workouts_vs_food_corr]
+      fields: [cross_domain_correlations.workouts_vs_food_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#00BCD4"
@@ -151,7 +151,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.steps_vs_screen_time_corr]
+      fields: [cross_domain_correlations.steps_vs_screen_time_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#E91E63"
@@ -167,7 +167,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.spending_vs_screen_time_corr]
+      fields: [cross_domain_correlations.spending_vs_screen_time_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#795548"
@@ -183,7 +183,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.entertainment_vs_discretionary_corr]
+      fields: [cross_domain_correlations.entertainment_vs_discretionary_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF5722"
@@ -199,7 +199,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: cross_domain_correlations
-      fields: [agg_cross_domain_correlations.exercise_vs_spending_corr]
+      fields: [cross_domain_correlations.exercise_vs_spending_corr]
       limit: 1
       custom_color_enabled: true
       custom_color: "#3F51B5"
@@ -219,8 +219,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: life_phase_metrics
-      fields: [agg_life_phase_metrics.life_phase, agg_life_phase_metrics.avg_daily_steps, agg_life_phase_metrics.avg_daily_exercise_minutes, agg_life_phase_metrics.avg_daily_sleep_hours, agg_life_phase_metrics.avg_daily_spending, agg_life_phase_metrics.avg_productivity_score, agg_life_phase_metrics.avg_daily_screen_hours]
-      sorts: [agg_life_phase_metrics.life_phase]
+      fields: [life_phase_metrics.life_phase, life_phase_metrics.avg_daily_steps, life_phase_metrics.avg_daily_exercise_minutes, life_phase_metrics.avg_daily_sleep_hours, life_phase_metrics.avg_daily_spending, life_phase_metrics.avg_productivity_score, life_phase_metrics.avg_daily_screen_hours]
+      sorts: [life_phase_metrics.life_phase]
       limit: 5
       show_view_names: false
       show_row_numbers: false
@@ -248,7 +248,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_life_phase_metrics.avg_daily_steps]
+          fields: [life_phase_metrics.avg_daily_steps]
         - type: along a scale...
           value:
           background_color: "#2196F3"
@@ -259,7 +259,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_life_phase_metrics.avg_productivity_score]
+          fields: [life_phase_metrics.avg_productivity_score]
       row: 6
       col: 0
       width: 24
@@ -274,8 +274,8 @@
       type: looker_column
       model: personal_data_dashboard
       explore: life_phase_metrics
-      fields: [agg_life_phase_metrics.life_phase, agg_life_phase_metrics.avg_steps_measure]
-      sorts: [agg_life_phase_metrics.life_phase]
+      fields: [life_phase_metrics.life_phase, life_phase_metrics.avg_steps_measure]
+      sorts: [life_phase_metrics.life_phase]
       limit: 5
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -302,7 +302,7 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        agg_life_phase_metrics.avg_steps_measure: "#4CAF50"
+        life_phase_metrics.avg_steps_measure: "#4CAF50"
       row: 12
       col: 0
       width: 8
@@ -313,8 +313,8 @@
       type: looker_column
       model: personal_data_dashboard
       explore: life_phase_metrics
-      fields: [agg_life_phase_metrics.life_phase, agg_life_phase_metrics.avg_spending_measure]
-      sorts: [agg_life_phase_metrics.life_phase]
+      fields: [life_phase_metrics.life_phase, life_phase_metrics.avg_spending_measure]
+      sorts: [life_phase_metrics.life_phase]
       limit: 5
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -341,7 +341,7 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        agg_life_phase_metrics.avg_spending_measure: "#E91E63"
+        life_phase_metrics.avg_spending_measure: "#E91E63"
       row: 12
       col: 8
       width: 8
@@ -352,8 +352,8 @@
       type: looker_column
       model: personal_data_dashboard
       explore: life_phase_metrics
-      fields: [agg_life_phase_metrics.life_phase, agg_life_phase_metrics.avg_productivity_measure]
-      sorts: [agg_life_phase_metrics.life_phase]
+      fields: [life_phase_metrics.life_phase, life_phase_metrics.avg_productivity_measure]
+      sorts: [life_phase_metrics.life_phase]
       limit: 5
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -380,7 +380,7 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        agg_life_phase_metrics.avg_productivity_measure: "#2196F3"
+        life_phase_metrics.avg_productivity_measure: "#2196F3"
       row: 12
       col: 16
       width: 8
@@ -395,8 +395,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: life_phase_metrics
-      fields: [agg_life_phase_metrics.life_phase, agg_life_phase_metrics.avg_daily_steps, agg_life_phase_metrics.avg_daily_exercise_minutes, agg_life_phase_metrics.avg_daily_sleep_hours, agg_life_phase_metrics.avg_weight_kg, agg_life_phase_metrics.avg_heart_rate, agg_life_phase_metrics.health_days]
-      sorts: [agg_life_phase_metrics.life_phase]
+      fields: [life_phase_metrics.life_phase, life_phase_metrics.avg_daily_steps, life_phase_metrics.avg_daily_exercise_minutes, life_phase_metrics.avg_daily_sleep_hours, life_phase_metrics.avg_weight_kg, life_phase_metrics.avg_heart_rate, life_phase_metrics.health_days]
+      sorts: [life_phase_metrics.life_phase]
       limit: 5
       show_view_names: false
       show_row_numbers: false
@@ -424,7 +424,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_life_phase_metrics.avg_daily_steps]
+          fields: [life_phase_metrics.avg_daily_steps]
       row: 20
       col: 0
       width: 12
@@ -435,8 +435,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: life_phase_metrics
-      fields: [agg_life_phase_metrics.life_phase, agg_life_phase_metrics.avg_daily_spending, agg_life_phase_metrics.avg_daily_food_spending, agg_life_phase_metrics.avg_daily_transport_spending, agg_life_phase_metrics.avg_daily_entertainment_spending, agg_life_phase_metrics.essential_spending_pct, agg_life_phase_metrics.spending_days]
-      sorts: [agg_life_phase_metrics.life_phase]
+      fields: [life_phase_metrics.life_phase, life_phase_metrics.avg_daily_spending, life_phase_metrics.avg_daily_food_spending, life_phase_metrics.avg_daily_transport_spending, life_phase_metrics.avg_daily_entertainment_spending, life_phase_metrics.essential_spending_pct, life_phase_metrics.spending_days]
+      sorts: [life_phase_metrics.life_phase]
       limit: 5
       show_view_names: false
       show_row_numbers: false
@@ -467,7 +467,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_life_phase_metrics.avg_daily_spending]
+          fields: [life_phase_metrics.avg_daily_spending]
       row: 20
       col: 12
       width: 12
@@ -482,8 +482,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: life_phase_metrics
-      fields: [agg_life_phase_metrics.life_phase, agg_life_phase_metrics.avg_daily_screen_minutes, agg_life_phase_metrics.avg_productivity_score, agg_life_phase_metrics.avg_work_minutes, agg_life_phase_metrics.avg_leisure_minutes, agg_life_phase_metrics.work_screen_time_pct, agg_life_phase_metrics.productivity_days]
-      sorts: [agg_life_phase_metrics.life_phase]
+      fields: [life_phase_metrics.life_phase, life_phase_metrics.avg_daily_screen_minutes, life_phase_metrics.avg_productivity_score, life_phase_metrics.avg_work_minutes, life_phase_metrics.avg_leisure_minutes, life_phase_metrics.work_screen_time_pct, life_phase_metrics.productivity_days]
+      sorts: [life_phase_metrics.life_phase]
       limit: 5
       show_view_names: false
       show_row_numbers: false
@@ -511,7 +511,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_life_phase_metrics.avg_productivity_score]
+          fields: [life_phase_metrics.avg_productivity_score]
       row: 26
       col: 0
       width: 24

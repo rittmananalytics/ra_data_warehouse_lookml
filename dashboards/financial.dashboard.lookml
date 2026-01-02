@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: monthly_spending
-      field: agg_monthly_spending.month_start_date
+      field: monthly_spending.month_start_date
 
   elements:
 
@@ -34,7 +34,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.sum_spending]
+      fields: [monthly_spending.sum_spending]
       limit: 1
       custom_color_enabled: true
       custom_color: "#E91E63"
@@ -50,7 +50,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.sum_income]
+      fields: [monthly_spending.sum_income]
       limit: 1
       custom_color_enabled: true
       custom_color: "#4CAF50"
@@ -66,7 +66,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.avg_monthly_spending]
+      fields: [monthly_spending.avg_monthly_spending]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF9800"
@@ -82,7 +82,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.sum_transactions]
+      fields: [monthly_spending.sum_transactions]
       limit: 1
       custom_color_enabled: true
       custom_color: "#2196F3"
@@ -98,7 +98,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.count]
+      fields: [monthly_spending.count]
       limit: 1
       custom_color_enabled: true
       custom_color: "#607D8B"
@@ -114,7 +114,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: transactions
-      fields: [fct_transactions.avg_transaction_amount]
+      fields: [transactions.avg_transaction_amount]
       limit: 1
       custom_color_enabled: true
       custom_color: "#9C27B0"
@@ -134,9 +134,9 @@
       type: looker_area
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.month_start_month, agg_monthly_spending.total_spending]
-      fill_fields: [agg_monthly_spending.month_start_month]
-      sorts: [agg_monthly_spending.month_start_month]
+      fields: [monthly_spending.month_start_month, monthly_spending.total_spending]
+      fill_fields: [monthly_spending.month_start_month]
+      sorts: [monthly_spending.month_start_month]
       limit: 24
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -160,7 +160,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        agg_monthly_spending.total_spending: "#E91E63"
+        monthly_spending.total_spending: "#E91E63"
       row: 3
       col: 0
       width: 12
@@ -171,8 +171,8 @@
       type: looker_pie
       model: personal_data_dashboard
       explore: transactions
-      fields: [dim_spending_category.category_name, fct_transactions.total_spending]
-      sorts: [fct_transactions.total_spending desc]
+      fields: [dim_spending_category.category_name, transactions.total_spending]
+      sorts: [transactions.total_spending desc]
       limit: 10
       value_labels: legend
       label_type: labPer
@@ -195,9 +195,9 @@
       type: looker_column
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.month_start_month, agg_monthly_spending.essential_spending, agg_monthly_spending.discretionary_spending]
-      fill_fields: [agg_monthly_spending.month_start_month]
-      sorts: [agg_monthly_spending.month_start_month]
+      fields: [monthly_spending.month_start_month, monthly_spending.essential_spending, monthly_spending.discretionary_spending]
+      fill_fields: [monthly_spending.month_start_month]
+      sorts: [monthly_spending.month_start_month]
       limit: 12
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -224,8 +224,8 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        agg_monthly_spending.essential_spending: "#607D8B"
-        agg_monthly_spending.discretionary_spending: "#FF9800"
+        monthly_spending.essential_spending: "#607D8B"
+        monthly_spending.discretionary_spending: "#FF9800"
       row: 11
       col: 0
       width: 12
@@ -236,8 +236,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: transactions
-      fields: [dim_merchant.merchant_name, dim_spending_category.category_name, fct_transactions.total_spending, fct_transactions.transaction_count]
-      sorts: [fct_transactions.total_spending desc]
+      fields: [dim_merchant.merchant_name, dim_spending_category.category_name, transactions.total_spending, transactions.transaction_count]
+      sorts: [transactions.total_spending desc]
       limit: 15
       show_view_names: false
       show_row_numbers: true
@@ -265,7 +265,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [fct_transactions.total_spending]
+          fields: [transactions.total_spending]
       row: 11
       col: 12
       width: 12
@@ -280,9 +280,9 @@
       type: looker_column
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.month_start_month, agg_monthly_spending.total_income, agg_monthly_spending.total_spending]
-      fill_fields: [agg_monthly_spending.month_start_month]
-      sorts: [agg_monthly_spending.month_start_month]
+      fields: [monthly_spending.month_start_month, monthly_spending.total_income, monthly_spending.total_spending]
+      fill_fields: [monthly_spending.month_start_month]
+      sorts: [monthly_spending.month_start_month]
       limit: 12
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -309,8 +309,8 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        agg_monthly_spending.total_income: "#4CAF50"
-        agg_monthly_spending.total_spending: "#E91E63"
+        monthly_spending.total_income: "#4CAF50"
+        monthly_spending.total_spending: "#E91E63"
       row: 19
       col: 0
       width: 24
@@ -325,8 +325,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: monthly_spending
-      fields: [agg_monthly_spending.year_month, agg_monthly_spending.total_spending, agg_monthly_spending.total_income, agg_monthly_spending.net_flow, agg_monthly_spending.savings_rate_pct, agg_monthly_spending.essential_pct, agg_monthly_spending.transaction_count]
-      sorts: [agg_monthly_spending.year_month desc]
+      fields: [monthly_spending.year_month, monthly_spending.total_spending, monthly_spending.total_income, monthly_spending.net_flow, monthly_spending.savings_rate_pct, monthly_spending.essential_pct, monthly_spending.transaction_count]
+      sorts: [monthly_spending.year_month desc]
       limit: 12
       show_view_names: false
       show_row_numbers: true
@@ -354,7 +354,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_monthly_spending.net_flow]
+          fields: [monthly_spending.net_flow]
         - type: less than
           value: 0
           background_color: "#FFCDD2"
@@ -365,7 +365,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_monthly_spending.net_flow]
+          fields: [monthly_spending.net_flow]
       row: 27
       col: 0
       width: 24

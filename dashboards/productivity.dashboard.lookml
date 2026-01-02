@@ -21,7 +21,7 @@
         type: relative_timeframes
         display: inline
       explore: weekly_productivity
-      field: agg_weekly_productivity.week_start_date
+      field: weekly_productivity.week_start_date
 
   elements:
 
@@ -34,7 +34,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.avg_weekly_screen_hours]
+      fields: [weekly_productivity.avg_weekly_screen_hours]
       limit: 1
       custom_color_enabled: true
       custom_color: "#2196F3"
@@ -50,7 +50,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.avg_productivity_score_measure]
+      fields: [weekly_productivity.avg_productivity_score_measure]
       limit: 1
       custom_color_enabled: true
       custom_color: "#4CAF50"
@@ -66,7 +66,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.sum_productive_minutes]
+      fields: [weekly_productivity.sum_productive_minutes]
       limit: 1
       custom_color_enabled: true
       custom_color: "#4CAF50"
@@ -82,7 +82,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.sum_distracted_minutes]
+      fields: [weekly_productivity.sum_distracted_minutes]
       limit: 1
       custom_color_enabled: true
       custom_color: "#FF6B6B"
@@ -98,7 +98,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.sum_screen_time]
+      fields: [weekly_productivity.sum_screen_time]
       limit: 1
       custom_color_enabled: true
       custom_color: "#9C27B0"
@@ -114,7 +114,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.count]
+      fields: [weekly_productivity.count]
       limit: 1
       custom_color_enabled: true
       custom_color: "#607D8B"
@@ -134,9 +134,9 @@
       type: looker_line
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.week_start_week, agg_weekly_productivity.avg_productivity_score_measure]
-      fill_fields: [agg_weekly_productivity.week_start_week]
-      sorts: [agg_weekly_productivity.week_start_week]
+      fields: [weekly_productivity.week_start_week, weekly_productivity.avg_productivity_score_measure]
+      fill_fields: [weekly_productivity.week_start_week]
+      sorts: [weekly_productivity.week_start_week]
       limit: 52
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -160,7 +160,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        agg_weekly_productivity.avg_productivity_score_measure: "#4CAF50"
+        weekly_productivity.avg_productivity_score_measure: "#4CAF50"
       row: 3
       col: 0
       width: 12
@@ -171,9 +171,9 @@
       type: looker_area
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.week_start_week, agg_weekly_productivity.avg_weekly_screen_hours]
-      fill_fields: [agg_weekly_productivity.week_start_week]
-      sorts: [agg_weekly_productivity.week_start_week]
+      fields: [weekly_productivity.week_start_week, weekly_productivity.avg_weekly_screen_hours]
+      fill_fields: [weekly_productivity.week_start_week]
+      sorts: [weekly_productivity.week_start_week]
       limit: 52
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -197,7 +197,7 @@
       show_null_points: false
       interpolation: linear
       series_colors:
-        agg_weekly_productivity.avg_weekly_screen_hours: "#2196F3"
+        weekly_productivity.avg_weekly_screen_hours: "#2196F3"
       row: 3
       col: 12
       width: 12
@@ -212,8 +212,8 @@
       type: looker_pie
       model: personal_data_dashboard
       explore: application_usage
-      fields: [dim_application.productivity_category, fct_application_usage.total_duration_minutes]
-      sorts: [fct_application_usage.total_duration_minutes desc]
+      fields: [dim_application.productivity_category, application_usage.total_duration_minutes]
+      sorts: [application_usage.total_duration_minutes desc]
       limit: 10
       value_labels: legend
       label_type: labPer
@@ -232,8 +232,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: application_usage
-      fields: [dim_application.application_name, dim_application.productivity_category, fct_application_usage.total_duration_minutes, fct_application_usage.usage_count]
-      sorts: [fct_application_usage.total_duration_minutes desc]
+      fields: [dim_application.application_name, dim_application.productivity_category, application_usage.total_duration_minutes, application_usage.usage_count]
+      sorts: [application_usage.total_duration_minutes desc]
       limit: 15
       show_view_names: false
       show_row_numbers: true
@@ -261,7 +261,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [fct_application_usage.total_duration_minutes]
+          fields: [application_usage.total_duration_minutes]
       row: 11
       col: 8
       width: 16
@@ -276,9 +276,9 @@
       type: looker_column
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.week_start_week, agg_weekly_productivity.sum_productive_minutes, agg_weekly_productivity.sum_distracted_minutes]
-      fill_fields: [agg_weekly_productivity.week_start_week]
-      sorts: [agg_weekly_productivity.week_start_week]
+      fields: [weekly_productivity.week_start_week, weekly_productivity.sum_productive_minutes, weekly_productivity.sum_distracted_minutes]
+      fill_fields: [weekly_productivity.week_start_week]
+      sorts: [weekly_productivity.week_start_week]
       limit: 26
       x_axis_gridlines: false
       y_axis_gridlines: true
@@ -305,8 +305,8 @@
       show_silhouette: false
       totals_color: "#808080"
       series_colors:
-        agg_weekly_productivity.sum_productive_minutes: "#4CAF50"
-        agg_weekly_productivity.sum_distracted_minutes: "#FF6B6B"
+        weekly_productivity.sum_productive_minutes: "#4CAF50"
+        weekly_productivity.sum_distracted_minutes: "#FF6B6B"
       row: 19
       col: 0
       width: 24
@@ -321,8 +321,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: weekly_productivity
-      fields: [agg_weekly_productivity.year_week, agg_weekly_productivity.total_screen_hours, agg_weekly_productivity.avg_daily_productivity_score, agg_weekly_productivity.productive_pct, agg_weekly_productivity.work_pct, agg_weekly_productivity.leisure_pct, agg_weekly_productivity.days_with_data]
-      sorts: [agg_weekly_productivity.year_week desc]
+      fields: [weekly_productivity.year_week, weekly_productivity.total_screen_hours, weekly_productivity.avg_daily_productivity_score, weekly_productivity.productive_pct, weekly_productivity.work_pct, weekly_productivity.leisure_pct, weekly_productivity.days_with_data]
+      sorts: [weekly_productivity.year_week desc]
       limit: 12
       show_view_names: false
       show_row_numbers: true
@@ -350,7 +350,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [agg_weekly_productivity.productive_pct]
+          fields: [weekly_productivity.productive_pct]
       row: 27
       col: 0
       width: 24
