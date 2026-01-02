@@ -1,6 +1,6 @@
 # =============================================================================
-# FCT_YOUTUBE_ACTIVITY - YouTube Activity
-# Grain: One row per activity (watch, search, visit)
+# FCT_YOUTUBE_ACTIVITY - Digital Activity (YouTube, Search, etc.)
+# Grain: One row per activity (watch, search, browse)
 # Source: ra-development.pdd_analytics.digital_activity_fct
 # =============================================================================
 
@@ -11,10 +11,10 @@ view: fct_youtube_activity {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: activity_pk {
+  dimension: activity_id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.activity_pk ;;
+    sql: ${TABLE}.activity_id ;;
     hidden: yes
     description: "Primary key"
   }
@@ -23,25 +23,25 @@ view: fct_youtube_activity {
   # FOREIGN KEYS
   # =============================================================================
 
-  dimension: date_fk {
+  dimension: date_key {
     type: number
-    sql: ${TABLE}.date_fk ;;
+    sql: ${TABLE}.date_key ;;
     hidden: yes
-    description: "Foreign key to dim_date"
+    description: "Foreign key to date_dim"
   }
 
-  dimension: time_fk {
+  dimension: time_key {
     type: number
-    sql: ${TABLE}.time_fk ;;
+    sql: ${TABLE}.time_key ;;
     hidden: yes
-    description: "Foreign key to dim_time_of_day"
+    description: "Foreign key to time_dim"
   }
 
-  dimension: channel_fk {
+  dimension: content_type_key {
     type: string
-    sql: ${TABLE}.channel_fk ;;
+    sql: ${TABLE}.content_type_key ;;
     hidden: yes
-    description: "Foreign key to dim_youtube_channel"
+    description: "Foreign key to content_type_dim"
   }
 
   # =============================================================================
@@ -50,10 +50,20 @@ view: fct_youtube_activity {
 
   dimension_group: activity {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year, hour_of_day, day_of_week]
-    datatype: timestamp
-    sql: ${TABLE}.activity_ts ;;
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.activity_date ;;
     label: "Activity"
+    description: "Activity date"
+  }
+
+  dimension_group: activity_at {
+    type: time
+    timeframes: [raw, time, date, hour_of_day, day_of_week]
+    datatype: timestamp
+    sql: ${TABLE}.activity_at ;;
+    label: "Activity Time"
     description: "Activity timestamp"
   }
 
@@ -61,51 +71,62 @@ view: fct_youtube_activity {
   # ACTIVITY DIMENSIONS
   # =============================================================================
 
+  dimension: source_system {
+    type: string
+    sql: ${TABLE}.source_system ;;
+    label: "Source"
+    description: "Data source"
+  }
+
+  dimension: source_name {
+    type: string
+    sql: ${TABLE}.source_name ;;
+    label: "Source Name"
+    description: "Specific source name"
+  }
+
+  dimension: activity_title {
+    type: string
+    sql: ${TABLE}.activity_title ;;
+    label: "Title"
+    description: "Activity title/query"
+  }
+
+  dimension: url {
+    type: string
+    sql: ${TABLE}.url ;;
+    label: "URL"
+    description: "Activity URL"
+  }
+
+  dimension: domain {
+    type: string
+    sql: ${TABLE}.domain ;;
+    label: "Domain"
+    description: "Website domain"
+  }
+
   dimension: activity_type {
     type: string
     sql: ${TABLE}.activity_type ;;
     label: "Activity Type"
-    description: "Watched, Searched, Visited"
+    description: "Type of digital activity"
   }
 
-  dimension: video_title {
-    type: string
-    sql: ${TABLE}.video_title ;;
-    label: "Video Title"
-    description: "Video title or search query"
-  }
-
-  dimension: youtube_url {
-    type: string
-    sql: ${TABLE}.youtube_url ;;
-    label: "URL"
-    description: "Video/channel URL"
-  }
-
-  dimension: estimated_duration_min {
+  dimension: url_length {
     type: number
-    sql: ${TABLE}.estimated_duration_min ;;
-    label: "Est. Duration (min)"
+    sql: ${TABLE}.url_length ;;
+    label: "URL Length"
     value_format_name: decimal_0
-    description: "Estimated watch duration (minutes)"
+    description: "Length of URL"
   }
 
-  # =============================================================================
-  # ACTIVITY FLAGS
-  # =============================================================================
-
-  dimension: is_watched {
-    type: yesno
-    sql: ${TABLE}.is_watched ;;
-    label: "Is Watched"
-    description: "TRUE if watched video"
-  }
-
-  dimension: is_searched {
-    type: yesno
-    sql: ${TABLE}.is_searched ;;
-    label: "Is Searched"
-    description: "TRUE if search activity"
+  dimension: url_depth {
+    type: number
+    sql: ${TABLE}.url_depth ;;
+    label: "URL Depth"
+    value_format_name: decimal_0
+    description: "Depth of URL path"
   }
 
   # =============================================================================
@@ -115,48 +136,25 @@ view: fct_youtube_activity {
   measure: count {
     type: count
     label: "Activity Count"
-    drill_fields: [activity_date, activity_type, video_title, dim_youtube_channel.channel_name]
+    drill_fields: [activity_date, activity_type, activity_title, domain]
   }
 
-  measure: videos_watched {
-    type: count
-    filters: [is_watched: "yes"]
-    label: "Videos Watched"
-  }
-
-  measure: searches {
-    type: count
-    filters: [is_searched: "yes"]
-    label: "Searches"
-  }
-
-  measure: total_watch_minutes {
-    type: sum
-    sql: ${estimated_duration_min} ;;
-    filters: [is_watched: "yes"]
-    label: "Total Watch Time (min)"
-    value_format_name: decimal_0
-  }
-
-  measure: total_watch_hours {
-    type: sum
-    sql: ${estimated_duration_min} / 60.0 ;;
-    filters: [is_watched: "yes"]
-    label: "Total Watch Time (hours)"
-    value_format_name: decimal_1
-  }
-
-  measure: avg_watch_minutes {
-    type: average
-    sql: ${estimated_duration_min} ;;
-    filters: [is_watched: "yes"]
-    label: "Avg Watch Time (min)"
-    value_format_name: decimal_0
-  }
-
-  measure: unique_channels {
+  measure: unique_domains {
     type: count_distinct
-    sql: ${channel_fk} ;;
-    label: "Unique Channels"
+    sql: ${domain} ;;
+    label: "Unique Domains"
+  }
+
+  measure: unique_activities {
+    type: count_distinct
+    sql: ${activity_title} ;;
+    label: "Unique Activities"
+  }
+
+  measure: avg_url_depth {
+    type: average
+    sql: ${url_depth} ;;
+    label: "Avg URL Depth"
+    value_format_name: decimal_1
   }
 }

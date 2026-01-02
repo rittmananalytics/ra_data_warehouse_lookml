@@ -37,6 +37,27 @@ view: dim_time_of_day {
     description: "Minute (0-59)"
   }
 
+  dimension: minute_of_day {
+    type: number
+    sql: ${TABLE}.minute_of_day ;;
+    label: "Minute of Day"
+    description: "Minute of day (0-1439)"
+  }
+
+  dimension: time_of_day {
+    type: string
+    sql: ${TABLE}.time_of_day ;;
+    label: "Time (HH:MM)"
+    description: "Formatted time (HH:MM)"
+  }
+
+  dimension: time_of_day_full {
+    type: string
+    sql: ${TABLE}.time_of_day_full ;;
+    label: "Time (HH:MM:SS)"
+    description: "Formatted time (HH:MM:SS)"
+  }
+
   dimension: hour_12 {
     type: number
     sql: ${TABLE}.hour_12 ;;
@@ -51,29 +72,36 @@ view: dim_time_of_day {
     description: "AM or PM"
   }
 
-  dimension: time_of_day_name {
+  dimension: period_of_day {
     type: string
-    sql: ${TABLE}.time_of_day_name ;;
-    label: "Time Period"
-    description: "Time period: Morning, Afternoon, Evening, Night"
+    sql: ${TABLE}.period_of_day ;;
+    label: "Period of Day"
+    description: "Morning, Afternoon, Evening, Night"
+  }
+
+  dimension: hour_band {
+    type: string
+    sql: ${TABLE}.hour_band ;;
+    label: "Hour Band"
+    description: "Detailed hour band (e.g., Morning (06-08))"
   }
 
   # =============================================================================
   # TIME FLAGS
   # =============================================================================
 
-  dimension: is_business_hours {
+  dimension: is_work_hours {
     type: yesno
-    sql: ${TABLE}.is_business_hours ;;
-    label: "Business Hours"
+    sql: ${TABLE}.is_work_hours ;;
+    label: "Work Hours"
     description: "TRUE if 9:00-17:00"
   }
 
-  dimension: is_peak_hours {
+  dimension: is_waking_hours {
     type: yesno
-    sql: ${TABLE}.is_peak_hours ;;
-    label: "Peak Hours"
-    description: "TRUE if 9:00-12:00 or 14:00-17:00"
+    sql: ${TABLE}.is_waking_hours ;;
+    label: "Waking Hours"
+    description: "TRUE if 6:00-22:00"
   }
 
   # =============================================================================

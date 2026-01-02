@@ -11,12 +11,12 @@ view: dim_merchant {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: merchant_pk {
+  dimension: merchant_key {
     primary_key: yes
     type: string
-    sql: ${TABLE}.merchant_pk ;;
+    sql: ${TABLE}.merchant_key ;;
     hidden: yes
-    description: "Primary key (hash of merchant name)"
+    description: "Primary key (merchant ID)"
   }
 
   # =============================================================================
@@ -30,6 +30,13 @@ view: dim_merchant {
     description: "Merchant or payee name"
   }
 
+  dimension: normalized_name {
+    type: string
+    sql: ${TABLE}.normalized_name ;;
+    label: "Normalized Name"
+    description: "Cleaned/normalized merchant name"
+  }
+
   dimension: merchant_category {
     type: string
     sql: ${TABLE}.merchant_category ;;
@@ -37,57 +44,54 @@ view: dim_merchant {
     description: "Spending category"
   }
 
+  dimension: merchant_city {
+    type: string
+    sql: ${TABLE}.merchant_city ;;
+    label: "City"
+    description: "Merchant city"
+  }
+
+  dimension: merchant_country {
+    type: string
+    sql: ${TABLE}.merchant_country ;;
+    label: "Country"
+    description: "Merchant country"
+  }
+
   # =============================================================================
   # MERCHANT FLAGS
   # =============================================================================
 
-  dimension: is_subscription {
+  dimension: is_multi_source {
     type: yesno
-    sql: ${TABLE}.is_subscription ;;
-    label: "Is Subscription"
-    description: "TRUE if recurring subscription"
+    sql: ${TABLE}.is_multi_source ;;
+    label: "Is Multi-Source"
+    description: "TRUE if merchant appears in multiple source systems"
   }
 
-  dimension: is_amazon {
+  dimension: was_merged {
     type: yesno
-    sql: ${TABLE}.is_amazon ;;
-    label: "Is Amazon"
-    description: "TRUE if Amazon purchase"
+    sql: ${TABLE}.was_merged ;;
+    label: "Was Merged"
+    description: "TRUE if merchant was merged from duplicates"
   }
 
-  dimension: is_uber {
+  dimension: is_uk_merchant {
     type: yesno
-    sql: ${TABLE}.is_uber ;;
-    label: "Is Uber"
-    description: "TRUE if Uber/transport"
+    sql: ${TABLE}.is_uk_merchant ;;
+    label: "Is UK Merchant"
+    description: "TRUE if UK-based merchant"
   }
 
-  dimension: is_grocery {
-    type: yesno
-    sql: ${TABLE}.is_grocery ;;
-    label: "Is Grocery"
-    description: "TRUE if grocery store"
-  }
+  # =============================================================================
+  # METADATA
+  # =============================================================================
 
-  dimension: is_restaurant {
-    type: yesno
-    sql: ${TABLE}.is_restaurant ;;
-    label: "Is Restaurant"
-    description: "TRUE if restaurant/food"
-  }
-
-  dimension: is_entertainment {
-    type: yesno
-    sql: ${TABLE}.is_entertainment ;;
-    label: "Is Entertainment"
-    description: "TRUE if entertainment"
-  }
-
-  dimension: is_utility {
-    type: yesno
-    sql: ${TABLE}.is_utility ;;
-    label: "Is Utility"
-    description: "TRUE if utility/bill"
+  dimension: source_count {
+    type: number
+    sql: ${TABLE}.source_count ;;
+    label: "Source Count"
+    description: "Number of source systems"
   }
 
   # =============================================================================
@@ -97,6 +101,6 @@ view: dim_merchant {
   measure: count {
     type: count
     label: "Merchant Count"
-    drill_fields: [merchant_name, merchant_category]
+    drill_fields: [merchant_name, merchant_category, merchant_city]
   }
 }

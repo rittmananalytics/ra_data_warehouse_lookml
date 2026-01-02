@@ -11,56 +11,118 @@ view: dim_workout_type {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: workout_type_pk {
+  dimension: workout_type_key {
     primary_key: yes
     type: string
-    sql: ${TABLE}.workout_type_pk ;;
+    sql: ${TABLE}.workout_type_key ;;
     hidden: yes
-    description: "Primary key"
+    description: "Primary key (hash of workout type)"
   }
 
   # =============================================================================
   # WORKOUT TYPE DIMENSIONS
   # =============================================================================
 
-  dimension: workout_type_name {
+  dimension: workout_type {
     type: string
-    sql: ${TABLE}.workout_type_name ;;
+    sql: ${TABLE}.workout_type ;;
     label: "Workout Type"
-    description: "Workout type: Cycling, Swimming, Running, Walking, etc."
+    description: "Standardized workout type"
   }
 
   dimension: workout_category {
     type: string
     sql: ${TABLE}.workout_category ;;
     label: "Category"
-    description: "Cardio, Strength, Flexibility, etc."
+    description: "Cardio, Strength, Flexibility, Sports"
   }
 
-  dimension: calories_per_minute {
-    type: number
-    sql: ${TABLE}.calories_per_minute ;;
-    label: "Calories/Minute"
-    value_format_name: decimal_1
-    description: "Average calories burned per minute"
+  dimension: intensity_level {
+    type: string
+    sql: ${TABLE}.intensity_level ;;
+    label: "Intensity Level"
+    description: "high, medium, low"
+  }
+
+  dimension: source_workout_type {
+    type: string
+    sql: ${TABLE}.source_workout_type ;;
+    label: "Source Type"
+    description: "Original workout type from source"
   }
 
   # =============================================================================
   # WORKOUT TYPE FLAGS
   # =============================================================================
 
-  dimension: is_outdoor {
+  dimension: is_cardio {
     type: yesno
-    sql: ${TABLE}.is_outdoor ;;
-    label: "Is Outdoor"
-    description: "TRUE if typically outdoor activity"
+    sql: ${TABLE}.is_cardio ;;
+    label: "Is Cardio"
+    description: "TRUE if cardio workout"
   }
 
-  dimension: is_indoor {
+  dimension: is_strength {
     type: yesno
-    sql: ${TABLE}.is_indoor ;;
-    label: "Is Indoor"
-    description: "TRUE if typically indoor activity"
+    sql: ${TABLE}.is_strength ;;
+    label: "Is Strength"
+    description: "TRUE if strength workout"
+  }
+
+  dimension: is_mixed {
+    type: yesno
+    sql: ${TABLE}.is_mixed ;;
+    label: "Is Mixed"
+    description: "TRUE if both cardio and strength"
+  }
+
+  dimension: is_high_intensity {
+    type: yesno
+    sql: ${TABLE}.is_high_intensity ;;
+    label: "Is High Intensity"
+    description: "TRUE if high intensity"
+  }
+
+  dimension: is_medium_intensity {
+    type: yesno
+    sql: ${TABLE}.is_medium_intensity ;;
+    label: "Is Medium Intensity"
+    description: "TRUE if medium intensity"
+  }
+
+  dimension: is_low_intensity {
+    type: yesno
+    sql: ${TABLE}.is_low_intensity ;;
+    label: "Is Low Intensity"
+    description: "TRUE if low intensity"
+  }
+
+  dimension: is_cardio_category {
+    type: yesno
+    sql: ${TABLE}.is_cardio_category ;;
+    label: "Is Cardio Category"
+    description: "TRUE if Cardio category"
+  }
+
+  dimension: is_strength_category {
+    type: yesno
+    sql: ${TABLE}.is_strength_category ;;
+    label: "Is Strength Category"
+    description: "TRUE if Strength category"
+  }
+
+  dimension: is_flexibility_category {
+    type: yesno
+    sql: ${TABLE}.is_flexibility_category ;;
+    label: "Is Flexibility Category"
+    description: "TRUE if Flexibility category"
+  }
+
+  dimension: is_sports_category {
+    type: yesno
+    sql: ${TABLE}.is_sports_category ;;
+    label: "Is Sports Category"
+    description: "TRUE if Sports category"
   }
 
   # =============================================================================
@@ -70,6 +132,6 @@ view: dim_workout_type {
   measure: count {
     type: count
     label: "Workout Type Count"
-    drill_fields: [workout_type_name, workout_category]
+    drill_fields: [workout_type, workout_category, intensity_level]
   }
 }

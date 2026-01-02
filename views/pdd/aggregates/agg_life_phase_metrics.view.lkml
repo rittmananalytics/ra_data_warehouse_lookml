@@ -21,119 +21,34 @@ view: agg_life_phase_metrics {
   }
 
   # =============================================================================
-  # DATE DIMENSIONS
+  # HEALTH METRICS
   # =============================================================================
 
-  dimension_group: phase_start {
-    type: time
-    timeframes: [raw, date, month, year]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.phase_start_date ;;
-    label: "Phase Start"
-    description: "Phase start date"
-  }
-
-  dimension_group: phase_end {
-    type: time
-    timeframes: [raw, date, month, year]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}.phase_end_date ;;
-    label: "Phase End"
-    description: "Phase end date"
-  }
-
-  # =============================================================================
-  # PRODUCTIVITY DIMENSIONS
-  # =============================================================================
-
-  dimension: avg_productive_hours {
+  dimension: avg_daily_steps {
     type: number
-    sql: ${TABLE}.avg_productive_hours ;;
-    label: "Avg Productive Hours"
-    value_format_name: decimal_1
-    group_label: "Productivity"
-    description: "Average daily productive hours"
-  }
-
-  dimension: avg_focus_ratio {
-    type: number
-    sql: ${TABLE}.avg_focus_ratio ;;
-    label: "Avg Focus Ratio"
-    value_format_name: percent_1
-    group_label: "Productivity"
-    description: "Average focus ratio"
-  }
-
-  # =============================================================================
-  # EXERCISE DIMENSIONS
-  # =============================================================================
-
-  dimension: avg_workouts_per_week {
-    type: number
-    sql: ${TABLE}.avg_workouts_per_week ;;
-    label: "Avg Workouts/Week"
-    value_format_name: decimal_1
-    group_label: "Exercise"
-    description: "Average workouts per week"
-  }
-
-  dimension: avg_workout_duration {
-    type: number
-    sql: ${TABLE}.avg_workout_duration ;;
-    label: "Avg Workout Duration (min)"
+    sql: ${TABLE}.avg_daily_steps ;;
+    label: "Avg Daily Steps"
     value_format_name: decimal_0
-    group_label: "Exercise"
-    description: "Average workout duration (minutes)"
+    group_label: "Health"
+    description: "Average daily steps"
   }
 
-  # =============================================================================
-  # SPENDING DIMENSIONS
-  # =============================================================================
-
-  dimension: avg_monthly_spend_gbp {
+  dimension: avg_daily_exercise_minutes {
     type: number
-    sql: ${TABLE}.avg_monthly_spend_gbp ;;
-    label: "Avg Monthly Spend"
-    value_format_name: gbp
-    group_label: "Spending"
-    description: "Average monthly spending"
-  }
-
-  # =============================================================================
-  # TRAVEL DIMENSIONS
-  # =============================================================================
-
-  dimension: avg_travel_days_per_month {
-    type: number
-    sql: ${TABLE}.avg_travel_days_per_month ;;
-    label: "Avg Travel Days/Month"
+    sql: ${TABLE}.avg_daily_exercise_minutes ;;
+    label: "Avg Daily Exercise (min)"
     value_format_name: decimal_1
-    group_label: "Travel"
-    description: "Average travel days per month"
+    group_label: "Health"
+    description: "Average daily exercise"
   }
 
-  dimension: avg_home_pct {
+  dimension: avg_daily_sleep_hours {
     type: number
-    sql: ${TABLE}.avg_home_pct ;;
-    label: "Avg Home %"
-    value_format_name: percent_1
-    group_label: "Travel"
-    description: "Average time at home percentage"
-  }
-
-  # =============================================================================
-  # HEALTH DIMENSIONS
-  # =============================================================================
-
-  dimension: avg_sleep_hours {
-    type: number
-    sql: ${TABLE}.avg_sleep_hours ;;
+    sql: ${TABLE}.avg_daily_sleep_hours ;;
     label: "Avg Sleep (hours)"
     value_format_name: decimal_1
     group_label: "Health"
-    description: "Average sleep hours"
+    description: "Average daily sleep"
   }
 
   dimension: avg_weight_kg {
@@ -145,6 +60,171 @@ view: agg_life_phase_metrics {
     description: "Average weight"
   }
 
+  dimension: avg_heart_rate {
+    type: number
+    sql: ${TABLE}.avg_heart_rate ;;
+    label: "Avg Heart Rate"
+    value_format_name: decimal_1
+    group_label: "Health"
+    description: "Average heart rate"
+  }
+
+  dimension: avg_daily_workouts {
+    type: number
+    sql: ${TABLE}.avg_daily_workouts ;;
+    label: "Avg Daily Workouts"
+    value_format_name: decimal_2
+    group_label: "Health"
+    description: "Average workouts per day"
+  }
+
+  # =============================================================================
+  # SPENDING METRICS
+  # =============================================================================
+
+  dimension: avg_daily_spending {
+    type: number
+    sql: ${TABLE}.avg_daily_spending ;;
+    label: "Avg Daily Spending"
+    value_format_name: gbp
+    group_label: "Spending"
+    description: "Average daily spending"
+  }
+
+  dimension: avg_daily_food_spending {
+    type: number
+    sql: ${TABLE}.avg_daily_food_spending ;;
+    label: "Avg Daily Food"
+    value_format_name: gbp
+    group_label: "Spending"
+    description: "Average daily food spending"
+  }
+
+  dimension: avg_daily_transport_spending {
+    type: number
+    sql: ${TABLE}.avg_daily_transport_spending ;;
+    label: "Avg Daily Transport"
+    value_format_name: gbp
+    group_label: "Spending"
+    description: "Average daily transport spending"
+  }
+
+  dimension: avg_daily_entertainment_spending {
+    type: number
+    sql: ${TABLE}.avg_daily_entertainment_spending ;;
+    label: "Avg Daily Entertainment"
+    value_format_name: gbp
+    group_label: "Spending"
+    description: "Average daily entertainment spending"
+  }
+
+  dimension: avg_daily_discretionary {
+    type: number
+    sql: ${TABLE}.avg_daily_discretionary ;;
+    label: "Avg Daily Discretionary"
+    value_format_name: gbp
+    group_label: "Spending"
+    description: "Average daily discretionary spending"
+  }
+
+  dimension: essential_spending_pct {
+    type: number
+    sql: ${TABLE}.essential_spending_pct ;;
+    label: "Essential Spending %"
+    value_format_name: decimal_1
+    group_label: "Spending"
+    description: "Essential as % of total"
+  }
+
+  # =============================================================================
+  # PRODUCTIVITY METRICS
+  # =============================================================================
+
+  dimension: avg_daily_screen_minutes {
+    type: number
+    sql: ${TABLE}.avg_daily_screen_minutes ;;
+    label: "Avg Screen Time (min)"
+    value_format_name: decimal_0
+    group_label: "Productivity"
+    description: "Average daily screen time"
+  }
+
+  dimension: avg_daily_screen_hours {
+    type: number
+    sql: ${TABLE}.avg_daily_screen_hours ;;
+    label: "Avg Screen Time (hours)"
+    value_format_name: decimal_1
+    group_label: "Productivity"
+    description: "Average daily screen hours"
+  }
+
+  dimension: avg_productivity_score {
+    type: number
+    sql: ${TABLE}.avg_productivity_score ;;
+    label: "Avg Productivity Score"
+    value_format_name: decimal_3
+    group_label: "Productivity"
+    description: "Average productivity score"
+  }
+
+  dimension: avg_work_minutes {
+    type: number
+    sql: ${TABLE}.avg_work_minutes ;;
+    label: "Avg Work Time (min)"
+    value_format_name: decimal_0
+    group_label: "Productivity"
+    description: "Average daily work time"
+  }
+
+  dimension: avg_leisure_minutes {
+    type: number
+    sql: ${TABLE}.avg_leisure_minutes ;;
+    label: "Avg Leisure Time (min)"
+    value_format_name: decimal_0
+    group_label: "Productivity"
+    description: "Average daily leisure time"
+  }
+
+  dimension: work_screen_time_pct {
+    type: number
+    sql: ${TABLE}.work_screen_time_pct ;;
+    label: "Work Screen %"
+    value_format_name: decimal_1
+    group_label: "Productivity"
+    description: "Work as % of screen time"
+  }
+
+  # =============================================================================
+  # DATA COVERAGE
+  # =============================================================================
+
+  dimension: health_days {
+    type: number
+    sql: ${TABLE}.health_days ;;
+    label: "Health Days"
+    value_format_name: decimal_0
+    group_label: "Coverage"
+    description: "Days with health data"
+  }
+
+  dimension: spending_days {
+    type: number
+    sql: ${TABLE}.spending_days ;;
+    label: "Spending Days"
+    value_format_name: decimal_0
+    group_label: "Coverage"
+    description: "Days with spending data"
+  }
+
+  dimension: productivity_days {
+    type: number
+    sql: ${TABLE}.productivity_days ;;
+    label: "Productivity Days"
+    value_format_name: decimal_0
+    group_label: "Coverage"
+    description: "Days with productivity data"
+  }
+
   # =============================================================================
   # MEASURES
   # =============================================================================
@@ -152,34 +232,27 @@ view: agg_life_phase_metrics {
   measure: count {
     type: count
     label: "Phase Count"
-    drill_fields: [life_phase, phase_start_date, phase_end_date, avg_productive_hours, avg_monthly_spend_gbp]
+    drill_fields: [life_phase, avg_daily_steps, avg_daily_spending, avg_productivity_score]
   }
 
-  measure: avg_productive_hours_measure {
+  measure: avg_steps_measure {
     type: average
-    sql: ${avg_productive_hours} ;;
-    label: "Avg Productive Hours"
-    value_format_name: decimal_1
+    sql: ${avg_daily_steps} ;;
+    label: "Avg Daily Steps"
+    value_format_name: decimal_0
   }
 
-  measure: avg_workouts_measure {
+  measure: avg_spending_measure {
     type: average
-    sql: ${avg_workouts_per_week} ;;
-    label: "Avg Workouts/Week"
-    value_format_name: decimal_1
-  }
-
-  measure: avg_spend_measure {
-    type: average
-    sql: ${avg_monthly_spend_gbp} ;;
-    label: "Avg Monthly Spend"
+    sql: ${avg_daily_spending} ;;
+    label: "Avg Daily Spending"
     value_format_name: gbp
   }
 
-  measure: avg_travel_days_measure {
+  measure: avg_productivity_measure {
     type: average
-    sql: ${avg_travel_days_per_month} ;;
-    label: "Avg Travel Days/Month"
-    value_format_name: decimal_1
+    sql: ${avg_productivity_score} ;;
+    label: "Avg Productivity Score"
+    value_format_name: decimal_3
   }
 }

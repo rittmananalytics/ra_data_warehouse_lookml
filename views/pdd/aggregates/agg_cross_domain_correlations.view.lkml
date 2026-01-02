@@ -1,7 +1,7 @@
 # =============================================================================
-# AGG_CROSS_DOMAIN_CORRELATIONS - Cross-Domain Analysis
-# Pre-computed correlations for the Cross-Domain Insights dashboard
-# Grain: One row per correlation pair per time period
+# AGG_CROSS_DOMAIN_CORRELATIONS - Cross-Domain Correlations
+# Pre-computed correlations between life domains
+# Grain: One row (overall summary)
 # Source: ra-development.pdd_analytics.cross_domain_correlation_agg
 # =============================================================================
 
@@ -12,92 +12,133 @@ view: agg_cross_domain_correlations {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: correlation_pk {
+  dimension: time_period {
     primary_key: yes
     type: string
-    sql: ${TABLE}.correlation_pk ;;
-    hidden: yes
-    description: "Primary key"
+    sql: ${TABLE}.time_period ;;
+    label: "Time Period"
+    description: "Analysis time period (Overall)"
   }
 
   # =============================================================================
-  # CORRELATION DIMENSIONS
+  # HEALTH-SPENDING CORRELATIONS
   # =============================================================================
 
-  dimension: analysis_period {
-    type: string
-    sql: ${TABLE}.analysis_period ;;
-    label: "Analysis Period"
-    description: "Period: All Time, Last Year, Last 90 Days"
-  }
-
-  dimension: domain_pair {
-    type: string
-    sql: ${TABLE}.domain_pair ;;
-    label: "Domain Pair"
-    description: "Domain pair: Sleep-Productivity, Exercise-Focus, etc."
-  }
-
-  dimension: metric_1_name {
-    type: string
-    sql: ${TABLE}.metric_1_name ;;
-    label: "Metric 1"
-    group_label: "Metrics"
-    description: "First metric name"
-  }
-
-  dimension: metric_2_name {
-    type: string
-    sql: ${TABLE}.metric_2_name ;;
-    label: "Metric 2"
-    group_label: "Metrics"
-    description: "Second metric name"
-  }
-
-  dimension: correlation_coefficient {
+  dimension: steps_vs_spending_corr {
     type: number
-    sql: ${TABLE}.correlation_coefficient ;;
-    label: "Correlation (r)"
-    value_format_name: decimal_2
-    description: "Pearson correlation coefficient"
+    sql: ${TABLE}.steps_vs_spending_corr ;;
+    label: "Steps vs Spending"
+    value_format_name: decimal_4
+    group_label: "Health-Spending"
+    description: "Correlation: steps vs spending"
   }
 
-  dimension: correlation_strength {
+  dimension: steps_vs_spending_strength {
     type: string
-    sql: ${TABLE}.correlation_strength ;;
-    label: "Strength"
-    description: "Strong, Moderate, Weak"
+    sql: ${TABLE}.steps_vs_spending_strength ;;
+    label: "Steps vs Spending Strength"
+    group_label: "Health-Spending"
+    description: "Correlation strength (Strong, Moderate, Weak)"
   }
 
-  dimension: correlation_direction {
-    type: string
-    sql: ${TABLE}.correlation_direction ;;
-    label: "Direction"
-    description: "Positive, Negative"
+  dimension: exercise_vs_spending_corr {
+    type: number
+    sql: ${TABLE}.exercise_vs_spending_corr ;;
+    label: "Exercise vs Spending"
+    value_format_name: decimal_4
+    group_label: "Health-Spending"
+    description: "Correlation: exercise vs spending"
   }
+
+  dimension: sleep_vs_discretionary_corr {
+    type: number
+    sql: ${TABLE}.sleep_vs_discretionary_corr ;;
+    label: "Sleep vs Discretionary"
+    value_format_name: decimal_4
+    group_label: "Health-Spending"
+    description: "Correlation: sleep vs discretionary spending"
+  }
+
+  dimension: workouts_vs_food_corr {
+    type: number
+    sql: ${TABLE}.workouts_vs_food_corr ;;
+    label: "Workouts vs Food"
+    value_format_name: decimal_4
+    group_label: "Health-Spending"
+    description: "Correlation: workouts vs food spending"
+  }
+
+  # =============================================================================
+  # HEALTH-PRODUCTIVITY CORRELATIONS
+  # =============================================================================
+
+  dimension: sleep_vs_productivity_corr {
+    type: number
+    sql: ${TABLE}.sleep_vs_productivity_corr ;;
+    label: "Sleep vs Productivity"
+    value_format_name: decimal_4
+    group_label: "Health-Productivity"
+    description: "Correlation: sleep vs productivity"
+  }
+
+  dimension: sleep_vs_productivity_strength {
+    type: string
+    sql: ${TABLE}.sleep_vs_productivity_strength ;;
+    label: "Sleep vs Productivity Strength"
+    group_label: "Health-Productivity"
+    description: "Correlation strength"
+  }
+
+  dimension: exercise_vs_productivity_corr {
+    type: number
+    sql: ${TABLE}.exercise_vs_productivity_corr ;;
+    label: "Exercise vs Productivity"
+    value_format_name: decimal_4
+    group_label: "Health-Productivity"
+    description: "Correlation: exercise vs productivity"
+  }
+
+  dimension: steps_vs_screen_time_corr {
+    type: number
+    sql: ${TABLE}.steps_vs_screen_time_corr ;;
+    label: "Steps vs Screen Time"
+    value_format_name: decimal_4
+    group_label: "Health-Productivity"
+    description: "Correlation: steps vs screen time"
+  }
+
+  # =============================================================================
+  # SPENDING-PRODUCTIVITY CORRELATIONS
+  # =============================================================================
+
+  dimension: spending_vs_screen_time_corr {
+    type: number
+    sql: ${TABLE}.spending_vs_screen_time_corr ;;
+    label: "Spending vs Screen Time"
+    value_format_name: decimal_4
+    group_label: "Spending-Productivity"
+    description: "Correlation: spending vs screen time"
+  }
+
+  dimension: entertainment_vs_discretionary_corr {
+    type: number
+    sql: ${TABLE}.entertainment_vs_discretionary_corr ;;
+    label: "Entertainment vs Discretionary"
+    value_format_name: decimal_4
+    group_label: "Spending-Productivity"
+    description: "Correlation: entertainment time vs discretionary spending"
+  }
+
+  # =============================================================================
+  # METADATA
+  # =============================================================================
 
   dimension: sample_size {
     type: number
     sql: ${TABLE}.sample_size ;;
     label: "Sample Size"
     value_format_name: decimal_0
-    description: "Number of data points"
-  }
-
-  dimension: insight_text {
-    type: string
-    sql: ${TABLE}.insight_text ;;
-    label: "Insight"
-    description: "Human-readable insight"
-  }
-
-  dimension_group: last_calculated {
-    type: time
-    timeframes: [raw, time, date, week, month]
-    datatype: timestamp
-    sql: ${TABLE}.last_calculated_ts ;;
-    label: "Last Calculated"
-    description: "When correlation was last calculated"
+    description: "Number of days in analysis"
   }
 
   # =============================================================================
@@ -106,33 +147,14 @@ view: agg_cross_domain_correlations {
 
   measure: count {
     type: count
-    label: "Correlation Count"
-    drill_fields: [domain_pair, metric_1_name, metric_2_name, correlation_coefficient, correlation_strength]
+    label: "Row Count"
+    drill_fields: [time_period, sleep_vs_productivity_corr, steps_vs_spending_corr]
   }
 
-  measure: avg_correlation {
+  measure: avg_sleep_productivity_corr {
     type: average
-    sql: ABS(${correlation_coefficient}) ;;
-    label: "Avg Correlation Strength"
-    value_format_name: decimal_2
-    description: "Average absolute correlation coefficient"
-  }
-
-  measure: strong_correlations {
-    type: count
-    filters: [correlation_strength: "Strong"]
-    label: "Strong Correlations"
-  }
-
-  measure: positive_correlations {
-    type: count
-    filters: [correlation_direction: "Positive"]
-    label: "Positive Correlations"
-  }
-
-  measure: negative_correlations {
-    type: count
-    filters: [correlation_direction: "Negative"]
-    label: "Negative Correlations"
+    sql: ${sleep_vs_productivity_corr} ;;
+    label: "Avg Sleep-Productivity Correlation"
+    value_format_name: decimal_4
   }
 }

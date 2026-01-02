@@ -11,62 +11,119 @@ view: dim_contact {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: contact_pk {
+  dimension: contact_key {
     primary_key: yes
     type: string
-    sql: ${TABLE}.contact_pk ;;
+    sql: ${TABLE}.contact_key ;;
     hidden: yes
-    description: "Primary key (hash of email/identifier)"
+    description: "Primary key (contact ID)"
   }
 
   # =============================================================================
   # CONTACT DIMENSIONS
   # =============================================================================
 
-  dimension: contact_name {
+  dimension: first_name {
     type: string
-    sql: ${TABLE}.contact_name ;;
-    label: "Contact Name"
-    description: "Contact display name"
+    sql: ${TABLE}.first_name ;;
+    label: "First Name"
+    description: "Contact first name"
   }
 
-  dimension: contact_email {
+  dimension: last_name {
     type: string
-    sql: ${TABLE}.contact_email ;;
+    sql: ${TABLE}.last_name ;;
+    label: "Last Name"
+    description: "Contact last name"
+  }
+
+  dimension: full_name {
+    type: string
+    sql: ${TABLE}.full_name ;;
+    label: "Full Name"
+    description: "Contact full name"
+  }
+
+  dimension: email {
+    type: string
+    sql: ${TABLE}.email ;;
     label: "Email"
     description: "Email address"
   }
 
-  dimension: contact_identifier {
+  dimension: phone {
     type: string
-    sql: ${TABLE}.contact_identifier ;;
-    label: "Identifier"
-    description: "Identifier (phone, username)"
+    sql: ${TABLE}.phone ;;
+    label: "Phone"
+    description: "Phone number"
   }
 
-  dimension: primary_platform {
+  dimension: company_name {
     type: string
-    sql: ${TABLE}.primary_platform ;;
-    label: "Primary Platform"
-    description: "Primary communication platform"
+    sql: ${TABLE}.company_name ;;
+    label: "Company"
+    description: "Company name"
   }
 
   # =============================================================================
   # CONTACT FLAGS
   # =============================================================================
 
-  dimension: is_work_contact {
+  dimension: is_multi_source {
     type: yesno
-    sql: ${TABLE}.is_work_contact ;;
-    label: "Is Work Contact"
-    description: "TRUE if work-related contact"
+    sql: ${TABLE}.is_multi_source ;;
+    label: "Is Multi-Source"
+    description: "TRUE if contact appears in multiple source systems"
   }
 
-  dimension: is_personal_contact {
+  dimension: was_merged {
     type: yesno
-    sql: ${TABLE}.is_personal_contact ;;
-    label: "Is Personal Contact"
-    description: "TRUE if personal contact"
+    sql: ${TABLE}.was_merged ;;
+    label: "Was Merged"
+    description: "TRUE if contact was merged from duplicates"
+  }
+
+  dimension: has_email {
+    type: yesno
+    sql: ${TABLE}.has_email ;;
+    label: "Has Email"
+    description: "TRUE if email address exists"
+  }
+
+  dimension: has_phone {
+    type: yesno
+    sql: ${TABLE}.has_phone ;;
+    label: "Has Phone"
+    description: "TRUE if phone number exists"
+  }
+
+  # =============================================================================
+  # METADATA
+  # =============================================================================
+
+  dimension_group: first_seen {
+    type: time
+    timeframes: [raw, date, week, month, year]
+    datatype: timestamp
+    sql: ${TABLE}.first_seen_at ;;
+    label: "First Seen"
+    description: "When contact was first seen"
+  }
+
+  dimension_group: last_seen {
+    type: time
+    timeframes: [raw, date, week, month, year]
+    datatype: timestamp
+    sql: ${TABLE}.last_seen_at ;;
+    label: "Last Seen"
+    description: "When contact was last seen"
+  }
+
+  dimension: source_count {
+    type: number
+    sql: ${TABLE}.source_count ;;
+    label: "Source Count"
+    description: "Number of source systems"
   }
 
   # =============================================================================
@@ -76,6 +133,6 @@ view: dim_contact {
   measure: count {
     type: count
     label: "Contact Count"
-    drill_fields: [contact_name, contact_email, primary_platform]
+    drill_fields: [full_name, email, company_name]
   }
 }

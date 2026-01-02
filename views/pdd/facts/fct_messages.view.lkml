@@ -1,6 +1,6 @@
 # =============================================================================
-# FCT_MESSAGES - Message Events
-# Grain: One row per message
+# FCT_MESSAGES - Communications (Messaging focus)
+# Grain: One row per message/communication
 # Source: ra-development.pdd_analytics.communications_fct
 # =============================================================================
 
@@ -11,10 +11,10 @@ view: fct_messages {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: message_pk {
+  dimension: communication_id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.message_pk ;;
+    sql: ${TABLE}.communication_id ;;
     hidden: yes
     description: "Primary key"
   }
@@ -23,32 +23,25 @@ view: fct_messages {
   # FOREIGN KEYS
   # =============================================================================
 
-  dimension: date_fk {
+  dimension: date_key {
     type: number
-    sql: ${TABLE}.date_fk ;;
+    sql: ${TABLE}.date_key ;;
     hidden: yes
-    description: "Foreign key to dim_date"
+    description: "Foreign key to date_dim"
   }
 
-  dimension: time_fk {
+  dimension: time_key {
     type: number
-    sql: ${TABLE}.time_fk ;;
+    sql: ${TABLE}.time_key ;;
     hidden: yes
-    description: "Foreign key to dim_time_of_day"
+    description: "Foreign key to time_dim"
   }
 
-  dimension: platform_fk {
+  dimension: content_type_key {
     type: string
-    sql: ${TABLE}.platform_fk ;;
+    sql: ${TABLE}.content_type_key ;;
     hidden: yes
-    description: "Foreign key to dim_platform"
-  }
-
-  dimension: contact_fk {
-    type: string
-    sql: ${TABLE}.contact_fk ;;
-    hidden: yes
-    description: "Foreign key to dim_contact"
+    description: "Foreign key to content_type_dim"
   }
 
   # =============================================================================
@@ -57,10 +50,20 @@ view: fct_messages {
 
   dimension_group: message {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year, hour_of_day, day_of_week]
-    datatype: timestamp
-    sql: ${TABLE}.message_ts ;;
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.communication_date ;;
     label: "Message"
+    description: "Message date"
+  }
+
+  dimension_group: message_at {
+    type: time
+    timeframes: [raw, time, date, hour_of_day, day_of_week]
+    datatype: timestamp
+    sql: ${TABLE}.communication_at ;;
+    label: "Sent/Received"
     description: "Message timestamp"
   }
 
@@ -68,27 +71,56 @@ view: fct_messages {
   # MESSAGE DIMENSIONS
   # =============================================================================
 
-  dimension: word_count {
+  dimension: source_system {
+    type: string
+    sql: ${TABLE}.source_system ;;
+    label: "Source"
+    description: "Message source system"
+  }
+
+  dimension: title {
+    type: string
+    sql: ${TABLE}.title ;;
+    label: "Content"
+    description: "Message content/title"
+  }
+
+  dimension: direction {
+    type: string
+    sql: ${TABLE}.direction ;;
+    label: "Direction"
+    description: "sent or received"
+  }
+
+  dimension: communication_type {
+    type: string
+    sql: ${TABLE}.communication_type ;;
+    label: "Type"
+    description: "Communication type"
+  }
+
+  dimension: title_length {
     type: number
-    sql: ${TABLE}.word_count ;;
-    label: "Word Count"
-    description: "Approximate word count"
+    sql: ${TABLE}.title_length ;;
+    label: "Message Length"
+    value_format_name: decimal_0
+    description: "Length of message"
   }
 
   # =============================================================================
   # MESSAGE FLAGS
   # =============================================================================
 
-  dimension: is_sent {
+  dimension: is_outbound {
     type: yesno
-    sql: ${TABLE}.is_sent ;;
+    sql: ${TABLE}.is_outbound = 1 ;;
     label: "Is Sent"
     description: "TRUE if sent by Mark"
   }
 
-  dimension: is_received {
+  dimension: is_inbound {
     type: yesno
-    sql: ${TABLE}.is_received ;;
+    sql: ${TABLE}.is_inbound = 1 ;;
     label: "Is Received"
     description: "TRUE if received by Mark"
   }
@@ -100,32 +132,25 @@ view: fct_messages {
   measure: count {
     type: count
     label: "Message Count"
-    drill_fields: [message_date, dim_platform.platform_name, dim_contact.contact_name, is_sent]
+    drill_fields: [message_date, communication_type, direction]
   }
 
   measure: messages_sent {
     type: count
-    filters: [is_sent: "yes"]
+    filters: [is_outbound: "yes"]
     label: "Messages Sent"
   }
 
   measure: messages_received {
     type: count
-    filters: [is_received: "yes"]
+    filters: [is_inbound: "yes"]
     label: "Messages Received"
   }
 
-  measure: total_word_count {
-    type: sum
-    sql: ${word_count} ;;
-    label: "Total Words"
-    value_format_name: decimal_0
-  }
-
-  measure: avg_word_count {
+  measure: avg_message_length {
     type: average
-    sql: ${word_count} ;;
-    label: "Avg Words per Message"
+    sql: ${title_length} ;;
+    label: "Avg Message Length"
     value_format_name: decimal_0
   }
 }

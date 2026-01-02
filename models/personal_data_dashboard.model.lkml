@@ -38,14 +38,14 @@ datagroup: hourly_refresh {
 explore: health_metrics {
   label: "Health Metrics"
   group_label: "Personal Data"
-  description: "Track weight, sleep, body composition, blood pressure, and activity metrics"
+  description: "Track health metrics by type (weight, heart rate, steps, etc.)"
 
   from: fct_daily_health_metrics
 
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${health_metrics.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${health_metrics.date_key} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -59,13 +59,19 @@ explore: workouts {
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${workouts.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${workouts.date_key} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_workout_type {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${workouts.workout_type_fk} = ${dim_workout_type.workout_type_pk} ;;
+    sql_on: ${workouts.workout_type_key} = ${dim_workout_type.workout_type_key} ;;
+  }
+
+  join: dim_time_of_day {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${workouts.start_time_key} = ${dim_time_of_day.time_key} ;;
   }
 }
 
@@ -79,7 +85,7 @@ explore: sleep_events {
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${sleep_events.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${sleep_events.date_key} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -106,19 +112,19 @@ explore: application_usage {
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${application_usage.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${application_usage.date_key} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${application_usage.time_fk} = ${dim_time_of_day.time_key} ;;
+    sql_on: ${application_usage.start_time_key} = ${dim_time_of_day.time_key} ;;
   }
 
   join: dim_application {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${application_usage.application_fk} = ${dim_application.application_pk} ;;
+    sql_on: ${application_usage.application_key} = ${dim_application.application_key} ;;
   }
 }
 
@@ -145,34 +151,34 @@ explore: transactions {
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${transactions.date_key} = ${pdd_dim_date.date_key} ;;
+  }
+
+  join: dim_time_of_day {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${transactions.time_key} = ${dim_time_of_day.time_key} ;;
   }
 
   join: dim_merchant {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.merchant_fk} = ${dim_merchant.merchant_pk} ;;
+    sql_on: ${transactions.merchant_key} = ${dim_merchant.merchant_key} ;;
   }
 
   join: dim_spending_category {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.category_fk} = ${dim_spending_category.category_pk} ;;
+    sql_on: ${transactions.category_key} = ${dim_spending_category.category_key} ;;
   }
 }
 
 explore: monthly_spending {
-  label: "Monthly Spending by Category"
+  label: "Monthly Spending Summary"
   group_label: "Personal Data"
-  description: "Pre-aggregated monthly spending by category"
+  description: "Pre-aggregated monthly spending metrics for trend analysis"
 
   from: agg_monthly_spending
-
-  join: dim_spending_category {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${monthly_spending.category_fk} = ${dim_spending_category.category_pk} ;;
-  }
 }
 
 
@@ -183,34 +189,20 @@ explore: monthly_spending {
 explore: emails {
   label: "Communications"
   group_label: "Personal Data"
-  description: "Analyze email and message patterns, volume, and correspondents"
+  description: "Analyze email and message patterns, volume"
 
   from: fct_emails
 
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${emails.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${emails.date_key} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${emails.time_fk} = ${dim_time_of_day.time_key} ;;
-  }
-
-  join: contact_from {
-    from: dim_contact
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${emails.contact_from_fk} = ${contact_from.contact_pk} ;;
-  }
-
-  join: contact_to {
-    from: dim_contact
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${emails.contact_to_fk} = ${contact_to.contact_pk} ;;
+    sql_on: ${emails.time_key} = ${dim_time_of_day.time_key} ;;
   }
 }
 
@@ -224,19 +216,13 @@ explore: messages {
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${messages.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${messages.date_key} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${messages.time_fk} = ${dim_time_of_day.time_key} ;;
-  }
-
-  join: dim_contact {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${messages.contact_fk} = ${dim_contact.contact_pk} ;;
+    sql_on: ${messages.time_key} = ${dim_time_of_day.time_key} ;;
   }
 }
 
@@ -255,13 +241,13 @@ explore: youtube_activity {
   join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${youtube_activity.date_fk} = ${pdd_dim_date.date_key} ;;
+    sql_on: ${youtube_activity.date_key} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${youtube_activity.time_fk} = ${dim_time_of_day.time_key} ;;
+    sql_on: ${youtube_activity.time_key} = ${dim_time_of_day.time_key} ;;
   }
 }
 

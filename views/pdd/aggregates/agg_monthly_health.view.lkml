@@ -11,16 +11,120 @@ view: agg_monthly_health {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: year_month {
+  dimension: month_key {
     primary_key: yes
-    type: string
-    sql: ${TABLE}.year_month ;;
-    label: "Year-Month"
-    description: "Year-Month"
+    type: number
+    sql: ${TABLE}.month_key ;;
+    hidden: yes
+    description: "Primary key (YYYYMM format)"
   }
 
   # =============================================================================
-  # WEIGHT DIMENSIONS
+  # DATE DIMENSIONS
+  # =============================================================================
+
+  dimension_group: month_start {
+    type: time
+    timeframes: [raw, date, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.month_start_date ;;
+    label: "Month"
+    description: "Month start date"
+  }
+
+  dimension: month_number {
+    type: number
+    sql: ${TABLE}.month_number ;;
+    label: "Month Number"
+    description: "Month (1-12)"
+  }
+
+  dimension: year_number {
+    type: number
+    sql: ${TABLE}.year_number ;;
+    label: "Year"
+    description: "Year"
+  }
+
+  dimension: year_month {
+    type: string
+    sql: ${TABLE}.year_month ;;
+    label: "Year-Month"
+    description: "YYYY-MM format"
+  }
+
+  dimension: month_name_year {
+    type: string
+    sql: ${TABLE}.month_name_year ;;
+    label: "Month Name"
+    description: "Month name and year (January 2024)"
+  }
+
+  # =============================================================================
+  # ACTIVITY DIMENSIONS
+  # =============================================================================
+
+  dimension: avg_daily_steps {
+    type: number
+    sql: ${TABLE}.avg_daily_steps ;;
+    label: "Avg Daily Steps"
+    value_format_name: decimal_0
+    group_label: "Activity"
+    description: "Average daily steps"
+  }
+
+  dimension: total_steps {
+    type: number
+    sql: ${TABLE}.total_steps ;;
+    label: "Total Steps"
+    value_format_name: decimal_0
+    group_label: "Activity"
+    description: "Total steps for month"
+  }
+
+  dimension: total_exercise_minutes {
+    type: number
+    sql: ${TABLE}.total_exercise_minutes ;;
+    label: "Total Exercise (min)"
+    value_format_name: decimal_0
+    group_label: "Activity"
+    description: "Total exercise minutes"
+  }
+
+  # =============================================================================
+  # HEART DIMENSIONS
+  # =============================================================================
+
+  dimension: avg_heart_rate {
+    type: number
+    sql: ${TABLE}.avg_heart_rate ;;
+    label: "Avg Heart Rate"
+    value_format_name: decimal_0
+    group_label: "Heart"
+    description: "Average heart rate"
+  }
+
+  dimension: avg_resting_heart_rate {
+    type: number
+    sql: ${TABLE}.avg_resting_heart_rate ;;
+    label: "Avg Resting HR"
+    value_format_name: decimal_0
+    group_label: "Heart"
+    description: "Average resting heart rate"
+  }
+
+  dimension: avg_hrv {
+    type: number
+    sql: ${TABLE}.avg_hrv ;;
+    label: "Avg HRV"
+    value_format_name: decimal_1
+    group_label: "Heart"
+    description: "Average heart rate variability"
+  }
+
+  # =============================================================================
+  # BODY DIMENSIONS
   # =============================================================================
 
   dimension: avg_weight_kg {
@@ -28,141 +132,118 @@ view: agg_monthly_health {
     sql: ${TABLE}.avg_weight_kg ;;
     label: "Avg Weight (kg)"
     value_format_name: decimal_1
-    group_label: "Weight"
+    group_label: "Body"
     description: "Average weight"
   }
 
-  dimension: min_weight_kg {
+  dimension: start_weight_kg {
     type: number
-    sql: ${TABLE}.min_weight_kg ;;
-    label: "Min Weight (kg)"
+    sql: ${TABLE}.start_weight_kg ;;
+    label: "Start Weight (kg)"
     value_format_name: decimal_1
-    group_label: "Weight"
-    description: "Minimum weight"
+    group_label: "Body"
+    description: "Weight at start of month"
   }
 
-  dimension: max_weight_kg {
+  dimension: end_weight_kg {
     type: number
-    sql: ${TABLE}.max_weight_kg ;;
-    label: "Max Weight (kg)"
+    sql: ${TABLE}.end_weight_kg ;;
+    label: "End Weight (kg)"
     value_format_name: decimal_1
-    group_label: "Weight"
-    description: "Maximum weight"
+    group_label: "Body"
+    description: "Weight at end of month"
   }
 
-  dimension: weight_change {
+  dimension: weight_change_kg {
     type: number
-    sql: ${TABLE}.weight_change ;;
-    label: "Weight Change"
+    sql: ${TABLE}.weight_change_kg ;;
+    label: "Weight Change (kg)"
     value_format_name: decimal_1
-    group_label: "Weight"
-    description: "Weight change from previous month"
+    group_label: "Body"
+    description: "Weight change during month"
   }
-
-  # =============================================================================
-  # BODY COMPOSITION DIMENSIONS
-  # =============================================================================
 
   dimension: avg_body_fat_pct {
     type: number
     sql: ${TABLE}.avg_body_fat_pct ;;
     label: "Avg Body Fat %"
     value_format_name: decimal_1
-    group_label: "Body Composition"
-    description: "Average body fat %"
-  }
-
-  dimension: avg_muscle_pct {
-    type: number
-    sql: ${TABLE}.avg_muscle_pct ;;
-    label: "Avg Muscle %"
-    value_format_name: decimal_1
-    group_label: "Body Composition"
-    description: "Average muscle %"
+    group_label: "Body"
+    description: "Average body fat percentage"
   }
 
   # =============================================================================
   # SLEEP DIMENSIONS
   # =============================================================================
 
-  dimension: avg_sleep_hours {
+  dimension: avg_daily_sleep_hours {
     type: number
-    sql: ${TABLE}.avg_sleep_hours ;;
+    sql: ${TABLE}.avg_daily_sleep_hours ;;
     label: "Avg Sleep (hours)"
     value_format_name: decimal_1
     group_label: "Sleep"
-    description: "Average sleep hours"
-  }
-
-  dimension: avg_deep_sleep_pct {
-    type: number
-    sql: ${TABLE}.avg_deep_sleep_pct ;;
-    label: "Avg Deep Sleep %"
-    value_format_name: percent_1
-    group_label: "Sleep"
-    description: "Average deep sleep %"
+    description: "Average daily sleep hours"
   }
 
   # =============================================================================
-  # BLOOD PRESSURE DIMENSIONS
+  # WORKOUT DIMENSIONS
   # =============================================================================
-
-  dimension: avg_bp_systolic {
-    type: number
-    sql: ${TABLE}.avg_bp_systolic ;;
-    label: "Avg Systolic BP"
-    value_format_name: decimal_0
-    group_label: "Blood Pressure"
-    description: "Average systolic BP"
-  }
-
-  dimension: avg_bp_diastolic {
-    type: number
-    sql: ${TABLE}.avg_bp_diastolic ;;
-    label: "Avg Diastolic BP"
-    value_format_name: decimal_0
-    group_label: "Blood Pressure"
-    description: "Average diastolic BP"
-  }
-
-  # =============================================================================
-  # ACTIVITY DIMENSIONS
-  # =============================================================================
-
-  dimension: avg_active_minutes {
-    type: number
-    sql: ${TABLE}.avg_active_minutes ;;
-    label: "Avg Active Minutes"
-    value_format_name: decimal_0
-    group_label: "Activity"
-    description: "Average daily active minutes"
-  }
 
   dimension: total_workouts {
     type: number
     sql: ${TABLE}.total_workouts ;;
     label: "Total Workouts"
     value_format_name: decimal_0
-    group_label: "Activity"
-    description: "Total workout count"
+    group_label: "Workouts"
+    description: "Total workouts for month"
   }
 
-  dimension: total_cycling_km {
+  dimension: total_workout_minutes {
     type: number
-    sql: ${TABLE}.total_cycling_km ;;
-    label: "Total Cycling (km)"
-    value_format_name: decimal_1
-    group_label: "Activity"
-    description: "Total cycling distance"
-  }
-
-  dimension: total_calories_burned {
-    type: number
-    sql: ${TABLE}.total_calories_burned ;;
-    label: "Total Calories Burned"
+    sql: ${TABLE}.total_workout_minutes ;;
+    label: "Total Workout Time (min)"
     value_format_name: decimal_0
-    group_label: "Activity"
-    description: "Total calories burned in workouts"
+    group_label: "Workouts"
+    description: "Total workout minutes"
+  }
+
+  # =============================================================================
+  # GOAL DIMENSIONS
+  # =============================================================================
+
+  dimension: days_hit_step_goal {
+    type: number
+    sql: ${TABLE}.days_hit_step_goal ;;
+    label: "Days Hit Step Goal"
+    value_format_name: decimal_0
+    group_label: "Goals"
+    description: "Days meeting step goal"
+  }
+
+  dimension: days_hit_exercise_goal {
+    type: number
+    sql: ${TABLE}.days_hit_exercise_goal ;;
+    label: "Days Hit Exercise Goal"
+    value_format_name: decimal_0
+    group_label: "Goals"
+    description: "Days meeting exercise goal"
+  }
+
+  dimension: days_hit_sleep_goal {
+    type: number
+    sql: ${TABLE}.days_hit_sleep_goal ;;
+    label: "Days Hit Sleep Goal"
+    value_format_name: decimal_0
+    group_label: "Goals"
+    description: "Days meeting sleep goal"
+  }
+
+  dimension: days_with_data {
+    type: number
+    sql: ${TABLE}.days_with_data ;;
+    label: "Days Tracked"
+    value_format_name: decimal_0
+    description: "Number of days with health data"
   }
 
   # =============================================================================
@@ -172,7 +253,7 @@ view: agg_monthly_health {
   measure: count {
     type: count
     label: "Month Count"
-    drill_fields: [year_month, avg_weight_kg, avg_sleep_hours, total_workouts]
+    drill_fields: [year_month, avg_weight_kg, avg_daily_sleep_hours, total_workouts]
   }
 
   measure: avg_weight_measure {
@@ -184,7 +265,7 @@ view: agg_monthly_health {
 
   measure: avg_sleep_measure {
     type: average
-    sql: ${avg_sleep_hours} ;;
+    sql: ${avg_daily_sleep_hours} ;;
     label: "Avg Sleep (hours)"
     value_format_name: decimal_1
   }
@@ -196,17 +277,17 @@ view: agg_monthly_health {
     value_format_name: decimal_0
   }
 
-  measure: sum_cycling_km {
+  measure: sum_steps {
     type: sum
-    sql: ${total_cycling_km} ;;
-    label: "Total Cycling (km)"
-    value_format_name: decimal_1
+    sql: ${total_steps} ;;
+    label: "Total Steps"
+    value_format_name: decimal_0
   }
 
-  measure: sum_calories_burned {
-    type: sum
-    sql: ${total_calories_burned} ;;
-    label: "Total Calories Burned"
+  measure: avg_steps_measure {
+    type: average
+    sql: ${avg_daily_steps} ;;
+    label: "Avg Daily Steps"
     value_format_name: decimal_0
   }
 }

@@ -1,6 +1,6 @@
 # =============================================================================
 # FCT_APPLICATION_USAGE - Application Usage
-# Grain: One row per application per time period (from RescueTime)
+# Grain: One row per app usage session (from RescueTime)
 # Source: ra-development.pdd_analytics.app_usage_fct
 # =============================================================================
 
@@ -11,10 +11,10 @@ view: fct_application_usage {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: usage_pk {
+  dimension: usage_id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.usage_pk ;;
+    sql: ${TABLE}.usage_id ;;
     hidden: yes
     description: "Primary key"
   }
@@ -23,52 +23,115 @@ view: fct_application_usage {
   # FOREIGN KEYS
   # =============================================================================
 
-  dimension: date_fk {
+  dimension: date_key {
     type: number
-    sql: ${TABLE}.date_fk ;;
+    sql: ${TABLE}.date_key ;;
     hidden: yes
-    description: "Foreign key to dim_date"
+    description: "Foreign key to date_dim"
   }
 
-  dimension: time_fk {
+  dimension: start_time_key {
     type: number
-    sql: ${TABLE}.time_fk ;;
+    sql: ${TABLE}.start_time_key ;;
     hidden: yes
-    description: "Foreign key to dim_time_of_day"
+    description: "Foreign key to time_dim"
   }
 
-  dimension: application_fk {
+  dimension: application_key {
     type: string
-    sql: ${TABLE}.application_fk ;;
+    sql: ${TABLE}.application_key ;;
     hidden: yes
-    description: "Foreign key to dim_application"
+    description: "Foreign key to application_dim"
+  }
+
+  dimension: productivity_category_key {
+    type: string
+    sql: ${TABLE}.productivity_category_key ;;
+    hidden: yes
+    description: "Foreign key to productivity_category_dim"
   }
 
   # =============================================================================
   # TIMESTAMP DIMENSIONS
   # =============================================================================
 
-  dimension_group: activity {
+  dimension_group: usage {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year, hour_of_day]
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.usage_date ;;
+    label: "Usage"
+    description: "Usage date"
+  }
+
+  dimension_group: started {
+    type: time
+    timeframes: [raw, time, date, hour_of_day]
     datatype: timestamp
-    sql: ${TABLE}.activity_timestamp ;;
-    label: "Activity"
-    description: "Activity timestamp"
+    sql: ${TABLE}.started_at ;;
+    label: "Started"
+    description: "Session start timestamp"
+  }
+
+  dimension_group: ended {
+    type: time
+    timeframes: [raw, time, date, hour_of_day]
+    datatype: timestamp
+    sql: ${TABLE}.ended_at ;;
+    label: "Ended"
+    description: "Session end timestamp"
+  }
+
+  # =============================================================================
+  # USAGE DIMENSIONS
+  # =============================================================================
+
+  dimension: source_system {
+    type: string
+    sql: ${TABLE}.source_system ;;
+    label: "Source"
+    description: "Data source (RescueTime)"
+  }
+
+  dimension: application_name {
+    type: string
+    sql: ${TABLE}.application_name ;;
+    label: "Application"
+    description: "Application or website name"
+  }
+
+  dimension: context {
+    type: string
+    sql: ${TABLE}.context ;;
+    label: "Context"
+    description: "Activity context"
+  }
+
+  dimension: project_name {
+    type: string
+    sql: ${TABLE}.project_name ;;
+    label: "Project"
+    description: "Project name"
+  }
+
+  dimension: time_of_day {
+    type: string
+    sql: ${TABLE}.time_of_day ;;
+    label: "Time of Day"
+    description: "Time of day period"
+  }
+
+  dimension: productivity_category {
+    type: string
+    sql: ${TABLE}.productivity_category ;;
+    label: "Productivity Category"
+    description: "Category of productivity"
   }
 
   # =============================================================================
   # DURATION DIMENSIONS
   # =============================================================================
-
-  dimension: duration_seconds {
-    type: number
-    sql: ${TABLE}.duration_seconds ;;
-    label: "Duration (sec)"
-    value_format_name: decimal_0
-    hidden: yes
-    description: "Duration in seconds"
-  }
 
   dimension: duration_minutes {
     type: number
@@ -78,12 +141,52 @@ view: fct_application_usage {
     description: "Duration in minutes"
   }
 
-  dimension: duration_hours {
+  dimension: productivity_score {
     type: number
-    sql: ${TABLE}.duration_hours ;;
-    label: "Duration (hours)"
+    sql: ${TABLE}.productivity_score ;;
+    label: "Productivity Score"
     value_format_name: decimal_2
-    description: "Duration in hours"
+    description: "Session productivity score"
+  }
+
+  dimension: weighted_productivity {
+    type: number
+    sql: ${TABLE}.weighted_productivity ;;
+    label: "Weighted Productivity"
+    value_format_name: decimal_2
+    description: "Duration-weighted productivity"
+  }
+
+  dimension: daily_app_total_minutes {
+    type: number
+    sql: ${TABLE}.daily_app_total_minutes ;;
+    label: "Daily App Total (min)"
+    value_format_name: decimal_1
+    description: "Total app time that day"
+  }
+
+  dimension: daily_total_minutes {
+    type: number
+    sql: ${TABLE}.daily_total_minutes ;;
+    label: "Daily Total (min)"
+    value_format_name: decimal_1
+    description: "Total screen time that day"
+  }
+
+  dimension: daily_productivity_score {
+    type: number
+    sql: ${TABLE}.daily_productivity_score ;;
+    label: "Daily Productivity Score"
+    value_format_name: decimal_2
+    description: "Daily productivity score"
+  }
+
+  dimension: pct_of_daily_usage {
+    type: number
+    sql: ${TABLE}.pct_of_daily_usage ;;
+    label: "% of Daily Usage"
+    value_format_name: decimal_1
+    description: "Percentage of daily screen time"
   }
 
   # =============================================================================
@@ -92,16 +195,8 @@ view: fct_application_usage {
 
   measure: count {
     type: count
-    label: "Activity Count"
-    drill_fields: [dim_application.application_name, activity_date, duration_minutes]
-  }
-
-  measure: total_duration_seconds {
-    type: sum
-    sql: ${duration_seconds} ;;
-    label: "Total Duration (sec)"
-    value_format_name: decimal_0
-    hidden: yes
+    label: "Session Count"
+    drill_fields: [application_name, usage_date, duration_minutes]
   }
 
   measure: total_duration_minutes {
@@ -113,7 +208,7 @@ view: fct_application_usage {
 
   measure: total_duration_hours {
     type: sum
-    sql: ${duration_hours} ;;
+    sql: ${duration_minutes} / 60.0 ;;
     label: "Total Duration (hours)"
     value_format_name: decimal_1
   }
@@ -125,11 +220,17 @@ view: fct_application_usage {
     value_format_name: decimal_1
   }
 
-  measure: pct_of_total_time {
-    type: percent_of_total
-    sql: ${total_duration_hours} ;;
-    label: "% of Total Time"
-    value_format_name: percent_1
-    description: "Percentage of total tracked time"
+  measure: avg_productivity_score {
+    type: average
+    sql: ${productivity_score} ;;
+    label: "Avg Productivity Score"
+    value_format_name: decimal_2
+  }
+
+  measure: total_weighted_productivity {
+    type: sum
+    sql: ${weighted_productivity} ;;
+    label: "Total Weighted Productivity"
+    value_format_name: decimal_0
   }
 }

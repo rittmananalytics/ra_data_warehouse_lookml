@@ -11,10 +11,10 @@ view: fct_workouts {
   # PRIMARY KEY
   # =============================================================================
 
-  dimension: workout_pk {
+  dimension: workout_id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.workout_pk ;;
+    sql: ${TABLE}.workout_id ;;
     hidden: yes
     description: "Primary key"
   }
@@ -23,39 +23,63 @@ view: fct_workouts {
   # FOREIGN KEYS
   # =============================================================================
 
-  dimension: date_fk {
+  dimension: date_key {
     type: number
-    sql: ${TABLE}.date_fk ;;
+    sql: ${TABLE}.date_key ;;
     hidden: yes
-    description: "Foreign key to dim_date"
+    description: "Foreign key to date_dim"
   }
 
-  dimension: workout_type_fk {
-    type: string
-    sql: ${TABLE}.workout_type_fk ;;
+  dimension: start_time_key {
+    type: number
+    sql: ${TABLE}.start_time_key ;;
     hidden: yes
-    description: "Foreign key to dim_workout_type"
+    description: "Foreign key to time_dim"
+  }
+
+  dimension: workout_type_key {
+    type: string
+    sql: ${TABLE}.workout_type_key ;;
+    hidden: yes
+    description: "Foreign key to workout_type_dim"
+  }
+
+  dimension: device_key {
+    type: string
+    sql: ${TABLE}.device_key ;;
+    hidden: yes
+    description: "Foreign key to device_dim"
   }
 
   # =============================================================================
   # TIMESTAMP DIMENSIONS
   # =============================================================================
 
-  dimension_group: workout_start {
+  dimension_group: workout {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year, hour_of_day]
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.workout_date ;;
+    label: "Workout"
+    description: "Workout date"
+  }
+
+  dimension_group: started {
+    type: time
+    timeframes: [raw, time, date, hour_of_day]
     datatype: timestamp
-    sql: ${TABLE}.workout_start_ts ;;
-    label: "Workout Start"
+    sql: ${TABLE}.started_at ;;
+    label: "Started"
     description: "Workout start timestamp"
   }
 
-  dimension_group: workout_end {
+  dimension_group: ended {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year, hour_of_day]
+    timeframes: [raw, time, date, hour_of_day]
     datatype: timestamp
-    sql: ${TABLE}.workout_end_ts ;;
-    label: "Workout End"
+    sql: ${TABLE}.ended_at ;;
+    label: "Ended"
     description: "Workout end timestamp"
   }
 
@@ -63,18 +87,32 @@ view: fct_workouts {
   # WORKOUT DIMENSIONS
   # =============================================================================
 
-  dimension: workout_name {
+  dimension: source_system {
     type: string
-    sql: ${TABLE}.workout_name ;;
-    label: "Workout Name"
-    description: "Workout name/title"
-  }
-
-  dimension: source {
-    type: string
-    sql: ${TABLE}.source ;;
+    sql: ${TABLE}.source_system ;;
     label: "Source"
     description: "Apple Health, Strava"
+  }
+
+  dimension: workout_type {
+    type: string
+    sql: ${TABLE}.workout_type ;;
+    label: "Workout Type"
+    description: "Type of workout"
+  }
+
+  dimension: workout_category {
+    type: string
+    sql: ${TABLE}.workout_category ;;
+    label: "Category"
+    description: "Cardio, Strength, etc."
+  }
+
+  dimension: intensity_level {
+    type: string
+    sql: ${TABLE}.intensity_level ;;
+    label: "Intensity"
+    description: "high, medium, low"
   }
 
   dimension: duration_minutes {
@@ -85,45 +123,38 @@ view: fct_workouts {
     description: "Duration in minutes"
   }
 
-  dimension: distance_km {
+  dimension: total_energy_burned {
     type: number
-    sql: ${TABLE}.distance_km ;;
+    sql: ${TABLE}.total_energy_burned ;;
+    label: "Calories"
+    value_format_name: decimal_0
+    description: "Total energy/calories burned"
+  }
+
+  dimension: distance {
+    type: number
+    sql: ${TABLE}.distance ;;
     label: "Distance (km)"
     value_format_name: decimal_2
     description: "Distance in kilometers"
   }
 
-  dimension: distance_meters {
-    type: number
-    sql: ${TABLE}.distance_meters ;;
-    label: "Distance (m)"
-    value_format_name: decimal_0
-    hidden: yes
-    description: "Distance in meters"
+  # =============================================================================
+  # WORKOUT FLAGS
+  # =============================================================================
+
+  dimension: is_cardio {
+    type: yesno
+    sql: ${TABLE}.is_cardio ;;
+    label: "Is Cardio"
+    description: "TRUE if cardio workout"
   }
 
-  dimension: speed_km_h {
-    type: number
-    sql: ${TABLE}.speed_km_h ;;
-    label: "Speed (km/h)"
-    value_format_name: decimal_1
-    description: "Average speed km/h"
-  }
-
-  dimension: calories_burned {
-    type: number
-    sql: ${TABLE}.calories_burned ;;
-    label: "Calories"
-    value_format_name: decimal_0
-    description: "Calories burned"
-  }
-
-  dimension: avg_heart_rate {
-    type: number
-    sql: ${TABLE}.avg_heart_rate ;;
-    label: "Avg Heart Rate"
-    value_format_name: decimal_0
-    description: "Average heart rate (bpm)"
+  dimension: is_strength {
+    type: yesno
+    sql: ${TABLE}.is_strength ;;
+    label: "Is Strength"
+    description: "TRUE if strength workout"
   }
 
   # =============================================================================
@@ -133,7 +164,7 @@ view: fct_workouts {
   measure: count {
     type: count
     label: "Workout Count"
-    drill_fields: [workout_start_date, workout_name, duration_minutes, distance_km, calories_burned]
+    drill_fields: [workout_date, workout_type, duration_minutes, distance]
   }
 
   measure: total_duration_minutes {
@@ -159,49 +190,47 @@ view: fct_workouts {
 
   measure: total_distance_km {
     type: sum
-    sql: ${distance_km} ;;
+    sql: ${distance} ;;
     label: "Total Distance (km)"
     value_format_name: decimal_1
   }
 
   measure: avg_distance_km {
     type: average
-    sql: ${distance_km} ;;
+    sql: ${distance} ;;
     label: "Avg Distance (km)"
     value_format_name: decimal_1
   }
 
   measure: total_calories {
     type: sum
-    sql: ${calories_burned} ;;
+    sql: ${total_energy_burned} ;;
     label: "Total Calories"
     value_format_name: decimal_0
   }
 
   measure: avg_calories {
     type: average
-    sql: ${calories_burned} ;;
+    sql: ${total_energy_burned} ;;
     label: "Avg Calories"
     value_format_name: decimal_0
   }
 
-  measure: avg_speed_km_h {
-    type: average
-    sql: ${speed_km_h} ;;
-    label: "Avg Speed (km/h)"
-    value_format_name: decimal_1
+  measure: cardio_workouts {
+    type: count
+    filters: [is_cardio: "yes"]
+    label: "Cardio Workouts"
   }
 
-  measure: avg_heart_rate_measure {
-    type: average
-    sql: ${avg_heart_rate} ;;
-    label: "Avg Heart Rate"
-    value_format_name: decimal_0
+  measure: strength_workouts {
+    type: count
+    filters: [is_strength: "yes"]
+    label: "Strength Workouts"
   }
 
-  measure: max_distance_km {
+  measure: max_distance {
     type: max
-    sql: ${distance_km} ;;
+    sql: ${distance} ;;
     label: "Longest Workout (km)"
     value_format_name: decimal_1
     description: "Longest single workout distance"
