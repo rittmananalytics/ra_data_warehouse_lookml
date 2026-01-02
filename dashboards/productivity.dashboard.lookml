@@ -232,7 +232,7 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: application_usage
-      fields: [dim_application.application_name, dim_application.productivity_category, application_usage.total_duration_minutes, application_usage.usage_count]
+      fields: [dim_application.application_name, dim_application.productivity_category, application_usage.total_duration_minutes, application_usage.count]
       sorts: [application_usage.total_duration_minutes desc]
       limit: 15
       show_view_names: false

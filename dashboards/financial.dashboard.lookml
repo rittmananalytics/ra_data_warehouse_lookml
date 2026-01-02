@@ -114,7 +114,7 @@
       type: single_value
       model: personal_data_dashboard
       explore: transactions
-      fields: [transactions.avg_transaction_amount]
+      fields: [transactions.avg_transaction]
       limit: 1
       custom_color_enabled: true
       custom_color: "#9C27B0"
@@ -236,7 +236,7 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: transactions
-      fields: [dim_merchant.merchant_name, dim_spending_category.category_name, transactions.total_spending, transactions.transaction_count]
+      fields: [dim_merchant.merchant_name, dim_spending_category.category_name, transactions.total_spending, transactions.count]
       sorts: [transactions.total_spending desc]
       limit: 15
       show_view_names: false

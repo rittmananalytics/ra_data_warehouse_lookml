@@ -249,8 +249,8 @@
       type: looker_grid
       model: personal_data_dashboard
       explore: workouts
-      fields: [dim_workout_type.workout_type, workouts.total_workouts, workouts.total_duration_minutes, workouts.avg_duration_minutes, workouts.total_distance_km]
-      sorts: [workouts.total_workouts desc]
+      fields: [dim_workout_type.workout_type, workouts.count, workouts.total_duration_minutes, workouts.avg_duration_minutes, workouts.total_distance_km]
+      sorts: [workouts.count desc]
       limit: 10
       show_view_names: false
       show_row_numbers: true
@@ -278,7 +278,7 @@
           bold: false
           italic: false
           strikethrough: false
-          fields: [workouts.total_workouts]
+          fields: [workouts.count]
       row: 11
       col: 12
       width: 12
