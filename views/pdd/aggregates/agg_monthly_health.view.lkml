@@ -1,11 +1,11 @@
 # =============================================================================
 # AGG_MONTHLY_HEALTH - Monthly Health Summary
 # Grain: One row per month
-# Source: markr-data-lake.mark_dw_warehouse.agg_monthly_health
+# Source: ra-development.pdd_analytics.monthly_health_summary_agg
 # =============================================================================
 
 view: agg_monthly_health {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.agg_monthly_health` ;;
+  sql_table_name: `ra-development.pdd_analytics.monthly_health_summary_agg` ;;
 
   # =============================================================================
   # PRIMARY KEY

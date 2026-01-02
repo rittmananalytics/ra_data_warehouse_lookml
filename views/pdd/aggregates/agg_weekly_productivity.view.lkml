@@ -1,11 +1,11 @@
 # =============================================================================
 # AGG_WEEKLY_PRODUCTIVITY - Weekly Productivity Summary
 # Grain: One row per week
-# Source: markr-data-lake.mark_dw_warehouse.agg_weekly_productivity
+# Source: ra-development.pdd_analytics.weekly_productivity_summary_agg
 # =============================================================================
 
 view: agg_weekly_productivity {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.agg_weekly_productivity` ;;
+  sql_table_name: `ra-development.pdd_analytics.weekly_productivity_summary_agg` ;;
 
   # =============================================================================
   # PRIMARY KEY

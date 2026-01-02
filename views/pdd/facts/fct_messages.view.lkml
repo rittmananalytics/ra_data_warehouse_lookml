@@ -1,11 +1,11 @@
 # =============================================================================
 # FCT_MESSAGES - Message Events
 # Grain: One row per message
-# Source: markr-data-lake.mark_dw_warehouse.fct_messages
+# Source: ra-development.pdd_analytics.communications_fct
 # =============================================================================
 
 view: fct_messages {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.fct_messages` ;;
+  sql_table_name: `ra-development.pdd_analytics.communications_fct` ;;
 
   # =============================================================================
   # PRIMARY KEY

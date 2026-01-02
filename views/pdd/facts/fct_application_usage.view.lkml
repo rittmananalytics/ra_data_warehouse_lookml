@@ -1,11 +1,11 @@
 # =============================================================================
 # FCT_APPLICATION_USAGE - Application Usage
 # Grain: One row per application per time period (from RescueTime)
-# Source: markr-data-lake.mark_dw_warehouse.fct_application_usage
+# Source: ra-development.pdd_analytics.app_usage_fct
 # =============================================================================
 
 view: fct_application_usage {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.fct_application_usage` ;;
+  sql_table_name: `ra-development.pdd_analytics.app_usage_fct` ;;
 
   # =============================================================================
   # PRIMARY KEY

@@ -1,11 +1,11 @@
 # =============================================================================
 # DIM_MERCHANT - Financial Merchants
 # For transaction and spending analysis
-# Source: markr-data-lake.mark_dw_warehouse.dim_merchant
+# Source: ra-development.pdd_analytics.merchant_dim
 # =============================================================================
 
 view: dim_merchant {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.dim_merchant` ;;
+  sql_table_name: `ra-development.pdd_analytics.merchant_dim` ;;
 
   # =============================================================================
   # PRIMARY KEY

@@ -1,12 +1,12 @@
 # =============================================================================
 # PDD_DIM_DATE - Master Date Dimension (Personal Data Dashboard)
 # Conformed dimension for all time-based analysis
-# Source: markr-data-lake.mark_dw_warehouse.dim_date
+# Source: ra-development.pdd_analytics.date_dim
 # Renamed to avoid conflict with existing dim_date in project
 # =============================================================================
 
 view: pdd_dim_date {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.dim_date` ;;
+  sql_table_name: `ra-development.pdd_analytics.date_dim` ;;
 
   # =============================================================================
   # PRIMARY KEY

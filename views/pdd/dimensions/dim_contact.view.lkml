@@ -1,11 +1,11 @@
 # =============================================================================
 # DIM_CONTACT - Communication Contacts
 # For email and messaging analysis
-# Source: markr-data-lake.mark_dw_warehouse.dim_contact
+# Source: ra-development.pdd_analytics.contact_dim
 # =============================================================================
 
 view: dim_contact {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.dim_contact` ;;
+  sql_table_name: `ra-development.pdd_analytics.contact_dim` ;;
 
   # =============================================================================
   # PRIMARY KEY

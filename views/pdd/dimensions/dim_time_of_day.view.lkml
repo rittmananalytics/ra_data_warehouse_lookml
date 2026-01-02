@@ -1,11 +1,11 @@
 # =============================================================================
 # DIM_TIME_OF_DAY - Time of Day Dimension
 # For hourly and time-of-day pattern analysis
-# Source: markr-data-lake.mark_dw_warehouse.dim_time_of_day
+# Source: ra-development.pdd_analytics.time_dim
 # =============================================================================
 
 view: dim_time_of_day {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.dim_time_of_day` ;;
+  sql_table_name: `ra-development.pdd_analytics.time_dim` ;;
 
   # =============================================================================
   # PRIMARY KEY

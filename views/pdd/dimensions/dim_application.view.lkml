@@ -1,11 +1,11 @@
 # =============================================================================
 # DIM_APPLICATION - Productivity Applications
 # For RescueTime application/website tracking
-# Source: markr-data-lake.mark_dw_warehouse.dim_application
+# Source: ra-development.pdd_analytics.application_dim
 # =============================================================================
 
 view: dim_application {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.dim_application` ;;
+  sql_table_name: `ra-development.pdd_analytics.application_dim` ;;
 
   # =============================================================================
   # PRIMARY KEY

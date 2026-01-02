@@ -1,11 +1,11 @@
 # =============================================================================
 # DIM_WORKOUT_TYPE - Workout/Activity Types
 # For fitness and workout analysis
-# Source: markr-data-lake.mark_dw_warehouse.dim_workout_type
+# Source: ra-development.pdd_analytics.workout_type_dim
 # =============================================================================
 
 view: dim_workout_type {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.dim_workout_type` ;;
+  sql_table_name: `ra-development.pdd_analytics.workout_type_dim` ;;
 
   # =============================================================================
   # PRIMARY KEY

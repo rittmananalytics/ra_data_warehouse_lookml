@@ -1,11 +1,11 @@
 # =============================================================================
 # DIM_SPENDING_CATEGORY - Spending Categories
 # For category-level spending analysis
-# Source: markr-data-lake.mark_dw_warehouse.dim_spending_category
+# Source: ra-development.pdd_analytics.spending_category_dim
 # =============================================================================
 
 view: dim_spending_category {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.dim_spending_category` ;;
+  sql_table_name: `ra-development.pdd_analytics.spending_category_dim` ;;
 
   # =============================================================================
   # PRIMARY KEY

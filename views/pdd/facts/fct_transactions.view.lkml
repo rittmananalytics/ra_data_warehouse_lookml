@@ -1,11 +1,11 @@
 # =============================================================================
 # FCT_TRANSACTIONS - Financial Transactions
 # Grain: One row per transaction (from Monzo + First Direct + Amazon + Uber)
-# Source: markr-data-lake.mark_dw_warehouse.fct_transactions
+# Source: ra-development.pdd_analytics.transactions_fct
 # =============================================================================
 
 view: fct_transactions {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.fct_transactions` ;;
+  sql_table_name: `ra-development.pdd_analytics.transactions_fct` ;;
 
   # =============================================================================
   # PRIMARY KEY

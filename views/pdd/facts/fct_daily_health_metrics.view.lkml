@@ -1,11 +1,11 @@
 # =============================================================================
 # FCT_DAILY_HEALTH_METRICS - Daily Health Measurements
 # Grain: One row per day (from Withings)
-# Source: markr-data-lake.mark_dw_warehouse.fct_daily_health_metrics
+# Source: ra-development.pdd_analytics.health_metrics_fct
 # =============================================================================
 
 view: fct_daily_health_metrics {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.fct_daily_health_metrics` ;;
+  sql_table_name: `ra-development.pdd_analytics.health_metrics_fct` ;;
 
   # =============================================================================
   # PRIMARY KEY

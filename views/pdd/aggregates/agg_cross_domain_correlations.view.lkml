@@ -2,11 +2,11 @@
 # AGG_CROSS_DOMAIN_CORRELATIONS - Cross-Domain Analysis
 # Pre-computed correlations for the Cross-Domain Insights dashboard
 # Grain: One row per correlation pair per time period
-# Source: markr-data-lake.mark_dw_warehouse.agg_cross_domain_correlations
+# Source: ra-development.pdd_analytics.cross_domain_correlation_agg
 # =============================================================================
 
 view: agg_cross_domain_correlations {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.agg_cross_domain_correlations` ;;
+  sql_table_name: `ra-development.pdd_analytics.cross_domain_correlation_agg` ;;
 
   # =============================================================================
   # PRIMARY KEY

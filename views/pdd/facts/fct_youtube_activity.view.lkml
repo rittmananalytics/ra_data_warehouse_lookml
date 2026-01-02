@@ -1,11 +1,11 @@
 # =============================================================================
 # FCT_YOUTUBE_ACTIVITY - YouTube Activity
 # Grain: One row per activity (watch, search, visit)
-# Source: markr-data-lake.mark_dw_warehouse.fct_youtube_activity
+# Source: ra-development.pdd_analytics.digital_activity_fct
 # =============================================================================
 
 view: fct_youtube_activity {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.fct_youtube_activity` ;;
+  sql_table_name: `ra-development.pdd_analytics.digital_activity_fct` ;;
 
   # =============================================================================
   # PRIMARY KEY

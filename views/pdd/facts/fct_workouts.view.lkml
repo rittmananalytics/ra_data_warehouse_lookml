@@ -1,11 +1,11 @@
 # =============================================================================
 # FCT_WORKOUTS - Workout Events
 # Grain: One row per workout (from Apple Health + Strava)
-# Source: markr-data-lake.mark_dw_warehouse.fct_workouts
+# Source: ra-development.pdd_analytics.workouts_fct
 # =============================================================================
 
 view: fct_workouts {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.fct_workouts` ;;
+  sql_table_name: `ra-development.pdd_analytics.workouts_fct` ;;
 
   # =============================================================================
   # PRIMARY KEY

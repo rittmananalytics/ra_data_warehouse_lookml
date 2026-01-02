@@ -1,11 +1,11 @@
 # =============================================================================
 # AGG_MONTHLY_SPENDING - Monthly Spending Summary
 # Grain: One row per month per category
-# Source: markr-data-lake.mark_dw_warehouse.agg_monthly_spending
+# Source: ra-development.pdd_analytics.monthly_spending_summary_agg
 # =============================================================================
 
 view: agg_monthly_spending {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.agg_monthly_spending` ;;
+  sql_table_name: `ra-development.pdd_analytics.monthly_spending_summary_agg` ;;
 
   # =============================================================================
   # PRIMARY KEY

@@ -1,11 +1,11 @@
 # =============================================================================
 # FCT_SLEEP_EVENTS - Sleep Episodes
 # Grain: One row per sleep episode (from Apple Health)
-# Source: markr-data-lake.mark_dw_warehouse.fct_sleep_events
+# Source: ra-development.pdd_analytics.sleep_fct
 # =============================================================================
 
 view: fct_sleep_events {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.fct_sleep_events` ;;
+  sql_table_name: `ra-development.pdd_analytics.sleep_fct` ;;
 
   # =============================================================================
   # PRIMARY KEY

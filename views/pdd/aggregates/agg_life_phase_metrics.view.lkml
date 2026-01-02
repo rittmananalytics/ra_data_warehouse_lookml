@@ -2,11 +2,11 @@
 # AGG_LIFE_PHASE_METRICS - Life Phase Comparison
 # Aggregate metrics by life phase for pandemic comparison
 # Grain: One row per life phase
-# Source: markr-data-lake.mark_dw_warehouse.agg_life_phase_metrics
+# Source: ra-development.pdd_analytics.life_phase_comparison_agg
 # =============================================================================
 
 view: agg_life_phase_metrics {
-  sql_table_name: `markr-data-lake.mark_dw_warehouse.agg_life_phase_metrics` ;;
+  sql_table_name: `ra-development.pdd_analytics.life_phase_comparison_agg` ;;
 
   # =============================================================================
   # PRIMARY KEY
