@@ -187,7 +187,7 @@ view: fct_daily_health_metrics {
   measure: count {
     type: count
     label: "Day Count"
-    drill_fields: [dim_date.full_date, weight_kg, body_fat_pct, sleep_total_hours]
+    drill_fields: [pdd_dim_date.full_date, weight_kg, body_fat_pct, sleep_total_hours]
   }
 
   measure: current_weight {

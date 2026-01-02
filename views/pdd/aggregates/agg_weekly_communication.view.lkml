@@ -11,9 +11,16 @@ view: agg_weekly_communication {
   # PRIMARY KEY
   # =============================================================================
 
+  dimension: pk {
+    primary_key: yes
+    type: date
+    sql: ${TABLE}.week_start_date ;;
+    hidden: yes
+    description: "Primary key - week start date"
+  }
+
   dimension_group: week_start {
     type: time
-    primary_key: yes
     timeframes: [raw, date, week, month, quarter, year]
     convert_tz: no
     datatype: date

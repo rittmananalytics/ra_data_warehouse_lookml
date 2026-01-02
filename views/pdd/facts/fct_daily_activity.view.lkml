@@ -89,7 +89,7 @@ view: fct_daily_activity {
   measure: count {
     type: count
     label: "Day Count"
-    drill_fields: [dim_date.full_date, active_minutes, steps, active_calories]
+    drill_fields: [pdd_dim_date.full_date, active_minutes, steps, active_calories]
   }
 
   measure: total_active_minutes {

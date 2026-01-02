@@ -139,7 +139,7 @@ view: fct_daily_productivity {
   measure: count {
     type: count
     label: "Day Count"
-    drill_fields: [dim_date.full_date, productive_hours, focus_ratio, deep_work_blocks]
+    drill_fields: [pdd_dim_date.full_date, productive_hours, focus_ratio, deep_work_blocks]
   }
 
   measure: total_productive_hours {

@@ -52,10 +52,10 @@ explore: health_metrics {
 
   from: fct_daily_health_metrics
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${health_metrics.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${health_metrics.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -66,10 +66,10 @@ explore: workouts {
 
   from: fct_workouts
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${workouts.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${workouts.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_workout_type {
@@ -86,10 +86,10 @@ explore: sleep_events {
 
   from: fct_sleep_events
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${sleep_events.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${sleep_events.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -100,10 +100,10 @@ explore: daily_activity {
 
   from: fct_daily_activity
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${daily_activity.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${daily_activity.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -129,10 +129,10 @@ explore: daily_productivity {
 
   from: fct_daily_productivity
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${daily_productivity.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${daily_productivity.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -143,10 +143,10 @@ explore: application_usage {
 
   from: fct_application_usage
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${application_usage.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${application_usage.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
@@ -184,10 +184,10 @@ explore: transactions {
 
   from: fct_transactions
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${transactions.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${transactions.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_merchant {
@@ -245,10 +245,10 @@ explore: emails {
 
   from: fct_emails
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${emails.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${emails.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
@@ -279,10 +279,10 @@ explore: messages {
 
   from: fct_messages
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${messages.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${messages.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
@@ -311,10 +311,10 @@ explore: daily_communication {
 
   from: agg_daily_communication
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${daily_communication.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${daily_communication.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -340,10 +340,10 @@ explore: location_visits {
 
   from: fct_location_visits
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${location_visits.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${location_visits.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_location {
@@ -360,10 +360,10 @@ explore: uber_rides {
 
   from: fct_uber_rides
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${uber_rides.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${uber_rides.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: pickup_location {
@@ -415,10 +415,10 @@ explore: music_library {
     sql_on: ${music_library.genre_fk} = ${dim_genre.genre_pk} ;;
   }
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${music_library.date_added_fk} = ${dim_date.date_key} ;;
+    sql_on: ${music_library.date_added_fk} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -429,10 +429,10 @@ explore: music_plays {
 
   from: fct_music_plays
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${music_plays.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${music_plays.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
@@ -455,10 +455,10 @@ explore: youtube_activity {
 
   from: fct_youtube_activity
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${youtube_activity.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${youtube_activity.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
@@ -481,10 +481,10 @@ explore: searches {
 
   from: fct_searches
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${searches.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${searches.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
@@ -516,10 +516,10 @@ explore: smart_home {
 
   from: fct_smart_home
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${smart_home.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${smart_home.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_time_of_day {
@@ -536,10 +536,10 @@ explore: daily_smart_home {
 
   from: agg_daily_smart_home
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${daily_smart_home.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${daily_smart_home.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 }
 
@@ -578,10 +578,10 @@ explore: social_posts {
 
   from: fct_social_posts
 
-  join: dim_date {
+  join: pdd_dim_date {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${social_posts.date_fk} = ${dim_date.date_key} ;;
+    sql_on: ${social_posts.date_fk} = ${pdd_dim_date.date_key} ;;
   }
 
   join: dim_location {
