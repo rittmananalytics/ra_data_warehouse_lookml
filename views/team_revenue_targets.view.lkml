@@ -14,7 +14,7 @@ view: team_revenue_targets {
     sql: timestamp(${TABLE}.month) ;;
   }
   measure: revenue_target {
-    type: sum
+    type: sum_distinct
     value_format_name: gbp_0
     sql: ${TABLE}.revenue_target ;;
   }
@@ -22,7 +22,7 @@ view: team_revenue_targets {
     type: string
     primary_key: yes
     hidden: yes
-    sql: concat(${month_raw},${contact_name}) ;;
+    sql: concat(${month_month},${contact_name}) ;;
   }
   measure: count {
     type: count
