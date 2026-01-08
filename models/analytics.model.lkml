@@ -28,6 +28,8 @@ explore: delivery_project_cycle_times {
 
 explore: anomaly_detection {}
 
+
+
 explore: employee_pto {
   label: "Employee PTO"
   group_label: "HR Analytics"
@@ -40,7 +42,7 @@ explore: engagement_renewal_analysis {
   group_label: "        Core Analytics"
   view_label: "Renewal Analysis"
   description: "Analyze engagement renewals, churns, and reactivations with 60-day renewal window. Grain: Individual engagements"
-  
+
   # Note: This explore is at the engagement grain for detailed analysis
   # For quarterly aggregate metrics including cumulative churned clients, use the separate aggregate view
 }
@@ -50,7 +52,7 @@ explore: cumulative_churned_clients {
   group_label: "        Core Analytics"
   view_label: "Churned Clients"
   description: "Track the pool of churned clients over time, showing which companies remain in churned status each quarter"
-  
+
   # This is a separate aggregate view that shows unique companies in churned status by quarter
   # Join to engagement_renewal_analysis for combined quarterly metrics
 }
@@ -924,6 +926,13 @@ explore: companies_dim {
     type: left_outer
     relationship: many_to_one
 
+  }
+  join: team_revenue_targets {
+    view_label: "     Recognised Revenue"
+    sql_on: ${recognized_project_revenue.billing_month_month} = ${team_revenue_targets.month_month}
+      and   ${recognized_revenue_contact.contact_name} = ${team_revenue_targets.contact_name};;
+  type: left_outer
+  relationship: one_to_many
   }
 
 
