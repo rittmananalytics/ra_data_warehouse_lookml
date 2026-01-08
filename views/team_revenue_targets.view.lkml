@@ -1,5 +1,5 @@
 view: team_revenue_targets {
-  sql_table_name: `ra-development.analytics_seed.team_revenue_targets` ;;
+  sql_table_name: `ra-development.analytics_seed.consultant_targets_grades` ;;
 
   dimension: contact_name {
     type: string
@@ -11,7 +11,7 @@ view: team_revenue_targets {
     timeframes: [raw,month, quarter, year]
     convert_tz: no
     datatype: timestamp
-    sql: timestamp(${TABLE}.month) ;;
+    sql: TIMESTAMP(PARSE_DATE('%d-%m-%Y', month)) ;;
   }
   measure: revenue_target {
     type: sum_distinct
@@ -28,6 +28,14 @@ view: team_revenue_targets {
     primary_key: yes
     hidden: yes
     sql: concat(${month_month},${contact_name}) ;;
+  }
+  dimension: consultant_grade {
+    type: string
+    sql: ${TABLE}.consultant_grade ;;
+  }
+  dimension: consultant_hours_multiplier {
+    type: number
+    sql: ${TABLE}.consultant_hours_multiplier ;;
   }
   measure: count {
     type: count

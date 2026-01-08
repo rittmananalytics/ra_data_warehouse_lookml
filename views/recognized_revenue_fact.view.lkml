@@ -35,10 +35,23 @@ view: recognized_revenue_fact {
     sql: ${TABLE}.consultant_hours_billed ;;
   }
 
+  dimension: consultant_hours_attributed {
+    hidden: yes
+
+    type: number
+    sql: ${TABLE}.consultant_hours_attributed ;;
+  }
+
   dimension: consultant_recognized_revenue_gbp {
     type: number
     hidden: yes
     sql: ${TABLE}.consultant_recognized_revenue_gbp ;;
+  }
+
+  dimension: consultant_recognized_attributed_revenue_gbp {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.consultant_recognized_attributed_revenue_gbp ;;
   }
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
@@ -52,10 +65,22 @@ view: recognized_revenue_fact {
     sql: ${consultant_hours_billed} ;;
   }
 
+  measure: total_hours_attributed {
+    type: sum
+    description: "Total billable hours billed by consultant, modified by their grade modifier"
+    value_format_name: decimal_0
+    sql: ${consultant_hours_attributed} ;;
+  }
+
   measure: total_recognized_revenue_gbp {
     type: sum
     value_format_name: gbp_0
     sql: ${consultant_recognized_revenue_gbp} ;;  }
+
+  measure: total_recognized_revenue_attributed_gbp {
+    type: sum
+    value_format_name: gbp_0
+    sql: ${consultant_recognized_attributed_revenue_gbp} ;;  }
 
 
   dimension: contact_fk {
@@ -81,6 +106,14 @@ view: recognized_revenue_fact {
     type: number
     sql: ${TABLE}.total_hours_billed ;;
   }
+
+  dimension: hours_attributed {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_hours_attributed ;;
+  }
+
+
 
 
 
