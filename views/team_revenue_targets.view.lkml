@@ -18,6 +18,11 @@ view: team_revenue_targets {
     value_format_name: gbp_0
     sql: ${TABLE}.revenue_target ;;
   }
+  measure: utilisation_target {
+    type: average_distinct
+    value_format_name: percent_0
+    sql: ${TABLE}.utilisation_target ;;
+  }
   dimension: pk {
     type: string
     primary_key: yes
