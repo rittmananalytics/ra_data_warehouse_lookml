@@ -98,7 +98,7 @@ view: keyword_page_report {
 
     set: detail {
       fields: [
-        date,
+        day_date,
         query,
         device,
         country,

@@ -242,7 +242,6 @@ view: fathom_meetings {
         fathom_user_name,
         fathom_user_email,
         fathom_user_team,
-        transcript_plaintext,
         meeting_sentiment,
         meeting_summary,
         meeting_type,

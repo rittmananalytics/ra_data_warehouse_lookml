@@ -182,7 +182,6 @@ set: detail {
     story_points_cycle_start,
     story_point_estimate_cycle_start,
     cycle_start_status,
-    cycle_complete_day,
     cycle_complete_status,
     total_cycle_days,
     cycle_days_per_story_point,
