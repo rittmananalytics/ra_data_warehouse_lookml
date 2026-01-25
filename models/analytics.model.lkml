@@ -394,7 +394,6 @@ explore: revenue_and_forecast {
 
 
 
-
 explore: projects_delivered {
   hidden: yes
   label: "           Projects"
@@ -1210,3 +1209,212 @@ explore: companies_dim {
       relationship: many_to_one
     }
   }
+
+# =============================================================================
+# UNIFIED PERSON DIMENSION EXPLORE
+# Tracks every role a person plays across the business - staff, clients,
+# prospects, candidates, and partners - with all related fact tables
+# =============================================================================
+
+explore: persons_dim {
+  label: "          Unified Persons"
+  group_label: "        Core Analytics"
+  view_label: "         Person"
+  description: "Unified person dimension tracking all roles (staff, client contacts, prospects, candidates, partners) with related activity across timesheets, deals, recruitment, marketing, and more"
+
+  # ==========================================================================
+  # STAFF ACTIVITY - Timesheets and Project Delivery
+  # ==========================================================================
+
+  join: person_timesheets {
+    view_label: "    Timesheets"
+    from: timesheets_fact
+    sql_on: ${persons_dim.person_pk} = ${person_timesheets.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: person_timesheet_projects {
+    view_label: "    Timesheets"
+    from: timesheet_projects_dim
+    sql_on: ${person_timesheets.timesheet_project_fk} = ${person_timesheet_projects.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+  join: person_timesheet_tasks {
+    view_label: "    Timesheets"
+    from: timesheet_tasks_dim
+    sql_on: ${person_timesheets.timesheet_task_fk} = ${person_timesheet_tasks.timesheet_task_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+  join: person_delivery_tasks {
+    view_label: "   Project Tasks (Jira)"
+    from: delivery_tasks_fact
+    sql_on: ${persons_dim.person_pk} = ${person_delivery_tasks.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: person_delivery_projects {
+    view_label: "   Project Tasks (Jira)"
+    from: delivery_projects_dim
+    sql_on: ${person_delivery_tasks.delivery_project_fk} = ${person_delivery_projects.delivery_project_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+  # ==========================================================================
+  # SALES ACTIVITY - Deals and Meetings
+  # ==========================================================================
+
+  join: person_deals_bridge {
+    view_label: "  Sales"
+    from: contact_deals_fact
+    sql_on: ${persons_dim.person_pk} = ${person_deals_bridge.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: person_deals {
+    view_label: "  Sales"
+    from: deals_fact
+    sql_on: ${person_deals_bridge.deal_pk} = ${person_deals.deal_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+  join: person_meetings {
+    view_label: "  Sales Meetings"
+    from: contact_meetings_fact
+    sql_on: ${persons_dim.person_pk} = ${person_meetings.meeting_host_contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: person_engagements {
+    view_label: "  Sales Engagements"
+    from: contact_engagements_fact
+    sql_on: ${persons_dim.person_pk} = ${person_engagements.from_contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  # ==========================================================================
+  # RECRUITMENT - Job Applications
+  # ==========================================================================
+
+  join: person_job_applications {
+    view_label: " Recruitment"
+    from: recruiting_job_applications_fact
+    sql_on: ${persons_dim.person_pk} = ${person_job_applications.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: person_applied_jobs {
+    view_label: " Recruitment"
+    from: recruiting_jobs_dim
+    sql_on: ${person_job_applications.job_fk} = ${person_applied_jobs.job_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+  join: person_application_stages {
+    view_label: " Recruitment"
+    from: recruiting_application_stages_dim
+    sql_on: ${person_job_applications.application_stage_fk} = ${person_application_stages.application_stage_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+  # ==========================================================================
+  # MARKETING - Content Interactions
+  # ==========================================================================
+
+  join: person_marketing_interactions {
+    view_label: " Marketing"
+    from: marketing_interactions_fact
+    sql_on: ${persons_dim.person_pk} = ${person_marketing_interactions.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: person_marketing_content {
+    view_label: " Marketing"
+    from: marketing_content_dim
+    sql_on: ${person_marketing_interactions.marketing_content_pk} = ${person_marketing_content.marketing_content_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+  # ==========================================================================
+  # CUSTOMER SUCCESS - NPS and Looker Usage
+  # ==========================================================================
+
+  join: person_nps_surveys {
+    view_label: " NPS"
+    from: contact_nps_survey_fact
+    sql_on: ${persons_dim.person_pk} = ${person_nps_surveys.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  join: person_looker_usage {
+    view_label: " Product Usage"
+    from: looker_usage_fact
+    sql_on: ${persons_dim.person_pk} = ${person_looker_usage.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  # ==========================================================================
+  # COMMUNICATIONS - Messages
+  # ==========================================================================
+
+  join: person_messages {
+    view_label: " Messages"
+    from: messages_fact
+    sql_on: ${persons_dim.person_pk} = ${person_messages.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  # ==========================================================================
+  # LEGAL - Contracts
+  # ==========================================================================
+
+  join: person_contracts {
+    view_label: " Contracts"
+    from: contracts_fact
+    sql_on: ${persons_dim.person_pk} = ${person_contracts.contact_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  # ==========================================================================
+  # CUSTOMER MEETINGS (Fathom)
+  # ==========================================================================
+
+  join: person_customer_meetings {
+    view_label: " Customer Meetings"
+    from: customer_meetings
+    sql_on: ${persons_dim.person_pk} = ${person_customer_meetings.contact_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
+  # ==========================================================================
+  # STAFF MANAGER SELF-JOIN
+  # ==========================================================================
+
+  join: person_manager {
+    view_label: "Manager"
+    from: persons_dim
+    sql_on: ${persons_dim.staff_manager_person_fk} = ${person_manager.person_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+}
