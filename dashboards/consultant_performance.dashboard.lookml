@@ -7,7 +7,6 @@
   layout: newspaper
   preferred_viewer: dashboards-next
   description: "Individual consultant revenue attribution analysis, comparing performance against targets and breaking down revenue by project and client"
-  preferred_slug: consultant-performance-dashboard
 
   filters:
     - name: consultant_name
