@@ -96,14 +96,14 @@ explore: contacts {
 
   join: customer_meetings {
     view_label: "Customer Meetings"
-    sql_on: ${contacts.contact_pk} = ${customer_meetings.contact_fk} ;;
+    sql_on: ${contacts.contact_pk} = ${customer_meetings.person_fk} ;;
     type: left_outer
     relationship: one_to_many
   }
 
   join: meeting_contact_lines_fact {
     view_label: "Meeting Transcript Lines"
-    sql_on: ${contacts.contact_pk} = ${meeting_contact_lines_fact.contact_fk} ;;
+    sql_on: ${contacts.contact_pk} = ${meeting_contact_lines_fact.person_fk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -276,19 +276,19 @@ explore: people {
   }
   join: contact_meetings_fact {
     view_label: "Meetings"
-    sql_on: ${people.contact_pk} = ${contact_meetings_fact.meeting_host_contact_pk};;
+    sql_on: ${people.contact_pk} = ${contact_meetings_fact.meeting_host_person_pk};;
     type: left_outer
     relationship: one_to_many
   }
-  join: contact_meetings_fact__all_attendee_contact_pk {
+  join: contact_meetings_fact__all_attendee_person_pk {
     view_label: "Sales Meeting Attendees"
-    sql: LEFT JOIN UNNEST(${contact_meetings_fact.all_attendee_contact_pk}) as contact_meetings_fact__all_attendee_contact_pk ;;
+    sql: LEFT JOIN UNNEST(${contact_meetings_fact.all_attendee_person_pk}) as contact_meetings_fact__all_attendee_person_pk ;;
     relationship: one_to_many
   }
   join: contacts_attended_dim {
     from: contacts_dim
     view_label: "Sales Meeting Attendees"
-    sql_on: ${contact_meetings_fact__all_attendee_contact_pk.contact_meetings_fact__all_attendee_contact_pk} = ${contacts_attended_dim.contact_pk} ;;
+    sql_on: ${contact_meetings_fact__all_attendee_person_pk.contact_meetings_fact__all_attendee_person_pk} = ${contacts_attended_dim.contact_pk} ;;
     relationship: many_to_one
     type: inner
   }
@@ -758,7 +758,7 @@ explore: companies_dim {
   }
   join: timesheet_project_stakeholder_jtbd_fact {
     view_label: "       Project Meetings"
-    sql_on: ${customer_meetings.contact_fk} = ${timesheet_project_stakeholder_jtbd_fact.contact_fk} ;;
+    sql_on: ${customer_meetings.person_fk} = ${timesheet_project_stakeholder_jtbd_fact.contact_fk} ;;
     relationship: one_to_one
     type: left_outer
   }
@@ -767,7 +767,7 @@ explore: companies_dim {
 
     from: contacts_dim
     fields: [customer_meeting_attendees.contact_name,customer_meeting_attendees.contact_bio]
-    sql_on: ${customer_meetings.contact_fk} = ${customer_meeting_attendees.contact_pk} ;;
+    sql_on: ${customer_meetings.person_fk} = ${customer_meeting_attendees.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
   }
@@ -1066,7 +1066,7 @@ explore: companies_dim {
     from: contacts_dim
 
     view_label: "         Contacts"
-    sql_on: ${contact_companies_fact.contact_fk} = ${contacts.contact_pk} ;;
+    sql_on: ${contact_companies_fact.person_fk} = ${contacts.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
   }
@@ -1289,7 +1289,7 @@ explore: persons_dim {
   join: person_meetings {
     view_label: "  Sales Meetings"
     from: contact_meetings_fact
-    sql_on: ${persons_dim.person_pk} = ${person_meetings.meeting_host_contact_pk} ;;
+    sql_on: ${persons_dim.person_pk} = ${person_meetings.meeting_host_person_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -1401,7 +1401,7 @@ explore: persons_dim {
   join: person_customer_meetings {
     view_label: " Customer Meetings"
     from: customer_meetings
-    sql_on: ${persons_dim.person_pk} = ${person_customer_meetings.contact_fk} ;;
+    sql_on: ${persons_dim.person_pk} = ${person_customer_meetings.person_fk} ;;
     type: left_outer
     relationship: one_to_many
   }

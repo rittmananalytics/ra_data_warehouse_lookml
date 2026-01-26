@@ -17,11 +17,11 @@ view: meeting_contact_lines_fact {
     type: string
     sql: ${TABLE}.company_name ;;
   }
-  dimension: contact_fk {
+  dimension: person_fk {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.contact_fk ;;
+    sql: ${TABLE}.person_fk ;;
   }
   dimension: contact_name {
     type: string

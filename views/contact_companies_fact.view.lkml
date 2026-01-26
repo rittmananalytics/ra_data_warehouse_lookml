@@ -15,10 +15,10 @@ view: contact_companies_fact {
     sql: ${TABLE}.contact_company_pk ;;
   }
 
-  dimension: contact_fk {
+  dimension: person_fk {
     hidden: yes
     type: string
-    sql: ${TABLE}.contact_fk ;;
+    sql: ${TABLE}.person_fk ;;
   }
 
   dimension_group: company_contact_from_ts {

@@ -5,7 +5,7 @@
 view: contact_meetings_fact {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `ra-development.analytics.contact_meetings_fact`
+  sql_table_name: `ra-development.analytics.contact_sales_meetings_fact`
     ;;
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
@@ -13,9 +13,9 @@ view: contact_meetings_fact {
   # This field is hidden, which means it will not show up in Explore.
   # If you want this field to be displayed, remove "hidden: yes".
 
-  dimension: all_attendee_contact_pk {
+  dimension: all_attendee_person_pk {
     hidden: yes
-    sql: ${TABLE}.all_attendee_contact_fk ;;
+    sql: ${TABLE}.all_attendee_person_fk ;;
   }
 
  dimension: company_fk {
@@ -23,7 +23,6 @@ view: contact_meetings_fact {
 
   sql: (SELECT max(company_fk)  FROM UNNEST(all_company_fk) as company_fk WHERE company_fk != 'f0d582da39b8661f0a9e8d6ebe1ea224' ) ;;
 }
-
 
 
 
@@ -62,11 +61,11 @@ view: contact_meetings_fact {
     sql: ${TABLE}.is_meeting_active ;;
   }
 
-  dimension: meeting_host_contact_pk {
+  dimension: meeting_host_person_pk {
     hidden: yes
 
     type: string
-    sql: ${TABLE}.meeting_host_contact_fk ;;
+    sql: ${TABLE}.meeting_host_person_fk ;;
   }
 
   dimension: meeting_owner_id {
@@ -127,18 +126,18 @@ view: contact_meetings_fact__all_company_pk {
   }
 }
 
-# The name of this view in Looker is "Contact Meetings Fact All Attendee Contact Pk"
-view: contact_meetings_fact__all_attendee_contact_pk {
+# The name of this view in Looker is "Contact Meetings Fact All Attendee Person Pk"
+view: contact_meetings_fact__all_attendee_person_pk {
   # No primary key is defined for this view. In order to join this view in an Explore,
   # define primary_key: yes on a dimension that has no repeated values.
 
   # Here's what a typical dimension looks like in LookML.
   # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "Contact Meetings Fact All Attendee Contact Pk" in Explore.
+  # This dimension will be called "Contact Meetings Fact All Attendee Person Pk" in Explore.
 
-  dimension: contact_meetings_fact__all_attendee_contact_pk {
+  dimension: contact_meetings_fact__all_attendee_person_pk {
     hidden: yes
     type: string
-    sql: contact_meetings_fact__all_attendee_contact_fk ;;
+    sql: contact_meetings_fact__all_attendee_person_pk ;;
   }
 }

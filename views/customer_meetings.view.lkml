@@ -24,10 +24,10 @@ view: customer_meetings {
     sql: ${TABLE}.meeting_contribution_pk ;;
   }
 
-  dimension: contact_fk {
+  dimension: person_fk {
     hidden: no
     type: string
-    sql: ${TABLE}.contact_fk ;;
+    sql: ${TABLE}.person_fk ;;
   }
 
   dimension: company_fk {
