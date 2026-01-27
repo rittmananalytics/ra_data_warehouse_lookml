@@ -1133,43 +1133,6 @@ explore: companies_dim {
     }
   }
 
-  explore: timesheets_forecast_fact {
-    hidden: no
-    label: "Resource Forecast"
-    group_label: "Experimental"
-
-    view_label: "Resource Forecast"
-    join: staff_dim {
-      view_label: "Project Resources"
-      sql_on: ${timesheets_forecast_fact.contact_pk} = ${staff_dim.contact_pk};;
-      type: inner
-      relationship: many_to_one
-    }
-    join: timesheet_projects_dim {
-      view_label: "Projects"
-      sql_on: ${timesheets_forecast_fact.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
-      type: inner
-      relationship: many_to_one
-    }
-    join: projects_invoiced {
-      view_label: "    Invoicing"
-      from: invoices_fact
-      sql_on: ${timesheets_forecast_fact.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
-      type: left_outer
-      relationship: one_to_many
-    }
-    join: payments_fact {
-      view_label: " Finance"
-      type: left_outer
-      sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
-      relationship: one_to_many
-    }
-    join: exchange_rates {
-      sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
-      type: left_outer
-      relationship: many_to_one
-    }
-  }
 
 
 
