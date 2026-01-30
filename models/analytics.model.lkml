@@ -18,26 +18,29 @@ fiscal_month_offset: +3
 week_start_day: monday
 
 explore: delivery_project_cycle_times_hkm {
+  hidden: yes
+
   label: "Cycle Times (HKM)"
   group_label: "Experimental"
 }
 explore: delivery_project_cycle_times {
+  hidden: yes
+
   label: "Cycle Times"
   group_label: "Experimental"
 }
 
-explore: anomaly_detection {}
-
-
-
-explore: employee_pto {
-  label: "Employee PTO"
-  group_label: "HR Analytics"
-  view_label: "PTO Records"
-  description: "Employee paid time off tracking and analysis"
+explore: anomaly_detection {
+  hidden: yes
 }
 
+explore: page_report {}
+
+
+
 explore: engagement_renewal_analysis {
+  hidden: yes
+
   label: "Engagement Renewal Analysis"
   group_label: "        Core Analytics"
   view_label: "Renewal Analysis"
@@ -48,6 +51,8 @@ explore: engagement_renewal_analysis {
 }
 
 explore: cumulative_churned_clients {
+  hidden: yes
+
   label: "Cumulative Churned Clients"
   group_label: "        Core Analytics"
   view_label: "Churned Clients"
@@ -58,6 +63,8 @@ explore: cumulative_churned_clients {
 }
 
 explore: marketing_email_sends {
+  hidden: yes
+
   from: email_sends_dim
   label: "Marketing Emails"
   join: email_send_outcomes_fact {
@@ -69,7 +76,10 @@ explore: marketing_email_sends {
 }
 
 
-explore: page_keyword_performance  {}
+explore: page_keyword_performance  {
+  hidden: yes
+
+}
 
 
 
@@ -179,16 +189,21 @@ explore: contacts {
 }
 
 explore: monzo_bank_transactions_enriched {
+  hidden: yes
+
   view_label: "Bank Transactions"
   label: "Banking"
 }
 
 explore: icp_lookalike_audience_uk_ie_eu_only {
+  hidden: yes
+
   label: "ICP Target List"
 }
 
 
 explore: monthly_resource_revenue_forecast_fact {
+
   hidden: yes
   label: "Monthly Forecast"
 }
@@ -199,12 +214,15 @@ explore: timesheet_project_monthly_forecast_billing_fact {
 
 
 
-explore: looker_usage_stats {}
+explore: looker_usage_stats {
+  hidden: yes
+
+}
 
 
 
 explore: fathom_meetings {
-  hidden: no
+  hidden: yes
   view_label: "Meetings"
   join: fathom_meeting_actions {
     sql_on: ${fathom_meetings.recording_url} = ${fathom_meeting_actions.recording_url} ;;
@@ -231,7 +249,7 @@ explore: project_engagements {
 
 
 explore: people {
-  hidden: no
+  hidden: yes
   from: contacts_dim
   label: "     Contacts"
   view_label: "Client and Marketing / Recruiting Contacts"
@@ -363,7 +381,10 @@ explore: people {
 
 }
 
-explore: company_comparison {}
+explore: company_comparison {
+  hidden: yes
+
+}
 
 
 
@@ -510,6 +531,8 @@ explore: projects_delivered {
 
 
 explore: nps_survey_results_fact {
+  hidden: yes
+
   label: "NPS Surveys"
   group_label: "        Core Analytics"
 
@@ -562,7 +585,7 @@ explore: targets {
 
 
 explore: contact_utilization_fact {
-  hidden: no
+  hidden: yes
 
   label: "    Utilization"
   description: "Team Member utilisation reporting"
@@ -1180,6 +1203,8 @@ explore: companies_dim {
 # =============================================================================
 
 explore: persons_dim {
+  hidden: yes
+
   label: "          Unified Persons"
   group_label: "        Core Analytics"
   view_label: "         Person"
