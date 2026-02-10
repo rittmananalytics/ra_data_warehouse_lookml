@@ -325,6 +325,12 @@ view: delivery_tasks_fact {
     sql: coalesce(${TABLE}.total_completed,0) ;;
   }
 
+  measure: total_delivery_tasks_completed_in_same_sprint {
+    group_label: "Project Tasks"
+    type: sum
+    sql: coalesce($TABLE.total_completed_within_same_sprint,0) ;;
+  }
+
 
   measure: total_delivery_tasks_in_progress {
     group_label: "Project Tasks"
