@@ -146,8 +146,16 @@ view: delivery_tasks_fact {
   dimension_group: task_start_ts {
     group_label: "Project Tasks"
     type: time
+    hidden: yes
     timeframes: [date,time,week,month,month_num]
     sql: ${TABLE}.task_start_ts ;;
+  }
+
+  dimension_group: task_work_started {
+    group_label: "Project Tasks"
+    type: time
+    timeframes: [date,time,week,month,month_num]
+    sql: ${TABLE}.task_work_started_ts ;;
   }
 
   dimension_group: epic_start {
@@ -330,6 +338,13 @@ view: delivery_tasks_fact {
     type: sum
     description: "Count of tasks that were started and completed in the same sprint"
     sql: coalesce($TABLE.total_completed_within_same_sprint,0) ;;
+  }
+
+  measure: total_started_but_not_completed {
+    group_label: "Project Tasks"
+    type: sum
+    description: "Count of tasks that were started and completed in the same sprint"
+    sql: coalesce($TABLE.total_started_but_not_completed,0) ;;
   }
 
 
