@@ -45,6 +45,17 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_url ;;
   }
 
+  dimension_group: sprint_start {
+    type: time
+    timeframes: [
+      time,
+      date,
+      week,
+      month
+    ]
+    sql: ${TABLE}.sprint_started_ts ;;
+  }
+
   dimension: sprint_board_url {
     hidden: yes
     type: string
@@ -337,14 +348,21 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
     type: sum
     description: "Count of tasks that were started and completed in the same sprint"
-    sql: coalesce($TABLE.total_completed_within_same_sprint,0) ;;
+    sql: coalesce(${TABLE}.total_completed_within_same_sprint,0) ;;
   }
 
   measure: total_started_but_not_completed {
     group_label: "Project Tasks"
     type: sum
     description: "Count of tasks that were started and completed in the same sprint"
-    sql: coalesce($TABLE.total_started_but_not_completed,0) ;;
+    sql: coalesce(${TABLE}.total_started_but_not_completed,0) ;;
+  }
+
+  measure: total_started {
+    group_label: "Project Tasks"
+    type: sum
+    description: "Count of tasks that were started"
+    sql: ${total_delivery_tasks_completed_in_same_sprint}+${total_started_but_not_completed} ;;
   }
 
 
@@ -365,6 +383,8 @@ view: delivery_tasks_fact {
   measure: total_failed_client_qa_comment {
     group_label: "Project Tasks"
     label: "Total Failed Client QA/QA Comment"
+    hidden: yes
+
     type: sum
     sql: case when ${TABLE}.task_status = 'Failed Client QA/QA Comment' then 1 end ;;
   }
@@ -378,6 +398,7 @@ view: delivery_tasks_fact {
 
   measure: total_delivery_tasks_in_qa {
     group_label: "Project Tasks"
+    hidden: yes
 
     type: sum
     sql: coalesce(${TABLE}.total_in_qa,0) ;;
@@ -385,6 +406,7 @@ view: delivery_tasks_fact {
 
   measure: total_delivery_tasks_in_client_qa {
     group_label: "Project Tasks"
+    hidden: yes
 
     type: sum
     sql: coalesce(${TABLE}.total_in_client_qa,0) ;;
@@ -392,6 +414,7 @@ view: delivery_tasks_fact {
 
   measure: total_delivery_tasks_in_add_to_looker {
     group_label: "Project Tasks"
+    hidden: yes
 
     type: sum
     sql: coalesce(${TABLE}.total_in_add_to_looker,0) ;;
@@ -399,6 +422,7 @@ view: delivery_tasks_fact {
 
   measure: total_delivery_tasks_in_design {
     group_label: "Project Tasks"
+    hidden: yes
 
     type: sum
     sql: coalesce(${TABLE}.total_in_design,0);;
@@ -406,6 +430,7 @@ view: delivery_tasks_fact {
 
   measure: total_delivery_tasks_in_looker_qa {
     group_label: "Project Tasks"
+    hidden: yes
 
     type: sum
     sql: coalesce(${TABLE}.total_in_looker_qa,0);;
@@ -413,6 +438,7 @@ view: delivery_tasks_fact {
 
   measure: total_delivery_tasks_failed_client_qa {
     group_label: "Project Tasks"
+    hidden: yes
 
     type: sum
     sql: coalesce(${TABLE}.total_failed_client_qa,0);;
@@ -420,6 +446,7 @@ view: delivery_tasks_fact {
 
   measure: total_revision_required {
     group_label: "Project Tasks"
+    hidden: yes
 
     type: sum
     sql: coalesce(${TABLE}.total_revision_required,0);;
@@ -427,7 +454,7 @@ view: delivery_tasks_fact {
 
   measure: total_failed_internal_qa {
     group_label: "Project Tasks"
-
+    hidden: yes
     type: sum
     sql: coalesce(${TABLE}.total_failed_internal_qa,0);;
   }
