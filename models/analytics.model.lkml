@@ -36,6 +36,49 @@ explore: anomaly_detection {
 
 explore: page_report {}
 
+explore: src_control_repos_dim {
+  label: "Source Repositories"
+  view_label: "             Source Repositories"
+  join: src_control_daily_metrics_fact {
+    view_label: "        Daily Metrics"
+    sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_daily_metrics_fact.src_control_repo_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: src_control_pull_requests_fact {
+    view_label: "      Pull Requests"
+    sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_pull_requests_fact.src_control_repo_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: persons_dim {
+    view_label: "     PR Creator"
+    fields: [persons_dim.person_name,persons_dim.is_contractor,persons_dim.is_staff]
+    sql_on: ${src_control_pull_requests_fact.contact_fk} = ${persons_dim.person_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: reviewer_persons_dim {
+    from: persons_dim
+    view_label: "     PR Reviewer"
+    sql_on: ${src_control_pull_requests_fact.contact_fk} = ${reviewer_persons_dim.person_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
+  join: organisation {
+    from: companies_dim
+    view_label: "Organisations"
+    sql_on: ${src_control_repos_dim.company_fk} = ${organisation.company_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+
+
+
+
+}
+
 
 
 explore: engagement_renewal_analysis {
@@ -669,12 +712,7 @@ explore: companies_dim {
   description: "Main explore used for reporting, starts with prospects and covers lifecycle through to projects and NPS"
   hidden: no
 
-  join: ideal_customer_2025 {
-    view_label: "           Companies"
-    sql_on: ${ideal_customer_2025.company_name} = ${companies_dim.company_name} ;;
-    type: inner
-    relationship: one_to_one
-  }
+
 
   join: company_converted_projects {
     view_label: "           Companies"
@@ -683,6 +721,35 @@ explore: companies_dim {
     relationship: one_to_one
 
   }
+
+  join: src_control_repos_dim {
+    view_label: "   Source Repositories"
+    sql_on: ${companies_dim.company_pk} = ${src_control_repos_dim.company_fk};;
+    type: left_outer
+    relationship: one_to_many
+    }
+    join: src_control_daily_metrics_fact {
+      view_label: "   Source Repositories"
+      sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_daily_metrics_fact.src_control_repo_fk} ;;
+      type: left_outer
+      relationship: one_to_many
+    }
+    join: src_control_pull_requests_fact {
+      view_label: "   Source Repositories"
+      sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_pull_requests_fact.src_control_repo_fk} ;;
+      type: left_outer
+      relationship: one_to_many
+    }
+    join: persons_dim {
+      view_label: "   Source Repositories"
+      fields: [persons_dim.person_name,persons_dim.is_contractor,persons_dim.is_staff]
+      sql_on: ${src_control_pull_requests_fact.contact_fk} = ${persons_dim.person_pk} ;;
+      type: left_outer
+      relationship: one_to_one
+    }
+
+
+
 
   ## Client Engagements, which are groupings of Harvest projects linked-together by a Hubspot Deal ID + Client code + sprint #
 
@@ -875,7 +942,7 @@ explore: companies_dim {
     relationship: one_to_many
   }
   join: nps_survey_results_fact {
-    view_label: "   NPS Surveys"
+    view_label: " NPS Surveys"
     sql_on: ${companies_dim.company_pk} = ${nps_survey_results_fact.company_fk}  ;;
     relationship: one_to_many
     type: left_outer
@@ -926,7 +993,7 @@ explore: companies_dim {
   }
   join: recognized_project_revenue {
     from: recognized_revenue_fact
-    view_label: "     Recognised Revenue"
+    view_label: "      Recognised Revenue"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk}
        ;;
     type: left_outer
@@ -942,7 +1009,7 @@ explore: companies_dim {
     }
   join: recognized_revenue_contact {
     from: contacts_dim
-    view_label: "     Recognised Revenue"
+    view_label: "      Recognised Revenue"
     fields: [contact_name]
     sql_on: ${recognized_project_revenue.contact_fk} = ${recognized_revenue_contact.contact_pk} ;;
     type: left_outer
@@ -950,7 +1017,7 @@ explore: companies_dim {
 
   }
   join: team_revenue_targets {
-    view_label: "     Recognised Revenue"
+    view_label: "      Recognised Revenue"
     sql_on: ${recognized_project_revenue.billing_month_month} = ${team_revenue_targets.month_month}
       and   ${recognized_revenue_contact.contact_name} = ${team_revenue_targets.contact_name};;
   type: left_outer
