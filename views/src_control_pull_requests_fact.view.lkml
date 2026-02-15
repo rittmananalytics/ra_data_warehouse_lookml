@@ -62,25 +62,22 @@ view: src_control_pull_requests_fact {
     sql: ${TABLE}.pr_creator_user_id ;;
   }
 
-  # Repository context
-  dimension: repo_name {
-    group_label: "Repository"
-    type: string
-    description: "Repository name."
-    hidden: yes
-    sql: ${TABLE}.repo_name ;;
-  }
+
 
   # Pull request descriptors
   dimension: pr_number {
     group_label: "       Pull Request"
     type: number
+    group_item_label: "Number"
+
     description: "Pull request number within the repository."
     sql: ${TABLE}.pr_number ;;
   }
 
   dimension: pr_title {
     group_label: "       Pull Request"
+    group_item_label: "       Title"
+
     type: string
     description: "Pull request title."
     sql: ${TABLE}.pr_title ;;
@@ -88,6 +85,7 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_body {
     group_label: "       Pull Request"
+    group_item_label: "     Body"
     type: string
     description: "Pull request body text."
     sql: ${TABLE}.pr_body ;;
@@ -95,6 +93,8 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_url {
     group_label: "       Pull Request"
+    group_item_label: "URL"
+
     type: string
     description: "Pull request URL."
     sql: ${TABLE}.pr_url ;;
@@ -102,6 +102,8 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_state {
     group_label: "       Pull Request"
+    group_item_label: "   State"
+
     type: string
     description: "Pull request state, for example open, closed, merged."
     sql: ${TABLE}.pr_state ;;
@@ -109,6 +111,8 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_is_merged {
     group_label: "       Pull Request"
+    group_item_label: " Is Merged"
+
     type: yesno
     description: "Yes if the pull request was merged."
     sql: ${TABLE}.pr_is_merged ;;
@@ -116,6 +120,7 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_labels {
     group_label: "       Pull Request"
+    hidden: yes
     type: string
     description: "Labels applied to the pull request."
     sql: ${TABLE}.pr_labels ;;
@@ -123,6 +128,8 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_requested_reviewers {
     group_label: "       Pull Request"
+    group_item_label: "Requested Reviewers"
+
     type: string
     description: "Requested reviewers for the pull request."
     sql: ${TABLE}.pr_requested_reviewers ;;
@@ -130,6 +137,8 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_reviewers {
     group_label: "       Pull Request"
+    group_item_label: "Reviewers"
+
     type: string
     description: "Reviewers who reviewed the pull request."
     sql: ${TABLE}.pr_reviewers ;;
@@ -138,6 +147,7 @@ view: src_control_pull_requests_fact {
   # Creator fields
   dimension: pr_creator_login_name {
     group_label: "       Pull Request"
+    hidden: yes
     type: string
     description: "Login name of the pull request creator."
     sql: ${TABLE}.pr_creator_login_name ;;
@@ -145,6 +155,7 @@ view: src_control_pull_requests_fact {
 
   dimension: pr_creator_name {
     group_label: "       Pull Request"
+    hidden: yes
     type: string
     description: "Display name of the pull request creator."
     sql: ${TABLE}.pr_creator_name ;;
@@ -153,14 +164,17 @@ view: src_control_pull_requests_fact {
   # Dates
   dimension_group: pr_created {
     group_label: "       Pull Request"
+    label: "Created"
+
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, date, week, month]
     description: "Timestamp when the pull request was created."
     sql: ${TABLE}.pr_created_at ;;
   }
 
   dimension_group: pr_updated {
     group_label: "       Pull Request"
+    hidden: yes
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     description: "Timestamp when the pull request was last updated."
@@ -169,16 +183,20 @@ view: src_control_pull_requests_fact {
 
   dimension_group: pr_closed {
     group_label: "       Pull Request"
+    label: "Closed"
+    hidden: yes
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, date, week, month]
     description: "Timestamp when the pull request was closed."
     sql: ${TABLE}.pr_closed_at ;;
   }
 
   dimension_group: pr_merged {
     group_label: "       Pull Request"
+    label: "Merged"
+
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, date, week, month]
     description: "Timestamp when the pull request was merged."
     sql: ${TABLE}.pr_merged_at ;;
   }
@@ -237,7 +255,7 @@ view: src_control_pull_requests_fact {
     group_label: "       Pull Request Measures"
     type: count
     description: "Count of pull requests."
-    drill_fields: [repo_name, pr_number, pr_title, pr_creator_login_name, pr_creator_name, pr_url]
+    drill_fields: [pr_number, pr_title, pr_creator_login_name, pr_creator_name, pr_url]
   }
 
   measure: merged_pull_requests {

@@ -37,7 +37,8 @@ view: src_control_daily_metrics_fact {
 
   # Dates
   dimension_group: day {
-    group_label: "Dates"
+    group_label: "Metrics"
+    label: "Metric"
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     description: "Day the activity metrics were recorded."
@@ -119,13 +120,13 @@ view: src_control_daily_metrics_fact {
 
   # Measures
   measure: count {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: count
     description: "Count of daily metric rows."
   }
 
   measure: total_issues_opened {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: sum
     description: "Total issues opened."
     sql: ${number_issues_opened} ;;
@@ -133,7 +134,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: total_issues_closed {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: sum
     description: "Total issues closed."
     sql: ${number_issues_closed} ;;
@@ -141,7 +142,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: total_prs_opened {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: sum
     description: "Total pull requests opened."
     sql: ${number_prs_opened} ;;
@@ -149,7 +150,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: total_prs_merged {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: sum
     description: "Total pull requests merged."
     sql: ${number_prs_merged} ;;
@@ -157,7 +158,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: total_prs_closed_without_merge {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: sum
     description: "Total pull requests closed without merge."
     sql: ${number_prs_closed_without_merge} ;;
@@ -165,7 +166,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: avg_days_issue_open {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: number
     description: "Average days issues stayed open, calculated from summed days divided by issues closed."
     sql: SAFE_DIVIDE(${sum_days_issue_open}, NULLIF(${number_issues_closed}, 0)) ;;
@@ -173,7 +174,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: avg_days_pr_open {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: number
     description: "Average days pull requests stayed open, calculated from summed days divided by PRs closed."
     sql: SAFE_DIVIDE(${sum_days_pr_open}, NULLIF(${number_prs_merged} + ${number_prs_closed_without_merge}, 0)) ;;
@@ -181,7 +182,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: max_days_issue_open {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: max
     description: "Maximum days an issue stayed open on a given day."
     sql: ${longest_days_issue_open} ;;
@@ -189,7 +190,7 @@ view: src_control_daily_metrics_fact {
   }
 
   measure: max_days_pr_open {
-    group_label: "Measures"
+    group_label: "Metrics Measures"
     type: max
     description: "Maximum days a pull request stayed open on a given day."
     sql: ${longest_days_pr_open} ;;

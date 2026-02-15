@@ -106,6 +106,7 @@ view: src_control_commits_fact {
   # Dates
   dimension_group: commit_author {
     group_label: "Dates"
+    hidden: yes
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     description: "Timestamp when the commit was authored."
@@ -113,30 +114,31 @@ view: src_control_commits_fact {
   }
 
   dimension_group: commit_committer {
-    group_label: "Dates"
+    group_label: "Commit"
+    label: "Commit"
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, date, week, month]
     description: "Timestamp when the commit was committed."
     sql: ${TABLE}.commit_committer_date ;;
   }
 
   # Measures
   measure: count {
-    group_label: "Measures"
+    group_label: "Commit Measures"
     type: count
     description: "Count of commits."
     drill_fields: [repo_name, commit_author_name, commit_committer_name, commit_message]
   }
 
   measure: commits_by_author {
-    group_label: "Measures"
+    group_label: "Commit Measures"
     type: count
     description: "Count of commits by author."
     drill_fields: [commit_author_name, repo_name]
   }
 
   measure: distinct_authors {
-    group_label: "Measures"
+    group_label: "Commit Measures"
     type: count_distinct
     description: "Number of distinct commit authors."
     sql: ${commit_author_name} ;;
@@ -144,7 +146,7 @@ view: src_control_commits_fact {
   }
 
   measure: distinct_committers {
-    group_label: "Measures"
+    group_label: "Commit Measures"
     type: count_distinct
     description: "Number of distinct committers."
     sql: ${commit_committer_name} ;;
@@ -152,7 +154,7 @@ view: src_control_commits_fact {
   }
 
   measure: commits_with_messages {
-    group_label: "Measures"
+    group_label: "Commit Measures"
     type: count
     description: "Count of commits that include a non-empty commit message."
     filters: [commit_message: "-NULL"]

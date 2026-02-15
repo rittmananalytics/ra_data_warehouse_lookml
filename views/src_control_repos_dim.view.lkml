@@ -52,6 +52,8 @@ view: src_control_repos_dim {
   # Naming and descriptive fields
   dimension: repo_name {
     group_label: "           Repository"
+    group_item_label: "      Name"
+    label: "      Repository Name"
     type: string
     description: "Full repository name."
     sql: ${TABLE}.repo_name ;;
@@ -59,6 +61,8 @@ view: src_control_repos_dim {
 
   dimension: repo_short_name {
     group_label: "           Repository"
+    group_item_label: "     Short Name"
+    label: "    Repository Short Name"
     type: string
     description: "Short repository name, typically excluding any owner or namespace."
     sql: ${TABLE}.repo_short_name ;;
@@ -66,6 +70,8 @@ view: src_control_repos_dim {
 
   dimension: repo_description {
     group_label: "           Repository"
+    group_item_label: "   Description"
+    label: "  Repository Description"
     type: string
     description: "Repository description from the source system."
     sql: ${TABLE}.repo_description ;;
@@ -73,6 +79,8 @@ view: src_control_repos_dim {
 
   dimension: repo_homepage {
     group_label: "           Repository"
+    group_item_label: " Homepage"
+    label: "  Repository Homepage"
     type: string
     description: "Repository homepage URL if provided."
     sql: ${TABLE}.repo_homepage ;;
@@ -80,6 +88,8 @@ view: src_control_repos_dim {
 
   dimension: repo_default_branch {
     group_label: "           Repository"
+    group_item_label: "Default Branch"
+    label: "Repository Default Branch"
     type: string
     description: "Default branch name."
     sql: ${TABLE}.repo_default_branch ;;
@@ -87,9 +97,10 @@ view: src_control_repos_dim {
 
   # Dates
   dimension_group: repo_created {
-    group_label: "Dates"
+    group_label: "           Repository"
+    label: "Created"
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, date]
     description: "Timestamp when the repository was created."
     sql: ${TABLE}.repo_created_at ;;
   }
@@ -97,6 +108,8 @@ view: src_control_repos_dim {
   # Classification
   dimension: repo_language {
     group_label: "          Classification"
+    group_item_label: "Language"
+    label: "Repository Language"
     type: string
     description: "Primary language detected for the repository."
     sql: ${TABLE}.repo_language ;;
@@ -104,7 +117,8 @@ view: src_control_repos_dim {
 
   # Flags
   dimension: repo_is_private {
-    group_label: "Flags"
+    group_label: "        Flags"
+    group_item_label: "Is Private"
     type: yesno
     description: "Yes if the repository is private."
     sql: ${TABLE}.repo_is_private ;;
@@ -112,6 +126,8 @@ view: src_control_repos_dim {
 
   dimension: repo_is_archived {
     group_label: "        Flags"
+    group_item_label: "Is Archived"
+
     type: yesno
     description: "Yes if the repository is archived."
     sql: ${TABLE}.repo_is_archived ;;
@@ -119,6 +135,8 @@ view: src_control_repos_dim {
 
   dimension: repo_is_fork {
     group_label: "        Flags"
+    group_item_label: "Is Fork"
+
     type: yesno
     description: "Yes if the repository is a fork."
     sql: ${TABLE}.repo_is_fork ;;
