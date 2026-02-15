@@ -74,14 +74,7 @@ view: timesheet_projects_dim {
     sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
 
-  dimension_group: project_revenue_expected_ts {
-    group_label: "        Project Details"
-    hidden: yes
 
-    type: time
-    timeframes: [date,week,month]
-    sql: case when ${projects_invoiced.invoice_due_date} is null then timestamp_add(timestamp(${TABLE}.project_delivery_end_ts),interval 30 day) else timestamp(${projects_invoiced.invoice_due_date}) end ;;
-  }
 
   dimension: is_project_active {
     group_label: "        Project Details"
