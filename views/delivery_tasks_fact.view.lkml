@@ -314,7 +314,7 @@ view: delivery_tasks_fact {
     sql: COALESCE(${TABLE}.total_completed, 0) ;;
   }
 
-  measure: total_delivery_tasks_completed_in_same_sprint {
+  measure: total_started_and_completed {
     group_label: "Project Tasks"
     type: sum
     description: "Count of tasks that were started and completed in the same sprint"

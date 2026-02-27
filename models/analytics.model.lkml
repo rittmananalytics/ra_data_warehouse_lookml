@@ -19,13 +19,11 @@ week_start_day: monday
 
 explore: delivery_project_cycle_times_hkm {
   hidden: yes
-
   label: "Cycle Times (HKM)"
   group_label: "Experimental"
 }
 explore: delivery_project_cycle_times {
   hidden: yes
-
   label: "Cycle Times"
   group_label: "Experimental"
 }
@@ -72,42 +70,26 @@ explore: src_control_repos_dim {
     type: left_outer
     relationship: many_to_one
   }
-
-
-
-
-
 }
-
-
 
 explore: engagement_renewal_analysis {
   hidden: yes
-
   label: "Engagement Renewal Analysis"
   group_label: "        Core Analytics"
   view_label: "Renewal Analysis"
   description: "Analyze engagement renewals, churns, and reactivations with 60-day renewal window. Grain: Individual engagements"
-
-  # Note: This explore is at the engagement grain for detailed analysis
-  # For quarterly aggregate metrics including cumulative churned clients, use the separate aggregate view
 }
 
 explore: cumulative_churned_clients {
   hidden: yes
-
   label: "Cumulative Churned Clients"
   group_label: "        Core Analytics"
   view_label: "Churned Clients"
   description: "Track the pool of churned clients over time, showing which companies remain in churned status each quarter"
-
-  # This is a separate aggregate view that shows unique companies in churned status by quarter
-  # Join to engagement_renewal_analysis for combined quarterly metrics
 }
 
 explore: marketing_email_sends {
   hidden: yes
-
   from: email_sends_dim
   label: "Marketing Emails"
   join: email_send_outcomes_fact {
@@ -118,14 +100,9 @@ explore: marketing_email_sends {
   }
 }
 
-
 explore: page_keyword_performance  {
   hidden: yes
-
 }
-
-
-
 
 explore: contacts {
   hidden: yes
@@ -146,21 +123,18 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
-
   join: customer_meetings {
     view_label: "Customer Meetings"
     sql_on: ${contacts.contact_pk} = ${customer_meetings.person_fk} ;;
     type: left_outer
     relationship: one_to_many
   }
-
   join: meeting_contact_lines_fact {
     view_label: "Meeting Transcript Lines"
     sql_on: ${contacts.contact_pk} = ${meeting_contact_lines_fact.person_fk} ;;
     type: left_outer
     relationship: one_to_many
   }
-
   join: projects_delivered {
     view_label: "Project Timesheets (Harvest)"
     from: timesheet_projects_dim
@@ -176,7 +150,6 @@ explore: contacts {
     type: inner
     relationship: one_to_many
   }
-
   join: timesheet_tasks_dim {
     view_label: "Project Timesheets (Harvest)"
     sql_on: ${timesheets_fact.timesheet_task_fk} = ${timesheet_tasks_dim.timesheet_task_pk} ;;
@@ -208,12 +181,6 @@ explore: contacts {
     type: left_outer
     relationship: one_to_many
   }
-  #join: delivery_team_fact_xa {
-  #  view_label: "Project Stats"
-  #  sql_on: ${contacts.contact_pk} = ${delivery_team_fact_xa.contact_pk} ;;
-  #  type: left_outer
-  #  relationship: one_to_one
-  #}
   join: delivered_companies_dim {
     from: companies_dim
     view_label: "       Clients"
@@ -222,7 +189,6 @@ explore: contacts {
     type: inner
     relationship: one_to_many
   }
-
   join: payments_fact {
     view_label: " Payments"
     type: left_outer
@@ -233,20 +199,16 @@ explore: contacts {
 
 explore: monzo_bank_transactions_enriched {
   hidden: yes
-
   view_label: "Bank Transactions"
   label: "Banking"
 }
 
 explore: icp_lookalike_audience_uk_ie_eu_only {
   hidden: yes
-
   label: "ICP Target List"
 }
 
-
 explore: monthly_resource_revenue_forecast_fact {
-
   hidden: yes
   label: "Monthly Forecast"
 }
@@ -255,14 +217,9 @@ explore: timesheet_project_monthly_forecast_billing_fact {
   hidden: yes
 }
 
-
-
 explore: looker_usage_stats {
   hidden: yes
-
 }
-
-
 
 explore: fathom_meetings {
   hidden: yes
@@ -272,24 +229,11 @@ explore: fathom_meetings {
     type: left_outer
     relationship: one_to_many
   }
-
-
 }
-
-
 
 explore: project_engagements {
   hidden: yes
-
 }
-
-
-
-
-
-
-
-
 
 explore: people {
   hidden: yes
@@ -297,7 +241,6 @@ explore: people {
   label: "     Contacts"
   view_label: "Client and Marketing / Recruiting Contacts"
   description: "Client contacts, leads and contacts and their related recruiting, marketing and sales activity"
-
   join: recruiting_job_applications_fact {
     view_label: "Recruitment"
     sql_on: ${people.contact_pk} = ${recruiting_job_applications_fact.contact_fk} ;;
@@ -353,7 +296,6 @@ explore: people {
     relationship: many_to_one
     type: inner
   }
-
   join: contacts_engaged_dim {
     from: contacts_dim
     view_label: "Sales Meeting Attendees"
@@ -421,49 +363,22 @@ explore: people {
     type: inner
     relationship: one_to_many
   }
-
 }
 
 explore: company_comparison {
   hidden: yes
-
 }
-
-
 
 explore: revenue_and_forecast {
-
   hidden: yes
   description: "Explore that provides booked and forecast (high probability) revenue for past and upcoming months"
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 explore: projects_delivered {
   hidden: yes
   label: "           Projects"
   view_label: "      Project Delivery"
   group_label: "        Core Analytics"
-
   from: timesheet_projects_dim
   join: project_timesheets {
     view_label: "     Timesheets"
@@ -489,8 +404,8 @@ explore: projects_delivered {
     view_label: "    Consultant Contribution"
     sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
       and ${project_timesheets.timesheet_project_fk} = ${consultant_revenue_attribution.timesheet_project_pk};;
-      relationship: one_to_one
-      type: left_outer
+    relationship: one_to_one
+    type: left_outer
   }
   join: companies_dim {
     view_label: "         Projects"
@@ -555,7 +470,6 @@ explore: projects_delivered {
   }
   join: deal_project_timesheets_fact {
     view_label: "        Sales"
-
     from: timesheets_fact
     sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_timesheets_fact.timesheet_project_fk} ;;
     type: left_outer
@@ -563,7 +477,6 @@ explore: projects_delivered {
   }
   join: deal_project_invoices_fact {
     view_label: "        Sales"
-
     from: invoices_fact
     sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_invoices_fact.timesheet_project_fk};;
     type: left_outer
@@ -571,14 +484,10 @@ explore: projects_delivered {
   }
 }
 
-
-
 explore: nps_survey_results_fact {
   hidden: yes
-
   label: "NPS Surveys"
   group_label: "        Core Analytics"
-
   view_label: "    NPS Surveys"
   join: contacts_dim {
     view_label: "Survey Respondents"
@@ -591,7 +500,6 @@ explore: nps_survey_results_fact {
     sql_on: ${nps_survey_results_fact.company_fk} = ${companies_dim.company_pk} ;;
     type: left_outer
     relationship: many_to_one
-
   }
   join: engagements {
     view_label: " Engagements"
@@ -601,11 +509,8 @@ explore: nps_survey_results_fact {
   }
 }
 
-
-
 explore: website_leads {
   group_label: "        Core Analytics"
-
   hidden: no
 }
 
@@ -621,19 +526,11 @@ explore: targets {
   }
 }
 
-
-
-
-
-
-
 explore: contact_utilization_fact {
   hidden: yes
-
   label: "    Utilization"
   description: "Team Member utilisation reporting"
   group_label: "        Core Analytics"
-
   view_label: "Utilization"
   join: staff_dim {
     view_label: "   Delivery Team"
@@ -646,7 +543,6 @@ explore: contact_utilization_fact {
 explore: web_sessions_fact {
   label: "    Web Analytics"
   group_label: "        Core Analytics"
-
   view_label: "  Sessions"
   description: "Website activity and visitor journey"
   join: wh_sessions_attribution {
@@ -661,8 +557,6 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
-
-
   join: page_first_published {
     view_label: "  Sessions"
     sql_on: ${web_sessions_fact.first_page_title} = ${page_first_published.web_sessions_fact_first_page_title} ;;
@@ -687,16 +581,13 @@ explore: web_sessions_fact {
     type: inner
     relationship: one_to_one
   }
-
   join: is_conversion_session {
     view_label: "  Sessions"
     type: left_outer
     sql_on: ${web_sessions_fact.session_id} = ${is_conversion_session.web_events_fact_session_id} ;;
     relationship: one_to_one
-    }
-
+  }
 }
-
 
 access_grant: can_view_company_bio {
   user_attribute: groups
@@ -704,68 +595,54 @@ access_grant: can_view_company_bio {
 }
 
 explore: companies_dim {
-
-
   label: "                    Business Operations"
   group_label: "        Core Analytics"
   view_label: "           Companies"
   description: "Main explore used for reporting, starts with prospects and covers lifecycle through to projects and NPS"
   hidden: no
 
-
-
   join: company_converted_projects {
     view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${company_converted_projects.company_pk} ;;
     type: inner
     relationship: one_to_one
-
   }
-
   join: src_control_repos_dim {
     view_label: "   Source Repositories"
     sql_on: ${companies_dim.company_pk} = ${src_control_repos_dim.company_fk};;
     type: left_outer
     relationship: one_to_many
-    }
-    join: src_control_daily_metrics_fact {
-      view_label: "   Source Repositories"
-      sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_daily_metrics_fact.src_control_repo_fk} ;;
-      type: left_outer
-      relationship: one_to_many
-    }
-    join: src_control_pull_requests_fact {
-      view_label: "   Source Repositories"
-      sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_pull_requests_fact.src_control_repo_fk} ;;
-      type: left_outer
-      relationship: one_to_many
-    }
-    join: persons_dim {
-      view_label: "   Source Repositories"
-      fields: [persons_dim.person_name,persons_dim.is_contractor,persons_dim.is_staff]
-      sql_on: ${src_control_pull_requests_fact.contact_fk} = ${persons_dim.person_pk} ;;
-      type: left_outer
-      relationship: one_to_one
-    }
-
-
-
-
-  ## Client Engagements, which are groupings of Harvest projects linked-together by a Hubspot Deal ID + Client code + sprint #
-
+  }
+  join: src_control_daily_metrics_fact {
+    view_label: "   Source Repositories"
+    sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_daily_metrics_fact.src_control_repo_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: src_control_pull_requests_fact {
+    view_label: "   Source Repositories"
+    sql_on: ${src_control_repos_dim.src_control_repo_pk} = ${src_control_pull_requests_fact.src_control_repo_fk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: persons_dim {
+    view_label: "   Source Repositories"
+    fields: [persons_dim.person_name,persons_dim.is_contractor,persons_dim.is_staff]
+    sql_on: ${src_control_pull_requests_fact.contact_fk} = ${persons_dim.person_pk} ;;
+    type: left_outer
+    relationship: one_to_one
+  }
   join: engagements {
     view_label: "        Engagements (SoWs)"
     sql_on: ${companies_dim.company_pk} = ${engagements.company_fk};;
     type: left_outer
     relationship: one_to_many
   }
-
   join: timesheet_project_engagements_dim__projects {
     view_label: "        Engagements (SoWs)"
     sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
     relationship: one_to_many
   }
-
   join: timesheet_project_engagement_project_costs_fact {
     from: timesheet_project_costs_fact
     view_label: "        Engagements (SoWs) Project Costs"
@@ -774,11 +651,6 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-
-
-  # details of the engagement parsed from the SoW PDF
-
   join: engagement_details {
     view_label: "        Engagements (SoWs)"
     sql_on: ${engagements.deal_id} = ${engagement_details.deal_id} ;;
@@ -789,44 +661,34 @@ explore: companies_dim {
     view_label: "        Engagements (SoWs)"
     sql: LEFT JOIN UNNEST(${engagement_details.objectives}) as engagement_details__objectives ;;
     relationship: one_to_many
-
   }
   join: engagement_details__deliverables {
     view_label: "        Engagements (SoWs)"
     sql: LEFT JOIN UNNEST(${engagement_details.deliverables}) as engagement_details__deliverables ;;
     relationship: one_to_many
   }
-
-
-
-
-
   join: delivery_project_docs_dim {
     view_label: "      Project Timesheets"
     sql_on: ${delivery_project_docs_dim.company_fk} = ${companies_dim.company_pk} ;;
     type: inner
     relationship: many_to_one
   }
-
   join: timesheet_project_engagement_rag_status_fact {
     view_label: "         Client RAG Status History"
     sql_on: ${companies_dim.company_name} = ${timesheet_project_engagement_rag_status_fact.client_name} ;;
     type: left_outer
     relationship: one_to_many
   }
-
   join: timesheet_project_engagement_rag_status_fact__month_timeline_events {
     view_label: "         Client RAG Status History"
     sql: LEFT JOIN UNNEST(${timesheet_project_engagement_rag_status_fact.month_timeline_events}) as timesheet_project_engagement_rag_status_fact__month_timeline_events ;;
     relationship: one_to_many
   }
-
   join: timesheet_project_engagement_rag_status_fact__ra_action_points {
     view_label: "         Client RAG Status History"
     sql: LEFT JOIN UNNEST(${timesheet_project_engagement_rag_status_fact.ra_action_points}) as timesheet_project_engagement_rag_status_fact__ra_action_points ;;
     relationship: one_to_many
   }
-
   join: timesheet_project_engagement_rag_status_fact__client_action_points {
     view_label: "         Client RAG Status History"
     sql: LEFT JOIN UNNEST(${timesheet_project_engagement_rag_status_fact.client_action_points}) as timesheet_project_engagement_rag_status_fact__client_action_points ;;
@@ -838,8 +700,6 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-
   join: customer_meetings {
     view_label: "       Project Meetings"
     sql_on: ${companies_dim.company_pk} = ${customer_meetings.company_fk};;
@@ -854,7 +714,6 @@ explore: companies_dim {
   }
   join: customer_meeting_attendees {
     view_label: "       Project Meetings"
-
     from: contacts_dim
     fields: [customer_meeting_attendees.contact_name,customer_meeting_attendees.contact_bio]
     sql_on: ${customer_meetings.person_fk} = ${customer_meeting_attendees.contact_pk} ;;
@@ -871,7 +730,6 @@ explore: companies_dim {
     sql: LEFT JOIN UNNEST(${timesheet_project_stakeholder_jtbd_fact.identified_jtbds}) as timesheet_project_stakeholder_jtbd_fact__identified_jtbds ;;
     relationship: one_to_many
   }
-
   join: messages_fact {
     view_label: "      Project Messages"
     sql_on: ${companies_dim.company_pk} = ${messages_fact.company_fk};;
@@ -884,13 +742,7 @@ explore: companies_dim {
     fields: [message_contacts.contact_name]
     sql_on: ${messages_fact.contact_fk} = ${message_contacts.contact_pk} ;;
     relationship: many_to_one
-
   }
-
-
-
-
-
   join: timesheet_project_engagements_projects_invoiced {
     view_label: "        Engagements (SoWs)"
     from: invoices_fact
@@ -899,7 +751,6 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: timesheet_project_engagement_timesheets {
     view_label: "        Engagements (SoWs) Timesheets"
     fields: [timesheet_project_engagement_timesheets.total_timesheet_cost_amount_gbp,timesheet_project_engagement_timesheets.timesheet_billing_date,timesheet_project_engagement_timesheets.timesheet_billing_week,timesheet_project_engagement_timesheets.timesheet_billing_month,timesheet_project_engagement_timesheets.total_timesheet_nonbillable_hours_billed,timesheet_project_engagement_timesheets.total_timesheet_billable_hours_billed]
@@ -924,18 +775,14 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-
   join: timesheet_project_engagement_timesheets_projects_dim {
     from: timesheet_projects_dim
-    fields: [timesheet_project_engagement_timesheets_projects_dim.project_name,timesheet_project_engagement_timesheets_projects_dim.project_delivery_start_ts_date, timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
+    fields: [timesheet_project_engagement_timesheets_projects_dim.project_name,timesheet_project_engagement_timesheets_projects_dim.project_delivery_start_ts_date,timesheet_project_engagement_timesheets_projects_dim.total_project_fee_amount,project_hours_budget]
     view_label: "        Engagements (SoWs)"
     sql_on: ${timesheet_project_engagement_timesheets.timesheet_project_fk} = ${timesheet_project_engagement_timesheets_projects_dim.timesheet_project_pk} ;;
     type: left_outer
     relationship: many_to_one
   }
-
-
   join: companies_dim__all_company_ids {
     view_label: "           Companies"
     sql: LEFT JOIN UNNEST(${companies_dim__all_company_ids.companies_dim__all_company_ids}) as  companies_dim__all_company_ids;;
@@ -946,14 +793,13 @@ explore: companies_dim {
     sql_on: ${companies_dim.company_pk} = ${nps_survey_results_fact.company_fk}  ;;
     relationship: one_to_many
     type: left_outer
-    }
+  }
   join: client_prospect_status_dim {
     view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
     type: left_outer
     relationship: one_to_one
   }
-
   join: customer_first_order_segments {
     view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${customer_first_order_segments.companies_dim_company_pk} ;;
@@ -994,8 +840,7 @@ explore: companies_dim {
   join: recognized_project_revenue {
     from: recognized_revenue_fact
     view_label: "      Recognised Revenue"
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk}
-       ;;
+    sql_on: ${projects_delivered.timesheet_project_pk} = ${recognized_project_revenue.timesheet_project_pk} ;;
     type: left_outer
     relationship: one_to_many
   }
@@ -1006,7 +851,7 @@ explore: companies_dim {
     sql_on: ${projects_invoiced.invoice_issued_month} = ${revenue_target.period_month} ;;
     type: left_outer
     relationship: one_to_many
-    }
+  }
   join: recognized_revenue_contact {
     from: contacts_dim
     view_label: "      Recognised Revenue"
@@ -1014,17 +859,14 @@ explore: companies_dim {
     sql_on: ${recognized_project_revenue.contact_fk} = ${recognized_revenue_contact.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
-
   }
   join: team_revenue_targets {
     view_label: "      Recognised Revenue"
     sql_on: ${recognized_project_revenue.billing_month_month} = ${team_revenue_targets.month_month}
       and   ${recognized_revenue_contact.contact_name} = ${team_revenue_targets.contact_name};;
-  type: left_outer
-  relationship: one_to_many
+    type: left_outer
+    relationship: one_to_many
   }
-
-
   join: project_invoice_timesheets {
     view_label: "      Project Invoicing"
     from: timesheets_fact
@@ -1046,10 +888,6 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-
-
-
   join: projects_delivered_is_ontime {
     view_label: "      Project Timesheets"
     sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_delivered_is_ontime.timesheet_project_pk} ;;
@@ -1072,7 +910,6 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: deals_fact {
     view_label: "        Sales"
     sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
@@ -1087,16 +924,12 @@ explore: companies_dim {
     type: left_outer
     relationship: many_to_one
   }
-
   join: deal_pipeline_history {
     view_label: "         Sales Pipeline History"
     sql_on: ${deals_fact.deal_id} = ${deal_pipeline_history.deal_id} ;;
     type: inner
     relationship: one_to_many
-    }
-
-
-
+  }
   join: customer_first_deal_cohorts {
     view_label: "        Sales"
     sql_on: ${deals_fact.deal_pk} = ${customer_first_deal_cohorts.deal_pk};;
@@ -1138,30 +971,24 @@ explore: companies_dim {
   }
   join: contact_companies_fact {
     view_label: "         Contacts"
-
     sql_on: ${companies_dim.company_pk} = ${contact_companies_fact.company_fk};;
     type: left_outer
     relationship: one_to_many
   }
-
   join: contact_meetings_fact {
     view_label: "        Sales"
     sql_on: ${companies_dim.company_pk} = ${contact_meetings_fact.company_fk}
        and ${deals_fact.deal_pk} = ${contact_meetings_fact.deal_fk};;
-      type: left_outer
-      relationship: one_to_many
+    type: left_outer
+    relationship: one_to_many
   }
   join: contacts {
-
     from: contacts_dim
-
     view_label: "         Contacts"
     sql_on: ${contact_companies_fact.person_fk} = ${contacts.contact_pk} ;;
     type: left_outer
     relationship: many_to_one
   }
-
-
   join: contracts_fact {
     view_label: "Legal"
     sql_on: ${companies_dim.company_pk} = ${contracts_fact.company_pk} ;;
@@ -1183,103 +1010,88 @@ explore: companies_dim {
   }
 }
 
-  explore: project_attribution {
-    hidden: no
-    group_label: "        Core Analytics"
-
-    label: "Delivery Team Contribution"
-    view_label: "Project Attribution"
-    description: "Attribution model that attributes revenue from projects to team members based on grade and billable hours"
-
-    join: staff_dim {
-      view_label: "Team"
-      sql_on: ${project_attribution.contact_pk} = ${staff_dim.contact_pk} ;;
-      type: inner
-      relationship: many_to_one
-    }
-    join: timesheet_projects_dim {
-      view_label: "Projects"
-      sql_on: ${project_attribution.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
-      type: inner
-      relationship: many_to_one
-    }
-    join: projects_invoiced {
-      view_label: "    Invoicing"
-      from: invoices_fact
-      sql_on: ${project_attribution.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
-      type: left_outer
-      relationship: one_to_many
-    }
-    join: payments_fact {
-      view_label: " Finance"
-      type: left_outer
-      sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
-      relationship: one_to_many
-    }
-    join: exchange_rates {
-      sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
-      type: left_outer
-      relationship: many_to_one
-    }
+explore: project_attribution {
+  hidden: no
+  group_label: "        Core Analytics"
+  label: "Delivery Team Contribution"
+  view_label: "Project Attribution"
+  description: "Attribution model that attributes revenue from projects to team members based on grade and billable hours"
+  join: staff_dim {
+    view_label: "Team"
+    sql_on: ${project_attribution.contact_pk} = ${staff_dim.contact_pk} ;;
+    type: inner
+    relationship: many_to_one
   }
-
-
-
-
-
-
-  explore: chart_of_accounts_dim {
-
-    label: "Financials"
-    hidden: no
-    group_label: "        Core Analytics"
-
-    view_label: "Accounts"
-    join: general_ledger_fact {
-      view_label: "General Ledger"
-      sql_on: ${chart_of_accounts_dim.account_id} = ${general_ledger_fact.account_id};;
-      type: left_outer
-      relationship: one_to_many
-    }
-    join: profit_and_loss_report_fact {
-      view_label: "Profit & Loss Report"
-      sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id};;
-      type: left_outer
-      relationship: one_to_many
-    }
-
-
-    join: bank_transactions_fact {
-      view_label: "Bank Transactions"
-      sql_on: ${chart_of_accounts_dim.account_id} = ${bank_transactions_fact.account_id} ;;
-      type: left_outer
-      relationship: one_to_many
-    }
-    join: bank_account_details {
-      view_label: "Bank Transactions"
-      sql_on: ${bank_transactions_fact.bank_account_id} = ${bank_account_details.bank_account_id} ;;
-      type: inner
-      relationship: many_to_one
-    }
+  join: timesheet_projects_dim {
+    view_label: "Projects"
+    sql_on: ${project_attribution.timesheet_project_pk} = ${timesheet_projects_dim.timesheet_project_pk} ;;
+    type: inner
+    relationship: many_to_one
   }
+  join: projects_invoiced {
+    view_label: "    Invoicing"
+    from: invoices_fact
+    sql_on: ${project_attribution.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: payments_fact {
+    view_label: " Finance"
+    type: left_outer
+    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
+    relationship: one_to_many
+  }
+  join: exchange_rates {
+    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+}
 
-# =============================================================================
-# UNIFIED PERSON DIMENSION EXPLORE
-# Tracks every role a person plays across the business - staff, clients,
-# prospects, candidates, and partners - with all related fact tables
-# =============================================================================
+explore: chart_of_accounts_dim {
+  label: "Financials"
+  hidden: no
+  group_label: "        Core Analytics"
+  view_label: "Accounts"
+  join: general_ledger_fact {
+    view_label: "General Ledger"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${general_ledger_fact.account_id};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: profit_and_loss_report_fact {
+    view_label: "Profit & Loss Report"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_report_fact.account_id};;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: bank_transactions_fact {
+    view_label: "Bank Transactions"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${bank_transactions_fact.account_id} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+  join: bank_account_details {
+    view_label: "Bank Transactions"
+    sql_on: ${bank_transactions_fact.bank_account_id} = ${bank_account_details.bank_account_id} ;;
+    type: inner
+    relationship: many_to_one
+  }
+  # TEMPORARY — delete after demo
+  join: profit_and_loss_demo_fact {
+    view_label: "Profit & Loss Report (Demo)"
+    sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_demo_fact.account_id} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+}
 
 explore: persons_dim {
   hidden: yes
-
   label: "          Unified Persons"
   group_label: "        Core Analytics"
   view_label: "         Person"
   description: "Unified person dimension tracking all roles (staff, client contacts, prospects, candidates, partners) with related activity across timesheets, deals, recruitment, marketing, and more"
-
-  # ==========================================================================
-  # STAFF ACTIVITY - Timesheets and Project Delivery
-  # ==========================================================================
 
   join: person_timesheets {
     view_label: "    Timesheets"
@@ -1288,7 +1100,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: person_timesheet_projects {
     view_label: "    Timesheets"
     from: timesheet_projects_dim
@@ -1296,7 +1107,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
-
   join: person_timesheet_tasks {
     view_label: "    Timesheets"
     from: timesheet_tasks_dim
@@ -1304,7 +1114,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
-
   join: person_delivery_tasks {
     view_label: "   Project Tasks (Jira)"
     from: delivery_tasks_fact
@@ -1312,7 +1121,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: person_delivery_projects {
     view_label: "   Project Tasks (Jira)"
     from: delivery_projects_dim
@@ -1320,11 +1128,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
-
-  # ==========================================================================
-  # SALES ACTIVITY - Deals and Meetings
-  # ==========================================================================
-
   join: person_deals_bridge {
     view_label: "  Sales"
     from: contact_deals_fact
@@ -1332,7 +1135,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: person_deals {
     view_label: "  Sales"
     from: deals_fact
@@ -1340,7 +1142,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
-
   join: person_meetings {
     view_label: "  Sales Meetings"
     from: contact_meetings_fact
@@ -1348,7 +1149,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: person_engagements {
     view_label: "  Sales Engagements"
     from: contact_engagements_fact
@@ -1356,11 +1156,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-  # ==========================================================================
-  # RECRUITMENT - Job Applications
-  # ==========================================================================
-
   join: person_job_applications {
     view_label: " Recruitment"
     from: recruiting_job_applications_fact
@@ -1368,7 +1163,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: person_applied_jobs {
     view_label: " Recruitment"
     from: recruiting_jobs_dim
@@ -1376,7 +1170,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
-
   join: person_application_stages {
     view_label: " Recruitment"
     from: recruiting_application_stages_dim
@@ -1384,11 +1177,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
-
-  # ==========================================================================
-  # MARKETING - Content Interactions
-  # ==========================================================================
-
   join: person_marketing_interactions {
     view_label: " Marketing"
     from: marketing_interactions_fact
@@ -1396,7 +1184,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: person_marketing_content {
     view_label: " Marketing"
     from: marketing_content_dim
@@ -1404,11 +1191,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
-
-  # ==========================================================================
-  # CUSTOMER SUCCESS - NPS and Looker Usage
-  # ==========================================================================
-
   join: person_nps_surveys {
     view_label: " NPS"
     from: contact_nps_survey_fact
@@ -1416,7 +1198,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
   join: person_looker_usage {
     view_label: " Product Usage"
     from: looker_usage_fact
@@ -1424,11 +1205,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-  # ==========================================================================
-  # COMMUNICATIONS - Messages
-  # ==========================================================================
-
   join: person_messages {
     view_label: " Messages"
     from: messages_fact
@@ -1436,11 +1212,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-  # ==========================================================================
-  # LEGAL - Contracts
-  # ==========================================================================
-
   join: person_contracts {
     view_label: " Contracts"
     from: contracts_fact
@@ -1448,11 +1219,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-  # ==========================================================================
-  # CUSTOMER MEETINGS (Fathom)
-  # ==========================================================================
-
   join: person_customer_meetings {
     view_label: " Customer Meetings"
     from: customer_meetings
@@ -1460,11 +1226,6 @@ explore: persons_dim {
     type: left_outer
     relationship: one_to_many
   }
-
-  # ==========================================================================
-  # STAFF MANAGER SELF-JOIN
-  # ==========================================================================
-
   join: person_manager {
     view_label: "Manager"
     from: persons_dim

@@ -10,11 +10,8 @@ view: profit_and_loss_report_fact {
     sql: ${TABLE}.account_class ;;
   }
 
-
-
   dimension: account_code {
     hidden: no
-
     type: string
     sql: ${TABLE}.account_code ;;
   }
@@ -34,7 +31,6 @@ view: profit_and_loss_report_fact {
 
   dimension: account_report_category {
     label: "Account Category"
-
     hidden: no
     order_by_field: account_report_category_order
     type: string
@@ -54,13 +50,9 @@ view: profit_and_loss_report_fact {
   dimension: account_report_order {
     hidden: yes
     description: "Used for sorting account names in the P&L report"
-
     type: number
     sql: ${TABLE}.account_report_order ;;
   }
-
-
-
 
   dimension: account_report_category_order {
     description: "Used for sorting Account Report Categories in the P&L report"
@@ -68,11 +60,6 @@ view: profit_and_loss_report_fact {
     type: number
     sql: ${TABLE}.account_report_category_order ;;
   }
-
-
-
-  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
-  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: period {
     type: time
@@ -99,7 +86,6 @@ view: profit_and_loss_report_fact {
 
   measure: amount {
     group_label: "P&L Base Measures"
-
     type: sum
     value_format_name: gbp
     sql: ${amount_base}  ;;
@@ -109,7 +95,6 @@ view: profit_and_loss_report_fact {
 
   measure: revenue {
     group_label: "P&L Actuals"
-
     type: sum
     description: "Sales revenue from consulting projects and other services"
     value_format_name: gbp
@@ -119,7 +104,6 @@ view: profit_and_loss_report_fact {
 
   measure: cost_of_delivery {
     group_label: "P&L Actuals"
-
     description: "Direct costs e.g. consultants wages, delivery software etc incurred in delivering consulting projects and other services"
     type: sum
     value_format_name: gbp
@@ -129,10 +113,8 @@ view: profit_and_loss_report_fact {
 
   measure: overheads {
     group_label: "P&L Actuals"
-
     type: sum
     description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
-
     value_format_name: gbp
     sql: ${amount_base}  ;;
     filters: [account_report_category: "Overheads"]
@@ -140,7 +122,6 @@ view: profit_and_loss_report_fact {
 
   measure: taxation {
     group_label: "P&L Actuals"
-
     description: "Corporation tax levied on net profits before payment of dividends"
     type: sum
     value_format_name: gbp
@@ -150,7 +131,6 @@ view: profit_and_loss_report_fact {
 
   measure: dividends {
     group_label: "P&L Actuals"
-
     type: sum
     description: "Payments to shareholders made from post-taxation net profit"
     value_format_name: gbp
@@ -160,9 +140,8 @@ view: profit_and_loss_report_fact {
 
   measure: retained_earnings {
     group_label: "P&L Actuals"
-
     label: "Retained Earnings"
-    description: "Retained Earnings prior month (i.e. previous month)"
+    description: "Retained Earnings"
     type: sum
     value_format_name: gbp
     sql: ${amount_base}  ;;
@@ -218,8 +197,8 @@ view: profit_and_loss_report_fact {
     sql: ${amount_base} ;;
   }
 
-  measure:dividends_prior_month {
-    group_label: "P&L Actuals"
+  measure: dividends_prior_month {
+    group_label: "P&L Actuals Prior Month"
     type: period_over_period
     label: "Dividends Prior Month"
     description: "Dividends prior month (i.e. previous month)"
@@ -260,7 +239,7 @@ view: profit_and_loss_report_fact {
     group_label: "P&L Actuals Prior Quarter"
     type: period_over_period
     label: "Cost of Delivery Prior Quarter"
-    description: "Cost of Delivery Prior Quarter (i.e. previous month)"
+    description: "Cost of Delivery Prior Quarter"
     based_on: cost_of_delivery
     based_on_time: period_month
     period: quarter
@@ -272,7 +251,7 @@ view: profit_and_loss_report_fact {
     group_label: "P&L Actuals Prior Quarter"
     type: period_over_period
     label: "Overheads Prior Quarter"
-    description: "Overheads Prior Quarter (i.e. previous month)"
+    description: "Overheads Prior Quarter"
     based_on: overheads
     based_on_time: period_month
     period: quarter
@@ -284,7 +263,7 @@ view: profit_and_loss_report_fact {
     group_label: "P&L Actuals Prior Quarter"
     type: period_over_period
     label: "Taxation Prior Quarter"
-    description: "Taxation Prior Quarter (i.e. previous month)"
+    description: "Taxation Prior Quarter"
     based_on: taxation
     based_on_time: period_month
     period: quarter
@@ -292,11 +271,11 @@ view: profit_and_loss_report_fact {
     sql: ${amount_base}  ;;
   }
 
-  measure:dividends_prior_quarter {
-    group_label: "P&L Actuals"
+  measure: dividends_prior_quarter {
+    group_label: "P&L Actuals Prior Quarter"
     type: period_over_period
     label: "Dividends Prior Quarter"
-    description: "Dividends Prior Quarter (i.e. previous month)"
+    description: "Dividends Prior Quarter"
     based_on: dividends
     based_on_time: period_month
     period: quarter
@@ -316,6 +295,104 @@ view: profit_and_loss_report_fact {
     sql: ${amount_base} ;;
   }
 
+  # Actuals Prior Year for P&L Report Categories
+
+  measure: revenue_prior_year {
+    group_label: "P&L Actuals Prior Year"
+    type: period_over_period
+    label: "Revenue Prior Year"
+    description: "Sales Revenue same period prior year (YoY)"
+    based_on: revenue
+    based_on_time: period_year
+    period: year
+    value_format_name: gbp
+    sql: ${amount_base} ;;
+  }
+
+  measure: cost_of_delivery_prior_year {
+    group_label: "P&L Actuals Prior Year"
+    type: period_over_period
+    label: "Cost of Delivery Prior Year"
+    description: "Cost of Delivery same period prior year (YoY)"
+    based_on: cost_of_delivery
+    based_on_time: period_year
+    period: year
+    value_format_name: gbp
+    sql: ${amount_base} ;;
+  }
+
+  measure: overheads_prior_year {
+    group_label: "P&L Actuals Prior Year"
+    type: period_over_period
+    label: "Overheads Prior Year"
+    description: "Overheads same period prior year (YoY)"
+    based_on: overheads
+    based_on_time: period_year
+    period: year
+    value_format_name: gbp
+    sql: ${amount_base} ;;
+  }
+
+  measure: retained_earnings_prior_year {
+    group_label: "P&L Actuals Prior Year"
+    type: period_over_period
+    label: "Retained Earnings Prior Year"
+    description: "Retained Earnings same period prior year (YoY)"
+    based_on: retained_earnings
+    based_on_time: period_year
+    period: year
+    value_format_name: gbp
+    sql: ${amount_base} ;;
+  }
+
+  # ── Dynamic Period-over-Period Comparison ────────────────────────────────────
+  # A parameter lets users switch the comparison period at dashboard/explore time.
+  # Uses string type so the value can be safely interpolated into SQL CASE logic.
+
+  parameter: comparison_period {
+    group_label: "Dynamic PoP"
+    label: "Compare To"
+    description: "Select the comparison period for the dynamic Revenue vs Prior Period tile"
+    type: string
+    default_value: "Prior Month"
+    allowed_value: {
+      label: "Prior Month"
+      value: "Prior Month"
+    }
+    allowed_value: {
+      label: "Prior Quarter"
+      value: "Prior Quarter"
+    }
+    allowed_value: {
+      label: "Prior Year"
+      value: "Prior Year"
+    }
+  }
+
+  measure: revenue_dynamic_prior_period {
+    group_label: "Dynamic PoP"
+    label: "Revenue — Prior Period (Dynamic)"
+    description: "Revenue for the prior period selected via the 'Compare To' parameter"
+    type: sum
+    value_format_name: gbp
+    filters: [account_report_category: "Revenue"]
+    sql:
+      CASE
+        WHEN {% parameter comparison_period %} = 'Prior Month'
+          THEN CASE WHEN DATE_TRUNC(${TABLE}.date_month, MONTH) =
+            DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH)
+            THEN ${TABLE}.net_amount END
+        WHEN {% parameter comparison_period %} = 'Prior Quarter'
+          THEN CASE WHEN DATE_TRUNC(${TABLE}.date_month, QUARTER) =
+            DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 QUARTER), QUARTER)
+            THEN ${TABLE}.net_amount END
+        WHEN {% parameter comparison_period %} = 'Prior Year'
+          THEN CASE WHEN DATE_TRUNC(${TABLE}.date_month, YEAR) =
+            DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), YEAR)
+            THEN ${TABLE}.net_amount END
+      END ;;
+  }
+
   # Budgets for P&L Report Categories
 
   dimension: budget_base {
@@ -325,7 +402,6 @@ view: profit_and_loss_report_fact {
 
   measure: budget {
     group_label: "P&L Base Measures"
-
     type: sum
     value_format_name: gbp
     sql: ${budget_base};;
@@ -341,7 +417,6 @@ view: profit_and_loss_report_fact {
 
   measure: revenue_budget {
     group_label: "P&L Budget"
-
     type: sum
     description: "Sales revenue Budget"
     value_format_name: gbp
@@ -351,7 +426,6 @@ view: profit_and_loss_report_fact {
 
   measure: cost_of_delivery_budget {
     group_label: "P&L Budget"
-
     description: "Direct costs budget"
     type: sum
     value_format_name: gbp
@@ -361,10 +435,8 @@ view: profit_and_loss_report_fact {
 
   measure: overheads_budget {
     group_label: "P&L Budget"
-
     type: sum
-    description: "Fixed costs incurred in running the business, e.g. back-office, sales commission, legal and accountancy costs that are not directly linked to delivering specific consulting projects and other services"
-
+    description: "Fixed costs incurred in running the business"
     value_format_name: gbp
     sql: ${budget_base};;
     filters: [account_report_category: "Overheads"]
@@ -372,7 +444,6 @@ view: profit_and_loss_report_fact {
 
   measure: taxation_budget {
     group_label: "P&L Budget"
-
     description: "Corporation tax Budget"
     type: sum
     value_format_name: gbp
@@ -382,7 +453,6 @@ view: profit_and_loss_report_fact {
 
   measure: dividends_budget {
     group_label: "P&L Budget"
-
     type: sum
     description: "Dividends budget"
     value_format_name: gbp
@@ -390,19 +460,11 @@ view: profit_and_loss_report_fact {
     filters: [account_report_category: "Dividends"]
   }
 
-
-
-
-
-
   dimension: profit_and_loss_pk {
     hidden: yes
     primary_key: yes
     type: string
     sql: ${TABLE}.profit_and_loss_pk ;;
   }
-
-
-
 
 }
