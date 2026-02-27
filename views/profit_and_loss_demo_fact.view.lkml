@@ -99,4 +99,5 @@ view: profit_and_loss_demo_fact {
 
   measure: cost_of_delivery_prior_month_value {
     group_label: "P&L Prior Month (Value)"
-    
+    }
+    }

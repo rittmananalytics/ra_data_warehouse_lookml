@@ -1078,12 +1078,7 @@ explore: chart_of_accounts_dim {
     relationship: many_to_one
   }
   # TEMPORARY — delete after demo
-  join: profit_and_loss_demo_fact {
-    view_label: "Profit & Loss Report (Demo)"
-    sql_on: ${chart_of_accounts_dim.account_id} = ${profit_and_loss_demo_fact.account_id} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
+
 }
 
 explore: persons_dim {
