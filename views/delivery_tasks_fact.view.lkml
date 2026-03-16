@@ -48,6 +48,13 @@ view: delivery_tasks_fact {
     type: time
     timeframes: [time, date, week, month]
     sql: ${TABLE}.sprint_started_ts ;;
+
+  }
+
+  dimension_group: sprint_end {
+    type: time
+    timeframes: [time, date, week, month]
+    sql: ${TABLE}.start_end_ts ;;
   }
 
   dimension: sprint_board_url {
