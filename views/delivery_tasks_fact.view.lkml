@@ -152,7 +152,7 @@ view: delivery_tasks_fact {
   dimension_group: task_due {
     group_label: "Project Tasks"
     type: time
-    hidden: yes
+    hidden: no
     timeframes: [date]
     sql: ${TABLE}.task_due_ts ;;
   }
