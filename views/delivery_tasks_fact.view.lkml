@@ -149,6 +149,14 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_start_ts ;;
   }
 
+  dimension_group: task_due {
+    group_label: "Project Tasks"
+    type: time
+    hidden: yes
+    timeframes: [date]
+    sql: ${TABLE}.task_due_ts ;;
+  }
+
   dimension_group: task_work_started {
     group_label: "Project Tasks"
     type: time
