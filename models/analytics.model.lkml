@@ -735,6 +735,14 @@ explore: companies_dim {
     sql: LEFT JOIN UNNEST(${engagements.projects}) as timesheet_project_engagements_dim__projects ;;
     relationship: one_to_many
   }
+  join: timesheet_project_engagements_dim__projects_is_ontime {
+    view_label: "        Engagements (SoWs)"
+    fields: [timesheet_project_engagements_dim__projects_is_ontime.is_ontime_project]
+    from: projects_delivered_is_ontime
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagements_dim__projects_is_ontime.timesheet_project_pk} ;;
+    relationship: one_to_one
+    type: left_outer
+  }
   join: timesheet_project_engagement_project_costs_fact {
     from: timesheet_project_costs_fact
     view_label: "        Engagements (SoWs) Project Costs"

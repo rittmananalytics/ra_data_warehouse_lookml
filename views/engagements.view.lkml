@@ -285,13 +285,13 @@ view: timesheet_project_engagements_dim__projects {
     group_label: "               Engagement Sprints"
     timeframes: [date]
     type: time
-    sql: ${TABLE}.timestamp(project_delivery_end_ts) ;;
+    sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
   }
   dimension_group: engagement_sprint_end {
     group_label: "               Engagement Sprints"
     timeframes: [date]
     type: time
-    sql: ${TABLE}.timestamp(project_delivery_start_ts) ;;
+    sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
   dimension: project_name {
     group_label: "               Engagement Sprints"
