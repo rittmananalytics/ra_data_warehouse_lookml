@@ -17,112 +17,10 @@ datagroup: daily_refresh {
 fiscal_month_offset: +3
 week_start_day: monday
 
-explore: boost_revenue {
-  label: "Boost Revenue"
-  description: "Unified explore for the Provider Revenue Dashboard. Covers revenue,
-  take rate, ARPP, active provider counts and all breakdowns by country,
-  acquisition channel, business category and time period."
 
-  from: fct_boost_transactions
 
-  # Join country dimension for human-readable names and region grouping
-  join: dim_countries {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${boost_revenue.country_code} = ${dim_countries.country_code} ;;
-  }
 
-  # Join date dimension for week labels, month labels and period flags
-  join: dim_dates {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${boost_revenue.transaction_date} = ${dim_dates.date_key} ;;
-  }
 
-  # Join provider dimension for provider-level attributes
-  join: dim_providers {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${boost_revenue.provider_id} = ${dim_providers.provider_id} ;;
-  }
-
-  # --- Dashboard filter suggestions ---
-  # These map to the dashboard filter controls:
-  #   Country          → dim_countries.country_name
-  #   Time Period      → dim_dates.weeks_ago (filtered to <= 3 for last 4 weeks)
-  #   Acq. Channel     → boost_revenue.acquisition_channel
-  #   Business Category → boost_revenue.business_category
-
-  # --- Tile mapping (all from this single explore) ---
-  #
-  # 1. KPI: Total Boost Revenue
-  #    Measure: boost_revenue.sum_boost_revenue
-  #
-  # 2. KPI: US Revenue (Current Week)
-  #    Measure: boost_revenue.sum_boost_revenue
-  #    Filter:  dim_countries.country_name = "United States", dim_dates.is_current_week = Yes
-  #
-  # 3. KPI: Avg Take Rate
-  #    Measure: boost_revenue.average_take_rate
-  #
-  # 4. KPI: ARPP (This Month)
-  #    Measure: boost_revenue.average_revenue_per_provider
-  #    Filter:  dim_dates.is_current_month = Yes
-  #
-  # 5. KPI: Active Providers (Current Week)
-  #    Measure: boost_revenue.count_distinct_active_providers
-  #    Filter:  dim_dates.is_current_week = Yes
-  #
-  # 6. Boost Revenue by Country (Grouped Bar)
-  #    Dimension: dim_dates.iso_week_label (x-axis)
-  #    Pivot:     dim_countries.country_name
-  #    Measure:   boost_revenue.sum_boost_revenue
-  #    Filter:    dim_dates.weeks_ago <= 3
-  #
-  # 7. US Revenue by Traffic Source (Horizontal Bar)
-  #    Dimension: boost_revenue.acquisition_channel (y-axis)
-  #    Pivot:     dim_dates.iso_week_label
-  #    Measure:   boost_revenue.sum_boost_revenue
-  #    Filter:    dim_countries.country_name = "United States"
-  #
-  # 8. Take Rate by Channel (Line Chart)
-  #    Dimension: dim_dates.iso_week_label (x-axis)
-  #    Pivot:     boost_revenue.acquisition_channel
-  #    Measure:   boost_revenue.average_take_rate
-  #
-  # 9. Active Providers — US Paid Conversion (Bar)
-  #    Dimension: dim_dates.iso_week_label (x-axis)
-  #    Measure:   boost_revenue.count_distinct_active_providers
-  #    Filter:    dim_countries.country_name = "United States",
-  #               boost_revenue.acquisition_channel = "Paid Conversion"
-  #
-  # 10. ARPP by Business Category (Table)
-  #     Dimension: boost_revenue.business_category
-  #     Pivot:     dim_dates.month_label
-  #     Measure:   boost_revenue.average_revenue_per_provider
-  #     Filter:    dim_dates.is_current_month OR dim_dates.is_previous_month
-  #
-  # 11. Revenue by Business Category (Table)
-  #     Dimension: boost_revenue.business_category
-  #     Measures:  boost_revenue.sum_boost_revenue,
-  #                boost_revenue.count_distinct_active_providers,
-  #                boost_revenue.average_revenue_per_provider
-}
-
-explore: delivery_project_cycle_times_hkm {
-  hidden: yes
-  label: "Cycle Times (HKM)"
-  group_label: "Experimental"
-}
-explore: delivery_project_cycle_times {
-  hidden: yes
-  label: "Cycle Times"
-  group_label: "Experimental"
-}
-
-explore: anomaly_detection {
-  hidden: yes
-}
 
 explore: page_report {}
 
@@ -323,9 +221,6 @@ explore: fathom_meetings {
   }
 }
 
-explore: project_engagements {
-  hidden: yes
-}
 
 explore: people {
   hidden: yes
@@ -466,115 +361,7 @@ explore: revenue_and_forecast {
   description: "Explore that provides booked and forecast (high probability) revenue for past and upcoming months"
 }
 
-explore: projects_delivered {
-  hidden: yes
-  label: "           Projects"
-  view_label: "      Project Delivery"
-  group_label: "        Core Analytics"
-  from: timesheet_projects_dim
-  join: project_timesheets {
-    view_label: "     Timesheets"
-    from: timesheets_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${project_timesheets.timesheet_project_fk};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: projects_delivered_is_ontime {
-    view_label: "         Projects"
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_delivered_is_ontime.timesheet_project_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-  join: project_timesheet_users {
-    view_label: "     Timesheets"
-    from: staff_dim
-    sql_on: ${project_timesheets.contact_pk}  = ${project_timesheet_users.contact_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: consultant_revenue_attribution {
-    view_label: "    Consultant Contribution"
-    sql_on: ${project_timesheets.contact_pk} = ${consultant_revenue_attribution.contact_pk}
-      and ${project_timesheets.timesheet_project_fk} = ${consultant_revenue_attribution.timesheet_project_pk};;
-    relationship: one_to_one
-    type: left_outer
-  }
-  join: companies_dim {
-    view_label: "         Projects"
-    sql_on: ${projects_delivered.company_fk} = ${companies_dim.company_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: projects_invoiced {
-    view_label: "   Invoices"
-    from: invoices_fact
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${projects_invoiced.timesheet_project_fk};;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: exchange_rates {
-    sql_on: ${projects_invoiced.invoice_currency} = ${exchange_rates.currency_code} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: payments_fact {
-    view_label: " Payments"
-    type: left_outer
-    sql_on: ${projects_invoiced.invoice_pk} = ${payments_fact.payment_invoice_fk};;
-    relationship: one_to_many
-  }
-  join: rfm_model {
-    view_label: "    Companies"
-    sql_on: ${companies_dim.company_pk} = ${rfm_model.company_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-  join: client_prospect_status_dim {
-    view_label: "    Companies"
-    sql_on: ${companies_dim.company_pk} = ${client_prospect_status_dim.company_pk} ;;
-    type: left_outer
-    relationship: one_to_one
-  }
-  join: timesheet_project_costs_fact {
-    view_label: "  Other Costs"
-    sql_on: ${projects_delivered.timesheet_project_pk} = ${timesheet_project_costs_fact.timesheet_project_pk};;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: expenses_exchange_rates {
-    from: exchange_rates
-    sql_on: ${timesheet_project_costs_fact.expense_currency_code} = ${expenses_exchange_rates.currency_code} ;;
-    type: left_outer
-    relationship: many_to_one
-  }
-  join: deals_fact {
-    view_label: "Sales Deals"
-    sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
-    type: full_outer
-    relationship: one_to_many
-  }
-  join: deal_projects_dim {
-    view_label: "        Sales"
-    from: timesheet_projects_dim
-    sql_on: ${deals_fact.deal_id} = ${deal_projects_dim.deal_id} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: deal_project_timesheets_fact {
-    view_label: "        Sales"
-    from: timesheets_fact
-    sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_timesheets_fact.timesheet_project_fk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
-  join: deal_project_invoices_fact {
-    view_label: "        Sales"
-    from: invoices_fact
-    sql_on: ${deal_projects_dim.timesheet_project_pk} = ${deal_project_invoices_fact.timesheet_project_fk};;
-    type: left_outer
-    relationship: one_to_many
-  }
-}
+
 
 explore: nps_survey_results_fact {
   hidden: yes
