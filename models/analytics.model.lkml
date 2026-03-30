@@ -430,12 +430,7 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_one
   }
-  join: web_events_pivoted_fact {
-    view_label: "  Sessions"
-    sql_on: ${web_sessions_fact.web_sessions_pk} = ${web_events_pivoted_fact.web_sessions_pk} ;;
-    type: left_outer
-    relationship: one_to_many
-  }
+
   join: page_first_published {
     view_label: "  Sessions"
     sql_on: ${web_sessions_fact.first_page_title} = ${page_first_published.web_sessions_fact_first_page_title} ;;
@@ -841,6 +836,12 @@ explore: companies_dim {
     sql_on: ${delivery_tasks_fact.task_id} = ${delivery_task_history.task_id} ;;
     type: left_outer
     relationship: one_to_one
+  }
+  join: delivery_sprint_issue_history_fact {
+    view_label: "     Project Delivery Burndown"
+    sql_on: ${projects_managed.delivery_project_pk} = ${delivery_sprint_issue_history_fact.delivery_project_fk};;
+    type: left_outer
+    relationship: one_to_many
   }
   join: payments_fact {
     view_label: "      Project Invoicing"
