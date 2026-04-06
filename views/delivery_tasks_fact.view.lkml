@@ -164,6 +164,17 @@ view: delivery_tasks_fact {
     sql: ${TABLE}.task_work_started_ts ;;
   }
 
+  dimension: days_to_complete {
+    group_label: "Project Tasks"
+    type: number
+    sql:  CASE
+        WHEN ${TABLE}.task_status not in ('Done','Completed','DONE')
+          THEN TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), ${TABLE}.task_start_ts, DAY)
+        ELSE
+          TIMESTAMP_DIFF(${TABLE}.task_completed_ts, ${TABLE}.task_start_ts, DAY)
+      END ;;
+  }
+
   dimension_group: epic_start {
     group_label: "Project Tasks"
     type: time
@@ -436,6 +447,17 @@ view: delivery_tasks_fact {
     group_label: "Project Tasks"
     type: sum
     sql: ${TABLE}.total_issues ;;
+  }
+
+  measure: total_issues_recent_or_open {
+    type: sum
+    sql:
+    CASE
+      WHEN ${task_completed_ts_date} IS NULL
+        OR ${task_completed_ts_date} >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+      THEN 1
+      ELSE NULL
+    END ;;
   }
 
   measure: total_task_hours_to_complete {
