@@ -105,6 +105,15 @@ view: engagements {
       sql: timestamp(${TABLE}.engagement_end_ts);;
     }
 
+   dimension_group: last_engagement_billable_timesheet {
+    hidden: no
+    type: time
+    timeframes: [date]
+    group_label: "                       Engagement Details"
+    sql: last_billable_timesheet_date ;;
+
+  }
+
     dimension: deal_id {
       hidden: yes
 

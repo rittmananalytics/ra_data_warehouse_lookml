@@ -624,6 +624,24 @@ dimension: deal_is_deleted {
     sql: ${TABLE}.deal_end_ts ;;
   }
 
+  dimension_group: dt_entered_1_initial_enquiry {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal Initial Enquiry"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_1_initial_enquiry ;;
+  }
+
+  dimension_group: dt_entered_2_project_scoping {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal Project Scoping"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_2_project_scoping ;;
+  }
+
   dimension_group: dt_entered_3_sow_drafted {
     group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
 
@@ -631,6 +649,16 @@ dimension: deal_is_deleted {
     type: time
     timeframes: [date]
     sql: ${TABLE}.dt_entered_3_sow_drafted ;;
+  }
+
+
+  dimension_group: dt_entered_4_partner_funding_agreed {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal Partner Funding Agreed"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_4_partner_funding_agreed ;;
   }
 
   dimension_group: dt_entered_5_customer_agreed_sow {
@@ -642,6 +670,15 @@ dimension: deal_is_deleted {
     sql: ${TABLE}.dt_entered_5_customer_agreed_sow ;;
   }
 
+  dimension_group: dt_entered_6_partner_funding_signoff {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal Partner Funding Signoff"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_6_partner_funding_signoff ;;
+  }
+
   dimension_group: dt_entered_7_sow_customer_docusigned {
     group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
 
@@ -649,6 +686,15 @@ dimension: deal_is_deleted {
     type: time
     timeframes: [date]
     sql: ${TABLE}.dt_entered_7_sow_customer_docusigned ;;
+  }
+
+  dimension_group: dt_entered_8_in_delivery {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal In Delivery"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.dt_entered_8_in_delivery ;;
   }
 
   dimension: deal_sales_email_last_replied {
@@ -665,6 +711,15 @@ dimension: deal_is_deleted {
     type: date_time
 
     sql: ${TABLE}.deal_last_meeting_booked_date ;;
+  }
+
+  dimension_group: deal_last_modified_ts {
+    group_label: "           {{ _view._name| replace: '_', ' ' | replace: 'fact', '' | capitalize}}  Dates"
+
+    label: "Deal Last Updated"
+    type: time
+    timeframes: [date]
+    sql: ${TABLE}.deal_last_modified_ts ;;
   }
 
   dimension: manual_forecast_category {

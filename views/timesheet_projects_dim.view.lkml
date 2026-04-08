@@ -216,6 +216,15 @@ view: timesheet_projects_dim {
     sql: ${TABLE}.timesheet_project_pk ;;
   }
 
+  dimension_group: last_billable_timesheet {
+    hidden: no
+    type: time
+    timeframes: [date]
+    group_label: "        Project Details"
+    sql: last_billable_timesheet_date ;;
+
+  }
+
   measure: count_timesheet_projects {
     hidden: no
     label: "Total Sprints"
