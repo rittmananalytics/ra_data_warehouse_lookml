@@ -63,7 +63,7 @@ explore: src_control_repos_dim {
 }
 
 explore: engagement_renewal_analysis {
-  hidden: yes
+  hidden: no
   label: "Engagement Renewal Analysis"
   group_label: "        Core Analytics"
   view_label: "Renewal Analysis"
