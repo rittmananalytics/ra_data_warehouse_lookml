@@ -12,7 +12,7 @@ view: recognized_revenue_fact {
 
   dimension_group: billing_month {
     type: time
-    timeframes: [raw, month, month_num,quarter, year]
+    timeframes: [raw, month, month_num,quarter, year, fiscal_month_num, fiscal_quarter,fiscal_quarter_of_year,fiscal_year]
     convert_tz: no
     datatype: date
     sql: ${TABLE}.billing_month ;;
