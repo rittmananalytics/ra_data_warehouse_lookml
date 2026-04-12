@@ -18,7 +18,7 @@ fiscal_month_offset: +3
 week_start_day: monday
 
 
-
+explore: kpi_scorecard {}
 
 
 
