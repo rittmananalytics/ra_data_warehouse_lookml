@@ -454,7 +454,11 @@ view: web_sessions_fact {
       month,
       month_num,
       week_of_year,
-      year
+      year,
+      fiscal_month_num,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      fiscal_year
     ]
     sql: ${TABLE}.session_start_ts ;;
   }

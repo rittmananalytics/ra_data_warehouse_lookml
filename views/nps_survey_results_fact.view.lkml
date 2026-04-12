@@ -71,7 +71,7 @@ view: nps_survey_results_fact {
 
   dimension_group: nps_survey_ts {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, time, date, week, month, quarter, year,fiscal_month_num,fiscal_quarter,fiscal_quarter_of_year,fiscal_year]
     sql: ${TABLE}.nps_survey_ts ;;
   }
   measure: count {

@@ -39,13 +39,13 @@ view: website_leads {
 
   dimension_group: booking {
     type: time
-    timeframes: [date,month,month_num,quarter,quarter_of_year,week,year,hour,hour3]
+    timeframes: [date,month,month_num,quarter,quarter_of_year,week,year,hour,hour3,fiscal_year]
     sql: parse_timestamp('%Y-%m-%d',split(${TABLE}.Start_Date___Time,' ')[safe_offset(0)]) ;;
   }
 
   dimension_group: meeting {
     type: time
-    timeframes: [date,month,month_num,quarter,quarter_of_year,week,year]
+    timeframes: [date,month,month_num,quarter,quarter_of_year,week,year,fiscal_year]
     sql: parse_timestamp('%Y-%m-%d',split(${TABLE}.Start_Date___Time,' ')[safe_offset(0)]) ;;
   }
 

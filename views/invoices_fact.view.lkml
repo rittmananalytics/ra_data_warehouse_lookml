@@ -32,7 +32,8 @@ view: invoices_fact {
       month,
       quarter,
       year,
-      quarter_of_year
+      quarter_of_year,
+      fiscal_year
     ]
     sql: ${TABLE}.first_invoice_month ;;
   }
@@ -46,7 +47,8 @@ view: invoices_fact {
       month,
       quarter,
       quarter_of_year,
-      year
+      year,
+      fiscal_year
     ]
     sql: ${TABLE}.last_invoice_month ;;
   }
@@ -82,7 +84,8 @@ view: invoices_fact {
       date,
       month,
       year,
-      quarter
+      quarter,
+      fiscal_year
     ]
     sql: ${TABLE}.invoice_due_at_ts ;;
   }
@@ -114,8 +117,11 @@ view: invoices_fact {
       month,
       month_num,
       quarter,
-      fiscal_year,
-      year]
+      year,
+      fiscal_month_num,
+      fiscal_quarter,
+      fiscal_quarter_of_year,
+      fiscal_year]
     sql: ${TABLE}.invoice_issue_at_ts ;;
   }
 
@@ -127,7 +133,8 @@ view: invoices_fact {
     type: time
     timeframes: [
       date,
-      month
+      month,
+      fiscal_year
     ]
     sql: ${TABLE}.expected_payment_at_ts ;;
   }
