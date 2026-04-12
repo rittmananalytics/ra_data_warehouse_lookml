@@ -94,6 +94,11 @@ explore: page_keyword_performance  {
   hidden: yes
 }
 
+explore: project_engagements {
+  hidden: yes
+
+}
+
 explore: contacts {
   hidden: yes
   from: contacts_dim
