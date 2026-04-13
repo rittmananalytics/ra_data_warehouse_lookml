@@ -60,7 +60,7 @@ view: deal_pipeline_history {
 
     dimension_group: deal_month_ts {
       type: time
-      timeframes: [month,month_num,quarter,year]
+      timeframes: [month,month_num,quarter,year,fiscal_month_num,fiscal_year]
       sql: ${TABLE}.deal_month_ts ;;
     }
 

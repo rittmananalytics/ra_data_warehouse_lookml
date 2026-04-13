@@ -46,7 +46,7 @@ view: delivery_tasks_fact {
 
   dimension_group: sprint_start {
     type: time
-    timeframes: [time, date, week, month]
+    timeframes: [time, date, week, month,fiscal_year,fiscal_month_num]
     sql: ${TABLE}.sprint_started_ts ;;
 
   }

@@ -70,7 +70,7 @@ view: timesheet_projects_dim {
     hidden: no
     label: "  Project End"
     type: time
-    timeframes: [date,week,month,quarter,year]
+    timeframes: [date,week,month,quarter,year,fiscal_year]
     sql: timestamp(${TABLE}.project_delivery_end_ts) ;;
   }
 
@@ -89,7 +89,7 @@ view: timesheet_projects_dim {
     label: "    Project Start"
 
     type: time
-    timeframes: [date,week,month,quarter,year]
+    timeframes: [date,week,month,quarter,year,fiscal_year]
     sql: timestamp(${TABLE}.project_delivery_start_ts) ;;
   }
 

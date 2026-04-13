@@ -6,7 +6,7 @@
 
     dimension_group: booking {
       type: time
-      timeframes: [month,month_num,year,fiscal_year]
+      timeframes: [month,month_num,year,fiscal_year,fiscal_month_num]
       datatype: date
       sql: ${TABLE}.month_start ;;
     }
