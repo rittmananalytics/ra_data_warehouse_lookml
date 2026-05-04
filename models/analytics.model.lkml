@@ -20,7 +20,10 @@ week_start_day: monday
 
 explore: kpi_scorecard {}
 
-
+explore: staff_weekly_engagement_fact {
+  label: "Weekly Engagement"
+  view_label: "Staff Engagement"
+}
 
 explore: page_report {}
 
@@ -799,8 +802,8 @@ explore: companies_dim {
   }
   join: deals_fact {
     view_label: "        Sales"
-    sql_on: ${companies_dim.company_pk} = ${deals_fact.company_pk};;
-    type: full_outer
+    sql_on:${deals_fact.company_pk} = ${companies_dim.company_pk};;
+    type: left_outer
     relationship: one_to_many
   }
   join: deal_targets {
