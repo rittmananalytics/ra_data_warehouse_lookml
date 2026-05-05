@@ -29,7 +29,7 @@ explore: staff_daily_engagement_fact {
   label: "Daily Engagement"
   view_label: "Staff Engagement"
   description: "One row per staff member per day with Harvest hours, multi-source active hours, and the 0-100 composite activity score. Drill target from Weekly Engagement."
-  sql_always_order_by: ${staff_daily_engagement_fact.engagement_date} DESC ;;
+
 }
 
 explore: staff_event_timeline {
@@ -42,7 +42,7 @@ explore: staff_event_timeline {
       staff_event_timeline.event_date:   "today"
     ]
   }
-  sql_always_order_by: ${staff_event_timeline.event_ts} ASC ;;
+
 }
 
 explore: page_report {}
