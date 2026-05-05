@@ -21,28 +21,30 @@ week_start_day: monday
 explore: kpi_scorecard {}
 
 explore: staff_weekly_engagement_fact {
-  label: "Weekly Engagement"
-  view_label: "Staff Engagement"
-}
+  label:       "Staff Engagement"
+  view_label:  "Weekly"
+  description: "Staff engagement across week / day / event grain. Default grain is weekly; add Daily fields to drill to per-day rows
+  for the same staff & week, and add Event Timeline fields to drill to the timestamp-ordered event stream within a chosen day."
 
-explore: staff_daily_engagement_fact {
-  label: "Daily Engagement"
-  view_label: "Staff Engagement"
-  description: "One row per staff member per day with Harvest hours, multi-source active hours, and the 0-100 composite activity score. Drill target from Weekly Engagement."
-
-}
-
-explore: staff_event_timeline {
-  label: "Staff Event Timeline"
-  view_label: "Staff Engagement"
-  description: "Raw timestamp-ordered event stream across Google Workspace, Okta, Slack, Fathom and GitHub for a single staff member. Requires a Staff Name and Event Date filter."
-  always_filter: {
-    filters: [
-      staff_event_timeline.contact_name: "",
-      staff_event_timeline.event_date:   "today"
-    ]
+  join: staff_daily_engagement_fact {
+    view_label:    "Daily"
+    type:          left_outer
+    relationship:  one_to_many
+    sql_on:
+        ${staff_weekly_engagement_fact.contact_fk}      = ${staff_daily_engagement_fact.contact_fk}
+        AND ${staff_weekly_engagement_fact.week_commencing_date}
+                                                         = ${staff_daily_engagement_fact.week_commencing} ;;
   }
 
+  join: staff_event_timeline_fact {
+    view_label:    "Event Timeline"
+    type:          left_outer
+    relationship:  one_to_many
+    sql_on:
+        ${staff_daily_engagement_fact.contact_fk}       = ${staff_event_timeline_fact.contact_fk}
+        AND ${staff_daily_engagement_fact.engagement_date}
+                                                         = ${staff_event_timeline_fact.event_date_dim} ;;
+  }
 }
 
 explore: page_report {}
