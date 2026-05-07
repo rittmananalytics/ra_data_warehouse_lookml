@@ -15,11 +15,20 @@ view: agentic_framework_engagement_decay_fact {
     sql: ${TABLE}.consultant_name ;;
   }
 
-  dimension: week_commencing {
+  dimension: pk {
     primary_key: yes
+    hidden: yes
+    type: string
+    sql: CONCAT(${TABLE}.consultant_email, '|', CAST(${TABLE}.week_commencing AS STRING)) ;;
+  }
+
+  # Cast DATE → TIMESTAMP so Looker's date_filter emits TIMESTAMP >= TIMESTAMP,
+  # which BigQuery accepts. Without the cast BigQuery rejects DATE >= TIMESTAMP.
+  dimension_group: week_commencing {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: CAST(${TABLE}.week_commencing AS TIMESTAMP) ;;
     label: "Week Commencing"
-    type: date
-    sql: ${TABLE}.week_commencing ;;
   }
 
   dimension: days_active_last_7 {

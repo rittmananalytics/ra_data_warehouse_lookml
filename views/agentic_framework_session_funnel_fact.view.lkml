@@ -1,11 +1,20 @@
 view: agentic_framework_session_funnel_fact {
   sql_table_name: `ra-development.analytics.agentic_framework_session_funnel_fact` ;;
 
-  dimension: week_commencing {
+  dimension: pk {
     primary_key: yes
+    hidden: yes
+    type: string
+    sql: CAST(${TABLE}.week_commencing AS STRING) ;;
+  }
+
+  # Cast DATE → TIMESTAMP so Looker's date_filter emits TIMESTAMP >= TIMESTAMP,
+  # which BigQuery accepts. Without the cast BigQuery rejects DATE >= TIMESTAMP.
+  dimension_group: week_commencing {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: CAST(${TABLE}.week_commencing AS TIMESTAMP) ;;
     label: "Week Commencing"
-    type: date
-    sql: ${TABLE}.week_commencing ;;
   }
 
   dimension: total_sessions {

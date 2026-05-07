@@ -22,13 +22,12 @@ view: coding_agent_prompt_volume_fact {
     sql: CONCAT(${TABLE}.user_email, '|', CAST(${TABLE}.event_date AS STRING)) ;;
   }
 
-  # dimension_group gives Looker the datatype hint so BigQuery gets
-  # DATE comparisons (not TIMESTAMP) when a date_filter is applied.
+  # Cast DATE → TIMESTAMP so Looker's date_filter emits TIMESTAMP >= TIMESTAMP,
+  # which BigQuery accepts. Without the cast BigQuery rejects DATE >= TIMESTAMP.
   dimension_group: event {
     type: time
     timeframes: [date, week, month, quarter, year]
-    datatype: date
-    sql: ${TABLE}.event_date ;;
+    sql: CAST(${TABLE}.event_date AS TIMESTAMP) ;;
     label: "Event"
   }
 

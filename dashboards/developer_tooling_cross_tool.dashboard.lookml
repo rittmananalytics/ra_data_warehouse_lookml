@@ -320,7 +320,7 @@
     model: analytics
     explore: agentic_framework_user_retention_cohorts_fact
     type: looker_grid
-    fields: [agentic_framework_user_retention_cohorts_fact.cohort_week, agentic_framework_user_retention_cohorts_fact.weeks_since_cohort, agentic_framework_user_retention_cohorts_fact.pct_retained]
+    fields: [agentic_framework_user_retention_cohorts_fact.cohort_week, agentic_framework_user_retention_cohorts_fact.weeks_since_cohort, agentic_framework_user_retention_cohorts_fact.avg_retention_pct]
     pivots: [agentic_framework_user_retention_cohorts_fact.weeks_since_cohort]
     sorts: [agentic_framework_user_retention_cohorts_fact.cohort_week asc, agentic_framework_user_retention_cohorts_fact.weeks_since_cohort asc]
     limit: 500
@@ -340,7 +340,7 @@
       bold: false
       italic: false
       strikethrough: false
-      fields: [agentic_framework_user_retention_cohorts_fact.pct_retained]
+      fields: [agentic_framework_user_retention_cohorts_fact.avg_retention_pct]
     row: 66
     col: 0
     width: 12
@@ -351,7 +351,7 @@
     model: analytics
     explore: coding_agent_user_retention_cohorts_fact
     type: looker_grid
-    fields: [coding_agent_user_retention_cohorts_fact.cohort_week, coding_agent_user_retention_cohorts_fact.weeks_since_cohort, coding_agent_user_retention_cohorts_fact.pct_retained]
+    fields: [coding_agent_user_retention_cohorts_fact.cohort_week, coding_agent_user_retention_cohorts_fact.weeks_since_cohort, coding_agent_user_retention_cohorts_fact.avg_retention_pct]
     pivots: [coding_agent_user_retention_cohorts_fact.weeks_since_cohort]
     sorts: [coding_agent_user_retention_cohorts_fact.cohort_week asc, coding_agent_user_retention_cohorts_fact.weeks_since_cohort asc]
     limit: 500
@@ -371,7 +371,7 @@
       bold: false
       italic: false
       strikethrough: false
-      fields: [coding_agent_user_retention_cohorts_fact.pct_retained]
+      fields: [coding_agent_user_retention_cohorts_fact.avg_retention_pct]
     row: 66
     col: 12
     width: 12

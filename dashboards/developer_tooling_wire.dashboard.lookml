@@ -87,7 +87,7 @@
     type: single_value
     fields: [agentic_framework_adoption_weekly_fact.avg_adoption_score]
     listen:
-      week_commencing: agentic_framework_adoption_weekly_fact.week_commencing
+      week_commencing: agentic_framework_adoption_weekly_fact.week_commencing_date
       consultant: agentic_framework_adoption_weekly_fact.consultant_name
     value_format_name: decimal_1
     row: 0
@@ -135,10 +135,10 @@
     model: analytics
     explore: agentic_framework_adoption_weekly_fact
     type: looker_line
-    fields: [agentic_framework_adoption_weekly_fact.week_commencing, agentic_framework_adoption_weekly_fact.consultant_name, agentic_framework_adoption_weekly_fact.avg_adoption_score]
+    fields: [agentic_framework_adoption_weekly_fact.week_commencing_date, agentic_framework_adoption_weekly_fact.consultant_name, agentic_framework_adoption_weekly_fact.avg_adoption_score]
     pivots: [agentic_framework_adoption_weekly_fact.consultant_name]
-    fill_fields: [agentic_framework_adoption_weekly_fact.week_commencing]
-    sorts: [agentic_framework_adoption_weekly_fact.week_commencing asc]
+    fill_fields: [agentic_framework_adoption_weekly_fact.week_commencing_date]
+    sorts: [agentic_framework_adoption_weekly_fact.week_commencing_date asc]
     limit: 500
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -150,7 +150,7 @@
     show_value_labels: false
     legend_position: right
     listen:
-      week_commencing: agentic_framework_adoption_weekly_fact.week_commencing
+      week_commencing: agentic_framework_adoption_weekly_fact.week_commencing_date
       consultant: agentic_framework_adoption_weekly_fact.consultant_name
     row: 4
     col: 0
@@ -228,8 +228,8 @@
     model: analytics
     explore: agentic_framework_session_funnel_fact
     type: looker_column
-    fields: [agentic_framework_session_funnel_fact.week_commencing, agentic_framework_session_funnel_fact.total_sessions, agentic_framework_session_funnel_fact.reached_2nd_command, agentic_framework_session_funnel_fact.reached_3plus_phases, agentic_framework_session_funnel_fact.reached_autopilot, agentic_framework_session_funnel_fact.reached_pr_merged]
-    sorts: [agentic_framework_session_funnel_fact.week_commencing asc]
+    fields: [agentic_framework_session_funnel_fact.week_commencing_date, agentic_framework_session_funnel_fact.total_sessions, agentic_framework_session_funnel_fact.reached_2nd_command, agentic_framework_session_funnel_fact.reached_3plus_phases, agentic_framework_session_funnel_fact.reached_autopilot, agentic_framework_session_funnel_fact.reached_pr_merged]
+    sorts: [agentic_framework_session_funnel_fact.week_commencing_date asc]
     limit: 52
     stacking: ''
     x_axis_gridlines: false
@@ -238,7 +238,7 @@
     show_value_labels: false
     legend_position: right
     listen:
-      week_commencing: agentic_framework_session_funnel_fact.week_commencing
+      week_commencing: agentic_framework_session_funnel_fact.week_commencing_date
     row: 20
     col: 0
     width: 14
@@ -271,7 +271,7 @@
     model: analytics
     explore: agentic_framework_user_retention_cohorts_fact
     type: looker_grid
-    fields: [agentic_framework_user_retention_cohorts_fact.cohort_week, agentic_framework_user_retention_cohorts_fact.weeks_since_cohort, agentic_framework_user_retention_cohorts_fact.pct_retained]
+    fields: [agentic_framework_user_retention_cohorts_fact.cohort_week, agentic_framework_user_retention_cohorts_fact.weeks_since_cohort, agentic_framework_user_retention_cohorts_fact.avg_retention_pct]
     pivots: [agentic_framework_user_retention_cohorts_fact.weeks_since_cohort]
     sorts: [agentic_framework_user_retention_cohorts_fact.cohort_week asc, agentic_framework_user_retention_cohorts_fact.weeks_since_cohort asc]
     limit: 500
@@ -291,7 +291,7 @@
       bold: false
       italic: false
       strikethrough: false
-      fields: [agentic_framework_user_retention_cohorts_fact.pct_retained]
+      fields: [agentic_framework_user_retention_cohorts_fact.avg_retention_pct]
     row: 28
     col: 0
     width: 24
@@ -336,9 +336,9 @@
     model: analytics
     explore: agentic_framework_engagement_decay_fact
     type: looker_line
-    fields: [agentic_framework_engagement_decay_fact.week_commencing, agentic_framework_engagement_decay_fact.active_consultants_7d, agentic_framework_engagement_decay_fact.active_consultants_28d]
-    fill_fields: [agentic_framework_engagement_decay_fact.week_commencing]
-    sorts: [agentic_framework_engagement_decay_fact.week_commencing asc]
+    fields: [agentic_framework_engagement_decay_fact.week_commencing_date, agentic_framework_engagement_decay_fact.active_consultants_7d, agentic_framework_engagement_decay_fact.active_consultants_28d]
+    fill_fields: [agentic_framework_engagement_decay_fact.week_commencing_date]
+    sorts: [agentic_framework_engagement_decay_fact.week_commencing_date asc]
     limit: 500
     x_axis_gridlines: false
     y_axis_gridlines: true

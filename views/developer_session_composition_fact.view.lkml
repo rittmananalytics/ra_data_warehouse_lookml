@@ -1,10 +1,14 @@
 view: developer_session_composition_fact {
   sql_table_name: `ra-development.analytics.developer_session_composition_fact` ;;
 
-  dimension: session_start_week {
-    label: "Week Commencing"
-    type: date
-    sql: ${TABLE}.session_start_week ;;
+  # Cast DATE → TIMESTAMP so Looker's date_filter emits TIMESTAMP >= TIMESTAMP,
+  # which BigQuery accepts. Without the cast BigQuery rejects DATE >= TIMESTAMP.
+  # dimension_group generates session_start_week — no dashboard field renames needed.
+  dimension_group: session_start {
+    type: time
+    timeframes: [date, week, month, year]
+    sql: CAST(${TABLE}.session_start_week AS TIMESTAMP) ;;
+    label: "Session Start"
   }
 
   dimension: cross_tool_stage {
