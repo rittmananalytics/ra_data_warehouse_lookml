@@ -264,7 +264,6 @@
     type: looker_grid
     fields: [coding_agent_user_retention_cohorts_fact.cohort_week, coding_agent_user_retention_cohorts_fact.weeks_since_cohort, coding_agent_user_retention_cohorts_fact.pct_retained]
     pivots: [coding_agent_user_retention_cohorts_fact.weeks_since_cohort]
-    fill_fields: [coding_agent_user_retention_cohorts_fact.cohort_week]
     sorts: [coding_agent_user_retention_cohorts_fact.cohort_week asc, coding_agent_user_retention_cohorts_fact.weeks_since_cohort asc]
     limit: 500
     show_view_names: false
