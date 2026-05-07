@@ -31,21 +31,23 @@ view: coding_agent_user_retention_cohorts_fact {
     sql: ${TABLE}.active_users ;;
   }
 
-  dimension: pct_retained {
-    label: "% Retained"
-    type: number
-    sql: ${TABLE}.pct_retained ;;
-    value_format_name: percent_1
-  }
-
   measure: count {
     type: count
     label: "Cohort-Week Records"
   }
 
+  # max is equivalent to the value itself at (cohort_week, weeks_since_cohort) grain;
+  # must be a measure so Looker can use it as a pivot cell value.
+  measure: pct_retained {
+    type: max
+    sql: ${TABLE}.pct_retained ;;
+    label: "% Retained"
+    value_format_name: percent_1
+  }
+
   measure: avg_retention_pct {
     type: average
-    sql: ${pct_retained} ;;
+    sql: ${TABLE}.pct_retained ;;
     label: "Avg Retention %"
     value_format_name: percent_1
   }

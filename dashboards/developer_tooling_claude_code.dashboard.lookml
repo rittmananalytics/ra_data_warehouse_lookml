@@ -135,9 +135,9 @@
     model: analytics
     explore: coding_agent_prompt_volume_fact
     type: looker_line
-    fields: [coding_agent_prompt_volume_fact.week_commencing, coding_agent_prompt_volume_fact.total_prompts, coding_agent_prompt_volume_fact.total_slash_commands, coding_agent_prompt_volume_fact.total_free_form]
-    fill_fields: [coding_agent_prompt_volume_fact.week_commencing]
-    sorts: [coding_agent_prompt_volume_fact.week_commencing asc]
+    fields: [coding_agent_prompt_volume_fact.event_week, coding_agent_prompt_volume_fact.total_prompts, coding_agent_prompt_volume_fact.total_slash_commands, coding_agent_prompt_volume_fact.total_free_form]
+    fill_fields: [coding_agent_prompt_volume_fact.event_week]
+    sorts: [coding_agent_prompt_volume_fact.event_week asc]
     limit: 500
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -146,7 +146,7 @@
     legend_position: right
     interpolation: linear
     listen:
-      week_commencing: coding_agent_prompt_volume_fact.week_commencing
+      week_commencing: coding_agent_prompt_volume_fact.event_week
       consultant: coding_agent_prompt_volume_fact.consultant_name
     row: 4
     col: 0
@@ -211,10 +211,10 @@
     model: analytics
     explore: coding_agent_prompt_volume_fact
     type: looker_column
-    fields: [coding_agent_prompt_volume_fact.week_commencing, coding_agent_prompt_volume_fact.consultant_name, coding_agent_prompt_volume_fact.total_prompts]
+    fields: [coding_agent_prompt_volume_fact.event_week, coding_agent_prompt_volume_fact.consultant_name, coding_agent_prompt_volume_fact.total_prompts]
     pivots: [coding_agent_prompt_volume_fact.consultant_name]
-    fill_fields: [coding_agent_prompt_volume_fact.week_commencing]
-    sorts: [coding_agent_prompt_volume_fact.week_commencing asc]
+    fill_fields: [coding_agent_prompt_volume_fact.event_week]
+    sorts: [coding_agent_prompt_volume_fact.event_week asc]
     limit: 500
     stacking: normal
     x_axis_gridlines: false
@@ -223,7 +223,7 @@
     show_value_labels: false
     legend_position: right
     listen:
-      week_commencing: coding_agent_prompt_volume_fact.week_commencing
+      week_commencing: coding_agent_prompt_volume_fact.event_week
       consultant: coding_agent_prompt_volume_fact.consultant_name
     row: 22
     col: 0

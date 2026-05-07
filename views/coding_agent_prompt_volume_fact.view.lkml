@@ -15,11 +15,21 @@ view: coding_agent_prompt_volume_fact {
     sql: ${TABLE}.consultant_name ;;
   }
 
-  dimension: event_date {
+  dimension: pk {
     primary_key: yes
-    label: "Date"
-    type: date
+    hidden: yes
+    type: string
+    sql: CONCAT(${TABLE}.user_email, '|', CAST(${TABLE}.event_date AS STRING)) ;;
+  }
+
+  # dimension_group gives Looker the datatype hint so BigQuery gets
+  # DATE comparisons (not TIMESTAMP) when a date_filter is applied.
+  dimension_group: event {
+    type: time
+    timeframes: [date, week, month, quarter, year]
+    datatype: date
     sql: ${TABLE}.event_date ;;
+    label: "Event"
   }
 
   dimension: week_commencing {
