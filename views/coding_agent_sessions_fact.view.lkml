@@ -79,18 +79,6 @@ view: coding_agent_sessions_fact {
     datatype: timestamp
   }
 
-  dimension: session_start_date {
-    hidden: yes
-    type: date
-    sql: ${TABLE}.session_start_date ;;
-  }
-
-  dimension: session_start_week {
-    label: "Session Week"
-    type: date
-    sql: ${TABLE}.session_start_week ;;
-  }
-
   dimension: duration_seconds {
     label: "Duration (sec)"
     group_label: "Session Stats"

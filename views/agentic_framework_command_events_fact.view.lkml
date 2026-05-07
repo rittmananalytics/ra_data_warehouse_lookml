@@ -202,12 +202,6 @@ view: agentic_framework_command_events_fact {
     datatype: timestamp
   }
 
-  dimension: event_date {
-    hidden: yes
-    type: date
-    sql: ${TABLE}.event_date ;;
-  }
-
   dimension: week_commencing {
     label: "Week Commencing"
     type: date
