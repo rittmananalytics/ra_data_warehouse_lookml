@@ -2,7 +2,7 @@
   title: Claude Code Analytics
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: 'Claude Code prompt telemetry: prompt volume, slash command catalog, adoption, session behaviour, and retention cohorts.'
+  description: 'Claude Code prompt telemetry: prompt volume, slash command usage, session behaviour, and project activity.'
 
   filters:
   - name: week_commencing
@@ -129,30 +129,6 @@
     width: 4
     height: 4
 
-  # ---- Prompt Volume Over Time ----
-  - title: Daily Prompt Volume — All Consultants
-    name: cc_daily_volume
-    model: analytics
-    explore: coding_agent_prompt_volume_fact
-    type: looker_line
-    fields: [coding_agent_prompt_volume_fact.event_week, coding_agent_prompt_volume_fact.total_prompts, coding_agent_prompt_volume_fact.total_slash_commands, coding_agent_prompt_volume_fact.total_free_form]
-    fill_fields: [coding_agent_prompt_volume_fact.event_week]
-    sorts: [coding_agent_prompt_volume_fact.event_week asc]
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_value_labels: false
-    legend_position: right
-    interpolation: linear
-    listen:
-      week_commencing: coding_agent_prompt_volume_fact.event_week
-      consultant: coding_agent_prompt_volume_fact.consultant_name
-    row: 4
-    col: 0
-    width: 14
-    height: 8
-
   # ---- Prompt Type Split ----
   - title: Prompt Type Mix
     name: prompt_type_mix
@@ -168,53 +144,22 @@
     show_value_labels: true
     legend_position: right
     row: 4
-    col: 14
-    width: 10
-    height: 8
-
-  # ---- Top Slash Commands by Usage ----
-  - title: Top Claude Code Slash Commands
-    name: top_cc_commands
-    model: analytics
-    explore: coding_agent_command_usage_fact
-    type: looker_bar
-    fields: [coding_agent_command_usage_fact.command_raw, coding_agent_command_usage_fact.total_invocations_sum, coding_agent_command_usage_fact.total_distinct_users]
-    sorts: [coding_agent_command_usage_fact.total_invocations_sum desc]
-    limit: 20
-    show_view_names: false
-    show_value_labels: true
-    legend_position: right
-    row: 12
     col: 0
     width: 12
-    height: 10
+    height: 8
 
-  # ---- Commands by Namespace ----
-  - title: Commands by Namespace
-    name: commands_by_namespace
+  # ---- Prompts by Consultant Over Time ----
+  - title: Prompts by Consultant — Weekly
+    name: cc_prompts_by_consultant
     model: analytics
-    explore: coding_agent_command_usage_fact
-    type: looker_bar
-    fields: [coding_agent_command_usage_fact.namespace, coding_agent_command_usage_fact.total_invocations_sum]
-    sorts: [coding_agent_command_usage_fact.total_invocations_sum desc]
-    limit: 20
-    show_view_names: false
-    show_value_labels: true
-    row: 12
-    col: 12
-    width: 12
-    height: 10
-
-  # ---- Prompt Volume by Consultant ----
-  - title: Prompt Volume by Consultant — Weekly
-    name: cc_volume_by_consultant
-    model: analytics
-    explore: coding_agent_prompt_volume_fact
+    explore: coding_agent_prompts_fact
     type: looker_column
-    fields: [coding_agent_prompt_volume_fact.event_week, coding_agent_prompt_volume_fact.consultant_name, coding_agent_prompt_volume_fact.total_prompts]
-    pivots: [coding_agent_prompt_volume_fact.consultant_name]
-    fill_fields: [coding_agent_prompt_volume_fact.event_week]
-    sorts: [coding_agent_prompt_volume_fact.event_week asc]
+    fields: [coding_agent_prompts_fact.event_week, coding_agent_prompts_fact.consultant_name, coding_agent_prompts_fact.count]
+    pivots: [coding_agent_prompts_fact.consultant_name]
+    fill_fields: [coding_agent_prompts_fact.event_week]
+    sorts: [coding_agent_prompts_fact.event_week asc]
+    filters:
+      coding_agent_prompts_fact.is_known_consultant: 'Yes'
     limit: 500
     stacking: normal
     x_axis_gridlines: false
@@ -223,69 +168,11 @@
     show_value_labels: false
     legend_position: right
     listen:
-      week_commencing: coding_agent_prompt_volume_fact.event_week
-      consultant: coding_agent_prompt_volume_fact.consultant_name
-    row: 22
-    col: 0
-    width: 14
-    height: 8
-
-  # ---- Session Stats ----
-  - title: Avg Claude Code Session Duration (min) — Weekly
-    name: cc_session_duration
-    model: analytics
-    explore: coding_agent_sessions_fact
-    type: looker_line
-    fields: [coding_agent_sessions_fact.session_start_week, coding_agent_sessions_fact.avg_duration_minutes, coding_agent_sessions_fact.avg_prompts_per_session]
-    fill_fields: [coding_agent_sessions_fact.session_start_week]
-    sorts: [coding_agent_sessions_fact.session_start_week asc]
-    filters:
-      coding_agent_sessions_fact.is_known_consultant: 'Yes'
-    limit: 500
-    x_axis_gridlines: false
-    y_axis_gridlines: true
-    show_view_names: false
-    show_value_labels: false
-    legend_position: right
-    interpolation: linear
-    listen:
-      week_commencing: coding_agent_sessions_fact.session_start_week
-      consultant: coding_agent_sessions_fact.user_email
-    row: 22
-    col: 14
-    width: 10
-    height: 8
-
-  # ---- Retention Cohort Heatmap ----
-  - title: Claude Code Retention Cohort Heatmap
-    name: cc_retention_cohort
-    model: analytics
-    explore: coding_agent_user_retention_cohorts_fact
-    type: looker_grid
-    fields: [coding_agent_user_retention_cohorts_fact.cohort_week, coding_agent_user_retention_cohorts_fact.weeks_since_cohort, coding_agent_user_retention_cohorts_fact.avg_retention_pct]
-    pivots: [coding_agent_user_retention_cohorts_fact.weeks_since_cohort]
-    sorts: [coding_agent_user_retention_cohorts_fact.cohort_week asc, coding_agent_user_retention_cohorts_fact.weeks_since_cohort asc]
-    limit: 500
-    show_view_names: false
-    show_row_numbers: false
-    conditional_formatting:
-    - type: along a scale
-      value: null
-      background_color: ''
-      font_color: ''
-      color_application:
-        collection_id: b43731d5-dc87-4a8e-b807-635bef3948e1
-        palette_id: 4a886745-44bb-4e87-9c7c-8c47a0eac46b
-        options:
-          steps: 10
-          reverse: false
-      bold: false
-      italic: false
-      strikethrough: false
-      fields: [coding_agent_user_retention_cohorts_fact.avg_retention_pct]
-    row: 30
-    col: 0
-    width: 24
+      week_commencing: coding_agent_prompts_fact.event_week
+      consultant: coding_agent_prompts_fact.consultant_name
+    row: 4
+    col: 12
+    width: 12
     height: 8
 
   # ---- Prompt Word Count Distribution ----
@@ -297,8 +184,8 @@
     fields: [coding_agent_prompts_fact.prompt_word_count, coding_agent_prompts_fact.count]
     filters:
       coding_agent_prompts_fact.prompt_word_count: '>0'
-      coding_agent_prompts_fact.prompt_word_count: '<=500'
       coding_agent_prompts_fact.is_slash_command: 'No'
+      coding_agent_prompts_fact.is_known_consultant: 'Yes'
     sorts: [coding_agent_prompts_fact.prompt_word_count asc]
     limit: 500
     x_axis_gridlines: false
@@ -308,12 +195,12 @@
     listen:
       week_commencing: coding_agent_prompts_fact.event_week
       consultant: coding_agent_prompts_fact.consultant_name
-    row: 38
+    row: 12
     col: 0
     width: 14
     height: 8
 
-  # ---- Project Dir Activity ----
+  # ---- Top Projects ----
   - title: Top Projects (by Claude Code Activity)
     name: top_cc_projects
     model: analytics
@@ -330,7 +217,7 @@
     listen:
       week_commencing: coding_agent_prompts_fact.event_week
       consultant: coding_agent_prompts_fact.consultant_name
-    row: 38
+    row: 12
     col: 14
     width: 10
     height: 8
