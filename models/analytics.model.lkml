@@ -999,6 +999,302 @@ explore: chart_of_accounts_dim {
 
 }
 
+# ============================================================
+# Developer Tooling Telemetry — Wire + Claude Code analytics
+# ============================================================
+
+explore: agentic_framework_command_events_fact {
+  label: "Wire Command Events"
+  group_label: "  Developer Tooling"
+  description: "Event-grain Wire Framework CLI command telemetry. One row per command invocation."
+  view_label: "Command Events"
+
+  join: agentic_framework_commands_dim {
+    view_label: "Commands"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${agentic_framework_command_events_fact.agentic_framework_command_fk} = ${agentic_framework_commands_dim.agentic_framework_command_pk} ;;
+  }
+
+  join: agentic_framework_sessions_fact {
+    view_label: "Sessions"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${agentic_framework_command_events_fact.agentic_framework_session_fk} = ${agentic_framework_sessions_fact.agentic_framework_session_pk} ;;
+  }
+
+  join: workstations_dim {
+    view_label: "Workstation"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${agentic_framework_command_events_fact.consultant_email} = ${workstations_dim.consultant_email}
+        AND ${agentic_framework_command_events_fact.hostname} = ${workstations_dim.hostname} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Consultant"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${agentic_framework_command_events_fact.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+}
+
+explore: agentic_framework_sessions_fact {
+  label: "Wire Sessions"
+  group_label: "  Developer Tooling"
+  description: "Session-grain Wire Framework telemetry. One row per contiguous command session."
+  view_label: "Sessions"
+
+  join: workstations_dim {
+    view_label: "Workstation"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${agentic_framework_sessions_fact.consultant_email} = ${workstations_dim.consultant_email}
+        AND ${agentic_framework_sessions_fact.hostname} = ${workstations_dim.hostname} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Consultant"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${agentic_framework_sessions_fact.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+}
+
+explore: agentic_framework_adoption_weekly_fact {
+  label: "Wire Adoption (Weekly)"
+  group_label: "  Developer Tooling"
+  description: "Weekly Wire adoption score per consultant. 0–100 composite score."
+  view_label: "Adoption"
+}
+
+explore: agentic_framework_session_funnel_fact {
+  label: "Wire Session Funnel"
+  group_label: "  Developer Tooling"
+  description: "Weekly funnel: how far do sessions progress from start → 2nd command → 3 phases → autopilot → PR merged?"
+  view_label: "Session Funnel"
+}
+
+explore: agentic_framework_user_retention_cohorts_fact {
+  label: "Wire User Retention Cohorts"
+  group_label: "  Developer Tooling"
+  description: "Weekly retention cohort heatmap for Wire Framework users."
+  view_label: "Wire Retention"
+}
+
+explore: agentic_framework_aha_moment_fact {
+  label: "Wire Aha Moment"
+  group_label: "  Developer Tooling"
+  description: "Time-to-aha distribution and post-aha retention for Wire Framework users."
+  view_label: "Aha Moment"
+}
+
+explore: agentic_framework_engagement_decay_fact {
+  label: "Wire Engagement Decay"
+  group_label: "  Developer Tooling"
+  description: "Rolling 7d/28d activity bands and lifecycle stage per consultant per week."
+  view_label: "Engagement Decay"
+}
+
+explore: agentic_framework_command_sequences_fact {
+  label: "Wire Command Sequences"
+  group_label: "  Developer Tooling"
+  description: "What command typically follows command X? N-gram transition matrix."
+  view_label: "Command Sequences"
+}
+
+explore: coding_agent_prompts_fact {
+  label: "Claude Code Prompts"
+  group_label: "  Developer Tooling"
+  description: "Event-grain Claude Code prompt telemetry. One row per prompt submitted."
+  view_label: "Prompts"
+
+  join: coding_agent_commands_dim {
+    view_label: "Commands"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.coding_agent_command_fk} = ${coding_agent_commands_dim.coding_agent_command_pk} ;;
+  }
+
+  join: coding_agent_sessions_fact {
+    view_label: "Sessions"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.coding_agent_session_fk} = ${coding_agent_sessions_fact.coding_agent_session_pk} ;;
+  }
+
+  join: workstations_dim {
+    view_label: "Workstation"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.user_email} = ${workstations_dim.consultant_email}
+        AND ${coding_agent_prompts_fact.hostname} = ${workstations_dim.hostname} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Consultant"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+}
+
+explore: coding_agent_sessions_fact {
+  label: "Claude Code Sessions"
+  group_label: "  Developer Tooling"
+  description: "Session-grain Claude Code telemetry. One row per contiguous prompt session."
+  view_label: "Sessions"
+
+  join: workstations_dim {
+    view_label: "Workstation"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_sessions_fact.user_email} = ${workstations_dim.consultant_email}
+        AND ${coding_agent_sessions_fact.hostname} = ${workstations_dim.hostname} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Consultant"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_sessions_fact.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+}
+
+explore: coding_agent_command_usage_fact {
+  label: "Claude Code Command Usage"
+  group_label: "  Developer Tooling"
+  description: "Which slash commands do consultants run most? Usage rank, namespace breakdown."
+  view_label: "Command Usage"
+}
+
+explore: coding_agent_prompt_volume_fact {
+  label: "Claude Code Prompt Volume"
+  group_label: "  Developer Tooling"
+  description: "Daily/weekly prompt volume per consultant: total prompts, slash vs free-form, word-count distribution."
+  view_label: "Prompt Volume"
+}
+
+explore: coding_agent_user_retention_cohorts_fact {
+  label: "Claude Code User Retention Cohorts"
+  group_label: "  Developer Tooling"
+  description: "Weekly retention cohort heatmap for Claude Code users."
+  view_label: "CC Retention"
+}
+
+explore: developer_activity_fact {
+  label: "Developer Activity (Unified)"
+  group_label: "  Developer Tooling"
+  description: "Conformed event-grain view across both Wire and Claude Code on a single timeline."
+  view_label: "Developer Events"
+
+  join: workstations_dim {
+    view_label: "Workstation"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${developer_activity_fact.workstation_fk} = ${workstations_dim.workstation_pk} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Consultant"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${developer_activity_fact.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+
+  join: developer_users_dim {
+    view_label: "Developer Profile"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: LOWER(COALESCE(${developer_activity_fact.consultant_email}, ${developer_activity_fact.user_email}))
+          = LOWER(${developer_users_dim.consultant_email}) ;;
+  }
+}
+
+explore: developer_sessions_fact {
+  label: "Developer Sessions (Unified)"
+  group_label: "  Developer Tooling"
+  description: "Sessionised developer activity across both Wire and Claude Code. Key entity for cross-tool analysis."
+  view_label: "Developer Sessions"
+
+  join: workstations_dim {
+    view_label: "Workstation"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${developer_sessions_fact.workstation_fk} = ${workstations_dim.workstation_pk} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Consultant"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${developer_sessions_fact.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+
+  join: developer_users_dim {
+    view_label: "Developer Profile"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: LOWER(${developer_sessions_fact.consultant_email}) = LOWER(${developer_users_dim.consultant_email}) ;;
+  }
+}
+
+explore: developer_session_composition_fact {
+  label: "Developer Session Composition"
+  group_label: "  Developer Tooling"
+  description: "Distribution of sessions by composition: Wire-only / CC-only / Wire-then-CC / CC-then-Wire / interleaved."
+  view_label: "Session Composition"
+}
+
+explore: developer_users_dim {
+  label: "Developer Users"
+  group_label: "  Developer Tooling"
+  description: "Per-consultant cross-tool lifecycle profile. Covers Wire and Claude Code activity, lifecycle stages, and aha moment."
+  view_label: "Developer Profile"
+
+  join: workstations_dim {
+    view_label: "Workstations"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${developer_users_dim.consultant_email} = ${workstations_dim.consultant_email} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Person"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${developer_users_dim.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+}
+
+explore: cross_tool_substitution_fact {
+  label: "Cross-Tool: Substitution"
+  group_label: "  Developer Tooling"
+  description: "Which Claude Code slash commands are consultants running instead of Wire equivalents, by Wire phase?"
+  view_label: "Substitution"
+}
+
+explore: cross_tool_pre_post_adjacency_fact {
+  label: "Cross-Tool: Pre/Post Adjacency"
+  group_label: "  Developer Tooling"
+  description: "What Claude Code prompts occur immediately before or after a Wire command? Surfaces preparation and correction patterns."
+  view_label: "Adjacency"
+}
+
+explore: cross_tool_correction_patterns_fact {
+  label: "Cross-Tool: Correction Patterns"
+  group_label: "  Developer Tooling"
+  description: "Post-Wire Claude Code activity by Wire command — surfaces where Wire output needs follow-up correction."
+  view_label: "Correction Patterns"
+}
+
 explore: persons_dim {
   hidden: yes
   label: "          Unified Persons"
