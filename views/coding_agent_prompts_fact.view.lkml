@@ -131,7 +131,7 @@ view: coding_agent_prompts_fact {
     label: "Is Wire (Agentic Framework) Command"
     group_label: "Slash Command"
     type: yesno
-    sql: ${TABLE}.is_agentic_framework_slash_command ;;
+    sql: ${TABLE}.slash_command_raw like '/wire:%' ;;
   }
 
   # Repository
