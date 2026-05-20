@@ -20,6 +20,40 @@ week_start_day: monday
 
 explore: kpi_scorecard {}
 
+
+
+# ============================================================
+
+explore: coding_agent_prompts_fact {
+  label: "Claude Code Prompts"
+  group_label: "  Developer Tooling"
+  description: "Event-grain Claude Code prompt telemetry. One row per prompt submitted."
+  view_label: "Prompts"
+
+  join: coding_agent_commands_dim {
+    view_label: "Commands"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.coding_agent_command_fk} = ${coding_agent_commands_dim.coding_agent_command_pk} ;;
+  }
+
+  join: workstations_dim {
+    view_label: "Workstation"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.user_email} = ${workstations_dim.consultant_email}
+      AND ${coding_agent_prompts_fact.hostname} = ${workstations_dim.hostname} ;;
+  }
+
+  join: persons_dim {
+    view_label: "Consultant"
+    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.consultant_fk} = ${persons_dim.person_pk} ;;
+  }
+}
+
 explore: staff_weekly_engagement_fact {
   label:       "Staff Engagement"
   view_label:  "Weekly"
@@ -1004,49 +1038,7 @@ explore: chart_of_accounts_dim {
 # ============================================================
 
 
-explore: coding_agent_sessions_fact {
-  label: "Claude Code Sessions"
-  group_label: "  Developer Tooling"
-  description: "Session-grain Claude Code telemetry. One row per contiguous prompt session."
-  view_label: "Sessions"
 
-  join: workstations_dim {
-    view_label: "Workstation"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${coding_agent_sessions_fact.user_email} = ${workstations_dim.consultant_email}
-        AND ${coding_agent_sessions_fact.hostname} = ${workstations_dim.hostname} ;;
-  }
-
-  join: persons_dim {
-    view_label: "Consultant"
-    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${coding_agent_sessions_fact.consultant_fk} = ${persons_dim.person_pk} ;;
-  }
-}
-
-explore: coding_agent_command_usage_fact {
-  label: "Claude Code Command Usage"
-  group_label: "  Developer Tooling"
-  description: "Which slash commands do consultants run most? Usage rank, namespace breakdown."
-  view_label: "Command Usage"
-}
-
-explore: coding_agent_prompt_volume_fact {
-  label: "Claude Code Prompt Volume"
-  group_label: "  Developer Tooling"
-  description: "Daily/weekly prompt volume per consultant: total prompts, slash vs free-form, word-count distribution."
-  view_label: "Prompt Volume"
-}
-
-explore: coding_agent_user_retention_cohorts_fact {
-  label: "Claude Code User Retention Cohorts"
-  group_label: "  Developer Tooling"
-  description: "Weekly retention cohort heatmap for Claude Code users."
-  view_label: "CC Retention"
-}
 
 explore: developer_activity_fact {
   label: "Developer Activity (Unified)"
