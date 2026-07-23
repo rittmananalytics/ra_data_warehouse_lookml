@@ -20,40 +20,6 @@ week_start_day: monday
 
 explore: kpi_scorecard {}
 
-
-
-# ============================================================
-
-explore: coding_agent_prompts_fact {
-  label: "Claude Code Prompts"
-  group_label: "  Developer Tooling"
-  description: "Event-grain Claude Code prompt telemetry. One row per prompt submitted."
-  view_label: "Prompts"
-
-  join: coding_agent_commands_dim {
-    view_label: "Commands"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${coding_agent_prompts_fact.coding_agent_command_fk} = ${coding_agent_commands_dim.coding_agent_command_pk} ;;
-  }
-
-  join: workstations_dim {
-    view_label: "Workstation"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${coding_agent_prompts_fact.user_email} = ${workstations_dim.consultant_email}
-      AND ${coding_agent_prompts_fact.hostname} = ${workstations_dim.hostname} ;;
-  }
-
-  join: persons_dim {
-    view_label: "Consultant"
-    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${coding_agent_prompts_fact.consultant_fk} = ${persons_dim.person_pk} ;;
-  }
-}
-
 explore: staff_weekly_engagement_fact {
   label:       "Staff Engagement"
   view_label:  "Weekly"
@@ -901,12 +867,7 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_one
   }
-  join: delivery_sprint_issue_history_fact {
-    view_label: "     Project Delivery Burndown"
-    sql_on: ${projects_managed.delivery_project_pk} = ${delivery_sprint_issue_history_fact.delivery_project_fk};;
-    type: left_outer
-    relationship: one_to_many
-  }
+
   join: payments_fact {
     view_label: "      Project Invoicing"
     type: left_outer
@@ -1034,23 +995,28 @@ explore: chart_of_accounts_dim {
 }
 
 # ============================================================
-# Developer Tooling Telemetry — Wire + Claude Code analytics
+# Developer Tooling Telemetry — Claude Code analytics
 # ============================================================
 
-
-
-
-explore: developer_activity_fact {
-  label: "Developer Activity (Unified)"
+explore: coding_agent_prompts_fact {
+  label: "Claude Code Prompts"
   group_label: "  Developer Tooling"
-  description: "Conformed event-grain view across both Wire and Claude Code on a single timeline."
-  view_label: "Developer Events"
+  description: "Event-grain Claude Code prompt telemetry. One row per prompt submitted."
+  view_label: "Prompts"
+
+  join: coding_agent_commands_dim {
+    view_label: "Commands"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${coding_agent_prompts_fact.coding_agent_command_fk} = ${coding_agent_commands_dim.coding_agent_command_pk} ;;
+  }
 
   join: workstations_dim {
     view_label: "Workstation"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${developer_activity_fact.workstation_fk} = ${workstations_dim.workstation_pk} ;;
+    sql_on: ${coding_agent_prompts_fact.user_email} = ${workstations_dim.consultant_email}
+        AND ${coding_agent_prompts_fact.hostname} = ${workstations_dim.hostname} ;;
   }
 
   join: persons_dim {
@@ -1058,77 +1024,9 @@ explore: developer_activity_fact {
     fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
     type: left_outer
     relationship: many_to_one
-    sql_on: ${developer_activity_fact.consultant_fk} = ${persons_dim.person_pk} ;;
-  }
-
-  join: developer_users_dim {
-    view_label: "Developer Profile"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: LOWER(COALESCE(${developer_activity_fact.consultant_email}, ${developer_activity_fact.user_email}))
-          = LOWER(${developer_users_dim.consultant_email}) ;;
+    sql_on: ${coding_agent_prompts_fact.consultant_fk} = ${persons_dim.person_pk} ;;
   }
 }
-
-explore: developer_sessions_fact {
-  label: "Developer Sessions (Unified)"
-  group_label: "  Developer Tooling"
-  description: "Sessionised developer activity across both Wire and Claude Code. Key entity for cross-tool analysis."
-  view_label: "Developer Sessions"
-
-  join: workstations_dim {
-    view_label: "Workstation"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${developer_sessions_fact.workstation_fk} = ${workstations_dim.workstation_pk} ;;
-  }
-
-  join: persons_dim {
-    view_label: "Consultant"
-    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${developer_sessions_fact.consultant_fk} = ${persons_dim.person_pk} ;;
-  }
-
-  join: developer_users_dim {
-    view_label: "Developer Profile"
-    type: left_outer
-    relationship: many_to_one
-    sql_on: LOWER(${developer_sessions_fact.consultant_email}) = LOWER(${developer_users_dim.consultant_email}) ;;
-  }
-}
-
-explore: developer_session_composition_fact {
-  label: "Developer Session Composition"
-  group_label: "  Developer Tooling"
-  description: "Distribution of sessions by composition: Wire-only / CC-only / Wire-then-CC / CC-then-Wire / interleaved."
-  view_label: "Session Composition"
-}
-
-explore: developer_users_dim {
-  label: "Developer Users"
-  group_label: "  Developer Tooling"
-  description: "Per-consultant cross-tool lifecycle profile. Covers Wire and Claude Code activity, lifecycle stages, and aha moment."
-  view_label: "Developer Profile"
-
-  join: workstations_dim {
-    view_label: "Workstations"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${developer_users_dim.consultant_email} = ${workstations_dim.consultant_email} ;;
-  }
-
-  join: persons_dim {
-    view_label: "Person"
-    fields: [persons_dim.person_name, persons_dim.is_staff, persons_dim.is_contractor]
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${developer_users_dim.consultant_fk} = ${persons_dim.person_pk} ;;
-  }
-}
-
-
 
 explore: persons_dim {
   hidden: yes
