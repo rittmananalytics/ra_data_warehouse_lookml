@@ -129,6 +129,15 @@ view: timesheets_fact {
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
   }
 
+  measure: avg_timesheet_hours_billed {
+    value_format_name: decimal_0
+    label: "Average Hours"
+    type: average
+    group_label: "Timesheets"
+
+    sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
+  }
+
 
 
   measure: total_timesheet_billable_hours_billed {
@@ -141,6 +150,16 @@ view: timesheets_fact {
     filters: [timesheet_is_billable: "Yes"]
   }
 
+  measure: avg_timesheet_billable_hours_billed {
+    value_format_name: decimal_0
+    label: "Average Billable Hours"
+    group_label: "Timesheets"
+
+    type: average
+    sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
+    filters: [timesheet_is_billable: "Yes"]
+  }
+
   measure: total_timesheet_nonbillable_hours_billed {
     value_format_name: decimal_0
     label: "Total Non-Billable Hours"
@@ -148,6 +167,17 @@ view: timesheets_fact {
 
 
     type: sum
+    sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
+    filters: [timesheet_is_billable: "No"]
+  }
+
+  measure: avg_timesheet_nonbillable_hours_billed {
+    value_format_name: decimal_0
+    label: "Average Non-Billable Hours"
+    group_label: "Timesheets"
+
+
+    type: average
     sql: coalesce(${TABLE}.timesheet_hours_billed,0) ;;
     filters: [timesheet_is_billable: "No"]
   }
