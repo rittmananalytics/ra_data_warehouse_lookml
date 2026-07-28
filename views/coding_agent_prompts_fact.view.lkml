@@ -183,7 +183,7 @@ view: coding_agent_prompts_fact {
   # Timing
   dimension_group: event {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, time_of_day,time, date, week, month, quarter, year]
     sql: ${TABLE}.event_ts ;;
     label: "Event"
     datatype: timestamp
