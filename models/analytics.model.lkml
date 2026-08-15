@@ -671,6 +671,15 @@ explore: companies_dim {
     type: left_outer
     relationship: one_to_many
   }
+  join: timesheet_project_engagement_recognized_revenue {
+    view_label: "        Engagements (SoWs)"
+    from: recognized_revenue_fact
+    fields: [total_recognized_revenue_gbp]
+    sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_recognized_revenue.timesheet_project_pk} ;;
+    type: left_outer
+    relationship: one_to_many
+  }
+
   join: timesheet_project_engagement_timesheet_users {
     view_label: "        Engagements (SoWs)"
     from: contacts_dim
