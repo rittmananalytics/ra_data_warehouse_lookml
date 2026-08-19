@@ -681,9 +681,9 @@ explore: companies_dim {
   }
 
   join: timesheet_project_engagement_timesheet_users {
-    view_label: "        Engagements (SoWs)"
+    view_label: "        Engagements (SoWs) Timesheets"
     from: contacts_dim
-    fields: [timesheet_project_engagement_timesheet_users.contact_name]
+    fields: [timesheet_project_engagement_timesheet_users.contact_name,timesheet_project_engagement_timesheet_users.contact_is_contractor]
     sql_on: ${timesheet_project_engagement_timesheets.contact_pk}  = ${timesheet_project_engagement_timesheet_users.contact_pk} ;;
     type: left_outer
     relationship: one_to_many
