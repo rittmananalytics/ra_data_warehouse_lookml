@@ -10,7 +10,7 @@ view: timesheet_projects_dim {
 
   dimension: project_budget_amount {
     group_label: "Project Commercials"
-    hidden: yes
+    hidden: no
 
     type: number
     sql: ${TABLE}.project_budget_amount ;;
