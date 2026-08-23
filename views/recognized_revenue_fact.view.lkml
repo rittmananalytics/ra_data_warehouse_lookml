@@ -113,6 +113,58 @@ view: recognized_revenue_fact {
     sql: ${TABLE}.total_hours_attributed ;;
   }
 
+# ---- Delivery cost (added) ----
+
+  dimension: consultant_delivery_labour_cost_gbp {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.consultant_delivery_labour_cost_gbp ;;
+  }
+
+  dimension: expense_cost_gbp {
+    # Project-month total, repeated on every consultant row for that
+    # project month. Never sum this directly - use the sum_distinct
+    # measure below.
+    hidden: yes
+    type: number
+    sql: ${TABLE}.total_expense_cost_gbp ;;
+  }
+
+  dimension: project_month_key {
+    hidden: yes
+    type: string
+    sql: concat(${billing_month_raw},${timesheet_project_pk}) ;;
+  }
+
+  measure: total_delivery_labour_cost_gbp {
+    type: sum
+    description: "Cost of billable hours logged: hours x the Harvest cost rate on each entry. Entries with no cost rate count as zero (contractor-staffed projects are costed through expenses instead)."
+    value_format_name: gbp_0
+    sql: ${consultant_delivery_labour_cost_gbp} ;;
+  }
+
+  measure: total_expense_cost_gbp {
+    type: sum_distinct
+    sql_distinct_key: ${project_month_key} ;;
+    description: "Project expenses (billable and non-billable) spread evenly over the working days in the project's delivery window. Counted once per project month regardless of how many consultants worked on the project."
+    value_format_name: gbp_0
+    sql: ${expense_cost_gbp} ;;
+  }
+
+  measure: total_delivery_cost_gbp {
+    type: number
+    description: "Labour cost plus spread expenses"
+    value_format_name: gbp_0
+    sql: coalesce(${total_delivery_labour_cost_gbp},0) + coalesce(${total_expense_cost_gbp},0) ;;
+  }
+
+  measure: recognized_margin_gbp {
+    type: number
+    description: "Recognised revenue minus labour cost and spread expenses"
+    value_format_name: gbp_0
+    sql: coalesce(${total_recognized_revenue_gbp},0) - ${total_delivery_cost_gbp} ;;
+  }
+
 
 
 
