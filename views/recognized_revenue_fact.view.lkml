@@ -158,6 +158,12 @@ view: recognized_revenue_fact {
     sql: coalesce(${total_delivery_labour_cost_gbp},0) + coalesce(${total_expense_cost_gbp},0) ;;
   }
 
+
+  dimension: engagement_month_number {
+    type: number
+    sql: ${TABLE}.engagement_month_number ;;
+  }
+
   measure: recognized_margin_gbp {
     type: number
     description: "Recognised revenue minus labour cost and spread expenses"
