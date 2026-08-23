@@ -674,7 +674,7 @@ explore: companies_dim {
   join: timesheet_project_engagement_recognized_revenue {
     view_label: "        Engagements (SoWs)"
     from: recognized_revenue_fact
-    fields: [total_recognized_revenue_gbp]
+    fields: [total_recognized_revenue_gbp,total_delivery_cost_gbp]
     sql_on: ${timesheet_project_engagements_dim__projects.timesheet_project_pk} = ${timesheet_project_engagement_recognized_revenue.timesheet_project_pk} ;;
     type: left_outer
     relationship: one_to_many
