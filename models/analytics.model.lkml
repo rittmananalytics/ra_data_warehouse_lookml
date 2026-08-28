@@ -1037,6 +1037,63 @@ explore: coding_agent_prompts_fact {
   }
 }
 
+explore: engagement_health_fact {
+  label:       "Engagement Health"
+  description: "One row per engagement per month: delivery and commercial metrics, the three computed statuses, and the written commentary. The primary explore for the engagement health board."
+  group_label: "        Core Analytics"
+
+  always_filter: {
+    filters: [engagement_health_fact.reporting_month_month: "12 months"]
+  }
+
+  tags: ["engagement_health", "delivery"]
+}
+
+explore: engagement_sprint_burn_fact {
+  label:       "Engagement Sprint Burn"
+  description: "One row per sprint per month, with hours against that sprint's own budget and the state it was in. Feeds the sprint burn table and the sprint timeline."
+  group_label: "        Core Analytics"
+
+  always_filter: {
+    filters: [engagement_sprint_burn_fact.reporting_month_month: "1 months"]
+  }
+
+  tags: ["engagement_health", "delivery"]
+}
+
+explore: engagement_burn_up_fact {
+  label:       "Engagement Burn-up"
+  description: "One row per engagement per week: hours booked, hours to date, the straight-line budget, and hours projected at the current pace. Feeds the budget burn-up chart."
+  group_label: "        Core Analytics"
+
+  tags: ["engagement_health", "delivery"]
+}
+
+explore: engagement_actions_fact {
+  label:       "Engagement Actions"
+  description: "One row per action for an engagement month. Only status areas that are not green produce actions."
+  group_label: "        Core Analytics"
+
+  always_filter: {
+    filters: [engagement_actions_fact.reporting_month_month: "1 months"]
+  }
+
+  tags: ["engagement_health", "delivery"]
+}
+
+explore: engagement_context_attribution {
+  label:       "Engagement Context Attribution"
+  description: "Meetings, Slack messages, Confluence pages and Jira issues, each attributed to an engagement, with the rule that decided it. Use for drill-through from the client tiles and for checking attribution quality."
+  group_label: "        Core Analytics"
+
+  always_filter: {
+    filters: [engagement_context_attribution.item_month: "3 months"]
+  }
+
+  tags: ["engagement_health", "attribution"]
+}
+
+
 explore: persons_dim {
   hidden: yes
   label: "          Unified Persons"
@@ -1184,4 +1241,6 @@ explore: persons_dim {
     type: left_outer
     relationship: many_to_one
   }
+
+
 }
