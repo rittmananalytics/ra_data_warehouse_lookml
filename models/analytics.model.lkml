@@ -20,6 +20,17 @@ week_start_day: monday
 
 explore: kpi_scorecard {}
 
+explore: organic_posts_dim {
+  label: "Content Marketing"
+  view_label: "Organic Posts"
+  join: organic_post_performance_fact {
+    sql_on: ${organic_posts_dim.organic_post_pk} = ${organic_post_performance_fact.organic_post_fk} ;;
+    view_label: "Organic Posts Performance"
+    relationship: one_to_many
+    type: inner
+  }
+}
+
 explore: staff_weekly_engagement_fact {
   label:       "Staff Engagement"
   view_label:  "Weekly"
