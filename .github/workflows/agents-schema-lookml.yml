@@ -1,0 +1,23 @@
+# Written by Wire (/wire:agents_schema-generate) for the LookML repository rittmananalytics/ra_data_warehouse_lookml.
+# Commit this file there as .github/workflows/agents-schema-lookml.yml. It publishes that repository's
+# LookML into the warehouse AGENTS schema (AGENTS.LOOKML_*) on every push to master,
+# alongside the dbt repository's own publication; each provider replaces only its own tables.
+# Reusable workflow: https://github.com/dbt-labs/agents_schema, pinned at v0.0.11.
+# Secret: WAREHOUSE_CREDENTIALS, the same destination credentials YAML as the dbt repository's.
+name: Agents Schema (LookML)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  agents-schema-looker:
+    uses: dbt-labs/agents_schema/.github/workflows/agents-schema-looker.yml@v0.0.11
+    with:
+      lookml-dir: .
+    secrets:
+      WAREHOUSE_CREDENTIALS: ${{ secrets.WAREHOUSE_CREDENTIALS }}
