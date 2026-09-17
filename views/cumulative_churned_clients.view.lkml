@@ -44,7 +44,7 @@ view: cumulative_churned_clients {
       ),
       
       company_status_by_quarter AS (
-        -- For each company and quarter, determine if they're churned
+        -- For each company and quarter, determine whether they are churned
         SELECT
           q.quarter_label,
           q.year,
