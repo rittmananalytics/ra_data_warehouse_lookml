@@ -535,6 +535,13 @@ explore: companies_dim {
   description: "Main explore used for reporting, starts with prospects and covers lifecycle through to projects and NPS"
   hidden: no
 
+  join: ideal_customer_2025 {
+    view_label: "           Companies"
+    sql_on: ${ideal_customer_2025.company_name} = ${companies_dim.company_name};;
+    type: inner
+    relationship: one_to_one
+  }
+
   join: company_converted_projects {
     view_label: "           Companies"
     sql_on: ${companies_dim.company_pk} = ${company_converted_projects.company_pk} ;;
