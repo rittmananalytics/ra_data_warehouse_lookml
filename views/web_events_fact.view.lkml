@@ -2,11 +2,11 @@ view: web_events_fact {
   derived_table: {
     sql: select * except(page_title),
               replace(page_title,'—','-') as page_title,
-              min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts) as page_title_published_at_ts,
-              date_diff(date(event_ts),date(min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts)), month) as months_since_page_title_published_at_ts,
-              date_diff(date(event_ts),date(min(event_ts) over (partition by replace(page_title,'—','-') order by event_ts)), day) as days_since_page_title_published_at_ts,
-              count(distinct case when event_type = 'Page View' then web_events_pk end) over (partition by replace(page_title,'—','-')) as total_page_views,
-              count(distinct blended_user_id) over (partition by replace(page_title,'—','-')) as total_unique_viewers
+              min(event_ts) over (partition by site, replace(page_title,'—','-') order by event_ts) as page_title_published_at_ts,
+              date_diff(date(event_ts),date(min(event_ts) over (partition by site, replace(page_title,'—','-') order by event_ts)), month) as months_since_page_title_published_at_ts,
+              date_diff(date(event_ts),date(min(event_ts) over (partition by site, replace(page_title,'—','-') order by event_ts)), day) as days_since_page_title_published_at_ts,
+              count(distinct case when event_type = 'Page View' then web_events_pk end) over (partition by site, replace(page_title,'—','-')) as total_page_views,
+              count(distinct blended_user_id) over (partition by site, replace(page_title,'—','-')) as total_unique_viewers
        from web_events_fact;;
   }
 
@@ -14,7 +14,7 @@ view: web_events_fact {
   dimension: device {
     group_label: "  Audience"
     hidden:  yes
-    description: "The specific type of device, operating system, and browser used when this event was recorded (e.g., 'iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/604.1'). Hidden by default."
+    description: "The operating system or device family used when this event was recorded (e.g., 'Macintosh', 'Windows', 'iPhone', 'Android', 'X11' for Linux and Chrome OS). Hidden by default."
     type: string
     sql: ${TABLE}.device ;;
   }
@@ -22,7 +22,7 @@ view: web_events_fact {
   dimension: device_category {
     hidden: yes
     group_label: "  Audience"
-    description: "The general type or brand of the device used when this event was recorded (e.g., 'iPhone', 'Android', 'iPad', 'Windows'). This is a simplified version of the 'Device' field. Hidden by default."
+    description: "The general class of device used when this event was recorded: 'Desktop', 'iPhone', 'Android', 'Tablet' or 'Uncategorized'. Derived from the 'Device' field. Hidden by default."
     type: string
     sql: ${TABLE}.device_category ;;
   }
@@ -31,7 +31,7 @@ view: web_events_fact {
 
   dimension: event_details {
     group_label: "Behavior"
-    description: "Additional details or properties associated with the specific event, if any."
+    description: "Additional details for the event, if any. For clicks this is the link or menu item text; for careers-site job applications it is the role applied for."
     type: string
     sql: ${TABLE}.event_details ;;
   }
@@ -85,7 +85,7 @@ view: web_events_fact {
 
   dimension: event_type {
     group_label: "Behavior"
-    description: "The type of user interaction or system event recorded (e.g., 'Page View', 'Click', 'Form Submission', 'Meeting Booked')."
+    description: "The type of user interaction or system event recorded (e.g., 'Page View', 'Navigation Clicked', 'Outbound Link Clicked', 'Meeting Booked'). Careers-site form submissions are 'Job Application Submitted', 'Talent Community Joined', 'Candidate Profile Updated', 'Candidate Logged In' or 'Candidate Data Removal Requested'."
     type: string
     sql: ${TABLE}.event_type ;;
   }
@@ -98,32 +98,11 @@ view: web_events_fact {
     sql_longitude: ${TABLE}.longitude ;;
   }
 
-  dimension: locale_code {
-    group_label: "  Audience"
-    description: "The locale code (e.g., 'en-US', 'fr-FR') representing the language and regional settings of the user's browser or device at the time of the event."
-    type: string
-    sql: ${TABLE}.locale_code ;;
-  }
-
   dimension: longitude {
     hidden: yes
     description: "The geographic longitude of the event's origin. Hidden by default, used by 'map_location'."
     type: number
     sql: ${TABLE}.longitude ;;
-  }
-
-  dimension: metro_code {
-    group_label: "  Audience"
-    description: "The designated market area (DMA) or metro code associated with the event's location, if available."
-    type: string
-    sql: ${TABLE}.metro_code ;;
-  }
-
-  dimension: network {
-    hidden: yes
-    description: "Information about the network (e.g., ISP, organization) from which the event originated. Hidden by default."
-    type: string
-    sql: ${TABLE}.network ;;
   }
 
   dimension: page_title {
@@ -135,7 +114,7 @@ view: web_events_fact {
 
   dimension_group: page_published {
     group_label: "Behavior"
-    description: "The date and time when the content of this page (identified by its title) was first observed/published, based on the earliest event recorded for this page title."
+    description: "The date and time when the content of this page (identified by its site and title) was first observed/published, based on the earliest event recorded for this page title."
     type: time
     timeframes: [date,month,quarter,year]
     sql: ${TABLE}.page_title_published_at_ts ;;
@@ -143,21 +122,21 @@ view: web_events_fact {
 
   dimension: months_since_page_published {
     group_label: "Behavior"
-    description: "The number of full months between when this page (identified by its title) was first published/observed and when this specific event occurred on it."
+    description: "The number of full months between when this page (identified by its site and title) was first published/observed and when this specific event occurred on it."
     type: number
     sql: ${TABLE}.months_since_page_title_published_at_ts ;;
   }
 
   dimension: page_total_page_views {
     group_label: "Behavior"
-    description: "The total number of 'Page View' events ever recorded for this specific page title (across all users and sessions) up to the latest data point. Calculated in the derived table."
+    description: "The total number of 'Page View' events ever recorded for this page title on this site (across all users and sessions) up to the latest data point. Calculated in the derived table."
     type: number
     sql: ${TABLE}.total_page_views ;;
   }
 
   dimension: page_total_unique_viewers {
     group_label: "Behavior"
-    description: "The total number of unique users (blended_user_id) who have ever generated a 'Page View' event for this specific page title up to the latest data point. Calculated in the derived table."
+    description: "The total number of unique users (blended_user_id) who have ever generated an event for this page title on this site up to the latest data point. Calculated in the derived table."
     type: number
     sql: ${TABLE}.total_unique_viewers ;;
   }
@@ -185,7 +164,7 @@ view: web_events_fact {
 
   dimension: page_category {
     group_label: "Behavior"
-    description: "A predefined category assigned to the page where the event occurred, often based on URL structure or content type (e.g., '02: Blog', '08: Services')."
+    description: "A predefined category assigned to the page where the event occurred, based on URL structure or content type (e.g., '02: Social', '08: Services'). All careers-site pages are '18: Careers'."
     type: string
     sql: ${TABLE}.computed_page_category;;
   }
@@ -193,8 +172,10 @@ view: web_events_fact {
   dimension: visit_value {
     type: number
     hidden: no
-    description: "A numerical score assigned to the event. Conversion events ('Meeting Booked') receive a value of 16; other events are valued based on the numerical prefix of their page_category."
-    sql: case when ${is_conversion_event} then 16 else safe_cast(split(${TABLE}.page_category,":")[SAFE_OFFSET(0)] as int64) end;;
+    description: "A numerical score assigned to the event. Conversion events ('Meeting Booked') receive a value of 16; other events are valued based on the numerical prefix of their page_category. Careers-site events have no value."
+    sql: case when ${is_careers_site} then null
+              when ${is_conversion_event} then 16
+              else safe_cast(split(${TABLE}.page_category,":")[SAFE_OFFSET(0)] as int64) end;;
   }
 
   dimension: is_conversion_event {
@@ -286,38 +267,10 @@ view: web_events_fact {
     sql: ${total_visitor_value}/${web_sessions_fact.total_sessions} ;;
   }
 
-  dimension: postal_code {
-    map_layer_name: us_zipcode_tabulation_areas
-    description: "The postal or ZIP code associated with the event's location. Configured for US zipcode map layer."
-    type: string
-    sql: ${TABLE}.postal_code ;;
-  }
-
-  dimension_group: prev_event_ts {
-    group_label: "Dates"
-    hidden: yes
-    description: "The timestamp of the event that occurred immediately prior to this one for the same user. Hidden by default."
-    type: time
-    timeframes: [
-      time,
-      month,
-      date
-    ]
-    sql: ${TABLE}.prev_event_ts ;;
-  }
-
-  dimension: prev_event_type {
-    group_label: "Conversions"
-    hidden: yes
-    description: "The type of the event that occurred immediately prior to this one for the same user. Hidden by default."
-    type: string
-    sql: ${TABLE}.prev_event_type ;;
-  }
-
   dimension: search {
     group_label: "    Acquisition"
     hidden: yes
-    description: "The search query or keywords used by the visitor if they arrived from a search engine leading to this event or session. May be '(not provided)'. Hidden by default."
+    description: "The query string of the page URL for this event (e.g., '?utm_source=linkedin'). Hidden by default."
     type: string
     sql: ${TABLE}.search ;;
   }
@@ -331,7 +284,7 @@ view: web_events_fact {
 
   dimension: site {
     group_label: "Behavior"
-    description: "The website or domain on which the event occurred (e.g., 'rittmananalytics.com')."
+    description: "The website on which the event occurred: 'rittmananalytics.com' for the company website, 'careers.rittmananalytics.com' for the Teamtailor careers site."
     type: string
     sql: ${TABLE}.site ;;
   }
@@ -347,16 +300,20 @@ view: web_events_fact {
 
   dimension: blended_user_id {
     hidden: yes
-    description: "A unique identifier for a user, potentially unified across different platforms or tracking mechanisms, associated with this event. Hidden by default."
+    description: "A unique identifier for a user, potentially unified across different platforms or tracking mechanisms, associated with this event. Hidden by default. Careers-site visitors have a separate ID from the company website."
     type: string
     sql: ${TABLE}.blended_user_id ;;
   }
 
   measure: total_careers_link_clicks {
     hidden: no
-    description: "The total number of times the Careers link in the website menu was clicked"
+    group_label: "Recruitment"
+    label: "Total Careers Menu Clicks"
+    description: "Clicks on the Careers link in the company website menu, footer or mobile menu. Recorded as 'Navigation Clicked' until Aug 2026 and from 25 Sep 2026 (menu links to /careers), and as 'Outbound Link Clicked' from 25 Aug to 25 Sep 2026 (menu linked to the careers site)."
     type: count_distinct
-    sql: case when  ${TABLE}.event_type = 'Outbound Link Clicked' and ${TABLE}.event_details in ('CareersJoin our team','Careers') then ${TABLE}.web_events_pk end;;
+    value_format_name: decimal_0
+    sql: ${web_events_pk} ;;
+    filters: [careers_funnel_stage: "1. Careers menu click"]
   }
 
   measure: total_page_views {
@@ -410,13 +367,6 @@ view: web_events_fact {
     sql: ${TABLE}.time_on_page_secs ;;
   }
 
-  dimension: time_zone {
-    hidden: yes
-    description: "The time zone of the user when the event occurred (e.g., 'America/New_York'). Hidden by default."
-    type: string
-    sql: ${TABLE}.time_zone ;;
-  }
-
   dimension: user_id {
     hidden: no
     description: "A user identifier, which might be specific to a certain platform or tracking system before blending (see blended_user_id)."
@@ -427,7 +377,7 @@ view: web_events_fact {
   dimension: utm_campaign {
     group_label: "    Acquisition"
     label: "Event UTM Campaign"
-    description: "The UTM campaign parameter value associated with the session or source that led to this event (e.g., 'summer_promo')."
+    description: "The UTM campaign parameter value on the page URL for this event (e.g., 'careers_page')."
     type: string
     sql: ${TABLE}.utm_campaign ;;
   }
@@ -435,7 +385,7 @@ view: web_events_fact {
   dimension: utm_content {
     group_label: "    Acquisition"
     label: "Event UTM Content"
-    description: "The UTM content parameter value associated with the session or source that led to this event, used to differentiate ads or links (e.g., 'banner_ad_1')."
+    description: "The UTM content parameter value on the page URL for this event, used to tell links apart (e.g., 'open_vacancies')."
     type: string
     sql: ${TABLE}.utm_content ;;
   }
@@ -443,7 +393,7 @@ view: web_events_fact {
   dimension: utm_medium {
     group_label: "    Acquisition"
     label: "Event UTM Medium"
-    description: "The UTM medium parameter value associated with the session or source that led to this event (e.g., 'cpc', 'email', 'social')."
+    description: "The UTM medium parameter value on the page URL for this event (e.g., 'cpc', 'email', 'referral', 'paid_social')."
     type: string
     sql: ${TABLE}.utm_medium ;;
   }
@@ -451,7 +401,7 @@ view: web_events_fact {
   dimension: utm_source {
     group_label: "    Acquisition"
     label: "Event UTM Source"
-    description: "The UTM source parameter value associated with the session or source that led to this event (e.g., 'google', 'facebook', 'newsletter')."
+    description: "The UTM source parameter value on the page URL for this event (e.g., 'google', 'linkedin', 'rittmananalytics.com')."
     type: string
     sql: ${TABLE}.utm_source ;;
   }
@@ -459,7 +409,7 @@ view: web_events_fact {
   dimension: utm_term {
     group_label: "    Acquisition"
     label: "Event UTM Keyword"
-    description: "The UTM term (keyword) parameter value associated with the session or source that led to this event, often used for paid search keywords."
+    description: "The UTM term (keyword) parameter value on the page URL for this event, often used for paid search keywords."
     type: string
     sql: ${TABLE}.utm_term ;;
   }
@@ -497,14 +447,14 @@ view: web_events_fact {
 
   dimension: ip {
     group_label: "  Audience"
-    description: "The IP address from which the event originated. Note: IP addresses can be an approximation of location and may be anonymized."
+    description: "The IP address from which the event originated. Note: IP addresses can be an approximation of location and may be anonymized. Not available for careers-site events."
     type: string
     sql: ${TABLE}.ip ;;
   }
 
   dimension: referrer_host {
     group_label: "    Acquisition"
-    description: "The hostname (e.g., 'google.com') of the website that referred the user to the page where this event occurred, or to the start of the session."
+    description: "The hostname (e.g., 'google.com') of the website that referred the user to the page where this event occurred, with 'www.' removed."
     type: string
     sql: ${TABLE}.referrer_host ;;
   }
@@ -532,7 +482,145 @@ view: web_events_fact {
           end ;;
   }
 
+  # ---------------------------------------------------------------------------
+  # Recruitment
+  #
+  # The company website (Segment) and the careers site (GA4) give the same person
+  # different visitor IDs, so these fields count each funnel stage separately.
+  # They cannot follow one person from menu click to application.
+  # ---------------------------------------------------------------------------
 
+  dimension: is_careers_site {
+    group_label: "Recruitment"
+    description: "Yes if the event happened on the Teamtailor careers site (careers.rittmananalytics.com)."
+    type: yesno
+    sql: ${TABLE}.site = 'careers.rittmananalytics.com' ;;
+  }
+
+  dimension: careers_funnel_stage {
+    group_label: "Recruitment"
+    description: "The recruitment funnel stage this event represents, if any: 1. Careers menu click, 2. Careers page view (rittmananalytics.com/careers), 3. Click to careers site (buttons on /careers), 4. Job listing view (careers site /jobs pages), 5. Job application."
+    type: string
+    sql: case
+      when ${TABLE}.site = 'rittmananalytics.com'
+           and ${TABLE}.event_type in ('Navigation Clicked','Outbound Link Clicked')
+           and ${TABLE}.event_details in ('Careers','CareersJoin our team') then '1. Careers menu click'
+      when ${TABLE}.site = 'rittmananalytics.com' and ${TABLE}.event_type = 'Page View'
+           and rtrim(${TABLE}.page_url_path,'/') = '/careers' then '2. Careers page view'
+      when ${TABLE}.site = 'rittmananalytics.com' and ${TABLE}.event_type = 'Outbound Link Clicked'
+           and ${TABLE}.event_details in ('Open vacancies','Enquire about the role') then '3. Click to careers site'
+      when ${TABLE}.site = 'careers.rittmananalytics.com' and ${TABLE}.event_type = 'Page View'
+           and regexp_contains(${TABLE}.page_url_path, r'^/jobs(/|$)') then '4. Job listing view'
+      when ${TABLE}.event_type = 'Job Application Submitted' then '5. Job application'
+    end ;;
+  }
+
+  dimension: job_id {
+    group_label: "Recruitment"
+    description: "The Teamtailor job ID, taken from careers-site /jobs/{id}-{slug} page paths."
+    type: string
+    sql: case when ${TABLE}.site = 'careers.rittmananalytics.com'
+              then regexp_extract(${TABLE}.page_url_path, r'^/jobs/(\d+)') end ;;
+  }
+
+  dimension: job_title {
+    group_label: "Recruitment"
+    description: "The job role viewed or applied for on the careers site."
+    type: string
+    sql: case when ${TABLE}.event_type = 'Job Application Submitted'
+                then regexp_replace(${TABLE}.event_details, r' - Rittman Analytics$', '')
+              when ${TABLE}.site = 'careers.rittmananalytics.com' and regexp_contains(${TABLE}.page_url_path, r'^/jobs/\d+')
+                then regexp_replace(${TABLE}.page_title, r' - Rittman Analytics$', '')
+         end ;;
+  }
+
+  measure: total_careers_page_views {
+    group_label: "Recruitment"
+    description: "Page views of the careers page on the company website (rittmananalytics.com/careers)."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${web_events_pk} ;;
+    filters: [careers_funnel_stage: "2. Careers page view"]
+  }
+
+  measure: total_careers_page_clicks_to_careers_site {
+    group_label: "Recruitment"
+    description: "Clicks on the 'Open vacancies' and 'Enquire about the role' buttons on rittmananalytics.com/careers. Tracked from 25 Sep 2026."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${web_events_pk} ;;
+    filters: [careers_funnel_stage: "3. Click to careers site"]
+  }
+
+  measure: total_job_listing_views {
+    group_label: "Recruitment"
+    description: "Page views of job listings on the careers site: the /jobs list and individual /jobs/{id} pages."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${web_events_pk} ;;
+    filters: [careers_funnel_stage: "4. Job listing view"]
+  }
+
+  measure: total_job_applications {
+    group_label: "Recruitment"
+    description: "Job applications submitted on the careers site."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${web_events_pk} ;;
+    filters: [event_type: "Job Application Submitted"]
+  }
+
+  measure: total_job_applicants {
+    group_label: "Recruitment"
+    description: "Distinct careers-site visitors (one per browser) who submitted at least one job application."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${blended_user_id} ;;
+    filters: [event_type: "Job Application Submitted"]
+  }
+
+  measure: total_talent_community_joins {
+    group_label: "Recruitment"
+    description: "Sign-ups to the Teamtailor talent community (Connect) on the careers site."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${web_events_pk} ;;
+    filters: [event_type: "Talent Community Joined"]
+  }
+
+  measure: total_careers_site_visitors {
+    group_label: "Recruitment"
+    description: "Distinct visitors (one per browser) to the careers site."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${blended_user_id} ;;
+    filters: [is_careers_site: "Yes"]
+  }
+
+  measure: total_careers_site_sessions {
+    group_label: "Recruitment"
+    description: "Distinct sessions on the careers site."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${session_id} ;;
+    filters: [is_careers_site: "Yes"]
+  }
+
+  measure: careers_site_application_rate {
+    group_label: "Recruitment"
+    description: "Job applicants as a share of careers-site visitors."
+    type: number
+    value_format_name: percent_1
+    sql: ${total_job_applicants} / nullif(${total_careers_site_visitors}, 0) ;;
+  }
+
+  measure: careers_page_click_through_rate {
+    group_label: "Recruitment"
+    description: "Clicks to the careers site as a share of careers page views on the company website. Only meaningful from 25 Sep 2026."
+    type: number
+    value_format_name: percent_1
+    sql: ${total_careers_page_clicks_to_careers_site} / nullif(${total_careers_page_views}, 0) ;;
+  }
 
 
 
