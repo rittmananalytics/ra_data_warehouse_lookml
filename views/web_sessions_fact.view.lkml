@@ -590,4 +590,43 @@ view: web_sessions_fact {
     type: string
     sql: ${TABLE}.utm_term ;;
   }
+
+  # ---------------------------------------------------------------------------
+  # Recruitment
+  # ---------------------------------------------------------------------------
+
+  dimension: site {
+    group_label: "Behavior"
+    description: "The website this session was on: 'rittmananalytics.com' for the company website, 'careers.rittmananalytics.com' for the Teamtailor careers site."
+    type: string
+    sql: ${TABLE}.site ;;
+  }
+
+  dimension: is_careers_site_session {
+    group_label: "Recruitment"
+    description: "Yes if this session was on the Teamtailor careers site (careers.rittmananalytics.com)."
+    type: yesno
+    sql: ${TABLE}.site = 'careers.rittmananalytics.com' ;;
+  }
+
+  dimension: careers_entry_route {
+    group_label: "Recruitment"
+    description: "How a careers-site session arrived, from its first referrer and UTM source. 'Continued visit' is a session that started after 30 minutes of inactivity on the careers site. 'Direct or shared link' includes links sent by recruiters and email that carry no UTM tags. Null for company website sessions."
+    type: string
+    sql: case when ${TABLE}.site != 'careers.rittmananalytics.com' then null
+      when ${TABLE}.referrer_host = 'careers.rittmananalytics.com' then 'Continued visit'
+      when ${TABLE}.utm_source = 'rittmananalytics.com'
+        or ${TABLE}.referrer_host in ('rittmananalytics.com','blog.rittmananalytics.com') then 'Company website'
+      when lower(${TABLE}.utm_source) like '%linkedin%'
+        or ${TABLE}.referrer_host in ('linkedin.com','com.linkedin.android','lnkd.in') then 'LinkedIn'
+      when ${TABLE}.referrer_host in ('app.teamtailor.com','app.bullhornstaffing.com') then 'Recruiter / ATS'
+      when ${TABLE}.utm_source = 'new_job'
+        or ${TABLE}.referrer_host in ('com.google.android.gm','mail.google.com') then 'Job alert / email'
+      when ${TABLE}.utm_source in ('google_jobs_apply','jooble')
+        or regexp_contains(coalesce(${TABLE}.referrer_host,''), r'indeed|jobradars|studentcircus|jooble') then 'Job boards'
+      when regexp_contains(coalesce(${TABLE}.utm_source, ${TABLE}.referrer_host, ''), r'chatgpt|perplexity') then 'AI assistant'
+      when regexp_contains(coalesce(${TABLE}.referrer_host,''), r'google\.|bing\.|yahoo\.|duckduckgo|baidu') then 'Search'
+      when ${TABLE}.referrer_host is null then 'Direct or shared link'
+      else 'Other referral' end ;;
+  }
 }

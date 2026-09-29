@@ -534,6 +534,22 @@ view: web_events_fact {
          end ;;
   }
 
+  measure: total_recruitment_funnel_events {
+    group_label: "Recruitment"
+    description: "Events at any recruitment funnel stage. Use with Careers Funnel Stage."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: case when ${careers_funnel_stage} is not null then ${web_events_pk} end ;;
+  }
+
+  measure: total_recruitment_funnel_people {
+    group_label: "Recruitment"
+    description: "Distinct visitors (one per browser, per site) at any recruitment funnel stage. Use with Careers Funnel Stage."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: case when ${careers_funnel_stage} is not null then ${blended_user_id} end ;;
+  }
+
   measure: total_careers_page_views {
     group_label: "Recruitment"
     description: "Page views of the careers page on the company website (rittmananalytics.com/careers)."
