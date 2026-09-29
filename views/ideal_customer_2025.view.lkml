@@ -75,9 +75,9 @@ view: ideal_customer_2025 {
     sql: ${TABLE}.Cohort ;;
   }
   dimension: company_name {
-    hidden: yes
+    hidden: no
     group_label: "Ideal Customer Segmentation"
-
+    primary_key: yes
     type: string
     sql: ${TABLE}.Company_Name ;;
   }

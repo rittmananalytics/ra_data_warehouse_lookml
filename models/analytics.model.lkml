@@ -538,7 +538,7 @@ explore: companies_dim {
   join: ideal_customer_2025 {
     view_label: "           Companies"
     sql_on: ${ideal_customer_2025.company_name} = ${companies_dim.company_name};;
-    type: inner
+    type: full_outer
     relationship: one_to_one
   }
 

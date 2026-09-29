@@ -352,6 +352,13 @@ view: web_events_fact {
     sql: ${TABLE}.blended_user_id ;;
   }
 
+  measure: total_careers_link_clicks {
+    hidden: no
+    description: "The total number of times the Careers link in the website menu was clicked"
+    type: count_distinct
+    sql: case when  ${TABLE}.event_type = 'Outbound Link Clicked' and ${TABLE}.event_details in ('CareersJoin our team','Careers') then ${TABLE}.web_events_pk end;;
+  }
+
   measure: total_page_views {
     description: "The total number of unique 'Page View' events."
     value_format_name: decimal_0
