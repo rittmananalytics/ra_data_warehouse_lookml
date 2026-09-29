@@ -22,7 +22,7 @@ view: engagement_renewal_analysis {
             PARTITION BY c.company_pk 
             ORDER BY TIMESTAMP(e.engagement_end_ts), TIMESTAMP(e.engagement_start_ts)
           ) AS next_engagement_start_date,
-          -- Get the NEXT engagement's revenue (what we actually retained!)
+          -- Get the revenue of the NEXT engagement (what we actually retained)
           LEAD(e.deal_amount) OVER (
             PARTITION BY c.company_pk 
             ORDER BY TIMESTAMP(e.engagement_end_ts), TIMESTAMP(e.engagement_start_ts)
