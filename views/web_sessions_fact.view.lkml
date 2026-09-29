@@ -609,6 +609,13 @@ view: web_sessions_fact {
     sql: ${TABLE}.site = 'careers.rittmananalytics.com' ;;
   }
 
+  dimension: is_cookie_declined_session {
+    group_label: "Recruitment"
+    description: "Yes for the one-page sessions the warehouse creates for careers-site application confirmations from visitors who declined cookies. Their route is unknown."
+    type: yesno
+    sql: starts_with(${TABLE}.anonymous_id, 'ga4-cookieless-') ;;
+  }
+
   dimension: careers_entry_route {
     group_label: "Recruitment"
     description: "How a careers-site session arrived, from its first referrer and UTM source. 'Continued visit' is a session that started after 30 minutes of inactivity on the careers site. 'Direct or shared link' includes links sent by recruiters and email that carry no UTM tags. Null for company website sessions."

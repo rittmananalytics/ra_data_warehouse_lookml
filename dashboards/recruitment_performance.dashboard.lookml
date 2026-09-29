@@ -63,7 +63,7 @@
     subtitle_text: Company website, Teamtailor careers site and Teamtailor applications
     body_text: |-
       - **Applications** come from Teamtailor and include every route: the careers site, LinkedIn, Indeed, job boards and candidates added by a recruiter.
-      - **Site applications** are applications made on the careers site by visitors who accepted cookies, counted from the application confirmation page. They are lower than Teamtailor's count, but can be compared with job page views for the same visitors.
+      - **Site applications** are applications made on the careers site, counted from the application confirmation page, including visitors who declined cookies. **Site applicants** and the application rates cover only visitors who accepted cookies, so they can be compared with job page views for the same visitors.
       - Tiles marked **(all roles)** are on the company website and do not change with the Role filter.
       - Visits from the company website are counted under *Company website* from 29 Sep 2026. Before then most arrived as *Direct or shared link*.
     row: 0
@@ -267,7 +267,7 @@
     explore: web_sessions_fact
     type: looker_grid
     fields: [careers_job.job_title, web_events_fact.total_job_detail_views, web_events_fact.total_job_page_viewers,
-      web_events_fact.total_job_applicants, web_events_fact.job_page_application_rate]
+      web_events_fact.total_job_applicants, web_events_fact.job_page_application_rate, web_events_fact.total_job_applications]
     filters:
       careers_job.job_title: "-NULL"
     sorts: [web_events_fact.total_job_page_viewers desc]
@@ -281,9 +281,10 @@
       web_events_fact.total_job_page_viewers: Job Page Viewers
       web_events_fact.total_job_applicants: Site Applicants
       web_events_fact.job_page_application_rate: Viewers Who Applied
+      web_events_fact.total_job_applications: Site Applications
     note_state: collapsed
     note_display: hover
-    note_text: "Careers-site visitors who accepted cookies. Site Applicants reached the application confirmation page. Applications via LinkedIn Easy Apply, Indeed or a recruiter are not on the careers site, so see Applications by Role for the full count."
+    note_text: "Job Page Viewers, Site Applicants and Viewers Who Applied cover visitors who accepted cookies. Site Applications also includes visitors who declined cookies. Applications via LinkedIn Easy Apply, Indeed or a recruiter are not on the careers site, so see Applications by Role for the full count."
     listen:
       Date: web_sessions_fact.session_start_ts_date
       Role: careers_job.job_title
@@ -294,13 +295,13 @@
 
   # ── Careers site ──────────────────────────────────────────────────────────────
 
-  - title: Job Page Viewers and Site Applicants by Month
+  - title: Job Page Viewers and Site Applications by Month
     name: monthly_trend
     model: analytics
     explore: web_sessions_fact
     type: looker_column
     fields: [web_sessions_fact.session_start_ts_month, web_events_fact.total_job_page_viewers,
-      web_events_fact.total_job_applicants]
+      web_events_fact.total_job_applications]
     fill_fields: [web_sessions_fact.session_start_ts_month]
     filters:
       web_sessions_fact.is_careers_site_session: "Yes"
@@ -312,21 +313,21 @@
     y_axis_gridlines: true
     show_view_names: false
     series_types:
-      web_events_fact.total_job_applicants: line
+      web_events_fact.total_job_applications: line
     series_labels:
       web_events_fact.total_job_page_viewers: Job Page Viewers
-      web_events_fact.total_job_applicants: Site Applicants
+      web_events_fact.total_job_applications: Site Applications
     y_axes:
     - label: Job Page Viewers
       orientation: left
       series:
       - id: web_events_fact.total_job_page_viewers
         name: Job Page Viewers
-    - label: Site Applicants
+    - label: Site Applications
       orientation: right
       series:
-      - id: web_events_fact.total_job_applicants
-        name: Site Applicants
+      - id: web_events_fact.total_job_applications
+        name: Site Applications
     listen:
       Date: web_sessions_fact.session_start_ts_date
       Role: careers_job.job_title
@@ -345,6 +346,7 @@
       web_events_fact.careers_site_application_rate]
     filters:
       web_sessions_fact.is_careers_site_session: "Yes"
+      web_sessions_fact.is_cookie_declined_session: "No"
     sorts: [web_sessions_fact.total_sessions desc]
     limit: 20
     show_row_numbers: false
@@ -358,7 +360,7 @@
       web_events_fact.careers_site_application_rate: Visitors Who Applied
     note_state: collapsed
     note_display: hover
-    note_text: "How careers-site sessions arrived. With a Role selected, counts only sessions that included that role's job pages."
+    note_text: "How careers-site sessions arrived, for visitors who accepted cookies. With a Role selected, counts only sessions that included that role's job pages."
     listen:
       Date: web_sessions_fact.session_start_ts_date
       Role: careers_job.job_title
@@ -392,7 +394,7 @@
       web_events_fact.total_recruitment_funnel_people: People
     note_state: collapsed
     note_display: hover
-    note_text: "Stages 1 to 3 are on the company website, 4 and 5 on the careers site. The two sites give each person a different visitor ID, so each stage is counted on its own."
+    note_text: "Stages 1 to 4 are on the company website, 5 and 6 on the careers site. Stage 3 (Visage project click) is an optional side step: those visitors leave for the Visage site. The two sites give each person a different visitor ID, so each stage is counted on its own. Stage 6 includes visitors who declined cookies."
     listen:
       Date: web_sessions_fact.session_start_ts_date
     row: 33
@@ -432,10 +434,10 @@
     model: analytics
     explore: web_sessions_fact
     type: looker_bar
-    fields: [web_events_fact.event_details, web_events_fact.total_careers_page_clicks_to_careers_site]
+    fields: [web_events_fact.event_details, web_events_fact.total_recruitment_funnel_events]
     filters:
-      web_events_fact.careers_funnel_stage: "3. Click to careers site"
-    sorts: [web_events_fact.total_careers_page_clicks_to_careers_site desc]
+      web_events_fact.careers_funnel_stage: "3. Visage project click,4. Click to careers site"
+    sorts: [web_events_fact.total_recruitment_funnel_events desc]
     limit: 10
     show_value_labels: true
     legend_position: center
@@ -444,7 +446,10 @@
     show_view_names: false
     series_labels:
       web_events_fact.event_details: Button
-      web_events_fact.total_careers_page_clicks_to_careers_site: Clicks
+      web_events_fact.total_recruitment_funnel_events: Clicks
+    note_state: collapsed
+    note_display: hover
+    note_text: "Buttons on rittmananalytics.com/careers. 'Open vacancies' and 'Enquire about the role' go to the careers site; 'More on Visage' opens the Visage hackathon project."
     listen:
       Date: web_sessions_fact.session_start_ts_date
     row: 41

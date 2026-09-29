@@ -499,7 +499,7 @@ view: web_events_fact {
 
   dimension: careers_funnel_stage {
     group_label: "Recruitment"
-    description: "The recruitment funnel stage this event represents, if any: 1. Careers menu click, 2. Careers page view (rittmananalytics.com/careers), 3. Click to careers site (buttons on /careers), 4. Job listing view (careers site job list and job detail pages), 5. Job application (application confirmation page). Stages 1 to 3 are on the company website and have no role."
+    description: "The recruitment funnel stage this event represents, if any: 1. Careers menu click, 2. Careers page view (rittmananalytics.com/careers), 3. Visage project click ('More on Visage' button on /careers, which leaves for the Visage site), 4. Click to careers site ('Open vacancies' and 'Enquire about the role' buttons on /careers), 5. Job listing view (careers site job list and job detail pages), 6. Job application (application confirmation page). Stages 1 to 4 are on the company website and have no role."
     type: string
     sql: case
       when ${TABLE}.site = 'rittmananalytics.com'
@@ -508,9 +508,11 @@ view: web_events_fact {
       when ${TABLE}.site = 'rittmananalytics.com' and ${TABLE}.event_type = 'Page View'
            and rtrim(${TABLE}.page_url_path,'/') = '/careers' then '2. Careers page view'
       when ${TABLE}.site = 'rittmananalytics.com' and ${TABLE}.event_type = 'Outbound Link Clicked'
-           and ${TABLE}.event_details in ('Open vacancies','Enquire about the role') then '3. Click to careers site'
-      when ${TABLE}.event_type = 'Page View' and ${job_page_type} in ('Job list','Job details') then '4. Job listing view'
-      when ${TABLE}.event_type = 'Page View' and ${job_page_type} = 'Application confirmation' then '5. Job application'
+           and ${TABLE}.event_details = 'More on Visage' then '3. Visage project click'
+      when ${TABLE}.site = 'rittmananalytics.com' and ${TABLE}.event_type = 'Outbound Link Clicked'
+           and ${TABLE}.event_details in ('Open vacancies','Enquire about the role') then '4. Click to careers site'
+      when ${TABLE}.event_type = 'Page View' and ${job_page_type} in ('Job list','Job details') then '5. Job listing view'
+      when ${TABLE}.event_type = 'Page View' and ${job_page_type} = 'Application confirmation' then '6. Job application'
     end ;;
   }
 
@@ -533,6 +535,13 @@ view: web_events_fact {
       when regexp_contains(${TABLE}.page_url_path, r'^/jobs/\d+[^/]*/?$') then 'Job details'
       when regexp_contains(${TABLE}.page_url_path, r'^/jobs/') then 'Other job page'
     end ;;
+  }
+
+  dimension: is_cookie_declined_visitor {
+    group_label: "Recruitment"
+    description: "Yes for careers-site application confirmations from visitors who declined cookies. The warehouse keeps only these pages for such visitors, each under its own stand-in visitor ID, so they are left out of visitor counts and rates."
+    type: yesno
+    sql: starts_with(${TABLE}.visitor_id, 'ga4-cookieless-') ;;
   }
 
   dimension: application_id {
@@ -575,7 +584,24 @@ view: web_events_fact {
     type: count_distinct
     value_format_name: decimal_0
     sql: ${web_events_pk} ;;
-    filters: [careers_funnel_stage: "3. Click to careers site"]
+    filters: [careers_funnel_stage: "4. Click to careers site"]
+  }
+
+  measure: total_visage_clicks {
+    group_label: "Recruitment"
+    description: "Clicks on the 'More on Visage' button on rittmananalytics.com/careers, which opens Alex's Visage hackathon project. Tracked from 25 Sep 2026."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${web_events_pk} ;;
+    filters: [careers_funnel_stage: "3. Visage project click"]
+  }
+
+  measure: total_visage_clickers {
+    group_label: "Recruitment"
+    description: "Distinct company website visitors who clicked the 'More on Visage' button on the careers page."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: case when ${careers_funnel_stage} = '3. Visage project click' then ${blended_user_id} end ;;
   }
 
   measure: total_job_listing_views {
@@ -584,13 +610,13 @@ view: web_events_fact {
     type: count_distinct
     value_format_name: decimal_0
     sql: ${web_events_pk} ;;
-    filters: [careers_funnel_stage: "4. Job listing view"]
+    filters: [careers_funnel_stage: "5. Job listing view"]
   }
 
   measure: total_job_applications {
     group_label: "Recruitment"
     label: "Total Site Applications"
-    description: "Applications made on the careers site, counted from application confirmation pages. Only visitors who accepted cookies are tracked; Teamtailor (Recruitment Applications explore) holds the full count, including LinkedIn, Indeed and recruiter-added candidates."
+    description: "Applications made on the careers site, counted from application confirmation pages, including visitors who declined cookies. Teamtailor (Recruitment Applications explore) holds the full count, including LinkedIn, Indeed and recruiter-added candidates."
     type: count_distinct
     value_format_name: decimal_0
     sql: ${application_id} ;;
@@ -599,10 +625,10 @@ view: web_events_fact {
   measure: total_job_applicants {
     group_label: "Recruitment"
     label: "Total Site Applicants"
-    description: "Distinct careers-site visitors (one per browser) who reached an application confirmation page."
+    description: "Distinct careers-site visitors (one per browser) who reached an application confirmation page. Excludes visitors who declined cookies, so it can be compared with job page viewers."
     type: count_distinct
     value_format_name: decimal_0
-    sql: case when ${application_id} is not null then ${blended_user_id} end ;;
+    sql: case when ${application_id} is not null and not ${is_cookie_declined_visitor} then ${blended_user_id} end ;;
   }
 
   measure: total_job_page_viewers {
@@ -640,20 +666,20 @@ view: web_events_fact {
 
   measure: total_careers_site_visitors {
     group_label: "Recruitment"
-    description: "Distinct visitors (one per browser) to the careers site."
+    description: "Distinct visitors (one per browser) to the careers site. Excludes visitors who declined cookies."
     type: count_distinct
     value_format_name: decimal_0
     sql: ${blended_user_id} ;;
-    filters: [is_careers_site: "Yes"]
+    filters: [is_careers_site: "Yes", is_cookie_declined_visitor: "No"]
   }
 
   measure: total_careers_site_sessions {
     group_label: "Recruitment"
-    description: "Distinct sessions on the careers site."
+    description: "Distinct sessions on the careers site. Excludes visitors who declined cookies."
     type: count_distinct
     value_format_name: decimal_0
     sql: ${session_id} ;;
-    filters: [is_careers_site: "Yes"]
+    filters: [is_careers_site: "Yes", is_cookie_declined_visitor: "No"]
   }
 
   measure: careers_site_application_rate {
