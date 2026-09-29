@@ -499,7 +499,7 @@ view: web_events_fact {
 
   dimension: careers_funnel_stage {
     group_label: "Recruitment"
-    description: "The recruitment funnel stage this event represents, if any: 1. Careers menu click, 2. Careers page view (rittmananalytics.com/careers), 3. Click to careers site (buttons on /careers), 4. Job listing view (careers site /jobs pages), 5. Job application."
+    description: "The recruitment funnel stage this event represents, if any: 1. Careers menu click, 2. Careers page view (rittmananalytics.com/careers), 3. Click to careers site (buttons on /careers), 4. Job listing view (careers site job list and job detail pages), 5. Job application (application confirmation page). Stages 1 to 3 are on the company website and have no role."
     type: string
     sql: case
       when ${TABLE}.site = 'rittmananalytics.com'
@@ -509,29 +509,39 @@ view: web_events_fact {
            and rtrim(${TABLE}.page_url_path,'/') = '/careers' then '2. Careers page view'
       when ${TABLE}.site = 'rittmananalytics.com' and ${TABLE}.event_type = 'Outbound Link Clicked'
            and ${TABLE}.event_details in ('Open vacancies','Enquire about the role') then '3. Click to careers site'
-      when ${TABLE}.site = 'careers.rittmananalytics.com' and ${TABLE}.event_type = 'Page View'
-           and regexp_contains(${TABLE}.page_url_path, r'^/jobs(/|$)') then '4. Job listing view'
-      when ${TABLE}.event_type = 'Job Application Submitted' then '5. Job application'
+      when ${TABLE}.event_type = 'Page View' and ${job_page_type} in ('Job list','Job details') then '4. Job listing view'
+      when ${TABLE}.event_type = 'Page View' and ${job_page_type} = 'Application confirmation' then '5. Job application'
     end ;;
   }
 
   dimension: job_id {
     group_label: "Recruitment"
-    description: "The Teamtailor job ID, taken from careers-site /jobs/{id}-{slug} page paths."
+    description: "The Teamtailor job ID, taken from careers-site /jobs/{id}-{role} page paths. Joins to Teamtailor's job list (Careers Job) for the role name."
     type: string
     sql: case when ${TABLE}.site = 'careers.rittmananalytics.com'
               then regexp_extract(${TABLE}.page_url_path, r'^/jobs/(\d+)') end ;;
   }
 
-  dimension: job_title {
+  dimension: job_page_type {
     group_label: "Recruitment"
-    description: "The job role viewed or applied for on the careers site."
+    description: "The kind of careers-site job page: 'Job list' (/jobs), 'Job details' (/jobs/{id}-{role}), 'Application form', 'Application confirmation' (shown after an application is submitted), or 'Other job page'."
     type: string
-    sql: case when ${TABLE}.event_type = 'Job Application Submitted'
-                then regexp_replace(${TABLE}.event_details, r' - Rittman Analytics$', '')
-              when ${TABLE}.site = 'careers.rittmananalytics.com' and regexp_contains(${TABLE}.page_url_path, r'^/jobs/\d+')
-                then regexp_replace(${TABLE}.page_title, r' - Rittman Analytics$', '')
-         end ;;
+    sql: case when ${TABLE}.site != 'careers.rittmananalytics.com' then null
+      when regexp_contains(${TABLE}.page_url_path, r'^/jobs/?$') then 'Job list'
+      when regexp_contains(${TABLE}.page_url_path, r'^/jobs/\d+[^/]*/applications/[^/]+/thanks') then 'Application confirmation'
+      when regexp_contains(${TABLE}.page_url_path, r'^/jobs/\d+[^/]*/applications/new') then 'Application form'
+      when regexp_contains(${TABLE}.page_url_path, r'^/jobs/\d+[^/]*/?$') then 'Job details'
+      when regexp_contains(${TABLE}.page_url_path, r'^/jobs/') then 'Other job page'
+    end ;;
+  }
+
+  dimension: application_id {
+    group_label: "Recruitment"
+    hidden: yes
+    description: "The Teamtailor application ID, taken from the application confirmation page path."
+    type: string
+    sql: case when ${TABLE}.site = 'careers.rittmananalytics.com'
+              then regexp_extract(${TABLE}.page_url_path, r'^/jobs/\d+[^/]*/applications/([^/]+)/thanks') end ;;
   }
 
   measure: total_recruitment_funnel_events {
@@ -570,7 +580,7 @@ view: web_events_fact {
 
   measure: total_job_listing_views {
     group_label: "Recruitment"
-    description: "Page views of job listings on the careers site: the /jobs list and individual /jobs/{id} pages."
+    description: "Page views of the careers-site job list (/jobs) and job details pages."
     type: count_distinct
     value_format_name: decimal_0
     sql: ${web_events_pk} ;;
@@ -579,20 +589,44 @@ view: web_events_fact {
 
   measure: total_job_applications {
     group_label: "Recruitment"
-    description: "Job applications submitted on the careers site."
+    label: "Total Site Applications"
+    description: "Applications made on the careers site, counted from application confirmation pages. Only visitors who accepted cookies are tracked; Teamtailor (Recruitment Applications explore) holds the full count, including LinkedIn, Indeed and recruiter-added candidates."
     type: count_distinct
     value_format_name: decimal_0
-    sql: ${web_events_pk} ;;
-    filters: [event_type: "Job Application Submitted"]
+    sql: ${application_id} ;;
   }
 
   measure: total_job_applicants {
     group_label: "Recruitment"
-    description: "Distinct careers-site visitors (one per browser) who submitted at least one job application."
+    label: "Total Site Applicants"
+    description: "Distinct careers-site visitors (one per browser) who reached an application confirmation page."
     type: count_distinct
     value_format_name: decimal_0
-    sql: ${blended_user_id} ;;
-    filters: [event_type: "Job Application Submitted"]
+    sql: case when ${application_id} is not null then ${blended_user_id} end ;;
+  }
+
+  measure: total_job_page_viewers {
+    group_label: "Recruitment"
+    description: "Distinct careers-site visitors (one per browser) who viewed a job details page."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: case when ${TABLE}.event_type = 'Page View' and ${job_page_type} = 'Job details' then ${blended_user_id} end ;;
+  }
+
+  measure: total_job_detail_views {
+    group_label: "Recruitment"
+    description: "Page views of job details pages on the careers site (excludes the job list, application form and confirmation pages)."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: case when ${TABLE}.event_type = 'Page View' and ${job_page_type} = 'Job details' then ${web_events_pk} end ;;
+  }
+
+  measure: job_page_application_rate {
+    group_label: "Recruitment"
+    description: "Site applicants as a share of visitors who viewed a job details page."
+    type: number
+    value_format_name: percent_1
+    sql: ${total_job_applicants} / nullif(${total_job_page_viewers}, 0) ;;
   }
 
   measure: total_talent_community_joins {
@@ -624,7 +658,7 @@ view: web_events_fact {
 
   measure: careers_site_application_rate {
     group_label: "Recruitment"
-    description: "Job applicants as a share of careers-site visitors."
+    description: "Site applicants as a share of careers-site visitors."
     type: number
     value_format_name: percent_1
     sql: ${total_job_applicants} / nullif(${total_careers_site_visitors}, 0) ;;

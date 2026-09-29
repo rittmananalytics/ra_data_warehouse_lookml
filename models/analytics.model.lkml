@@ -503,6 +503,13 @@ explore: web_sessions_fact {
     type: left_outer
     relationship: one_to_many
   }
+  join: careers_job {
+    view_label: " Events"
+    from: recruiting_jobs_dim
+    sql_on: concat('ttrc-', ${web_events_fact.job_id}) = ${careers_job.job_id} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
   join: ips_enriched {
     view_label: " Events"
     sql_on: ${web_events_fact.ip} = ${ips_enriched.ip} ;;
@@ -520,6 +527,27 @@ explore: web_sessions_fact {
     type: left_outer
     sql_on: ${web_sessions_fact.session_id} = ${is_conversion_session.web_events_fact_session_id} ;;
     relationship: one_to_one
+  }
+}
+
+explore: recruitment_applications {
+  label: "Recruitment Applications"
+  group_label: "        Core Analytics"
+  description: "Job applications and recruiter-added candidates from Teamtailor, one row per candidate per job."
+  from: recruiting_job_applications_fact
+  view_name: recruiting_job_applications_fact
+  view_label: "Applications"
+  join: recruiting_jobs_dim {
+    view_label: "Jobs"
+    sql_on: ${recruiting_job_applications_fact.job_fk} = ${recruiting_jobs_dim.job_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+  join: recruiting_application_stages_dim {
+    view_label: "Applications"
+    sql_on: ${recruiting_job_applications_fact.application_stage_fk} = ${recruiting_application_stages_dim.application_stage_pk} ;;
+    type: left_outer
+    relationship: many_to_one
   }
 }
 

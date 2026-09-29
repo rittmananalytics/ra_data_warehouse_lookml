@@ -151,4 +151,44 @@ view: recruiting_job_applications_fact {
     sql: ${job_application_pk} ;;
 
   }
+
+  dimension: application_source {
+    group_label: "Recruitment"
+    description: "Where the application came from, grouped from Teamtailor's referring site. 'Added by recruiter' is a candidate sourced into Teamtailor rather than an application. 'Direct or unknown' has no referring site: typed-in visits, shared links and some careers-site applications."
+    type: string
+    sql: case when ${TABLE}.job_application_sourced then 'Added by recruiter'
+      when ${TABLE}.job_application_referring_site = 'LinkedIn' then 'LinkedIn'
+      when lower(${TABLE}.job_application_referring_site) like 'indeed%' then 'Indeed'
+      when lower(${TABLE}.job_application_referring_site) like 'google%' then 'Google'
+      when lower(${TABLE}.job_application_referring_site) in ('rittmananalytics.com','www.rittmananalytics.com') then 'Company website'
+      when lower(${TABLE}.job_application_referring_site) = 'new_job' then 'Job alert email'
+      when regexp_contains(lower(${TABLE}.job_application_referring_site), r'studentcircus|jobradars|jooble') then 'Other job boards'
+      when ${TABLE}.job_application_referring_site is null then 'Direct or unknown'
+      else 'Other' end ;;
+  }
+
+  dimension: is_candidate_application {
+    group_label: "Recruitment"
+    description: "Yes if the candidate applied themselves; No if a recruiter added them to Teamtailor."
+    type: yesno
+    sql: not coalesce(${TABLE}.job_application_sourced, false) ;;
+  }
+
+  measure: total_applications {
+    group_label: "Recruitment"
+    description: "Applications made by candidates, from Teamtailor. Excludes candidates added by a recruiter."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${job_application_pk} ;;
+    filters: [is_candidate_application: "Yes"]
+  }
+
+  measure: total_recruiter_added_candidates {
+    group_label: "Recruitment"
+    description: "Candidates added to a job in Teamtailor by a recruiter, rather than applying."
+    type: count_distinct
+    value_format_name: decimal_0
+    sql: ${job_application_pk} ;;
+    filters: [is_candidate_application: "No"]
+  }
 }
