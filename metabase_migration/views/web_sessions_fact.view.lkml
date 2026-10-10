@@ -313,7 +313,7 @@ view: web_sessions_fact {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: session_start_ts_month {
+  dimension: session_start_ts_month_from_sql {
     type: string
     label: "Session Start Ts Month"
     sql: (FORMAT_TIMESTAMP('%Y-%m', ${TABLE}.session_start_ts)) ;;
