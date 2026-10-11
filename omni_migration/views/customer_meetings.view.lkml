@@ -2,16 +2,19 @@ view: customer_meetings {
   sql_table_name: ra-development.analytics.meeting_contact_contributions_fact ;;
 
   dimension: company_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.company_fk ;;
   }
 
   dimension: contact_name {
+    type: string
     label: "Meeting Attendee"
     sql: ${TABLE}.contact_name ;;
   }
 
   dimension: contribution_sentiment_category {
+    type: string
     group_label: "Meeting Contributions"
     sql: trim(${TABLE}.contribution_sentiment_category) ;;
   }
@@ -24,36 +27,43 @@ view: customer_meetings {
   }
 
   dimension: meeting_contribution {
+    type: string
     group_label: "Meeting Contributions"
     sql: ${TABLE}.meeting_contribution ;;
   }
 
   dimension: meeting_contribution_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.meeting_contribution_pk ;;
   }
 
   dimension: meeting_engagement_level {
+    type: number
     hidden: yes
     sql: ${TABLE}.meeting_engagement_level ;;
   }
 
   dimension: meeting_summary {
+    type: string
     group_label: "Meeting Details"
     sql: ${TABLE}.meeting_summary ;;
   }
 
   dimension: meeting_title {
+    type: string
     group_label: "Meeting Details"
     sql: ${TABLE}.meeting_title ;;
   }
 
   dimension: person_fk {
+    type: string
     sql: ${TABLE}.person_fk ;;
   }
 
   dimension: recording_url {
+    type: string
     hidden: yes
     sql: ${TABLE}.recording_url ;;
   }

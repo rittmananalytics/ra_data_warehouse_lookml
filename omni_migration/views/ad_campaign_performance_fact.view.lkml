@@ -3,6 +3,7 @@ view: ad_campaign_performance_fact {
 
   dimension: ad_campaign_fk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.ad_campaign_fk ;;
   }

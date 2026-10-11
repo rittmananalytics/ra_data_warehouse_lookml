@@ -2,43 +2,51 @@ view: engagement_burn_up_fact {
   sql_table_name: `ra-development.analytics.engagement_burn_up_fact` ;;
 
   dimension: company_name {
+    type: string
     label: "Company Name"
     sql: ${TABLE}.company_name ;;
   }
 
   dimension: engagement_burn_up_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.engagement_burn_up_pk ;;
   }
 
   dimension: engagement_code {
+    type: string
     label: "Engagement Code"
     sql: ${TABLE}.engagement_code ;;
   }
 
   dimension: engagement_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.engagement_fk ;;
   }
 
   dimension: engagement_name {
+    type: string
     label: "Engagement Name"
     sql: ${TABLE}.engagement_name ;;
   }
 
   dimension: is_actual_week {
+    type: yesno
     label: "Is Actual Week"
     description: "Yes up to the current week. No for weeks still to come, which carry the projection only."
     sql: ${TABLE}.is_actual_week ;;
   }
 
   dimension: total_weeks {
+    type: number
     label: "Weeks In Window"
     sql: ${TABLE}.total_weeks ;;
   }
 
   dimension: week_number {
+    type: number
     label: "Week Number"
     description: "Week 1 is the week the engagement started."
     sql: ${TABLE}.week_number ;;
@@ -47,6 +55,7 @@ view: engagement_burn_up_fact {
   dimension_group: week_start {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     convert_tz: no
     label: "Week"
     sql: ${TABLE}.week_start_date ;;

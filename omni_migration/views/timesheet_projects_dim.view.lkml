@@ -2,6 +2,7 @@ view: timesheet_projects_dim {
   sql_table_name: `ra-development.analytics.timesheet_projects_dim` ;;
 
   dimension: company_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.company_fk ;;
   }
@@ -31,23 +32,27 @@ view: timesheet_projects_dim {
   }
 
   dimension: project_budget_amount {
+    type: number
     group_label: "Project Commercials"
     sql: ${TABLE}.project_budget_amount ;;
   }
 
   dimension: project_budget_by {
+    type: string
     group_label: "Project Commercials"
     hidden: yes
     sql: ${TABLE}.project_budget_by ;;
   }
 
   dimension: project_code {
+    type: string
     label: "Project Code"
     group_label: "Project Details"
     sql: ${TABLE}.project_code ;;
   }
 
   dimension: project_cost_budget {
+    type: number
     group_label: "Project Commercials"
     hidden: yes
     sql: ${TABLE}.project_cost_budget ;;
@@ -61,52 +66,61 @@ view: timesheet_projects_dim {
   }
 
   dimension: project_fee_amount_pro_rata {
+    type: number
     group_label: "Project Commercials"
     hidden: yes
     sql: ${TABLE}.total_project_fee_recognized_revenue ;;
   }
 
   dimension: project_hourly_rate {
+    type: number
     group_label: "Project Commercials"
     sql: ${TABLE}.project_hourly_rate ;;
   }
 
   dimension: project_is_active {
+    type: yesno
     group_label: "Project Details"
     hidden: yes
     sql: ${TABLE}.project_is_active ;;
   }
 
   dimension: project_is_billable {
+    type: yesno
     group_label: "Project Commercials"
     hidden: yes
     sql: ${TABLE}.project_is_billable ;;
   }
 
   dimension: project_is_expenses_included_in_cost_budget {
+    type: yesno
     group_label: "Project Commercials"
     hidden: yes
     sql: ${TABLE}.project_is_expenses_included_in_cost_budget ;;
   }
 
   dimension: project_is_fixed_fee {
+    type: yesno
     group_label: "Project Commercials"
     sql: ${TABLE}.project_is_fixed_fee ;;
   }
 
   dimension: project_name {
+    type: string
     label: "Project Name"
     group_label: "Project Details"
     sql: ${TABLE}.project_name ;;
   }
 
   dimension: project_over_budget_notification_pct {
+    type: number
     group_label: "Project Commercials"
     hidden: yes
     sql: ${TABLE}.project_over_budget_notification_pct ;;
   }
 
   dimension: timesheet_project_id {
+    type: string
     group_label: "Project Details"
     hidden: yes
     sql: ${TABLE}.timesheet_project_id ;;
@@ -114,6 +128,7 @@ view: timesheet_projects_dim {
 
   dimension: timesheet_project_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.timesheet_project_pk ;;
   }

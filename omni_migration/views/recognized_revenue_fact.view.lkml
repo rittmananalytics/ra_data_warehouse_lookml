@@ -2,50 +2,60 @@ view: recognized_revenue_fact {
   sql_table_name: `ra-development.analytics.recognized_revenue_fact` ;;
 
   dimension: consultant_delivery_labour_cost_gbp {
+    type: number
     hidden: yes
     sql: ${TABLE}.consultant_delivery_labour_cost_gbp ;;
   }
 
   dimension: consultant_hours_attributed {
+    type: number
     hidden: yes
     sql: ${TABLE}.consultant_hours_attributed ;;
   }
 
   dimension: consultant_hours_billed {
+    type: number
     hidden: yes
     sql: ${TABLE}.consultant_hours_billed ;;
   }
 
   dimension: consultant_recognized_attributed_revenue_gbp {
+    type: number
     hidden: yes
     sql: ${TABLE}.consultant_recognized_attributed_revenue_gbp ;;
   }
 
   dimension: consultant_recognized_revenue_gbp {
+    type: number
     hidden: yes
     sql: ${TABLE}.consultant_recognized_revenue_gbp ;;
   }
 
   dimension: contact_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.contact_fk ;;
   }
 
   dimension: engagement_month_number {
+    type: number
     sql: ${TABLE}.engagement_month_number ;;
   }
 
   dimension: expense_cost_gbp {
+    type: number
     hidden: yes
     sql: ${TABLE}.total_expense_cost_gbp ;;
   }
 
   dimension: hours_attributed {
+    type: number
     hidden: yes
     sql: ${TABLE}.total_hours_attributed ;;
   }
 
   dimension: hours_billed {
+    type: number
     hidden: yes
     sql: ${TABLE}.total_hours_billed ;;
   }
@@ -62,11 +72,13 @@ view: recognized_revenue_fact {
   }
 
   dimension: project_name {
+    type: string
     hidden: yes
     sql: ${TABLE}.project_name ;;
   }
 
   dimension: timesheet_project_pk {
+    type: string
     hidden: yes
     sql: ${TABLE}.timesheet_project_pk ;;
   }
@@ -74,6 +86,7 @@ view: recognized_revenue_fact {
   dimension_group: billing_month {
     type: time
     timeframes: [raw, date, month, quarter, year, month_num]
+    datatype: date
     convert_tz: no
     sql: ${TABLE}.billing_month ;;
   }

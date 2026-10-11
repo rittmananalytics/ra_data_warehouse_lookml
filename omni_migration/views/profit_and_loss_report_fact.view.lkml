@@ -2,24 +2,29 @@ view: profit_and_loss_report_fact {
   sql_table_name: `ra-development.analytics.profit_and_loss_report_fact` ;;
 
   dimension: account_class {
+    type: string
     sql: ${TABLE}.account_class ;;
   }
 
   dimension: account_code {
+    type: string
     sql: ${TABLE}.account_code ;;
   }
 
   dimension: account_id {
+    type: string
     sql: ${TABLE}.account_id ;;
   }
 
   dimension: account_name {
+    type: string
     label: "Account"
     sql: ${TABLE}.account_name ;;
     order_by_field: account_report_order
   }
 
   dimension: account_report_category {
+    type: string
     label: "Account Category"
     description: "Top-level P&L account grouping; Revenue, Cost of Delivery, Overheads, Dividends and Retained Earnings"
     sql: ${TABLE}.account_report_category ;;
@@ -27,12 +32,14 @@ view: profit_and_loss_report_fact {
   }
 
   dimension: account_report_category_order {
+    type: number
     description: "Used for sorting Account Report Categories in the P&L report"
     hidden: yes
     sql: ${TABLE}.account_report_category_order ;;
   }
 
   dimension: account_report_group {
+    type: string
     label: "Account Group"
     description: "Second-level P&L account grouping, drill-down from Account Report Category"
     sql: ${TABLE}.account_report_group ;;
@@ -40,21 +47,25 @@ view: profit_and_loss_report_fact {
   }
 
   dimension: account_report_order {
+    type: number
     description: "Used for sorting account names in the P&L report"
     hidden: yes
     sql: ${TABLE}.account_report_order ;;
   }
 
   dimension: amount_base {
+    type: number
     sql: ${TABLE}.net_amount ;;
   }
 
   dimension: budget_base {
+    type: number
     sql: ${TABLE}.net_budget_amount ;;
   }
 
   dimension: profit_and_loss_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.profit_and_loss_pk ;;
   }
@@ -62,6 +73,7 @@ view: profit_and_loss_report_fact {
   dimension_group: period {
     type: time
     timeframes: [raw, date, month, quarter, year, month_num]
+    datatype: date
     convert_tz: no
     sql: ${TABLE}.date_month ;;
   }

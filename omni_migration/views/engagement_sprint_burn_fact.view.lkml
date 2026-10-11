@@ -2,43 +2,51 @@ view: engagement_sprint_burn_fact {
   sql_table_name: `ra-development.analytics.engagement_sprint_burn_fact` ;;
 
   dimension: company_name {
+    type: string
     label: "Company Name"
     sql: ${TABLE}.company_name ;;
   }
 
   dimension: engagement_code {
+    type: string
     label: "Engagement Code"
     sql: ${TABLE}.engagement_code ;;
   }
 
   dimension: engagement_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.engagement_fk ;;
   }
 
   dimension: engagement_name {
+    type: string
     label: "Engagement Name"
     sql: ${TABLE}.engagement_name ;;
   }
 
   dimension: engagement_sprint_burn_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.engagement_sprint_burn_pk ;;
   }
 
   dimension: sprint_days_late_start {
+    type: number
     label: "Days Late To Start"
     description: "Days past the sprint start date with no hours booked."
     sql: ${TABLE}.sprint_days_late_start ;;
   }
 
   dimension: sprint_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.sprint_fk ;;
   }
 
   dimension: sprint_is_closed {
+    type: yesno
     label: "Sprint Is Closed"
     sql: ${TABLE}.sprint_is_closed ;;
   }
@@ -50,12 +58,14 @@ view: engagement_sprint_burn_fact {
   }
 
   dimension: sprint_name {
+    type: string
     label: "Sprint"
     description: "Harvest project name inside the engagement."
     sql: ${TABLE}.sprint_name ;;
   }
 
   dimension: sprint_state {
+    type: string
     label: "Sprint State"
     description: "Scheduled, Not started, Not started late, In flight, At budget in flight, Over budget in flight, Closed on budget, or Closed over budget."
     sql: ${TABLE}.sprint_state ;;
@@ -83,7 +93,8 @@ view: engagement_sprint_burn_fact {
 
   dimension_group: last_hours_booked_date {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     label: "Last Hours Booked"
     sql: ${TABLE}.last_hours_booked_date ;;
   }
@@ -91,6 +102,7 @@ view: engagement_sprint_burn_fact {
   dimension_group: reporting_month {
     type: time
     timeframes: [raw, date, month, quarter, year]
+    datatype: date
     convert_tz: no
     label: "Reporting"
     sql: ${TABLE}.reporting_month ;;
@@ -99,6 +111,7 @@ view: engagement_sprint_burn_fact {
   dimension_group: sprint_end_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     label: "Sprint End"
     sql: ${TABLE}.sprint_end_date ;;
   }
@@ -106,6 +119,7 @@ view: engagement_sprint_burn_fact {
   dimension_group: sprint_start_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     label: "Sprint Start"
     sql: ${TABLE}.sprint_start_date ;;
   }
@@ -128,7 +142,7 @@ view: engagement_sprint_burn_fact {
   measure: sprint_count {
     type: count
     label: "Sprints"
-    drill_fields: [engagement_sprint_burn_fact.engagement_name, engagement_sprint_burn_fact.sprint_name, engagement_sprint_burn_fact.sprint_window, engagement_sprint_burn_fact.sprint_budget_hours, engagement_sprint_burn_fact.sprint_hours_to_date, engagement_sprint_burn_fact.sprint_budget_used_pct, engagement_sprint_burn_fact.sprint_state, engagement_sprint_burn_fact.last_hours_booked_date_time]
+    drill_fields: [engagement_sprint_burn_fact.engagement_name, engagement_sprint_burn_fact.sprint_name, engagement_sprint_burn_fact.sprint_window, engagement_sprint_burn_fact.sprint_budget_hours, engagement_sprint_burn_fact.sprint_hours_to_date, engagement_sprint_burn_fact.sprint_budget_used_pct, engagement_sprint_burn_fact.sprint_state, engagement_sprint_burn_fact.last_hours_booked_date_date]
   }
 
   measure: sprint_fee_amount_gbp {

@@ -2,38 +2,46 @@ view: nps_survey_results_fact {
   sql_table_name: `ra-development.analytics.nps_survey_results_fact` ;;
 
   dimension: company_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.company_fk ;;
   }
 
   dimension: contact_email {
+    type: string
     hidden: yes
     sql: ${TABLE}.contact_email ;;
   }
 
   dimension: contact_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.contact_fk ;;
   }
 
   dimension: contact_name {
+    type: string
     sql: ${TABLE}.contact_name ;;
   }
 
   dimension: nps_score {
+    type: number
     sql: ${TABLE}.nps_score ;;
   }
 
   dimension: nps_sentiment {
+    type: string
     sql: ${TABLE}.nps_sentiment ;;
   }
 
   dimension: nps_survey_feedback {
+    type: string
     sql: ${TABLE}.nps_survey_feedback ;;
   }
 
   dimension: nps_survey_results_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.nps_survey_results_pk ;;
   }

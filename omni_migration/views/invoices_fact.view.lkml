@@ -7,21 +7,25 @@ view: invoices_fact {
   }
 
   dimension: company_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.company_fk ;;
   }
 
   dimension: company_id {
+    type: string
     hidden: yes
     sql: ${TABLE}.company_id ;;
   }
 
   dimension: invoice_currency {
+    type: string
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_currency ;;
   }
 
   dimension: invoice_currency_rate {
+    type: number
     hidden: yes
     sql: case when ${TABLE}.invoice_currency_rate is null or ${TABLE}.invoice_currency_rate = 0 then ${exchange_rates.currency_rate} else ${TABLE}.invoice_currency_rate end ;;
   }
@@ -49,69 +53,82 @@ view: invoices_fact {
   }
 
   dimension: invoice_local_total_tax_amount {
+    type: number
     hidden: yes
     sql: ${total_local_amount} * (safe_cast(${invoice_tax_rate_pct} as float64) / 100) ;;
   }
 
   dimension: invoice_months_before_now {
+    type: number
     group_label: "Invoice Details"
     hidden: yes
     sql: ${TABLE}.invoice_months_before_now ;;
   }
 
   dimension: invoice_number {
+    type: string
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_number ;;
   }
 
   dimension: invoice_payment_term {
+    type: string
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_payment_term ;;
   }
 
   dimension: invoice_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.invoice_pk ;;
   }
 
   dimension: invoice_seq {
+    type: number
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_seq ;;
   }
 
   dimension: invoice_status {
+    type: string
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_status ;;
   }
 
   dimension: invoice_subject {
+    type: string
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_subject ;;
   }
 
   dimension: invoice_tax_rate_pct {
+    type: string
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_tax_rate_pct ;;
   }
 
   dimension: invoice_total_days_overdue {
+    type: number
     group_label: "Invoicing"
     hidden: yes
     sql: ${TABLE}.invoice_total_days_overdue ;;
   }
 
   dimension: invoice_total_days_to_pay {
+    type: number
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_total_days_to_pay ;;
   }
 
   dimension: invoice_total_days_variance_on_payment_terms {
+    type: number
     hidden: yes
     sql: ${TABLE}.invoice_total_days_variance_on_payment_terms ;;
   }
 
   dimension: invoice_type {
+    type: string
     group_label: "Invoice Details"
     sql: ${TABLE}.invoice_type ;;
   }
@@ -124,32 +141,38 @@ view: invoices_fact {
   }
 
   dimension: months_before_last_invoice {
+    type: number
     group_label: "Invoice Details"
     hidden: yes
     sql: ${TABLE}.months_before_last_invoice ;;
   }
 
   dimension: months_since_first_invoice {
+    type: number
     group_label: "Invoice Details"
     sql: ${TABLE}.months_since_first_invoice ;;
   }
 
   dimension: project_id {
+    type: string
     sql: ${TABLE}.project_id ;;
   }
 
   dimension: quarters_since_first_invoice {
+    type: number
     group_label: "Invoice Details"
     hidden: yes
     sql: ${TABLE}.quarters_since_first_invoice ;;
   }
 
   dimension: timesheet_project_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.timesheet_project_fk ;;
   }
 
   dimension: total_local_amount {
+    type: number
     hidden: yes
     sql: ${TABLE}.total_local_amount ;;
   }

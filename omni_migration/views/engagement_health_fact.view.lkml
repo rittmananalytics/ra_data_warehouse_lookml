@@ -11,6 +11,7 @@ view: engagement_health_fact {
   }
 
   dimension: budget_hours {
+    type: number
     label: "Budget Hours"
     group_label: "Delivery"
     description: "Budgeted hours across every sprint on the engagement. A whole-engagement figure."
@@ -18,12 +19,14 @@ view: engagement_health_fact {
   }
 
   dimension: budget_hours_remaining {
+    type: number
     label: "Budget Hours Remaining"
     group_label: "Delivery"
     sql: ${TABLE}.budget_hours_remaining ;;
   }
 
   dimension: budget_rate_signal {
+    type: string
     label: "Budget Rate Signal"
     group_label: "Signals"
     sql: ${TABLE}.budget_rate_signal ;;
@@ -38,6 +41,7 @@ view: engagement_health_fact {
   }
 
   dimension: budget_used_signal {
+    type: string
     label: "Budget Used Signal"
     group_label: "Signals"
     sql: ${TABLE}.budget_used_signal ;;
@@ -53,6 +57,7 @@ view: engagement_health_fact {
   }
 
   dimension: burn_variance_signal {
+    type: string
     label: "Burn Variance Signal"
     group_label: "Signals"
     sql: ${TABLE}.burn_variance_signal ;;
@@ -68,12 +73,14 @@ view: engagement_health_fact {
   }
 
   dimension: client_commentary {
+    type: string
     label: "Client Commentary"
     group_label: "Commentary"
     sql: ${TABLE}.client_commentary ;;
   }
 
   dimension: client_context_basis {
+    type: string
     label: "Client Context Basis"
     group_label: "Client"
     description: "Engagement where meetings were tied to this engagement. Client where the signal is shared with the client's other live engagements, in which case it does not set the overall status."
@@ -81,18 +88,21 @@ view: engagement_health_fact {
   }
 
   dimension: client_meetings_in_month {
+    type: number
     label: "Client Meetings In Month"
     group_label: "Client"
     sql: ${TABLE}.client_meetings_in_month ;;
   }
 
   dimension: client_messages_in_month {
+    type: number
     label: "Client Messages In Month"
     group_label: "Client"
     sql: ${TABLE}.client_messages_in_month ;;
   }
 
   dimension: client_status {
+    type: string
     label: "Client Status"
     description: "Worst of contact gap and meeting sentiment. Read alongside Client Context Basis."
     sql: ${TABLE}.client_status ;;
@@ -115,6 +125,7 @@ view: engagement_health_fact {
   }
 
   dimension: commentary_parsed_ok {
+    type: yesno
     label: "Commentary Parsed"
     group_label: "Commentary"
     description: "No means the language model returned something unparseable. Metrics and statuses are unaffected."
@@ -122,12 +133,14 @@ view: engagement_health_fact {
   }
 
   dimension: commercial_commentary {
+    type: string
     label: "Commercial Commentary"
     group_label: "Commentary"
     sql: ${TABLE}.commercial_commentary ;;
   }
 
   dimension: commercial_status {
+    type: string
     label: "Commercial Status"
     description: "Worst of budget rate, realised rate, earned margin and overdue invoices."
     sql: ${TABLE}.commercial_status ;;
@@ -148,18 +161,21 @@ view: engagement_health_fact {
   }
 
   dimension: company_name {
+    type: string
     label: "Company Name"
     description: "The client this engagement belongs to."
     sql: ${TABLE}.company_name ;;
   }
 
   dimension: contact_gap_signal {
+    type: string
     label: "Contact Gap Signal"
     group_label: "Signals"
     sql: ${TABLE}.contact_gap_signal ;;
   }
 
   dimension: contact_meetings_in_month {
+    type: number
     label: "Meetings In Month"
     group_label: "Client"
     sql: ${TABLE}.contact_meetings_in_month ;;
@@ -175,18 +191,21 @@ view: engagement_health_fact {
   }
 
   dimension: days_remaining {
+    type: number
     label: "Days Remaining"
     group_label: "Delivery"
     sql: ${TABLE}.days_remaining ;;
   }
 
   dimension: days_since_last_meeting {
+    type: number
     label: "Days Since Last Meeting"
     group_label: "Client"
     sql: ${TABLE}.days_since_last_meeting ;;
   }
 
   dimension: delivery_commentary {
+    type: string
     label: "Delivery Commentary"
     group_label: "Commentary"
     sql: ${TABLE}.delivery_commentary ;;
@@ -210,6 +229,7 @@ view: engagement_health_fact {
   }
 
   dimension: delivery_status {
+    type: string
     label: "Delivery Status"
     description: "Worst of budget used, burn variance, sprint budget and sprint start."
     sql: ${TABLE}.delivery_status ;;
@@ -231,6 +251,7 @@ view: engagement_health_fact {
   }
 
   dimension: docs_published_in_month {
+    type: number
     label: "Documents Published"
     group_label: "Client"
     sql: ${TABLE}.docs_published_in_month ;;
@@ -254,28 +275,33 @@ view: engagement_health_fact {
   }
 
   dimension: engagement_code {
+    type: string
     label: "Engagement Code"
     description: "Harvest engagement code. The key every engagement health tile filters on."
     sql: ${TABLE}.engagement_code ;;
   }
 
   dimension: engagement_description {
+    type: string
     label: "Engagement Description"
     sql: ${TABLE}.engagement_description ;;
   }
 
   dimension: engagement_fk {
+    type: string
     hidden: yes
     sql: ${TABLE}.engagement_fk ;;
   }
 
   dimension: engagement_health_pk {
     primary_key: yes
+    type: string
     hidden: yes
     sql: ${TABLE}.engagement_health_pk ;;
   }
 
   dimension: engagement_name {
+    type: string
     label: "Engagement Name"
     description: "Engagement name as it reads on the deal."
     sql: ${TABLE}.engagement_name ;;
@@ -290,6 +316,7 @@ view: engagement_health_fact {
   }
 
   dimension: fanout_meeting_count {
+    type: number
     label: "Generic Client Meetings"
     group_label: "Client"
     description: "Meetings that named no engagement and were counted against every live engagement for the client."
@@ -306,18 +333,21 @@ view: engagement_health_fact {
   }
 
   dimension: fee_at_risk_signal {
+    type: string
     label: "Fee At Risk Signal"
     group_label: "Signals"
     sql: ${TABLE}.fee_at_risk_signal ;;
   }
 
   dimension: hours_in_month {
+    type: number
     label: "Hours In Month"
     group_label: "In Month"
     sql: ${TABLE}.hours_in_month ;;
   }
 
   dimension: hours_to_date {
+    type: number
     label: "Hours To Date"
     group_label: "Delivery"
     description: "Billable hours booked to the month end."
@@ -345,24 +375,28 @@ view: engagement_health_fact {
   }
 
   dimension: margin_signal {
+    type: string
     label: "Margin Signal"
     group_label: "Signals"
     sql: ${TABLE}.margin_signal ;;
   }
 
   dimension: max_days_overdue {
+    type: number
     label: "Oldest Days Past Due"
     group_label: "Commercial"
     sql: ${TABLE}.max_days_overdue ;;
   }
 
   dimension: max_sprint_days_late {
+    type: number
     label: "Worst Sprint Days Late"
     group_label: "Delivery"
     sql: ${TABLE}.max_sprint_days_late ;;
   }
 
   dimension: messages_in_month {
+    type: number
     label: "Messages Attributed"
     group_label: "Client"
     sql: ${TABLE}.messages_in_month ;;
@@ -378,6 +412,7 @@ view: engagement_health_fact {
   }
 
   dimension: overall_status {
+    type: string
     label: "Overall Status"
     description: "Worst of the three, except that client-level context is excluded because it belongs to the client rather than this engagement."
     sql: ${TABLE}.overall_status ;;
@@ -403,12 +438,14 @@ view: engagement_health_fact {
   }
 
   dimension: overdue_invoice_count {
+    type: number
     label: "Overdue Invoices"
     group_label: "Commercial"
     sql: ${TABLE}.overdue_invoice_count ;;
   }
 
   dimension: overdue_signal {
+    type: string
     label: "Overdue Signal"
     group_label: "Signals"
     sql: ${TABLE}.overdue_signal ;;
@@ -424,12 +461,14 @@ view: engagement_health_fact {
   }
 
   dimension: projected_delivery_signal {
+    type: string
     label: "Projected Delivery Signal"
     group_label: "Signals"
     sql: ${TABLE}.projected_delivery_signal ;;
   }
 
   dimension: projected_total_hours {
+    type: number
     label: "Projected Total Hours"
     group_label: "Delivery"
     description: "Hours to date plus the weekly pace across the days left in the window."
@@ -446,6 +485,7 @@ view: engagement_health_fact {
   }
 
   dimension: realised_rate_signal {
+    type: string
     label: "Realised Rate Signal"
     group_label: "Signals"
     sql: ${TABLE}.realised_rate_signal ;;
@@ -477,36 +517,42 @@ view: engagement_health_fact {
   }
 
   dimension: sentiment_signal {
+    type: string
     label: "Sentiment Signal"
     group_label: "Signals"
     sql: ${TABLE}.sentiment_signal ;;
   }
 
   dimension: sprint_budget_signal {
+    type: string
     label: "Sprint Budget Signal"
     group_label: "Signals"
     sql: ${TABLE}.sprint_budget_signal ;;
   }
 
   dimension: sprint_start_signal {
+    type: string
     label: "Sprint Start Signal"
     group_label: "Signals"
     sql: ${TABLE}.sprint_start_signal ;;
   }
 
   dimension: sprints_in_flight {
+    type: number
     label: "Sprints In Flight"
     group_label: "Delivery"
     sql: ${TABLE}.sprints_in_flight ;;
   }
 
   dimension: sprints_late_start {
+    type: number
     label: "Sprints Late To Start"
     group_label: "Delivery"
     sql: ${TABLE}.sprints_late_start ;;
   }
 
   dimension: sprints_over_budget {
+    type: number
     label: "Sprints Over Budget"
     group_label: "Delivery"
     sql: ${TABLE}.sprints_over_budget ;;
@@ -522,12 +568,14 @@ view: engagement_health_fact {
   }
 
   dimension: sprints_total {
+    type: number
     label: "Sprints"
     group_label: "Delivery"
     sql: ${TABLE}.sprints_total ;;
   }
 
   dimension: sprints_with_budget {
+    type: number
     label: "Sprints With A Budget"
     group_label: "Delivery"
     description: "A sprint with no budget cannot be over it, so it is left out of the over-budget share."
@@ -535,6 +583,7 @@ view: engagement_health_fact {
   }
 
   dimension: tasks_active_in_month {
+    type: number
     label: "Delivery Tasks Active"
     group_label: "Client"
     sql: ${TABLE}.tasks_active_in_month ;;
@@ -560,6 +609,7 @@ view: engagement_health_fact {
   dimension_group: as_of_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     label: "As At"
     description: "Month end, or today for the month in progress. Every to-date figure is measured to this date."
     sql: ${TABLE}.as_of_date ;;
@@ -568,6 +618,7 @@ view: engagement_health_fact {
   dimension_group: budget_exhausted_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     label: "Budget Exhausted On"
     group_label: "Delivery"
     description: "The day cumulative hours first reached the budget. Blank where the budget has not been reached."
@@ -577,6 +628,7 @@ view: engagement_health_fact {
   dimension_group: engagement_end_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     label: "Engagement End"
     sql: ${TABLE}.engagement_end_date ;;
   }
@@ -584,6 +636,7 @@ view: engagement_health_fact {
   dimension_group: engagement_start_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
+    datatype: date
     label: "Engagement Start"
     sql: ${TABLE}.engagement_start_date ;;
   }
@@ -591,6 +644,7 @@ view: engagement_health_fact {
   dimension_group: reporting_month {
     type: time
     timeframes: [raw, date, month, quarter, year]
+    datatype: date
     convert_tz: no
     label: "Reporting"
     description: "The month this row reports on."

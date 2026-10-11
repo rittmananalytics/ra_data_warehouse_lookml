@@ -14,12 +14,14 @@ view: companies_dim {
   }
 
   dimension: company_currency_code {
+    type: string
     description: "The currency code associated with the company."
     hidden: yes
     sql: ${TABLE}.company_currency_code ;;
   }
 
   dimension: company_description {
+    type: string
     label: "Company Description"
     group_label: "Company Details"
     description: "Company Bio, sourced from LinkedIn via Hubspot"
@@ -27,12 +29,14 @@ view: companies_dim {
   }
 
   dimension: company_finance_status {
+    type: string
     description: "The financial status of the company."
     hidden: yes
     sql: ${TABLE}.company_finance_status ;;
   }
 
   dimension: company_industry {
+    type: string
     label: "Company Industry"
     group_label: "Company Details"
     description: "The industry in which the company operates."
@@ -40,6 +44,7 @@ view: companies_dim {
   }
 
   dimension: company_linkedin_company_page {
+    type: string
     label: "Company LinkedIn Page"
     group_label: "Company Details"
     description: "The LinkedIn page URL of the company."
@@ -48,6 +53,7 @@ view: companies_dim {
   }
 
   dimension: company_name {
+    type: string
     label: "Company Name"
     group_label: "Company Details"
     description: "The name of the company."
@@ -55,6 +61,7 @@ view: companies_dim {
   }
 
   dimension: company_phone {
+    type: string
     description: "The phone number of the company."
     hidden: yes
     sql: ${TABLE}.company_phone ;;
@@ -62,6 +69,7 @@ view: companies_dim {
 
   dimension: company_pk {
     primary_key: yes
+    type: string
     group_label: "Company Details"
     description: "The primary key of the company record."
     hidden: yes
@@ -69,6 +77,7 @@ view: companies_dim {
   }
 
   dimension: company_twitterhandle {
+    type: string
     label: "Company Twitter Handle"
     group_label: "Company Details"
     description: "The Twitter handle of the company."
@@ -76,6 +85,7 @@ view: companies_dim {
   }
 
   dimension: company_website {
+    type: string
     label: "Company Website"
     group_label: "Company Details"
     description: "The website URL of the company."

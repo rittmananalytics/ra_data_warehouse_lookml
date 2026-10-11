@@ -32,7 +32,7 @@ view: revenue_and_forecast {
   }
 
   dimension: forecast_net_profit {
-    type: number
+    type: string
     value_format_name: gbp_0
     sql: safe_cast(replace(${TABLE}.forecast_net_profit,",","") as decimal) ;;
   }

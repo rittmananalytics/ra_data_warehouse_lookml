@@ -2,14 +2,17 @@ view: team_revenue_targets {
   sql_table_name: `ra-development.analytics_seed.consultant_targets_grades` ;;
 
   dimension: consultant_grade {
+    type: string
     sql: ${TABLE}.consultant_grade ;;
   }
 
   dimension: consultant_hours_multiplier {
+    type: number
     sql: ${TABLE}.consultant_hours_multiplier ;;
   }
 
   dimension: contact_name {
+    type: string
     sql: ${TABLE}.contact_name ;;
   }
 

@@ -2,127 +2,153 @@ view: targets {
   sql_table_name: `ra-development.analytics_seed.targets` ;;
 
   dimension: ae_revenue_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.ae_tgt ;;
   }
 
   dimension: ae_target_hourly_rate {
+    type: number
     hidden: yes
     sql: ${TABLE}.ae_tgt_rate ;;
   }
 
   dimension: ae_target_hours {
+    type: number
     hidden: yes
     sql: ${TABLE}.ae_tgt_hrs ;;
   }
 
   dimension: ceo_revenue_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.ceo_tgt ;;
   }
 
   dimension: ceo_target_hourly_rate {
+    type: number
     hidden: yes
     sql: ${TABLE}.ceo_tgt_rate ;;
   }
 
   dimension: ceo_target_hours {
+    type: number
     hidden: yes
     sql: ${TABLE}.ceo_tgt_hrs ;;
   }
 
   dimension: con_revenue_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.con_tgt ;;
   }
 
   dimension: con_target_hourly_rate {
+    type: number
     hidden: yes
     sql: ${TABLE}.con_tgt_rate ;;
   }
 
   dimension: con_target_hours {
+    type: number
     hidden: yes
     sql: ${TABLE}.con_tgt_hrs ;;
   }
 
   dimension: deals_closed_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.deals_closed_target ;;
   }
 
   dimension: deals_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.deals_target ;;
   }
 
   dimension: enps_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.enps ;;
   }
 
   dimension: hr_survey_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.hr_survey ;;
   }
 
   dimension: mqls_target {
+    type: number
     sql: ${TABLE}.mql ;;
   }
 
   dimension: new_deals_target {
+    type: number
     sql: ${TABLE}.new_deals ;;
   }
 
   dimension: pk {
     primary_key: yes
+    type: string
     sql: month ;;
   }
 
   dimension: prn__target_hourly_rate {
+    type: number
     hidden: yes
     sql: ${TABLE}.prn_tgt_rate ;;
   }
 
   dimension: prn_revenue_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.prn_tgt ;;
   }
 
   dimension: prn_target_hours {
+    type: number
     hidden: yes
     sql: ${TABLE}.prn_tgt_hrs ;;
   }
 
   dimension: retained_earnings_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.retained_earnings ;;
   }
 
   dimension: revenue_target {
+    type: number
     sql: ${TABLE}.revenue_target ;;
   }
 
   dimension: sae_revenue_target {
+    type: number
     hidden: yes
     sql: ${TABLE}.sae_tgt ;;
   }
 
   dimension: sae_target_hourly_rate {
+    type: number
     hidden: yes
     sql: ${TABLE}.sae_tgt_rate ;;
   }
 
   dimension: sae_target_hours {
+    type: number
     hidden: yes
     sql: ${TABLE}.sae_tgt_hrs ;;
   }
 
   dimension: sqls_target {
+    type: number
     sql: ${TABLE}.sql ;;
   }
 
   dimension: won_deals_target {
+    type: number
     sql: ${TABLE}.won_deals ;;
   }
 
