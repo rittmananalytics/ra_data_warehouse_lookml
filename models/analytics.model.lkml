@@ -551,6 +551,28 @@ explore: recruitment_applications {
   }
 }
 
+explore: bonus_quarterly_fact {
+  label: "Delivery Team Bonus"
+  group_label: "        Core Analytics"
+  description: "Quarterly delivery team bonus per eligible person under the Delivery Team Bonus Rules: hours, attributed revenue, supervision credit, pro-rated target, client NPS, directors' decisions and bonus payable."
+  view_label: "Bonus"
+}
+
+explore: bonus_attributed_revenue_fact {
+  label: "Bonus Revenue by Project"
+  group_label: "        Core Analytics"
+  description: "Revenue attributed to each person per project per quarter under the Delivery Team Bonus Rules. Use to explain a person's attributed revenue."
+  view_label: "Attributed Revenue"
+  join: bonus_contact {
+    from: contacts_dim
+    view_label: "Attributed Revenue"
+    fields: [bonus_contact.contact_name]
+    sql_on: ${bonus_attributed_revenue_fact.contact_fk} = ${bonus_contact.contact_pk} ;;
+    type: left_outer
+    relationship: many_to_one
+  }
+}
+
 access_grant: can_view_company_bio {
   user_attribute: groups
   allowed_values: [ "Pepkor IT", "Google", "Brighton SST" ]
