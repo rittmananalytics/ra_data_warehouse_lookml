@@ -81,7 +81,7 @@ view: general_ledger_fact {
   }
 
   dimension: journal_net_amount {
-    sql: ${net_amount} ;;
+    sql: ${TABLE}.net_amount ;;
   }
 
   dimension: journal_number {

@@ -161,7 +161,7 @@ view: web_events_fact {
   dimension: page_total_page_views {
     group_label: "Behavior"
     description: "The total number of 'Page View' events ever recorded for this specific page title (across all users and sessions) up to the latest data point. Calculated in the derived table."
-    sql: ${total_page_views} ;;
+    sql: ${TABLE}.total_page_views ;;
   }
 
   dimension: page_total_unique_viewers {
