@@ -9,7 +9,7 @@ view: transactions {
 
   dimension: block_number {
     type: number
-    label: "block_number"
+    label: "Block Number"
     sql: ${TABLE}.block_number ;;
   }
 
@@ -27,7 +27,7 @@ view: transactions {
 
   dimension: from_address {
     type: string
-    label: "from_address"
+    label: "From"
     sql: ${TABLE}.from_address ;;
   }
 
@@ -81,19 +81,19 @@ view: transactions {
 
   dimension: to_address {
     type: string
-    label: "to_address"
+    label: "To"
     sql: ${TABLE}.to_address ;;
   }
 
   dimension: transaction_hash {
     type: string
-    label: "transaction_hash"
+    label: "Hash"
     sql: ${TABLE}.transaction_hash ;;
   }
 
   dimension: transaction_index {
     type: number
-    label: "transaction_index"
+    label: "Index"
     sql: ${TABLE}.transaction_index ;;
   }
 

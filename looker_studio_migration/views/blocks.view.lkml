@@ -15,7 +15,7 @@ view: blocks {
 
   dimension: block_number {
     type: number
-    label: "block_number"
+    label: "Block Number"
     sql: ${TABLE}.block_number ;;
   }
 
@@ -24,7 +24,7 @@ view: blocks {
     type: time
     timeframes: [raw, time, date, week, month, quarter, year]
     convert_tz: no
-    label: "block_timestamp"
+    label: "Timestamp (UTC)"
     sql: ${TABLE}.block_timestamp ;;
   }
 
@@ -48,7 +48,7 @@ view: blocks {
 
   dimension: gas_used {
     type: number
-    label: "gas_used"
+    label: "Gas Used"
     sql: ${TABLE}.gas_used ;;
   }
 
@@ -153,7 +153,22 @@ view: blocks {
 
   measure: total_transaction_count {
     type: sum
-    label: "transaction_count (sum)"
+    label: "Transactions"
     sql: ${transaction_count} ;;
+  }
+
+  # Hand-finished measures for the two charts the converter listed (needs_human: MEDIAN, DATETIME_DIFF)
+  measure: median_base_fee_in_gwei {
+    type: median
+    label: "Med Base Fee (in Gwei)"
+    sql: SAFE_DIVIDE(${base_fee_per_gas}, 1000000000) ;;
+    value_format_name: decimal_0
+  }
+
+  measure: tps {
+    type: number
+    label: "TPS"
+    sql: SAFE_DIVIDE(SUM(${transaction_count}), TIMESTAMP_DIFF(MAX(${block_timestamp_raw}), MIN(${block_timestamp_raw}), SECOND)) ;;
+    value_format_name: decimal_2
   }
 }
