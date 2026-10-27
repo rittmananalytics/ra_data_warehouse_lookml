@@ -7,7 +7,7 @@
   - name: Date range
     title: Date range
     type: field_filter
-    default_value: ''
+    default_value: after 2015/07/29   # ruling (needs_human date_range_default): the control's range at capture, 30 Jul 2015 to today
     allow_multiple_values: true
     required: false
     model: looker_studio_migration
