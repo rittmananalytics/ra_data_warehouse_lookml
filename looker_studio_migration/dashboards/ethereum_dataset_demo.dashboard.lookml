@@ -33,11 +33,11 @@
     explore: blocks
     type: looker_line
     fields:
-    - blocks.block_timestamp
+    - blocks.block_timestamp_date
     - blocks.total_transaction_count
     sorts:
-    - blocks.block_timestamp asc
-    limit: 500
+    - blocks.block_timestamp_date asc
+    limit: 5000
     row: 2
     col: 10
     width: 14
@@ -97,7 +97,7 @@
     type: looker_grid
     fields:
     - blocks.block_number
-    - blocks.block_timestamp
+    - blocks.block_timestamp_time
     - blocks.base_fee_in_gwei
     - blocks.gas_used
     - blocks.total_transaction_count

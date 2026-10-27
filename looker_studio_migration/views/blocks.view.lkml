@@ -19,8 +19,11 @@ view: blocks {
     sql: ${TABLE}.block_number ;;
   }
 
-  dimension: block_timestamp {
-    type: string
+  # Ruling (needs_human unknown_type): Looker Studio data type code 10 is Date & Time; block_timestamp is a TIMESTAMP.
+  dimension_group: block_timestamp {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    convert_tz: no
     label: "block_timestamp"
     sql: ${TABLE}.block_timestamp ;;
   }
