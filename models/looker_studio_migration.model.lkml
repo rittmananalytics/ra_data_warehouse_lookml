@@ -47,3 +47,12 @@ explore: user_buckets {
 explore: worst_users {
   label: "worst_users"
 }
+
+# Added from the live capture of "Ethereum Dataset Demo" (Wire looker_studio_to_looker, 27 Oct 2026)
+explore: blocks {
+  label: "blocks"
+}
+
+explore: transactions {
+  label: "transactions"
+}
